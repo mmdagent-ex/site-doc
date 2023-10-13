@@ -2,6 +2,8 @@
 headless: true
 ---
 
+[ライセンスと利用指針]({{< relref "/docs/license_and_guideline" >}})
+
 - **使い方**
 - **チュートリアル**
   - [音声認識の準備]({{< relref "/docs/33_asr_setup" >}})
