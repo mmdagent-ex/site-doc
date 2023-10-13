@@ -22,10 +22,12 @@ enableGitInfo = true
 # And https://gohugo.io/content-management/multilingual/#translation-by-content-directory
 [languages]
 [languages.en]
+  title = 'MMDAgent-EX (Before-Release, WIP)'
   languageName = 'English'
   contentDir = 'content.en'
   weight = 1
 [languages.ja]
+  title = 'MMDAgent-EX（公開前 現在工事中）'
   languageName = '日本語'
   contentDir = 'content.ja'
   weight = 2
