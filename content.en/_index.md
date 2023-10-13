@@ -1,41 +1,32 @@
 ---
-title: Introduction
+title: Top
 type: docs
 ---
+# MMDAgent-EX
 
-# Acerbo datus maxime
+{{< hint danger >}}
+**Note**
+This site is currently under construction. Please wait for the official launch.
+{{< /hint >}}
 
-{{< columns >}}
-## Astris ipse furtiva
+The Voice Interaction and Avatar Communication Toolkit, MMDAgent-EX, is preparing for its release as open-source software around December 2023. MMDAgent-EX is a successor software to [MMDAgent](https://www.mmdagent.jp/), with the following new features.  It works on Windows, macOS, and Linux.
 
-Est in vagis et Pittheus tu arge accipiter regia iram vocatur nurus. Omnes ut
-olivae sensit **arma sorori** deducit, inesset **crudus**, ego vetuere aliis,
-modo arsit? Utinam rapta fiducia valuere litora _adicit cursu_, ad facies
+- Extended CG character representation, including PMX compatible support
+- Can integrate Python-based voice recognition, synthesis, dialogue, and LLM modules
+- Full external control via WebSocket communication
+- Bone and morph level external control
+- Easy display of text and images
+- Function to show README
+- Texture animation (APNG support).
+- Web-based content delivery & auto-updates
+- Now on GitHub
+- Documentation
+- Many bug fixes
 
-<--->
+[The CG-CA character model "Gene" and "Uka"](https://www.slp.nitech.ac.jp/en/avatar/) for the system is also expected to be released with CC license at the same time.
 
-## Suis quot vota
+## OK, so what is this site?
 
-Ea _furtique_ risere fratres edidit terrae magis. Colla tam mihi tenebat:
-miseram excita suadent es pecudes iam. Concilio _quam_ velatus posset ait quod
-nunc! Fragosis suae dextra geruntur functus vulgata.
-{{< /columns >}}
+We are now working on a renewal of the MMDAgent-EX site for the above release.  The documents in this site are still WIP, may include incorrect information.
 
-
-## Tempora nisi nunc
-
-Lorem **markdownum** emicat gestu. Cannis sol pressit ducta. **Est** Idaei,
-tremens ausim se tutaeque, illi ulnis hausit, sed, lumina cutem. Quae avis
-sequens!
-
-    var panel = ram_design;
-    if (backup + system) {
-        file.readPoint = network_native;
-        sidebar_engine_device(cell_tftp_raster,
-                dual_login_paper.adf_vci.application_reader_design(
-                graphicsNvramCdma, lpi_footer_snmp, integer_model));
-    }
-
-## Locis suis novi cum suoque decidit eadem
-
-Idmoniae ripis, at aves, ali missa adest, ut _et autem_, et ab?
+We apologize for any inconvenience caused. Please wait for the official launch.
