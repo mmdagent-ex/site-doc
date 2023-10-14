@@ -5,8 +5,7 @@ headless: true
 [ライセンスと利用指針]({{< relref "/docs/license_and_guideline" >}})
 
 - **使い方**
-- **チュートリアル**
-  - [音声認識の準備]({{< relref "/docs/33_asr_setup" >}})
+- [チュートリアル]({{< relref "/docs/33_asr_setup" >}})
 - [ビルド]({{< relref "/docs/00_build" >}})
 - [実行]({{< relref "/docs/05_run_contents" >}})
 - **画面の見方**
@@ -15,6 +14,22 @@ headless: true
 - [操作方法]({{< relref "/docs/20_keybinds" >}})
 - [環境変数]({{< relref "/docs/62_environmental_variables" >}})
 <br />
+
+- **作成**
+- モデルを表示する
+- 簡単な対話を作る
+- 表情・動作を付ける
+- 背景・床を設定する
+- キーで動かす
+- 動作を制御する
+  - 動きのキャンセル
+  - 動きの重ね
+  - タイマー
+  - 視点を制御する
+- サウンドを再生する
+- 画像やテキストを表示する
+- フレームを付ける
+- 他のプログラムと連携する
 
 - **開発**
 - [パラメータ設定]({{< relref "/docs/40_mdf" >}})
