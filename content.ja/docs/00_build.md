@@ -2,67 +2,55 @@
 title: ビルド
 slug: build
 ---
+# ビルド
 
-本レポジトリは Git LFS を使っています。
-必ず Git LFS 対応のツールで clone するか git-lfs をインストールしてから clone 行ってください。
+## 動作環境
 
-## Windows
+以下の環境でビルドを確認している。
 
-Visual Studio 2022 でビルドする。Windows 11 + Visual Studio 2022 Community Edition で動作を確認している。インストール時に「C++によるデスクトップ開発環境」をインストールしておく（既にインストール済みの場合はインストーラを起動して再設定）。
+- **macOS**: M2 Macbook Air / macOS Ventura 13.5
+- **Linux**: Ubuntu-22.04, Ubuntu-20.04, Ubuntu-22.04 on WSL
+- **WIndows**: Windows 11 with Visual Studio 2022
 
-ビルド設定は `win32 Release` と `win32 Debug` が用意されている。通常は `Release` の利用を推奨する。`Debug` はデバッグ可能なオプションでビルドされるがレンダリング処理が非常に遅いため軽量なコンテンツでないと動作しない。
 
-1. `MMDAgent_vs2022.sln` を Visual Studio 2022 で開く
-2. ソリューションエクスプローラで `main` を右クリックしてスタートアッププロジェクトに設定
-3. ビルド設定を `Release` （あるいは `Debug`） に設定
-4. 「ソリューションをビルド」を実行
+## コードの入手
 
-ファイルアクセスのエラーにより、ビルドエラーが出ることがある。ビルドエラーが出た場合は、同じ「ソリューションをビルド」を何回か繰り返して実行してみるとよい。
-
-ビルドされた実行バイナリ(.exe) とプラグイン (Plugins/*.dll) は `Release/` フォルダ（Debugビルドの時は `Debug`）以下に生成される。
-
-実行時に、実行ファイルと同じディレクトリに `AppData` フォルダと `DLLs` フォルダが必要。`Plugins` フォルダの中は .dll ファイルのみ必要であり、他は消してしまって問題ない。別の場所で動かすときは `Release` フォルダの中身ごと移動・コピーすること。
-
-## Ubuntu
-
-Ubuntu-22.04 LTS で開発を行っている。また Ubuntu-20.04 でも動作を確認している。ビルドシステムは CMake である。
-
-### 必要なパッケージのインストール
-
-事前に必要なパッケージをインストールする。必要パッケージ名のリストが `requirements-linux.txt` にある。中に記されているパッケージを、全て事前に `apt install` しておく。以下の要領で一括インストールできる。
+Git でレポジトリを入手する。入手の際には Git LFS 拡張が必要。事前にインストールするか Git LFS 対応のツールを使うこと。
 
 ```shell
-% sudo apt install `cat requirements-linux.txt`
+git clone https://github.com/mmdagent-ex/MMDAgent-EX.git
 ```
 
-### ビルド
-
-以下の手順でリリースビルドする。デバッグビルドしたい場合は cmake のオプションを `-DCMAKE_BUILD_TYPE=Debug` に変更する。
+{{< details "Git LFS のチェック方法とインストールの手順" close >}}
+チェック
 
 ```shell
-% cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
-% cmake --build build
+git lfs version
 ```
 
-ビルド成功後、必要な実行バイナリとプラグインは `Release/` ディレクトリ以下にコピーされる。
-
-### 起動
-
-起動手順は以下の通り。
+macOS
 
 ```shell
-% ./Release/MMDAgent-EX
+brew install git-lfs
 ```
 
-実行時は実行ファイルと同じディレクトリに `AppData` フォルダが必要。別の場所で動かすときは `Release` フォルダの中身ごと移動・コピーする。
+Linux
 
-## macOS
+```shell
+sudo apt install git-lfs
+```
 
-M2 Macbook Air / macOS Ventura 13.5 で開発および動作確認をしている。CMake でビルド可能。
+Windows
 
-### 必要なパッケージのインストール
+[Git LFS のサイト](https://git-lfs.com/) から LFS 拡張をインストール。
 
-あらかじめ以下のパッケージを全て `brew install` しておく。
+{{< /details >}}
+
+## ビルド手順
+
+### macOS
+
+以下のパッケージが必要。全てあらかじめ `brew install` する。
 
 ```text
 ffmpeg
@@ -79,40 +67,77 @@ rabbitmq-c
 libomp
 ```
 
-なお `libomp` については上記の `brew install libomp` でヘッダがうまくインストールされないことがあるようなので、インストール後に以下を追加で行っておく。
+`libomp` のヘッダファイルがうまくインストールされないことがある。ビルドでエラーが出る場合は以下を追加で行う。
 
 ```shell
 % brew link --force libomp
 ```
 
-### ビルド
-
-デバッグビルドしたい場合は cmake のオプションを `-DCMAKE_BUILD_TYPE=Debug` に変更する。
+CMake でビルド。
 
 ```shell
 % cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 % cmake --build build
 ```
 
-ビルドした実行バイナリとプラグインは `Release/` ディレクトリ以下にもコピーされる。
+ビルドした実行バイナリとプラグインが `Release/` ディレクトリ以下にコピーされる。
 
-### 起動
+### Ubuntu
 
-起動は以下の通り。
+必要なパッケージ名の一覧が `requirements-linux.txt` ファイルにあるので、その中に記されているパッケージを全て事前に `apt install` しておく。以下の要領で一括で行える。
 
 ```shell
-% ./Release/MMDAgent-EX
+% sudo apt install `cat requirements-linux.txt`
 ```
 
-実行時は実行ファイルと同じディレクトリに `AppData` フォルダが必要。別の場所で動かすときは `Release` フォルダの中身ごと移動・コピーする。
+CMake でビルド。
 
-### macOS アプリとして登録
+```shell
+% cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
+% cmake --build build
+```
 
-macOS アプリとして登録したい場合は、`os/macOS` 以下の `MMDAgent-EX.app` フォルダに必要なファイルが用意してあるのでそれを使う。ビルド後の `Release` フォルダの中身を全て `MMDAgent-EX.app` フォルダ内の `/Contents/MacOS` 以下にコピーすることで、Finderにおいてその `MMDAgent-EX.app` フォルダがアプリケーションバンドルとして機能する。Finder でこのアプリ（フォルダ）を アプリケーションフォルダに入れることで、 .mdf ファイルが関連付けられ、Finder で .mdf ファイルを開くと MMDAgent-EX が起動するようにできる。
+ビルド成功後、必要な実行バイナリとプラグインは `Release/` ディレクトリ以下にコピーされる。
+
+### Windows
+
+Visual Studio 2022 でビルドする。
+
+1. `MMDAgent_vs2022.sln` を Visual Studio 2022 で開く
+2. ソリューションエクスプローラで `main` を右クリックしてスタートアッププロジェクトに設定
+3. ビルド設定を `Release` に設定
+4. 「ソリューションをビルド」を実行
+
+## ビルドファイル
+
+実行に必要な全てのファイルは `Release` フォルダ以下に生成される。以下はWindowsの例。macOSとLinuxでは .exe 拡張子は無く .dll は .so になる。`AppData` 以下には実行時に必要な各種データファイルがあり、`DLLs` には動作に必要な外部 DLL が同梱されている（Windowsのみ）。
+
+```text
+Release/
+├── MMDAgent-EX.exe
+├── MMDAgent-EX.mdf
+├── AppData/
+├── DLLs/
+└── Plugins/
+    ├── Plugin_AnyScript.dll
+    ├── Plugin_Audio.dll
+    ├── Plugin_Flite_plus_hts_engine.dll
+    ├── Plugin_Kafka.dll
+    ├── Plugin_LookAt.dll
+    ├── Plugin_Network.dll
+    ├── Plugin_Open_JTalk.dll
+    ├── Plugin_RabbitMQ.dll
+    ├── Plugin_Remote.dll
+    ├── Plugin_TextArea.dll
+    ├── Plugin_Variables.dll
+    └── Plugin_VIManager.dll
+```
+
+インストールが必要な場合、この `Release` フォルダ以下を、ディレクトリ構造を保ったままコピーする。
 
 ## 追記
 
-以下の同梱ライブラリは、Windows では使われるが、Ubuntu および macOS のビルドでは用いられない。Ubuntu / macOS ではシステムにインストールされているほうが優先して使われる。
+以下の同梱ライブラリは Windows でのみ使われる。macOS / Ubuntu ではこれらの同梱ファイルは使われず、システムにインストールされているパッケージのものがリンクされる。
 
 ```text
 Library_RE2
