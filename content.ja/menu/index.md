@@ -5,23 +5,22 @@ headless: true
 - [ライセンスと利用指針]({{< relref "/docs/license_and_guideline" >}})
 <br />
 
-- **使い方**
-- [チュートリアル]({{< relref "/docs/33_asr_setup" >}})
+- **チュートリアル**
 - [ビルド]({{< relref "/docs/00_build" >}})
 - [実行]({{< relref "/docs/05_run_contents" >}})
 - **画面の見方**
   - [ウィンドウ]({{< relref "/docs/10_screen" >}})
   - [ログ画面]({{< relref "/docs/30_log" >}})
 - [操作方法]({{< relref "/docs/20_keybinds" >}})
-- [環境変数]({{< relref "/docs/62_environmental_variables" >}})
+- [音声認識]({{< relref "/docs/33_asr_setup" >}})
 <br />
 
 - **作成**
+- キーで動かす
 - モデルを表示する
 - 簡単な対話を作る
 - 表情・動作を付ける
 - 背景・床を設定する
-- キーで動かす
 - 動作を制御する
   - 動きのキャンセル
   - 動きの重ね
@@ -29,7 +28,8 @@ headless: true
   - 視点を制御する
 - サウンドを再生する
 - 画像やテキストを表示する
-- フレームを付ける
+- 画面にフレームを付ける
+- 音声認識を使いこなす
 - 他のプログラムと連携する
 <br />
 
@@ -48,6 +48,7 @@ headless: true
 <br />
 
 - **リファレンス**
+- [環境変数]({{< relref "/docs/62_environmental_variables" >}})
 - [mdfパラメータ一覧]({{< relref "/docs/40_mdf" >}})
 - [メッセージ一覧]({{< relref "/docs/50_messages" >}})
 - [FST書式]({{< relref "/docs/55_fst" >}})
