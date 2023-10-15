@@ -12,7 +12,6 @@ slug: build
 - **Linux**: Ubuntu-22.04, Ubuntu-20.04, Ubuntu-22.04 on WSL
 - **WIndows**: Windows 11 with Visual Studio 2022
 
-
 ## コードの入手
 
 Git でレポジトリを入手する。入手の際には Git LFS 拡張が必要。事前にインストールするか Git LFS 対応のツールを使うこと。
@@ -110,7 +109,12 @@ Visual Studio 2022 でビルドする。
 
 ## ビルドファイル
 
-実行に必要な全てのファイルは `Release` フォルダ以下に生成される。以下はWindowsの例。macOSとLinuxでは .exe 拡張子は無く .dll は .so になる。`AppData` 以下には実行時に必要な各種データファイルがあり、`DLLs` には動作に必要な外部 DLL が同梱されている（Windowsのみ）。
+実行に必要な全てのファイルは `Release` フォルダ以下に生成される。
+{{< hint info >}}
+以下はWindowsの例。macOSとLinuxでは .exe 拡張子は無く .dll は .so になる。
+{{< /hint >}}
+
+`AppData` 以下には実行時に必要な各種データファイルがあり、`DLLs` には動作に必要な外部 DLL が同梱されている（Windowsのみ）。
 
 ```text
 Release/

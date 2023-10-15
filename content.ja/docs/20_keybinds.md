@@ -2,6 +2,7 @@
 title: キーとマウスの操作
 slug: keybinding
 ---
+# キーとマウスの操作
 
 MMDAgent-EX はマウスとキーで操作できる。以下、操作方法。
 
@@ -124,7 +125,7 @@ Windowsのみ
 |image file|どこでも|Ctrl|床イメージを入れ替え|png, jpg, bmp, tga|
 |.xpmd|どこでも|-|ステージ入れ替え||
 
-## Plugin_Julius (OBSOLETE)
+## 音声認識（Plugin_Julius）
 
 Plugin_Julius 有効時のみ
 

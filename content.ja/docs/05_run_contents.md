@@ -8,42 +8,46 @@ MMDAgent-EX は起動時に1つのコンテンツを再生できます。ここ�
 
 ## コンテンツの構成
 
-コンテンツはあるフォルダ以下に構成されます。以下がコンテンツの典型的な構成例です。トップディレクトリに、起動の起点となる .mdf ファイルが必ず１つおかれます。さらに、.fst, .dic, .rapiddic, .jconf, .ojt の各種ファイルが同様にトップディレクトリに、.mdf と同じプレフィックスで置かれます。また `BUTTON*.txt`, `PACKAGE_DESC.txt` もトップディレクトリに置きます。そのほかのファイル（モデル・モーション・画像等）については、フォルダ以下の任意の場所に置かれます。1つのコンテンツの中に複数のコンテンツを置くこともできます。
+コンテンツはあるフォルダ以下に構成されます。以下はあるコンテンツの典型的な構成例です。トップディレクトリに、起動ファイル兼設定ファイルとなる .mdf ファイルが必ず１つおかれます。さらに、使用するモジュールに応じて .fst, .dic, .jconf, .ojt といった各種ファイルが .mdf と同じプレフィックスで置かれます。また `BUTTON*.txt`, `PACKAGE_DESC.txt` もトップディレクトリに置きます。そのほかのファイル（モデル・モーション・画像等）は、フォルダ以下の任意の場所に置くことができます。
 
 ```text
  topdir/
-  |- Startup / Configuration file (.mdf) [*]
-  |- Dialogue scenario script (.fst) [*]
-  |- Recognition word dictionary (.dic) [*]
-  |- Rapid word dictionary (.rapiddic) [*]
-  |- Julius JConf file (.jconf) [*]
-  |- Open JTalk setting file (.ojt) [*]
-  |- Button definitions (BUTTON0.txt - BUTTON9.txt) [*]
-  |- Package description (PACKAGE_DESC.txt) [*]
-  |- Description text (README.txt) [*]
+  |- foobar.mdf         Startup / Configuration
+  |- foobar.fst         Dialogue Script
+  |- foobar.dic         Additional dictionary for Julius
+  |- foobar.jconf       Additional Julius jconf file
+  |- foobar.ojt         Open JTalk setting file
+  |- PACKAGE_DESC.txt   Package info for web-based deploy
+  |- README.txt         Readme doc
   +- (SubDirectories)
       |- 3-D models (.pmd)
       |- Motions (.vmd)
       |- TTS Voice model (.htsvoice)
       |- Background/Floor (images)
       |- Sound / Music files (sound files)
-      |- Stage models (.pmd)
-      |- Other assets (images, text files, etc.)
+      |- Images, Text files, etc.
 ```
 
-なお、コンテンツ内のあらゆる相対パス指定は、このトップフォルダからの相対パスとして扱われます。
+## コンテンツを起動
 
-## コンテンツを指定して起動
+コンテンツを指定して起動するには、MMDAgent-EX のコマンドライン引数に.mdf ファイルを指定します。
 
-MMDAgent-EX のコマンドライン引数に.mdf ファイルを指定することで、そのコンテンツを再生できます。
+```shell
+./Release/MMDAgent-EX.exe /some/where/topdir/foobar.mdf
+```
 
-## 指定なしで起動
+{{< details ".mdfファイルを複数指定した場合" open >}}
+指定した順に全ての .mdf 内を読み込んで設定を行い、その後、最後に指定した末尾の .mdf のコンテンツを起動します。
+{{< /details >}}
 
-引数無しでMMDAgent-EXを単体起動したときは、以下の順番でコンテンツが探されます。
+{{< details "指定しない場合" open >}}
+以下の順番でコンテンツが探され、見つかったものを起動します。
 
-- 以前の起動時にユーザが設定したホームコンテンツ
-- MMDAgent-EX の実行ファイルがあるフォルダ
+- その実行環境でホームとして設定されているコンテンツ
+- MMDAgent-EX 実行ファイルと同じフォルダの `MMDAgent-EX.mdf` 
 
-起動するコンテンツが見つからない場合、ブランク画面で起動します。
+いずれも見つからない場合、ブランク画面で起動します。
+{{< /details >}}
+
 
 

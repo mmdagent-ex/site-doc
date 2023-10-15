@@ -2,7 +2,8 @@
 headless: true
 ---
 
-[ライセンスと利用指針]({{< relref "/docs/license_and_guideline" >}})
+- [ライセンスと利用指針]({{< relref "/docs/license_and_guideline" >}})
+<br />
 
 - **使い方**
 - [チュートリアル]({{< relref "/docs/33_asr_setup" >}})
@@ -30,6 +31,7 @@ headless: true
 - 画像やテキストを表示する
 - フレームを付ける
 - 他のプログラムと連携する
+<br />
 
 - **開発**
 - [パラメータ設定]({{< relref "/docs/40_mdf" >}})
