@@ -4,9 +4,7 @@ slug: build
 ---
 # ビルド
 
-## 動作環境
-
-以下の環境でビルドを確認している。
+MMDAgent-EX の動作環境は macOS, Linux, Windows である。以下の環境でビルド動作を確認している。
 
 - **macOS**: M2 Macbook Air / macOS Ventura 13.5
 - **Linux**: Ubuntu-22.04, Ubuntu-20.04, Ubuntu-22.04 on WSL
@@ -14,11 +12,7 @@ slug: build
 
 ## コードの入手
 
-Git でレポジトリを入手する。入手の際には Git LFS 拡張が必要。事前にインストールするか Git LFS 対応のツールを使うこと。
-
-```shell
-git clone https://github.com/mmdagent-ex/MMDAgent-EX.git
-```
+Git LFS がインストールされているか事前にチェック。なければ先にインストールする。
 
 {{< details "Git LFS のチェック方法とインストールの手順" close >}}
 チェック
@@ -45,26 +39,31 @@ Windows
 
 {{< /details >}}
 
+準備できたら [GitHub](https://github.com/mmdagent-ex/MMDAgent-EX)よりレポジトリを入手する。
+
+```shell
+git clone https://github.com/mmdagent-ex/MMDAgent-EX.git
+cd MMDAgent-EX
+```
+
 ## ビルド手順
 
 ### macOS
 
 以下のパッケージが必要。全てあらかじめ `brew install` する。
 
-```text
-ffmpeg
-cmake
-poco
-glew
-libjpeg
-re2
-portaudio
-minizip
-opencv
-sox
-rabbitmq-c
-libomp
-```
+- ffmpeg
+- cmake
+- poco
+- glew
+- libjpeg
+- re2
+- portaudio
+- minizip
+- opencv
+- sox
+- rabbitmq-c
+- libomp
 
 `libomp` のヘッダファイルがうまくインストールされないことがある。ビルドでエラーが出る場合は以下を追加で行う。
 

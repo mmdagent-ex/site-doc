@@ -8,10 +8,10 @@ headless: true
 - **チュートリアル**
 - [ビルド]({{< relref "/docs/00_build" >}})
 - [実行]({{< relref "/docs/05_run_contents" >}})
-- **画面の見方**
+- [画面の見方]({{< relref "/docs/08_view" >}})
   - [ウィンドウ]({{< relref "/docs/10_screen" >}})
   - [ログ画面]({{< relref "/docs/30_log" >}})
-- [操作方法]({{< relref "/docs/20_keybinds" >}})
+- [基本操作]({{< relref "/docs/15_keybinds_basic" >}})
 - [音声認識]({{< relref "/docs/33_asr_setup" >}})
 <br />
 
@@ -48,6 +48,7 @@ headless: true
 <br />
 
 - **リファレンス**
+- [全操作一覧]({{< relref "/docs/20_keybinds" >}})
 - [環境変数]({{< relref "/docs/62_environmental_variables" >}})
 - [mdfパラメータ一覧]({{< relref "/docs/40_mdf" >}})
 - [メッセージ一覧]({{< relref "/docs/50_messages" >}})
