@@ -10,27 +10,25 @@ MMDAgent-EX は起動時に1つのコンテンツを再生できます。ここ�
 
 コンテンツはあるフォルダ以下に構成されます。以下はあるコンテンツの典型的な構成例です。トップディレクトリに、起動ファイル兼設定ファイルとなる .mdf ファイルが必ず１つおかれます。さらに、使用するモジュールに応じて .fst, .dic, .jconf, .ojt といった各種ファイルが .mdf と同じプレフィックスで置かれます。また `BUTTON*.txt`, `PACKAGE_DESC.txt` もトップディレクトリに置きます。そのほかのファイル（モデル・モーション・画像等）は、フォルダ以下の任意の場所に置くことができます。
 
-```text
- topdir/
-  |- foobar.mdf         Startup / Configuration
-  |- foobar.fst         Dialogue Script
-  |- foobar.dic         Additional dictionary for Julius
-  |- foobar.jconf       Additional Julius jconf file
-  |- foobar.ojt         Open JTalk setting file
-  |- PACKAGE_DESC.txt   Package info for web-based deploy
-  |- README.txt         Readme doc
-  +- (SubDirectories)
-      |- 3-D models (.pmd)
-      |- Motions (.vmd)
-      |- TTS Voice model (.htsvoice)
-      |- Background/Floor (images)
-      |- Sound / Music files (sound files)
-      |- Images, Text files, etc.
-```
+    topdir/
+        |- foobar.mdf         Startup / Configuration
+        |- foobar.fst         Dialogue Script
+        |- foobar.dic         Additional dictionary for Julius
+        |- foobar.jconf       Additional Julius jconf file
+        |- foobar.ojt         Open JTalk setting file
+        |- PACKAGE_DESC.txt   Package info for web-based deploy
+        |- README.txt         Readme doc
+        +- (SubDirectories)
+            |- 3-D models (.pmd)
+            |- Motions (.vmd)
+            |- TTS Voice model (.htsvoice)
+            |- Background/Floor (images)
+            |- Sound / Music files (sound files)
+            |- Images, Text files, etc.
 
 ## コンテンツを起動
 
-コンテンツを指定して起動するには、MMDAgent-EX のコマンドライン引数に.mdf ファイルを指定します。
+MMDAgent-EX のコマンドライン引数に、コンテンツフォルダのトップの .mdf ファイルを指定します。
 
 ```shell
 ./Release/MMDAgent-EX.exe /some/where/topdir/foobar.mdf

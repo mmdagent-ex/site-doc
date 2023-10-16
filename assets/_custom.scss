@@ -99,6 +99,34 @@
     code {
       padding: 0;
       background: none;
+      position: relative;
+    }
+  }
+
+  pre.message {
+    padding: $padding-8;
+    border-radius: $border-radius;
+    overflow-x: auto;
+    background: #000;
+    color: #ccccff;
+    border: 1px solid #ddd;
+    border-left: 5px solid #336df3;
+    code {
+      padding: 0;
+      background: none;
+    }
+  }
+
+  pre.mdf {
+    padding: $padding-16;
+    border-radius: $padding-16;
+    overflow-x: auto;
+    background: #eed;
+    color: #333333;
+    border: 2px solid #eead26;
+    code {
+      padding: 0;
+      background: none;
     }
   }
 

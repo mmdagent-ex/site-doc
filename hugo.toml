@@ -9,6 +9,7 @@ theme = 'hugo-book'
 disablePathToLower = true
 enableGitInfo = true
 
+
 # Needed for mermaid/katex shortcodes
 [markup]
 [markup.goldmark.renderer]
