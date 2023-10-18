@@ -1,8 +1,8 @@
 ---
-title: 実行
+title: Exampleの実行
 slug: run
 ---
-# 実行
+# Exampleの実行
 
 MMDAgent-EX は起動時に1つのコンテンツを再生できます。ここでコンテンツとは、3Dモデルやモーション、FSTスクリプト、音声・画像等といった対話システムを構成するファイルの集合（アセット）のことを差します。以下、コンテンツの基本構成と起動方法を説明します。
 
@@ -26,12 +26,38 @@ MMDAgent-EX は起動時に1つのコンテンツを再生できます。ここ�
             |- Sound / Music files (sound files)
             |- Images, Text files, etc.
 
+## Example コンテンツの入手
+
+[サンプルコンテンツ](https://github.com/mmdagent-ex/example)が用意されているので、これを clone します。submodule を使っているので `--recursive` をつけてください。
+
+```shell
+git clone --recursive https://github.com/mmdagent-ex/example
+```
+
+最小限のスクリプト、サンプルの画像・モーション、Open JTalk 用のモデル mei、およびCGモデル「ジェネ」と「うか」を含むレポジトリが入手できます。
+
+   
+    example/
+        |- main.mdf         Startup / Configuration
+        |- main.fst         Dialogue Script
+        |- main.ojt         Open JTalk setting
+        |- images/
+        |    |- ...
+        |- motions/
+        |    |- ...
+        |- voice/           Voice model "mei" for Open JTalk
+        |    |- mei/
+        |- gene/            CG-CA model "Gene"
+        |    |- Gene.pmd
+        +- uka/             CG-CA model "Uka"
+            |- Uka.pmd
+
 ## コンテンツを起動
 
 MMDAgent-EX のコマンドライン引数に、コンテンツフォルダのトップの .mdf ファイルを指定します。
 
 ```shell
-./Release/MMDAgent-EX.exe /some/where/topdir/foobar.mdf
+./Release/MMDAgent-EX.exe ./example/main.mdf
 ```
 
 {{< details ".mdfファイルを複数指定した場合" open >}}
@@ -47,5 +73,7 @@ MMDAgent-EX のコマンドライン引数に、コンテンツフォルダの�
 いずれも見つからない場合、ブランク画面で起動します。
 {{< /details >}}
 
+以下のような画面が出たら起動成功です。
 
+<img width="480" alt="example snapshot" src="/images/example_1.png"/>
 

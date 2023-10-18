@@ -7,12 +7,14 @@ headless: true
 
 - **チュートリアル**
 - [ビルド]({{< relref "/docs/00_build" >}})
-- [実行]({{< relref "/docs/05_run_contents" >}})
+- [Example実行]({{< relref "/docs/05_run_contents" >}})
+- [基本操作]({{< relref "/docs/15_keybinds_basic" >}})
 - [画面の見方]({{< relref "/docs/08_view" >}})
   - [ウィンドウ]({{< relref "/docs/10_screen" >}})
   - [ログ画面]({{< relref "/docs/30_log" >}})
-- [基本操作]({{< relref "/docs/15_keybinds_basic" >}})
-- [音声認識]({{< relref "/docs/33_asr_setup" >}})
+- [音声合成を試す]({{< relref "/docs/31_tts_test" >}})
+- [音声認識のセットアップ]({{< relref "/docs/33_asr_setup" >}})
+- [音声対話を試す]({{< relref "/docs/34_dialog_test" >}})
 <br />
 
 - **作成**

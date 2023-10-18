@@ -84,7 +84,7 @@ RECOG_EVENT_START
 RECOG_EVENT_STOP|今日はいい天気ですね
 {{< / message >}}
 
-結果を単語ごとに区切って出力したいときは、.mdf で以下のように指定してください。
+結果を単語ごとに区切って出力したい場合は、.mdf で以下のように指定できます。
 
 {{< mdf>}}
 Plugin_Julius_wordspacing=yes

@@ -130,6 +130,15 @@
     }
   }
 
+  pre.fst {
+    padding: $padding-8 $padding-16;
+    border-radius: $padding-8;
+    overflow-x: auto;
+    background: #cde;
+    color: #111111;
+    border: 2px solid #26adee;
+  }
+
   p {
     word-wrap: break-word;
   }
