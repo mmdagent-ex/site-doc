@@ -4,11 +4,15 @@ slug: run
 ---
 # Exampleの実行
 
-MMDAgent-EX は起動時に1つのコンテンツを再生できます。ここでコンテンツとは、3Dモデルやモーション、FSTスクリプト、音声・画像等といった対話システムを構成するファイルの集合（アセット）のことを差します。以下、コンテンツの基本構成と起動方法を説明します。
+MMDAgent-EX はコンテンツを指定して起動します。ここで、コンテンツとは、3Dモデルやモーション、FSTスクリプト、音声・画像等といった対話システムを構成するファイルの集合（アセット）を差します。
 
-## コンテンツの構成
+以下、MMDAgent-EX におけるコンテンツの概略と、実際に Example コンテンツを起動する手順を説明します。
 
-コンテンツはあるフォルダ以下に構成されます。以下はあるコンテンツの典型的な構成例です。トップディレクトリに、起動ファイル兼設定ファイルとなる .mdf ファイルが必ず１つおかれます。さらに、使用するモジュールに応じて .fst, .dic, .jconf, .ojt といった各種ファイルが .mdf と同じプレフィックスで置かれます。また `BUTTON*.txt`, `PACKAGE_DESC.txt` もトップディレクトリに置きます。そのほかのファイル（モデル・モーション・画像等）は、フォルダ以下の任意の場所に置くことができます。
+## コンテンツについて
+
+MMDAgent-EX はコンテンツを再生します。コンテンツとは、3Dモデルやモーション、FSTスクリプト、音声・画像等といった対話システムを構成するファイルの集合体（アセット）を差します。
+
+コンテンツの一般的な構成は以下のようになります。トップディレクトリに、起動ファイル兼設定ファイルとなる .mdf ファイルが必ず１つおかれます。さらに、使用するモジュールに応じて .fst, .dic, .jconf, .ojt といった各種ファイルが .mdf と同じプレフィックスで置かれます。また `BUTTON*.txt`, `PACKAGE_DESC.txt` もトップディレクトリに置きます。そのほかのファイル（モデル・モーション・画像等）は、フォルダ以下の任意の場所に置くことができます。
 
     topdir/
         |- foobar.mdf         Startup / Configuration
@@ -28,15 +32,8 @@ MMDAgent-EX は起動時に1つのコンテンツを再生できます。ここ�
 
 ## Example コンテンツの入手
 
-[サンプルコンテンツ](https://github.com/mmdagent-ex/example)が用意されているので、これを clone します。submodule を使っているので `--recursive` をつけてください。
+[サンプルコンテンツ](https://github.com/mmdagent-ex/example)は最小限のスクリプト、サンプルの画像・モーション、Open JTalk 用のモデル mei、およびCGモデル「ジェネ」と「うか」を含むレポジトリです。
 
-```shell
-git clone --recursive https://github.com/mmdagent-ex/example
-```
-
-最小限のスクリプト、サンプルの画像・モーション、Open JTalk 用のモデル mei、およびCGモデル「ジェネ」と「うか」を含むレポジトリが入手できます。
-
-   
     example/
         |- main.mdf         Startup / Configuration
         |- main.fst         Dialogue Script
@@ -52,9 +49,15 @@ git clone --recursive https://github.com/mmdagent-ex/example
         +- uka/             CG-CA model "Uka"
             |- Uka.pmd
 
+サンプルコンテンツを clone してください。submodule を使っているので `--recursive` をつけます。
+
+```shell
+git clone --recursive https://github.com/mmdagent-ex/example
+```
+
 ## コンテンツを起動
 
-MMDAgent-EX のコマンドライン引数に、コンテンツフォルダのトップの .mdf ファイルを指定します。
+MMDAgent-EX のコマンドライン引数にコンテンツのフォルダのトップにある .mdf ファイルを指定して起動します。
 
 ```shell
 ./Release/MMDAgent-EX.exe ./example/main.mdf
