@@ -687,55 +687,74 @@ MSASR_DEACTIVATE
 MSASR_ACTIVATE
 ```
 
-### Plugin_Julius （OBSOLETE)
+### Plugin_Julius
 
 **RECOG_EVENT_OVERFLOW**
 
-音声入力のレベルが大きすぎて音割れしているときに発行されるメッセージ
+入力音のレベルが大きすぎてオーバーフローを起こしたときに出力。
 
 ```text
 RECOG_EVENT_OVERFLOW
 ```
 
-**RECOG_EVENT_GMM**
+**RECOG_EVENT_MODIFY**
 
-GMMによる音声識別を行っているときに出力されるメッセージ
-
-```
-RECOG_EVENT_GMM
-```
-
-**RECOG_RECORD_START, RECOG_RECORD_STOP**
-
-Julius が録音を開始・中断した時に発行されるメッセージ
+RECOG_MODIFY メッセージの処理が完了したときに出力。
 
 ```text
-RECOG_RECORD_START|directory
-RECOG_RECORD_STOP
+RECOG_EVENT_MODIFY|GAIN
+RECOG_EVENT_MODIFY|USERDICT_SET
+RECOG_EVENT_MODIFY|USERDICT_UNSET
+RECOG_EVENT_MODIFY|CHANGE_CONF|(jconf_file_prefix)
 ```
 
 **RECOG_EVENT_AWAY**
 
-Away notification:
+メニュー操作や外部制御等によって音声認識を一時中断(ON)あるいは再開(OFF)したときに出力。
 
 ```text
 RECOG_EVENT_AWAY|ON
 RECOG_EVENT_AWAY|OFF
 ```
 
-**RECOG_MODIFY**
+**RECOG_EVENT_GMM**
 
-認識エンジンへパラメータをセットするメッセージ
+Juliusの環境音識別機能を用いているときの識別結果タグの出力。
 
 ```text
-RECOG_MODIFY|GAIN|scaling_value
-RECOG_EVENT_MODIFY|GAIN
-RECOG_MODIFY|CHANGE_CONF|jconf_file
-RECOG_EVENT_MODIFY|CHANGE_CONF
-RECOG_MODIFY|USERDICT_SET|(dictionary file path)
-RECOG_EVENT_MODIFY|USERDICT_SET
-RECOG_MODIFY|USERDICT_UNSET
+RECOG_EVENT_GMM|noise
+```
+
+**RECOG_MODIFY**
+
+エンジン設定の変更コマンド。動作中のエンジンを動的に変更する。
+
+- `GAIN`: 入力音声の振幅スケーリング係数（デフォルト 1.0）
+- `USERDICT_SET`: ユーザ辞書読み込み（既に読み込んである場合、入れ替え）
+- `USERDICT_UNSET`: ユーザ辞書を削除
+- `CHANGE_CONF`: 指定した jconf 設定ファイルでエンジンを再起動
+
+```text
+RECOG_EVENT_MODIFY|GAIN|(scale)
+RECOG_EVENT_MODIFY|USERDICT_SET|(dict_file_path)
 RECOG_EVENT_MODIFY|USERDICT_UNSET
+RECOG_EVENT_MODIFY|CHANGE_CONF|(jconf_file_prefix)
+```
+
+**RECOG_RECORD_START**
+
+入力音声の自動録音を開始。切り出された音声断片が、指定したディレクトリ内に個別の .wav ファイルとして逐次保存される。
+
+```text
+RECOG_RECORD_START|(directory)
+```
+
+**RECOG_RECORD_STOP**
+
+入力音声の自動録音を停止。
+
+```text
+RECOG_RECORD_STOP
 ```
 
 ## 音声合成

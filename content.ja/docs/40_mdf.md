@@ -270,6 +270,53 @@ Plugin_Remote_Record_Wave_Limit=120
 motion_capture_max_minutes=10
 ```
 
+## 音声認識
+
+**Plugin_Julius_conf**, **Plugin_Julius_lang**
+
+音声認識エンジンの設定名と言語名。
+
+デフォルト指定は無し。モデルを準備し、これらの有効な組み合わせを .mdf で指定することで Plugin_Julius が有効化される。
+
+デフォルトのモデルがサポートする組み合わせ：
+
+- dnn, ja
+- dnn, en
+- gmm, ja
+
+```text
+Plugin_Julius_conf=dnn
+Plugin_Julius_lang=en
+```
+
+**Plugin_Julius_wordspacing**
+
+認識結果の出力において、単語を区切るかどうかを指定。
+
+- `no`: 単語間に何も入れずに詰める（`ja` 時のデフォルト）
+- `yes`: 単語間に空白を入れる（`ja` 以外のデフォルト）
+- `comma`: 単語間にカンマを入れる（旧MMDAgentと互換）
+
+```text
+Plugin_Julius_wordspacing=yes
+```
+
+**Plugin_Julius_logfile**
+
+Julius エンジンの内部ログをファイルに出力させる。
+
+```text
+Plugin_Julius_logfile=log.txt
+```
+
+**show_caption**
+
+字幕を表示する。画面左側に音声認識結果が、右側に音声合成内容（**SYNTH_START** で与えられた文章）がそれぞれ表示される。
+
+```txt
+show_caption=true
+```
+
 ## その他の調整項目
 
 ### レンダリング関連
