@@ -19,7 +19,7 @@ headless: true
 <br />
 
 - **コンテンツ作成**
-- [パラメータを設定する]({{< relref "/docs/40_mdf" >}})
+- [パラメータを設定する]({{< relref "/docs/41_mdf_basic" >}})
 - [3Dモデルを表示する]({{< relref "/docs/35_3dmodel" >}})
 - 動作を制御する
   - 動きのキャンセル

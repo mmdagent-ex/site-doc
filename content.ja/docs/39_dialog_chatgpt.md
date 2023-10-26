@@ -9,7 +9,11 @@ slug: dialog-test-chatgpt
 ](../tts-test)のセットアップを済ませてください。
 {{< /hint >}}
 
-ChatGPT を使って対話を行うシンプルなプログラムの例 `chatgpt.py` を以下に示します。このプログラムでは固定のプロンプトを使ってユーザの発話ごとに応答を ChatGPT から得ます。会話の履歴はトークン数の上限まで保持するようになっています。`openai.api_key` に OpenAI の API キーを設定して使ってください。
+ChatGPT を使って対話を行うシンプルなプログラムの例 `chatgpt.py` を以下に示します。
+
+これは固定のプロンプトを使って ChatGPT と会話するシンプルなPythonスクリプトです。音声認識結果から、システム応答を ChatGPT から得て出力します。会話の履歴はトークン数の上限まで保持するようになっています。
+
+動作には OpenAI の API キーが必要です。 `openai.api_key` に利用する API キーを入れて使ってください。
 
 ```python
 # chatgpt.py

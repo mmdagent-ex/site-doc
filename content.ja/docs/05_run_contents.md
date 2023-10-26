@@ -63,19 +63,6 @@ MMDAgent-EX のコマンドライン引数にコンテンツのフォルダの�
 ./Release/MMDAgent-EX.exe ./example/main.mdf
 ```
 
-{{< details ".mdfファイルを複数指定した場合" open >}}
-指定した順に全ての .mdf 内を読み込んで設定を行い、その後、最後に指定した末尾の .mdf のコンテンツを起動します。
-{{< /details >}}
-
-{{< details "指定しない場合" open >}}
-以下の順番でコンテンツが探され、見つかったものを起動します。
-
-- その実行環境でホームとして設定されているコンテンツ
-- MMDAgent-EX 実行ファイルと同じフォルダの `MMDAgent-EX.mdf` 
-
-いずれも見つからない場合、ブランク画面で起動します。
-{{< /details >}}
-
 以下のような画面が出たら起動成功です。
 
 <img width="480" alt="example snapshot" src="/images/example_1.png"/>
