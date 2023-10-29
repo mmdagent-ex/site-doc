@@ -23,7 +23,7 @@ headless: true
 - [3Dモデルを表示する]({{< relref "/docs/43_3dmodel" >}})
   - [PMXモデル]({{< relref "/docs/45_pmx" >}})
   - [エフェクト]({{< relref "/docs/46_effect" >}})
-- 動作を制御する
+- [動作を制御する]({{< relref "/docs/47_motion" >}})
   - 動きの再生
   - 動きのキャンセル
   - 動きの重ね

@@ -17,7 +17,7 @@ slug: mmd-effect
 ## Diffusion Effect
 
 {{< hint warning >}}
-Windows および Linux でのみ動作します。macOS では OpenGL の非互換性から動作しません。
+ディフュージョンエフェクトは Windows および Linux でのみ動作します。macOS では OpenGL の非互換性のため動作しません。
 {{< /hint >}}
 
 MME用の [改変版ディフュージョンフィルタ](https://okoneya.jp/mme_study/index.php?o_Diffusion)（おたもんさん）をベースに GLSL で実装したものを MMDAgent-EX 内部で実装しています。デフォルトでは off ですが、以下のように `diffusion_postfilter=true` を .mdf に設定することでONになります。

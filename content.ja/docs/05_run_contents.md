@@ -32,7 +32,7 @@ MMDAgent-EX はコンテンツを再生します。コンテンツとは、3Dモ
 
 ## Example コンテンツの入手
 
-[サンプルコンテンツ](https://github.com/mmdagent-ex/example)は最小限のスクリプト、サンプルの画像・モーション、Open JTalk 用のモデル mei、およびCGモデル「ジェネ」と「うか」を含むレポジトリです。
+[サンプルコンテンツ](https://github.com/mmdagent-ex/example)は最小限のスクリプト、サンプルの画像・モーション、Open JTalk 用のモデル mei、およびCGモデル[「ジェネ」](https://github.com/mmdagent-ex/gene)と[「うか」](https://github.com/mmdagent-ex/uka)を含むレポジトリです。
 
     example/
         |- main.mdf         Startup / Configuration
