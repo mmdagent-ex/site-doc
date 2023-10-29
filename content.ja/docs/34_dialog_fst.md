@@ -15,7 +15,8 @@ slug: dialog-test-fst
 
 Example の `main.fst` をテキストエディタで開き、末尾に以下を新たに追加してください。これは「音声認識結果を含む `RECOG_EVENT_STOP` メッセージが発行されたら、音声合成の実行を指示する `SYNTH_START` メッセージを発行する」という、一問一答の最も簡単な形です。
 
-{{<fst>}}LOOP LOOP:
+{{<fst>}}
+LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
 {{</fst>}}
 
@@ -31,7 +32,8 @@ Example の `main.fst` をテキストエディタで開き、末尾に以下を
 
 発話に表情をつけてみましょう。発話の開始と同時に表情モーションを再生します。先ほど追加した部分に、以下のように末尾の行を新たに追加してみてください。
 
-{{<fst>}}LOOP LOOP:
+{{<fst>}}
+LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
     <b>&lt;eps&gt; MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE</b>
 {{</fst>}}
@@ -42,7 +44,8 @@ Example の `main.fst` をテキストエディタで開き、末尾に以下を
 
 表情と一緒に動作も行うようにしてみます。先ほど追加した行の上に、以下の太字の行を追加してください。 
 
-{{<fst>}}LOOP LOOP:
+{{<fst>}}
+LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
     <b>&lt;eps&gt; MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE</b>
     &lt;eps&gt; MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
@@ -66,7 +69,8 @@ Example の `main.fst` をテキストエディタで開き、末尾に以下を
 
 という一連の処理を定義しています。
 
-{{<fst>}}0 LOOP:
+{{<fst>}}
+0 LOOP:
     &lt;eps&gt; STAGE|images/floor_green.png,images/back_white.png
     &lt;eps&gt; MODEL_ADD|0|gene/gene.pmd
     MODEL_EVENT_ADD|0  MOTION_ADD|0|base|motions/wait/01_Wait.vmd|FULL|LOOP|ON|OFF
@@ -97,7 +101,8 @@ VS Code で .fst の編集を助けるための [VS Code 用の .fst ファイ�
 
 「こんにちは」だけでなく「ハロー」と言っても同じ応答が返ってくるようにしてみましょう。複数の条件にマッチさせたい場合は、 "`+`" を使って並列ノードを追加定義します。
 
-{{<fst>}}LOOP LOOP:
+{{<fst>}}
+LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
     <b>+RECOG_EVENT_STOP|ハロー。</b>
     &lt;eps&gt; MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
@@ -108,7 +113,8 @@ VS Code で .fst の編集を助けるための [VS Code 用の .fst ファイ�
 
 "`+`" の行に条件だけでなく発行メッセージも記述すると、発行メッセージも並列にできます。以下は「こんにちは」で「こんにちは！よろしくね！」、「ハロー」で「ハロー、ありがとうございます！」と返すようにする例です。どちらも実行後は次のモーション再生の行へ移動します。
 
-{{<fst>}}LOOP LOOP:
+{{<fst>}}
+LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
     <b>+RECOG_EVENT_STOP|ハロー。 SYNTH_START|0|mei_voice_normal|ハロー、ありがとうございます！</b>
     &lt;eps&gt; MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
@@ -117,7 +123,8 @@ VS Code で .fst の編集を助けるための [VS Code 用の .fst ファイ�
 
 "`+`" 行は複数個書くことができます。以下は「こんにちは」「ハロー」に加えて「ボンジュール」と言った場合にも同じ応答を返すよう拡張した例です。
 
-{{<fst>}}LOOP LOOP:
+{{<fst>}}
+LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
     +RECOG_EVENT_STOP|ハロー。
     +RECOG_EVENT_STOP|ボンジュール。
@@ -127,7 +134,8 @@ VS Code で .fst の編集を助けるための [VS Code 用の .fst ファイ�
 
 完全に別の処理としたい場合は個別のブロックに分けるとよいでしょう。以下は「こんにちは」はそのままで、「ハロー」というと「ハロー、ありがとうございます！」と言いながら手を振るようにしたものです。同じ状態から始まるブロックを定義することで、各ブロックの１行目の条件でどのブロックが動作するかが分かれます。
 
-{{<fst>}}LOOP LOOP:
+{{<fst>}}
+LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
     &lt;eps&gt; MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
     &lt;eps&gt; MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
@@ -147,7 +155,8 @@ LOOP LOOP:
 
 の順で２段階に分けて実行するようにしたものです。
 
-{{<fst>}}LOOP LOOP:
+{{<fst>}}
+LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！
     &lt;eps&gt; MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
     <b>MOTION_EVENT_STOP|0|action</b> SYNTH_START|0|mei_voice_happy|よろしくね！
@@ -163,20 +172,23 @@ LOOP LOOP:
 
 条件判定は完全一致で、記述内容とメッセージのテキストが一致する場合にのみマッチしますが、正規表現を使うことでより柔軟なマッチングを記述できます。正規表現を使う場合、条件項を "`@`" で囲みます。例えば、上記で
 
-{{<fst>}}LOOP LOOP:
+{{<fst>}}
+LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
     +RECOG_EVENT_STOP|ハロー。
 {{< / fst>}}
 
 のように書いた部分は、正規表現を使って以下のように書くこともできます。条件項が正規表現の場合、メッセージがその正規表現にマッチするかどうかで判定されます。
 
-{{<fst>}}LOOP LOOP:
+{{<fst>}}
+LOOP LOOP:
     <b>@RECOG_EVENT_STOP¥|(こんにちは|ハロー)。@</b>  SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
 {{< / fst>}}
 
 特殊な用途ですが、以下のように書くことで、認識結果のおうむ返しも記述できます。発行メッセージ項にある "`${1}`" は、正規表現の中でマッチする最初の括弧内の文字に対応する文字で置き換えられます。
 
-{{<fst>}}LOOP LOOP:
+{{<fst>}}
+LOOP LOOP:
     <b>@RECOG_EVENT_STOP¥|(.*)@</b>  SYNTH_START|0|mei_voice_normal|${1}
 {{< / fst>}}
 

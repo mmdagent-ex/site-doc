@@ -24,15 +24,15 @@ headless: true
   - [PMXモデル]({{< relref "/docs/45_pmx" >}})
   - [エフェクト]({{< relref "/docs/46_effect" >}})
 - [動作を制御する]({{< relref "/docs/47_motion" >}})
-  - 動きの再生
-  - 動きのキャンセル
-  - 動きの重ね
-  - タイマーを活用する
-- 視点を制御する
-- サウンドを再生する
-- 画像やテキストを表示する
-- 背景・床・フレームを設定する
-- メニューを定義する
+  - [モーションの再生]({{< relref "/docs/48_motion_play" >}})
+  - [モーションの重ね]({{< relref "/docs/49_motion_layer" >}})
+  - [モーションの制御]({{< relref "/docs/50_motion_control" >}})
+  - [タイマーを活用する]({{< relref "/docs/51_timer" >}})
+- [視点を制御する]({{< relref "/docs/52_camera" >}})
+- [サウンドを再生する]({{< relref "/docs/53_sound" >}})
+- [画像やテキストを表示する]({{< relref "/docs/54_text_image" >}})
+- [背景・床・フレームを設定する]({{< relref "/docs/55_scene" >}})
+- [メニューを定義する]({{< relref "/docs/56_menu" >}})
 - [ボタンを定義する]({{< relref "/docs/57_buttons" >}})
 - [Webでコンテンツを公開する]({{< relref "/docs/58_web" >}})
 <br />

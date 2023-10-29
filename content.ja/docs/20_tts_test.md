@@ -19,7 +19,8 @@ Example コンテンツの対話スクリプトは、起動語に数字の `1` �
 {{< details "詳細説明" close >}}
 対話スクリプトは、下記のようにモデルやモーションをロードしたあと状態 `LOOP` で待機しており、そこで数字の `1` のキーを押すことで音声合成メッセージ `SYNTH_START` が発行される。
 
-{{<fst>}}0 LOOP:
+{{<fst>}}
+0 LOOP:
     &lt;eps&gt; STAGE|images/floor_green.png,images/back_white.png
     &lt;eps&gt; MODEL_ADD|0|gene/gene.pmd
     MODEL_EVENT_ADD|0  MOTION_ADD|0|base|motions/wait/01_Wait.vmd|FULL|LOOP|ON|OFF
@@ -66,7 +67,8 @@ SYNTH_EVENT_STOP|モデルエイリアス
 
 例えば、Exampleの main.fst の末尾部分を以下のように変えて実行することで、異なるスタイルで連続で話すことができます。試してみましょう。
 
-{{<fst>}}LOOP LOOP:
+{{<fst>}}
+LOOP LOOP:
     KEY|1               SYNTH_START|0|mei_voice_normal|こんにちは！
     SYNTH_EVENT_STOP|0  SYNTH_START|0|mei_voice_happy|よろしくね！
 {{< / fst>}}

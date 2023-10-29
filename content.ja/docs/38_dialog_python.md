@@ -17,7 +17,8 @@ MMDAgent-EX は様々な外部プログラムと連係動作できます。こ�
 
 「[音声対話をためす (fst)](../dialog-test-fst)」を実行した人は、.fst に対話の部分が入っていると二重になるので、以下の手順を始める前に消しておきましょう。`main.fst` から以下の冒頭部分だけ残して、あとは削除してください。
 
-{{<fst>}}0 LOOP:
+{{<fst>}}
+0 LOOP:
     &lt;eps&gt; STAGE|images/floor_green.png,images/back_white.png
     &lt;eps&gt; MODEL_ADD|0|gene/gene.pmd
     MODEL_EVENT_ADD|0  MOTION_ADD|0|base|motions/wait/01_Wait.vmd|FULL|LOOP|ON|OFF

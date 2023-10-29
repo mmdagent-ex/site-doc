@@ -16,7 +16,7 @@ slug: mdf-basic
 
 .mdf ファイルのサンプル例です。設定できる値は多岐にわたります。詳細は、 [全メッセージの一覧](../mdf) を見てください。
 
-```text
+{{< mdf>}}
 # ログを保存するファイル名
 log_file=
 # 指定したプラグイン以外を無効化
@@ -38,5 +38,4 @@ stage_size=25.0,25.0,40.0
 Plugin_Julius_conf=dnn
 Plugin_Julius_lang=ja
 show_caption=true
-
-```
+{{< /mdf>}}

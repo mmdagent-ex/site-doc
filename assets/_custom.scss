@@ -37,14 +37,22 @@
     }
   }
 
+  h1 {
+    font-weight: bold;
+  }
+
   h2 {
     padding: 0.4em 0;
     border-bottom: 2px solid;
+    border-color: #336df3;
+    font-weight: bold;
   }
 
   h3 {
     padding: 10px;
-    border-left:4px solid;
+    border-bottom:2px dotted #ccc;
+    border-top:2px dotted #ccc;
+    font-weight: bold;
   }
 
   h4,
@@ -107,10 +115,10 @@
     padding: $padding-8;
     border-radius: $border-radius;
     overflow-x: auto;
-    background: #000;
-    color: #ccccff;
+    background: #ede;
+    color: #660066;
     border: 1px solid #ddd;
-    border-left: 5px solid #336df3;
+    border-left: 3px solid #996df3;
     code {
       padding: 0;
       background: none;
@@ -118,25 +126,58 @@
   }
 
   pre.mdf {
-    padding: $padding-16;
+    padding: 24px $padding-16 $padding-8 $padding-16;
     border-radius: $padding-16;
     overflow-x: auto;
     background: #eed;
     color: #333333;
     border: 2px solid #eead26;
+    position: relative;
     code {
       padding: 0;
       background: none;
     }
   }
+  pre.mdf::before {
+    position: absolute;
+    display: inline-block;
+    box-sizing: border-box;
+    line-height: 1;
+    background: #eed;
+    color: #333333;
+    border: 2px solid #eead26;
+    content: attr(title);
+    font-weight: bold;
+    padding: 2px 6px;
+    top: -2px;
+    left: -2px;
+    font-size: 14px;
+  }
 
   pre.fst {
-    padding: $padding-8 $padding-16;
-    border-radius: $padding-8;
+    padding: 24px $padding-16 $padding-8 $padding-16;
     overflow-x: auto;
-    background: #cde;
-    color: #111111;
+    background: #cee;
+    color: #334;
     border: 2px solid #26adee;
+    position: relative;
+    border-radius: $padding-8;
+  }
+
+  pre.fst::before {
+    position: absolute;
+    display: inline-block;
+    box-sizing: border-box;
+    line-height: 1;
+    background: #cee;
+    color: #26adee;
+    border: 2px solid #26adee;
+    content: attr(title);
+    font-weight: bold;
+    padding: 2px 6px;
+    top: -2px;
+    left: -2px;
+    font-size: 14px;
   }
 
   p {
