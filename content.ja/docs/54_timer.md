@@ -4,49 +4,57 @@ slug: timer
 ---
 # タイマー
 
-Plugin_Variable にあるタイマーの使い方を詳しく紹介。
+「ユーザからの入力が一定時間ないときに何か処理をする」あるいは「モーションと音声の再生タイミングを合わせる」など、対話では所定の時間処理か反応を待つようなことが必要な場面があります。このために、MMDAgent-EX ではウェイト処理を行うための「カウントダウンタイマー」が用意されています。
 
+カウントダウンタイマーは、引数で指定した時間が経過した後に **TIMER_EVENT_STOP** メッセージを出力することで時間経過を通知して終了します。
 
-## カウントダウンタイマー
+{{< hint warning >}}
+タイマーの解像度は 0.1 秒であることに注意してください。0.1秒より小さい値は指定できません。また、カウントも 0.1 秒単位で行われるため数十msは誤差が生じます。
+{{< /hint >}}
 
-**TIMER_START**
+タイマーを開始・中断するメッセージは以下のものがあります。
 
-タイマー変数を開始する。値は秒で、0.1 秒が最小解像度。
+- **TIMER_START** タイマーを新たに開始するメッセージ
+- **TIMER_CANCEL** 動作中のタイマーをキャンセルするメッセージ
 
-- タイマーが開始したとき **TIMER_EVENT_START** を発行する
-- 指定時間が経過したら **TIMER_EVENT_STOP** を発行、そのタイマー変数は削除される。
-- 同名のタイマー変数が既に存在する場合、
-  - **TIMER_EVENT_CANCELLED** を発行する
-  - 値を上書きする
-  - **TIMER_EVENT_START** を発行する
+タイマーの状態が変化したときに出力されるメッセージは以下のとおりです。
 
-```text
+- **TIMER_EVENT_START** タイマーを開始したとき
+- **TIMER_EVENT_STOP** タイマーが満了したとき
+- **TIMER_EVENT_CANCELLED** タイマーがキャンセルもしくは再設定されたとき
+
+## 基本的な使い方
+
+**TIMER_START** メッセージで新たなタイマーをスタートします。引数の `(count down alias)` は新たに開始するタイマーの名前、 `(value)` はタイマーの時間（秒）です。
+
+{{<message>}}
 TIMER_START|(count down alias)|(value)
+{{</message>}}
+
+同名のタイマーが既に動いている場合、古いタイマーをキャンセル（**TIMER_EVENT_CANCELLED** メッセージ発行）してから同名で新たに開始します。
+
+開始した際に **TIMER_EVENT_START** メッセージが発行されます。
+
+{{<message>}}
 TIMER_EVENT_START|(count down alias)
+{{</message>}}
+
+タイマーはバックグラウンドで 0.1 秒ごとに値が減っていきます。指定時間が経過して値が 0 になったら終了時です。終了時、**TIMER_EVENT_STOP** メッセージが出力され、タイマーは削除されます。
+
+{{<message>}}
 TIMER_EVENT_STOP|(count down alias)
+{{</message>}}
+
+## キャンセル
+
+あるタイマーを途中で中断したいときは **TIMER_CANCEL** メッセージを使います。
+
+{{<message>}}
+TIMER_CANCEL|(count down alias)|(value)
+{{</message>}}
+
+**TIMER_CANCEL** は指定されたタイマーが存在する・しないにかかわらず **TIMER_EVENT_CANCELLED** を発行します。
+
+{{<message>}}
 TIMER_EVENT_CANCELLED|(count down alias)
-```
-
-**TIMER_STOP**
-
-動作中のタイマー変数をストップする。
-
-- タイマー変数が存在する場合、 **TIMER_EVENT_STOP** を発行
-- タイマー変数が存在しない場合は何もしない（ワーニングを出力するのみ）
-
-```text
-TIMER_STOP|(count down alias)
-TIMER_EVENT_STOP|(count down alias)
-```
-
-**TIMER_CANCEL**
-
-タイマー変数を強制的に中断・削除する。
-
-- 指定したタイマー変数が存在する場合、削除して **TIMER_EVENT_CANCEL** を発行
-- 指定したタイマー変数が存在しない場合も **TIMER_EVENT_CANCEL** を発行
-
-```text
-TIMER_CANCEL|(count down alias)
-TIMER_EVENT_CANCELLED|(count down alias)
-```
+{{</message>}}
