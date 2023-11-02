@@ -1107,15 +1107,15 @@ MENU_EVENT|SETITEM|(alias)|(id)
 メニューの指定ページの指定位置の項目内容を削除する。削除完了時に **MENU_EVENT|DELETEITEM** を発行する。
 
 ```text
-MENU|DELETE|(alias)
-MENU_EVENT|DELETE|(alias)
+MENU|DELETEITEM|(alias)|(id)
+MENU_EVENT|DELETEITEM|(alias)|(id)
 ```
 
 **MENU|DELETE**
 
-メニューの指定ページをまるごど削除する。削除完了時に **MENU_EVENT|DELETE** を発行する。
+メニューの指定ページをまるごと削除する。削除完了時に **MENU_EVENT|DELETE** を発行する。
 
 ```text
-MENU|DELETEITEM|(alias)|(id)
-MENU_EVENT|DELETEITEM|(alias)|(id)
+MENU|DELETE|(alias)
+MENU_EVENT|DELETE|(alias)
 ```

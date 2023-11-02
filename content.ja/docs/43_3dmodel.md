@@ -108,4 +108,22 @@ max_multi_sampling=4
 cartoon_edge_width=0.35
 {{< /mdf>}}
 
+## モデルロード時・削除時メッセージ
 
+モデルがロードされたとき、あるいは削除されたときに特定のメッセージをシステムへ発行するよう仕込むことができます。これを使うことで、例えば「モデルをロードしたときにメニューやボタンを追加する」「モデルをロードしたとき同時に背景も替える」といった処理をモデル側の指示として行うことができます。
+
+モデル名 `xxx.pmd` に対して、`xxx.pmd.loadmessage` というテキストファイルを作り、その中に、1行1つずつメッセージを記述しておきます。そうすることで、このモデル `xxx.pmd` がロードされる際に、ロード直後に `xxx.pmd.loadmessage` の中に記述されているメッセージが順に実行されます。
+
+同様に、`xxx.pmd.deletemessage` を記述することで、モデルが削除されたときに発行するメッセージを指定できます。
+
+例が Example の「ジェネ」のモデルにあります。この `Gene.pmd.loadmessage` では、ジェネのモデルをロードした際に、アクセサリの ON/OFF を行うメニューを追加するように書かれています。
+
+```text
+MENU|ADD|Gene
+MENU|SETITEM|Gene|0|頬なし|MODEL_BINDFACE|0|頬全消し|1
+MENU|SETITEM|Gene|1|頬あり|MODEL_BINDFACE|0|頬全消し|0
+MENU|SETITEM|Gene|2|メッシュなし|MODEL_BINDFACE|0|メッシュなし|1
+MENU|SETITEM|Gene|3|メッシュあり|MODEL_BINDFACE|0|メッシュなし|0
+MENU|SETITEM|Gene|4|髪留なし|MODEL_BINDFACE|0|髪留なし|1
+MENU|SETITEM|Gene|5|髪留あり|MODEL_BINDFACE|0|髪留なし|0
+```
