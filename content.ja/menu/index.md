@@ -35,7 +35,7 @@ headless: true
 - [背景・床・フレームを設定する]({{< relref "/docs/62_scene" >}})
 - [メニューを定義する]({{< relref "/docs/64_menu" >}})
 - [ボタンを定義する]({{< relref "/docs/65_buttons" >}})
-- [Webでコンテンツを公開する]({{< relref "/docs/68_web" >}})
+- [Webでコンテンツを配信する]({{< relref "/docs/68_web" >}})
 <br />
 
 - **拡張**
@@ -54,5 +54,6 @@ headless: true
 - [ネットワーク操作仕様]({{< relref "/docs/90_plugin_remote" >}})
 - [外部プログラム連携仕様]({{< relref "/docs/91_plugin_anyscript" >}})
 - [音声認識エンジンの設定]({{< relref "/docs/92_plugin_julius" >}})
+- [PACKAGE_DESC.txt書式]({{< relref "/docs/95_package_desc" >}})
 - [オリジナルとの違い]({{< relref "/docs/99_changes" >}})
 <br />
