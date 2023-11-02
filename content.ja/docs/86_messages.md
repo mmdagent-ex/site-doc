@@ -543,7 +543,7 @@ CAPTION_EVENT_STOP|alias
 
 **PROMPT_SHOW**
 
-メッセージダイアログを表示して、ユーザに選択させる。指定するテキストが空白を含む場合は "" でくくる。
+メッセージダイアログを表示して、ユーザに選択させる。指定するテキストが空白を含む場合は "" でくくる。選択肢の最大数は 15。
 
 ```text
 PROMPT_SHOW|(main text)|(item text 0)|(item text 1)|...
@@ -578,7 +578,7 @@ PROMPT_EVENT_SELECTED|(selected number or -1 for cancel)
 
 表示された文書はドラッグ（スワイプ）でスクロール可能。
 
-下部に第3引数で指定したラベルが表示される。ユーザがいずれか選択すると、表示が終了し、**INFORTEXT_EVENT_CLOSE** が押されたボタンのインデックスとともに発行される。
+下部に第3引数で指定したラベルが表示される。ユーザがいずれか選択すると、表示が終了し、**INFOTEXT_EVENT_CLOSE** が押されたボタンのインデックスとともに発行される。
 
 例： README.txt を表示
 
@@ -586,7 +586,7 @@ PROMPT_EVENT_SELECTED|(selected number or -1 for cancel)
 INFOTEXT_FILE|README.txt|"read me"|OK,NO
 ```
 
-![infotext](images/infotext.png)
+![infotext](/images/infotext.png)
 
 ```text
 INFOTEXT_FILE|(filepath)|(titleLabel)|(buttonLabels)
