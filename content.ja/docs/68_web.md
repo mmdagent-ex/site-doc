@@ -8,9 +8,9 @@ slug: web-content
 
 MMDAgent-EX のコンテンツを Web で公開するためには、いくつかの公開用の作業が必要です。以下、コンテンツの公開手順から利用方法までを順に説明します。
 
-## 配信の手順
+## 配信の準備
 
-### PACKAGE_DESC.txt の作成
+### PACKAGE_DESC.txt
 
 コンテンツのトップフォルダにパッケージ設定ファイル `PACKAGE_DESC.txt` を用意します。[詳細なフォーマット](../package-desc-format)はさておき、とりあえず以下の最小限の設定を記述します。
 
@@ -28,11 +28,11 @@ readmeForceAgreement=true
 - **readme**: コンテンツユーザに最初に読んでほしい README テキストファイルのパス。指定した場合、コンテンツの初回起動時に全画面で表示される。UTF-8 であること。
 - **readmeForceAgreement**: true にすると、README ファイルを表示したあと一番下に `Accept` と `Decline` の 2つのボタンを表示し、 `Decline` を押した場合は再生しない、という挙動を追加。
 
-### ファイルインデックスの作成・更新
+### ファイルインデックス
 
 `mit` でファイルインデックスを作る。
 
-### アップロード
+## アップロード
 
 `PACKAGE_DESC.txt` とインデックスファイル(`.mmdagent-content-files`)を含めたコンテンツ全体をWeb サーバにアップする。
 
