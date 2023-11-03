@@ -39,8 +39,8 @@ headless: true
 <br />
 
 - **拡張**
-- サブモジュールとして組み込む
-- フロントエンドとして制御する
+- [サブモジュールとして組み込む]({{< relref "/docs/70_submodule" >}})
+- [ソケット接続で制御する]({{< relref "/docs/71_remote" >}})
 - プラグインを開発する
 - [モジュール間共有変数]({{< relref "/docs/75_global_variables" >}})
 <br />

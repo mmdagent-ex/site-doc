@@ -34,11 +34,18 @@ readmeForceAgreement=true
 
 ### ファイルインデックス
 
-`mit` でファイルインデックスを作る。
+ファイルのインデックスを作成します。これには別途配布されているツール [mit.py](https://github.com/mmdagent-ex/index-tool-mit) を使います。 `mit.py` を入手後、以下のコマンドでインデックスを作成できます。
+
+```shell
+cd コンテンツトップ
+mit.py create
+```
+
+インデックスはトップに `.mmdagent-content-files` ファイルとして作成されます。これは配信すべきファイルのファイル名および SHA256ハッシュを記録しています。
 
 ## アップロード
 
-`PACKAGE_DESC.txt` とインデックスファイル(`.mmdagent-content-files`)を含めたコンテンツ全体をWeb サーバにアップする。
+`PACKAGE_DESC.txt` とインデックスファイル(`.mmdagent-content-files`)を含めたコンテンツ全体をWeb サーバにアップしてください。
 
 > Webサーバはディレクトリアクセス可能である必要があります。すなわち、コンテンツ全体を `https://foo.bar/some/dir` という場所にアップした場合、そのコンテンツ内の `model/xxx.pmd` というファイルは `https://foo.bar/some/dir/model/xxx.pmd` というURLで直接アクセス可能になっている必要があります。これは MMDAgent-EX がファイルごとに個別にダウンロードステータスを管理しているためです。このため、Google Drive や DropBox といったファイルごとにユニークなダウンロードURLを生成するサイトは使えないので注意してください。
 
