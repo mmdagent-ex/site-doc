@@ -41,7 +41,9 @@ headless: true
 - **拡張**
 - [サブモジュールとして組み込む]({{< relref "/docs/70_submodule" >}})
 - [ソケット接続で制御する]({{< relref "/docs/71_remote" >}})
-- プラグインを開発する
+  - [WebSocket]({{< relref "/docs/72_remote_websocket" >}})
+  - [TCP/IP]({{< relref "/docs/73_remote_tcpip" >}})
+  - [音声波形を送り込む]({{< relref "/docs/74_remote_speech" >}})
 - [モジュール間共有変数]({{< relref "/docs/75_global_variables" >}})
 <br />
 
@@ -52,7 +54,6 @@ headless: true
 - [メッセージ一覧]({{< relref "/docs/86_messages" >}})
 - [FSTの書式解説]({{< relref "/docs/88_fst" >}})
 - [ネットワーク操作仕様]({{< relref "/docs/90_plugin_remote" >}})
-- [外部プログラム連携仕様]({{< relref "/docs/91_plugin_anyscript" >}})
 - [音声認識エンジンの設定]({{< relref "/docs/92_plugin_julius" >}})
 - [PACKAGE_DESC.txt書式]({{< relref "/docs/95_package_desc" >}})
 - [オリジナルとの違い]({{< relref "/docs/99_changes" >}})

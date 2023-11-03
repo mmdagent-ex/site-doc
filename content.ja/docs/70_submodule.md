@@ -8,16 +8,17 @@ slug: submodule
 
 # サブモジュールの組み込み
 
-アプリケーションをサブモジュールとして MMDAgent-EX に組み込んでMMDAgent-EX の能力を拡張することができます。アプリケーションは子プロセスとして MMDAgent-EX 起動時に起動され、終了と同時に終了します。[音声対話をためす (Python)](../dialog-test-python)のページ、および[ChatGPTを組み込む例](../dialog-test-chatgpt)で用いたのはこの方法です。
+Python スクリプトを含む任意のアプリケーションをサブモジュールとして MMDAgent-EX に組み込んでMMDAgent-EX の能力を拡張することができます。アプリケーションは子プロセスとして MMDAgent-EX 起動時に起動され、終了と同時に終了します。[音声対話をためす (Python)](../dialog-test-python)のページ、および[ChatGPTを組み込む例](../dialog-test-chatgpt)で用いたのはこの方法です。
 
-ここでは**サブモジュール**として組み込む方法について概説します。
+ここではサブモジュールとして組み込む方法について概説します。
 
 ## Plugin_AnyScript
 
-Plugin_AnyScript プラグインは、アプリケーションを子プロセスとして接続するプラグインです。子プロセスの標準入出力は、MMDAgent-EX のメッセージキューと直接接続されます。
+サブモジュールの組み込みは Plugin_AnyScript で実現されています。
+Plugin_AnyScript プラグインはアプリケーションを子プロセスとして起動・接続するプラグインです。Plugin_AnyScript によって起動された子プロセスは、標準入出力がMMDAgent-EX のメッセージキューと直接接続されます：
 
-- プロセスの標準出力は、そのままメッセージとして MMDAgent-EX へ発行する
-- MMDAgnet-EX から発行されるメッセージは、全てプロセスの標準入力に与えられる
+- 子プロセスの標準出力は、そのままメッセージとして MMDAgent-EX へ発行する
+- MMDAgnet-EX から発行されるメッセージは、全て子プロセスの標準入力に与えられる
 
 [音声対話をためす (Python)](../dialog-test-python)で示したのは対話を制御する使い方でしたが、そのほかにも、
 
@@ -27,27 +28,17 @@ Plugin_AnyScript プラグインは、アプリケーションを子プロセス
 
 といったような拡張が可能です。
 
-### 例：天気予報に応える
+{{< hint warning >}}
+### プログラム作成上の注意
 
-以下は天気予報を取得して答えるモジュールの作成例です。音声認識結果の `RECOG_EVENT_STOP` メッセージは MMDAgent-EX 本体だけでなく全てのモジュールにも送られるので、仮に .fst スクリプトが「天気」という発話に答えられない場合でも、このようにサブモジュールが応答するよう作ることができます。
+アプリケーションやスクリプトをサブモジュールとして組み込む際は、必ずそのプロセスの **標準出力のバッファリングを OFF にしてください**。バッファリングが ON になっていると、出力したメッセージが即座に MMDAgent-EX に吐き出されず、処理が行われなかったり遅延したりします。
 
-```python
-def query_weather():
-    # 天気予報を取得する
-    # 取得した予報をもとに応答文を作る
-    return(response)
+Python スクリプトの場合、起動時オプションに `-u` をつけることでバッファリングをOFFにできます。それ以外の場合は、１行出力するごとに明示的に出力をフラッシュするようプログラムを作成してください。
+{{< /hint >}}
 
-if __name__ == "__main__":
-    while True:
-        input_line = input().strip()
-        if input_line.startswith("RECOG_EVENT_STOP|天気"):
-            response = query_weather()
-            print(f"SYNTH_START|0|mei_voice_normal|{response}")
-```
+## サブモジュール登録
 
-## セットアップ
-
-.mdf で設定します。サブモジュールとして起動するコマンドを、以下の形で指定します。なお、実行時のカレントディレクトリは、コンテンツのディレクトリではなく、MMDAgent-EX.exe の置いてあるフォルダになるので注意してください。`=` から行末までが起動コマンドとして使われるので、コマンド部分に空白があっても問題ありません。
+サブモジュールは .mdf で登録します。サブモジュールとして起動するコマンドを以下のように指定します。なお、実行時のカレントディレクトリは、コンテンツのディレクトリではなく、MMDAgent-EX.exe の置いてあるフォルダである点に注意してください。`=` から行末までの全てが起動コマンドとして使われるので、空白があっても問題ありません。
 
 {{<mdf>}}
 Plugin_AnyScript_Command=C:\Program Files\Python310\python.exe -u test.py
@@ -74,6 +65,20 @@ Plugin_AnyScript_Command2=...
 Plugin_AnyScript_AllLog=true
 {{</mdf>}}
 
-## プログラム作成上の注意
+## 動作例
 
-**標準出力のバッファリングを OFF にしてください**。バッファリングが ON になっていると、出力したメッセージが即座に MMDAgent-EX に吐き出されず、処理が行われなかったり遅延したりします。Python スクリプトの場合、起動時オプションに -u をつけてください。それ以外の場合は、１行出力するごとに明示的に出力をフラッシュするようプログラムを作成してください。
+以下は天気予報を取得して答えるモジュールの作成例です。音声認識結果の `RECOG_EVENT_STOP` メッセージは MMDAgent-EX 本体だけでなく全てのモジュールにも送られるので、仮に .fst スクリプトが「天気」という発話に答えられない場合でも、このようにサブモジュールが応答するよう作ることができます。
+
+```python
+def query_weather():
+    # 天気予報を取得する
+    # 取得した予報をもとに応答文を作る
+    return(response)
+
+if __name__ == "__main__":
+    while True:
+        input_line = input().strip()
+        if input_line.startswith("RECOG_EVENT_STOP|天気"):
+            response = query_weather()
+            print(f"SYNTH_START|0|mei_voice_normal|{response}")
+```
