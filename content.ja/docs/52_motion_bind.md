@@ -51,16 +51,16 @@ MODEL_EVENT_BINDFACE|(model alias)|(morph name)
 
 ボーンの値のセットを解除する。終了時に **MODEL_EVENT_UNBINDBONE** を発行する。
 
-```text
+{{<message>}}
 MODEL_UNBINDBONE|model alias|bone name
 MODEL_EVENT_UNBINDBONE|model alias|bone name
-```
+{{</message>}}
 
 ### MODEL_UNBINDFACE
 
 モーフの値のセットを解除する。終了時に **MODEL_EVENT_UNBINDFACE** を発行する。
 
-```text
+{{<message>}}
 MODEL_UNBINDFACE|model alias|morph name
 MODEL_EVENT_UNBINDFACE|model alias|morph name
-```
+{{</message>}}

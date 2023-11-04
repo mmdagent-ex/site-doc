@@ -1,81 +1,75 @@
 ---
-title: KeyValueを用いた内部連携
-slug: keyvalues
+title: グローバル変数を用いた連携
+slug: global-variables
 ---
+# グローバル変数を用いた連携
 
-MMDAgent-EX はグローバル変数領域（キーと値のペア）を内部に持っており、コンテンツやプログラムから任意のキー名と値（文字列）を代入・参照可能である。以下、利用方法のサマリー。
+MMDAgent-EX はグローバル変数の格納領域を内部に持っており、.fst スクリプト、.mdf 設定ファイル、あるいはメッセージによって値を代入・変更・参照できます。
+
+グローバル変数はキーと値のペア (key-value pair) の集合です。以下、値の代入・参照方法について解説します。
 
 ## .mdf で代入
 
-以下の形で書かれた任意の key-value ペアが起動時にグローバル変数に代入される。
+以下の形で書かれた全てのペアが、key-value 値として起動時にグローバル変数に代入・保持されます。
 
-```text
+{{<mdf>}}
 KeyName=String
-```
+{{</mdf>}}
+
+あとで設定の値を取り出すことができるほか、設定とは無関係の任意の key-value 値を .mdf 内に書いて定義することもできます。
 
 ## .fst で参照・代入
 
-任意のフィールドでグローバル変数を  `${%KeyName}` の形で値を参照できる。
-値はロード時ではなく実行するタイミングで評価される。
+.fst 内では、任意の場所でグローバル変数を  `${%KeyName}` の形で値を参照できます。
+値は .fst のロード時ではなく、その行を実行するタイミングで評価されます。
 
+以下は **MODEL_ADD** メッセージの第1引数であるモデルエイリアス名として、グローバル変数のキー値 "`ModelName`" の値を代入する例です。（.fst での変数の扱いは[解説のページ](../fst-format)を見てください）
 
-```text
-10 20:
-    <eps> MODEL_ADD|${%KeyName}|...
-```
+{{<fst>}}
+0 LOOP:
+    <eps> MODEL_ADD|${%ModelName}|...
+{{</fst>}}
 
+以下のように値そのものを条件として用いることも可能です。
 
-以下のように条件に使うことも可能。
-
-
-```text
-10 20:
+{{<fst>}}
+LOOP LOOP:
     ${%KeyName}==string SYNTH_START|mei|...
-```
+{{</fst>}}
 
+[行末の追加フィールド](../fst-format/#%e3%83%ad%e3%83%bc%e3%82%ab%e3%83%ab%e5%a4%89%e6%95%b0)を使って値の代入も行えます。
 
-値の代入は `KEYVALUE_SET` メッセージでできる。
-
-```text
-10 20  MODEL_EVENT_ADD|0 KEYVALUE_SET|KeyName|String
-```
-
-あるいは第5フィールドを使っても行える。
-
-
-```text
-10 20  <eps>  MODEL_ADD|mei|... ${%KeyName}=String
-```
+{{<fst>}}
+0 LOOP:
+  ...
+  <eps>  MODEL_ADD|mei|... ${%KeyName}=string
+{{</fst>}}
 
 
 ## メッセージで代入
 
-`KEYVALUE_SET` メッセージで値を代入できる。
+`KEYVALUE_SET` メッセージを発行することで値を代入できます。
 
-```text
+{{<message>}}
 KEYVALUE_SET|(key name)|(value)
-```
+{{</message>}}
 
-## MODEL_BINDFACE で活用
+## MODEL_BINDFACE でバインド
 
-`MODEL_BINDFACE` コマンドで、指定したグローバル変数の値を常時監視して
-モーフ値に反映するようにできる。なお、ここで参照するキーに対して
-セットしてよい値は 0.0 から 1.0 の間の数値のみ。
+[`MODEL_BINDFACE` メッセージ](../motion-bind/#model_bindface)の別の使い方として、モーフを固定値ではなくグローバル変数にバインド（紐付け）することが可能です。バインドが指定されたモーフは、バインド先のグローバル変数の値で制御されるようになり、変数の値が変更されるたびにモーフが合わせてリアルタイムに追従変化します。
 
-```text
-MODEL_BINDFACE|(key name)|(min)|(max)|(model alias)|(face name)|rate1|rate2
-```
+これを利用して、「ある特定のモーフの値を .mdf の設定値から与える」、あるいは「外部から **KEYVALUE_SET** メッセージで値を随時流し込むことで、外部から特定のモーフをリアルタイム制御する」ような使い方ができます。
 
-`MODEL_UNBINDFACE` で解除。
+{{<message>}}
+MODEL_BINDFACE|(key name)|(min)|(max)|(model alias)|(morph name)|rate1|rate2
+{{</message>}}
 
-```text
-MODEL_UNBINDFACE|(model alias)|(face name)
-```
+`min`, `max` はグローバル変数の値の最小値と最大値、`rate1`, `rate2` がそれぞれに対応するモーフ値の最小値と最大値です。`min` 以下の値は `rate1`に、`max`以上の値は `rate2` にキャップされます。間は線形補間です。図で表すと以下のようになります（横軸がグローバル変数の値、縦軸の1が`rate1`、2が `rate2` の値に対応）。
 
-## 特別なグローバル変数
+![BindBone](/images/bindbone.png)
 
-システムで利用されているグローバル変数。
+`MODEL_UNBINDFACE` でバインドを解除できます。
 
-### MS版のみ
-
-`Avatar_mode` 通常 0.0、外部操作中のみ 1.0 の値になる
+{{<message>}}
+MODEL_UNBINDFACE|(model alias)|(morph name)
+{{</message>}}

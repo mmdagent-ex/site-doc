@@ -199,9 +199,9 @@ MOTION_CONFIGURE|(model)|(motion)|BLEND_RATE|(rate)
 MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_BONE_REPLACE|bonename[,bonename,..]
 MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_BONE_ADD|bonename[,bonename,..]
 MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_BONE_NONE|bonename[,bonename,..]
-MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_FACE_REPLACE|facename[,facename,..]
-MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_FACE_ADD|facename[,facename,..]
-MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_FACE_MUL|facename[,facename,..]
+MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_FACE_REPLACE|morphname[,morphname,..]
+MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_FACE_ADD|morphname[,morphname,..]
+MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_FACE_MUL|morphname[,morphname,..]
 MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_FACE_NONE|bonename[,bonename,..]
 ```
 
@@ -250,7 +250,7 @@ MODEL_BINDFACE|(model alias)|(morph name)|(value)|(transition_duration)`
 - **KeyValue値バインド**: 設定以降、指定したKeyValue のキー値に対してリアルタイムに連動するようになる。設定実行後に **MODEL_EVENT_BINDBONE** が発行される。
 
 ```text
-MODEL_BINDFACE|(key name)|(min)|(max)|(model alias)|(face name)|rate1|rate2
+MODEL_BINDFACE|(key name)|(min)|(max)|(model alias)|(morph name)|rate1|rate2
 ```
 
 **MODEL_UNBINDBONE**
