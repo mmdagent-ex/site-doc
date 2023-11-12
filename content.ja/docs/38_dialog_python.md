@@ -33,6 +33,7 @@ MMDAgent-EX は様々な外部プログラムと連係動作できます。こ�
 - 入力無しで Enter だけ押すと終了します。
 
 ```python
+#### example/test.py
 # 応答を返す
 def generate_response(str):
     if str == "こんにちは。":
@@ -52,10 +53,10 @@ if __name__ == "__main__":
     main()
 ```
 
-実行して動作を確かめてください。
+これを `example` フォルダ以下に `test.py` として作成して、キーボードから適当な文を入力して動作を確かめてみましょう。
 
 ```shell
-$ python test.py
+$ python example/test.py
 何ですか？　　　　←キーボード入力
 わかりません。
 こんにちは。　　　←キーボード入力
@@ -69,13 +70,15 @@ $ python test.py
 - MMDAgent-EX に流れる全てのメッセージが、このスクリプトの標準入力へ逐次入力されます。
 - 標準出力へ出したテキストは、そのまま MMDAgent-EX メッセージとして発行されます。
 
-以下のようにプログラムを変更してみましょう。
+さきほどの `example/test.py` を以下のように変更してみます。
 
 - 入力メッセージに認識結果 (`RECOG_EVENT_STOP`) が含まれていたとき、そこから認識文を抽出
 - 応答を生成
 - 生成した応答テキストを音声合成メッセージ (`SYNTH_START`) として出力
 
 ```python
+#### example/test.py
+import re
 # 応答を返す
 def generate_response(str):
     if str == "こんにちは。":
@@ -102,17 +105,23 @@ if __name__ == "__main__":
 
 ## サブモジュールとして実行
 
-このプログラムをサブモジュールとして起動します。`Plugin_AnyScript` を使います。.mdf に以下のように、サブモジュールとして起動するコマンドを記述してください。
+このプログラムをサブモジュールとして起動します。`Plugin_AnyScript` を使います。.mdf に以下のように、サブモジュールとして起動するコマンドを記述します。
+
+パスの指定に注意してください。子プロセスのカレントディレクトリはその .mdf のあるディレクトリ（ここでは `./example`）になるので、ここでは `test.py` となります。
 
 {{< hint warning >}}
 サブモジュールに Python を指定する場合、バッファリングが有効になっていると出力したメッセージがすぐに MMDAgent-EX に流れません。以下のように `-u` オプションを必ずつけて出力のバッファリングを無効化してください。
 {{< /hint >}}
 
 {{< mdf>}}
-Plugin_AnyScript_Command=python.exe -u test.py
+Plugin_AnyScript_Command=python -u test.py
 {{< / mdf >}}
 
 設定後に MMDAgent-EX を起動すれば、起動時に指定したプログラムが起動します。ためしに「こんにちは。」と話してみてください。
+
+```shell
+./Release/MMDAgent-EX.exe ./example/main.mdf
+```
 
 ## 拡張
 

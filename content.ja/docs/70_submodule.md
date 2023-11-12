@@ -38,14 +38,17 @@ Python スクリプトの場合、起動時オプションに `-u` をつける�
 
 ## サブモジュール登録
 
-サブモジュールは .mdf で登録します。サブモジュールとして起動するコマンドを以下のように指定します。なお、実行時のカレントディレクトリは、その .mdf の置いてあるフォルダです。`=` から行末までの全てが起動コマンドとして使われるので、空白があっても問題ありません。
+サブモジュールは .mdf で登録します。サブモジュールとして起動するコマンドを指定します。`=` から行末までの全てが起動コマンドとして使われます。コマンド中に空白があっても問題ありません。
 
-コマンドの最初の実行ファイルは、Windows ではフルパスで指定してください。macOS, Ubuntu では、指定が `/` から始まる場合はフルパスと解釈され、そうでない場合は PATH の設定に従って実行ファイルが探されます。
+パスの指定には特に注意してください。
+
+- 実行バイナリはフルパスでもコマンドとしても指定できます。フルパスで指定された場合、その実行バイナリを実行します。コマンドとして指定された場合、Windows では [`CreateProcessA` 関数の仕様に従って実行バイナリが探され](https://learn.microsoft.com/ja-jp/windows/win32/api/processthreadsapi/nf-processthreadsapi-createprocessa)、macOS / Linux では `execvp()` の仕様に従って環境変数 `PATH` から実行バイナリが探されます。
+- 実行時のカレントディレクトリは、その .mdf の置いてあるフォルダです。ファイル名等を引数で指定する場合は注意してください。
 
 {{<mdf>}}
-# Windows
+# example 1: full-path on Windows
 Plugin_AnyScript_Command=C:\Program Files\Python310\python.exe -u test.py
-# macOS/Linux
+# example 2: command on macOS/Linux
 Plugin_AnyScript_Command=python3 -u test.py
 {{</mdf>}}
 
