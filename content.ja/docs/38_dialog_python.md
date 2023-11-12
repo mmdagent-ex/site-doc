@@ -15,7 +15,9 @@ MMDAgent-EX は様々な外部プログラムと連係動作できます。こ�
 
 ## 準備
 
-「[音声対話をためす (fst)](../dialog-test-fst)」を実行した人は、.fst に対話の部分が入っていると二重になるので、以下の手順を始める前に消しておきましょう。`main.fst` から以下の冒頭部分だけ残して、あとは削除してください。
+マシンに Python の実行環境を用意してください。ここでは基本的な機能しか使わないのでバージョン等は問いません。
+
+また、「[音声対話をためす (fst)](../dialog-test-fst)」を実行した人は、.fst に対話の部分が入っていると二重になるので、以下の手順を始める前に該当部分を消しておきましょう。`main.fst` から以下の部分だけを残し、あとは削除してください。
 
 {{<fst>}}
 0 LOOP:
@@ -25,15 +27,49 @@ MMDAgent-EX は様々な外部プログラムと連係動作できます。こ�
     &lt;eps&gt; CAMERA|0,15.25,0|4.5,0,0|22.4|27.0
 {{</fst>}}
 
+## 事前テスト
+
+まずは確認のため、簡単な Python スクリプトを MMDAgent-EX に組み込むテストをしてみましょう。以下のプログラムを `example` の下に `test.py` として保存してください。これは "`TEST|aaa`" という文字列を1秒ごとに出力するプログラムです。
+
+```python
+#### example/test.py
+import time
+while(1):
+    print("TEST|aaa")
+    time.sleep(1)
+```
+
+念のためターミナル（あるいはコマンドプロンプト）で動作を確かめてみましょう。（停止するには `CTRL+C` を押します。）
+
+```shell
+% python example/test.py
+TEST|aaa
+TEST|aaa
+...
+```
+
+確認できたら、このプログラムを MMDAgent-EX のサブモジュールとして起動するよう設定します。`example/main.mdf` を開き、以下の1行を追加してください。（`python` の部分は自分の環境に合わせて適宜変更してください。）
+
+{{< mdf>}}
+Plugin_AnyScript_Command=python -u test.py
+{{< / mdf >}}
+
+ファイルを保存して、MMDAgent-EX を起動してください。起動後、ログに1秒おきに `TEST|aaa` が出力されれば接続成功です。次へ進んでください。うまく動かない場合は[詳しい説明](../submodule/)を参考にしてください。
+
+```shell
+./Release/MMDAgent-EX.exe ./example/main.mdf
+```
+
+
 ## テキスト対話プログラムの例
 
-以下は「こんにちは。」という入力に対して「よろしくお願いします！」を返す Python のサンプルプログラムです。
+以下は「こんにちは。」という入力に対して「よろしくお願いします！」を返す Python のサンプルプログラム `example/sample-dialog.py`です。
 
 - 関数 `generate_reponse` が、入力テキストに対して応答を返す対話のメインとなる関数です。現在は「こんにちは。」にだけ「よろしくお願いします！」と返し、それ以外は「わかりません。」と返すものになっています。
 - 入力無しで Enter だけ押すと終了します。
 
 ```python
-#### example/test.py
+#### example/sample-dialog.py
 # 応答を返す
 def generate_response(str):
     if str == "こんにちは。":
@@ -53,10 +89,10 @@ if __name__ == "__main__":
     main()
 ```
 
-これを `example` フォルダ以下に `test.py` として作成して、キーボードから適当な文を入力して動作を確かめてみましょう。
+これを `example` フォルダ以下に作成してください。キーボードから適当な文を入力して動作を確かめてみましょう。
 
 ```shell
-$ python example/test.py
+$ python example/sample-dialog.py
 何ですか？　　　　←キーボード入力
 わかりません。
 こんにちは。　　　←キーボード入力
@@ -65,19 +101,19 @@ $ python example/test.py
 
 ## MMDAgent-EX 向けに変更
 
-これを MMDAgent-EX のサブモジュールにしてみましょう。サブモジュールとして実行中、Pythonスクリプトの標準入出力と MMDAgent-EX のキューは以下のように接続されます。
+MMDAgent-EX のサブモジュールとして動作するとき、この Pythonスクリプトの標準入出力と MMDAgent-EX のキューは、以下のように接続されます。
 
-- MMDAgent-EX に流れる全てのメッセージが、このスクリプトの標準入力へ逐次入力されます。
-- 標準出力へ出したテキストは、そのまま MMDAgent-EX メッセージとして発行されます。
+- MMDAgent-EX に流れる全てのメッセージが、このスクリプトの標準入力へ逐次入力される
+- 標準出力へ出したテキストは、そのまま MMDAgent-EX メッセージとして発行される
 
-さきほどの `example/test.py` を以下のように変更してみます。
+メッセージのフォーマットに合わせて、さきほどの `example/sample-dialog.py` を以下のように変更してみます。
 
 - 入力メッセージに認識結果 (`RECOG_EVENT_STOP`) が含まれていたとき、そこから認識文を抽出
 - 応答を生成
 - 生成した応答テキストを音声合成メッセージ (`SYNTH_START`) として出力
 
 ```python
-#### example/test.py
+#### example/sample-dialog.py
 import re
 # 応答を返す
 def generate_response(str):
@@ -105,16 +141,16 @@ if __name__ == "__main__":
 
 ## サブモジュールとして実行
 
-このプログラムをサブモジュールとして起動します。`Plugin_AnyScript` を使います。.mdf に以下のように、サブモジュールとして起動するコマンドを記述します。
+このプログラムをサブモジュールとして起動してみましょう。.mdf に以下のように、サブモジュールとして起動するコマンドを記述します（さきほどのテストコマンドを上書きしてください）。
 
-パスの指定に注意してください。子プロセスのカレントディレクトリはその .mdf のあるディレクトリ（ここでは `./example`）になるので、ここでは `test.py` となります。
+パスの指定に注意してください。子プロセスのカレントディレクトリはその .mdf のあるディレクトリ（ここでは `./example`）になるので、ここでは `sample-dialog.py` となります。
 
 {{< hint warning >}}
 サブモジュールに Python を指定する場合、バッファリングが有効になっていると出力したメッセージがすぐに MMDAgent-EX に流れません。以下のように `-u` オプションを必ずつけて出力のバッファリングを無効化してください。
 {{< /hint >}}
 
 {{< mdf>}}
-Plugin_AnyScript_Command=python -u test.py
+Plugin_AnyScript_Command=python -u sample-dialog.py
 {{< / mdf >}}
 
 設定後に MMDAgent-EX を起動すれば、起動時に指定したプログラムが起動します。ためしに「こんにちは。」と話してみてください。
