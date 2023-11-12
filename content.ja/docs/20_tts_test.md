@@ -22,7 +22,7 @@ Example コンテンツの対話スクリプトは、起動語に数字の `1` �
 {{<fst>}}
 0 LOOP:
     &lt;eps&gt; STAGE|images/floor_green.png,images/back_white.png
-    &lt;eps&gt; MODEL_ADD|0|gene/gene.pmd
+    &lt;eps&gt; MODEL_ADD|0|gene/Gene.pmd
     MODEL_EVENT_ADD|0  MOTION_ADD|0|base|motions/wait/01_Wait.vmd|FULL|LOOP|ON|OFF
     &lt;eps&gt; CAMERA|0,15.25,0|4.5,0,0|22.4|27.0
 
