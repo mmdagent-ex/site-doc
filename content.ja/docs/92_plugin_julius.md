@@ -1,7 +1,8 @@
 ---
-title: Plugin_Juliusの音声認識設定の詳細
+title: 音声認識エンジンJuliusの設定
 slug: asr-setting
 ---
+# 音声認識エンジンJuliusの設定
 
 Plugin_Julius は音声認識エンジン Julius を用いた音声認識機能を提供するプラグインです。コンパクトな動作が特徴です。以下、このプラグインのための設定項目やメッセージ、使い方等を解説します。
 

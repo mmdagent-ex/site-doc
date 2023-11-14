@@ -2,6 +2,7 @@
 title: オリジナルのMMDAgentからの変更点
 slug: changes-since-original-mmdagent
 ---
+# オリジナルの MMDAgent からの変更点
 
 MMDAgent から MMDAgent-EX の主な変更点をまとめます。
 
@@ -17,6 +18,8 @@ MMDAgent から MMDAgent-EX の主な変更点をまとめます。
 - `Shift+C`: カメラリセット
 
 ### FST拡張
+
+互換性あり: MMDAgent 用の .fst もそのまま利用可能
 
 - ブロック定義
 - 正規表現

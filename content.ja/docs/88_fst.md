@@ -2,6 +2,7 @@
 title: FST書式
 slug: fst-format
 ---
+# FST の書式
 
 ## はじめに
 

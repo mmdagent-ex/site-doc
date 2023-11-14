@@ -2,6 +2,7 @@
 title: メッセージ一覧
 slug: messages
 ---
+# メッセージ一覧
 
 ## 概要
 

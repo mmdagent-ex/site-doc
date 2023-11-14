@@ -50,11 +50,11 @@ headless: true
 - **リファレンス**
 - [キー・マウス操作一覧]({{< relref "/docs/80_keybinds" >}})
 - [環境変数一覧]({{< relref "/docs/81_environmental_variables" >}})
-- [mdfパラメータ一覧]({{< relref "/docs/85_mdf" >}})
+- [mdf 設定項目一覧]({{< relref "/docs/85_mdf" >}})
 - [メッセージ一覧]({{< relref "/docs/86_messages" >}})
-- [FSTの書式解説]({{< relref "/docs/88_fst" >}})
+- [FST の書式解説]({{< relref "/docs/88_fst" >}})
 - [音声認識エンジンの設定]({{< relref "/docs/92_plugin_julius" >}})
-- [PACKAGE_DESC.txt書式]({{< relref "/docs/95_package_desc" >}})
+- [PACKAGE_DESC.txt 書式]({{< relref "/docs/95_package_desc" >}})
 - [(仮)特別な外部操作]({{< relref "/docs/90_plugin_remote" >}})
 - [オリジナルとの違い]({{< relref "/docs/99_changes" >}})
 <br />

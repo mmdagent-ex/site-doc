@@ -1,7 +1,8 @@
 ---
-title: mdfパラメータ一覧
+title: mdf設定項目一覧
 slug: mdf
 ---
+# .mdf で設定可能なパラメータの一覧
 
 ## しくみ
 
