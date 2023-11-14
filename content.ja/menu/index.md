@@ -19,7 +19,7 @@ headless: true
 <br />
 
 - **コンテンツ作成**
-- [.mdfでパラメータを設定する]({{< relref "/docs/41_mdf_basic" >}})
+- [パラメータを設定する]({{< relref "/docs/41_mdf_basic" >}})
 - [3Dモデルを表示する]({{< relref "/docs/43_3dmodel" >}})
   - [PMXモデル]({{< relref "/docs/45_pmx" >}})
   - [エフェクト]({{< relref "/docs/46_effect" >}})
@@ -27,12 +27,15 @@ headless: true
   - [モーションの再生]({{< relref "/docs/48_motion_play" >}})
   - [モーションの重ね]({{< relref "/docs/49_motion_layer" >}})
   - [モーションのブレンド]({{< relref "/docs/50_motion_blend" >}})
-  - [メッセージで直接指定]({{< relref "/docs/52_motion_bind" >}})
+  - [数値で直接指定]({{< relref "/docs/52_motion_bind" >}})
   - [タイマーを活用する]({{< relref "/docs/54_timer" >}})
-- [視点（カメラ）を制御する]({{< relref "/docs/55_camera" >}})
-- [サウンドを再生する]({{< relref "/docs/58_sound" >}})
-- [画像やテキストを表示する]({{< relref "/docs/60_text_image" >}})
-- [背景・床・フレームを設定する]({{< relref "/docs/62_scene" >}})
+- [視点（カメラ）]({{< relref "/docs/55_camera" >}})
+- [背景・床・フレーム]({{< relref "/docs/62_scene" >}})
+- 多様なインタラクション
+  - [サウンド再生]({{< relref "/docs/58_sound" >}})
+  - [画像・テキスト提示]({{< relref "/docs/60_text_image" >}})
+  - [プロンプトによる応答]({{< relref "/docs/61_text_prompt" >}})
+  - [ドキュメント表示]({{< relref "/docs/63_text_document" >}})
 - [メニューを定義する]({{< relref "/docs/64_menu" >}})
 - [ボタンを定義する]({{< relref "/docs/65_buttons" >}})
 - [Webでコンテンツを配信する]({{< relref "/docs/68_web" >}})
