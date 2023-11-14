@@ -199,8 +199,6 @@ XXX YYY:
 
 ## %INCLUDE
 
-(MS版のみ)
-
 .fst 内で
 
 {{<fst>}}

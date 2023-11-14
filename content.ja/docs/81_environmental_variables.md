@@ -25,23 +25,6 @@ play -q file.mp3
 コンテンツフォルダはダウンロードしたコンテンツや履歴情報などを保存するワークエリアで、デフォルトではデスクトップ直下の "MMDAgent-Contents"だが、
 環境変数 `MMDAgentContentDir` でその場所を別の場所に指定できる。
 
-### Python 指定
-
-`MMDAGENT_MSASR_PYTHON` で msasr 起動用の Python パスを指定する。
-
-### 音声入力デバイス指定（MS版音声認識モジュール msasr）
-
-MS版音声認識モジュール用の音声入力デバイスを指定できる。デバイス番号と名前の一覧は `list_audio_capture_devices.py` を実行することでチェックできる。指定しない場合のデフォルトはシステムの既定デバイス。
-
-- `MMDAGENT_MSASR_MIC_DEVICE_NAME`: 音声入力デバイスを名前で指定。指定された文字列を含むデバイスで最初に見つかったものが選択される。
-- `MMDAGENT_MSASR_MIC_DEVICE_ID`: 音声入力デバイスをIDで指定。
-
-音声入力デバイスを決定するアルゴリズムは以下のとおり。
-
-1. `MMDAGENT_MSASR_MIC_DEVICE_NAME` が定義されていればその名前を含むデバイスを探す。デバイスが見つかれば、それに決定。
-2. 上記が未定義あるいはそれを含むデバイス名が見つからない場合、`MMDAGENT_MSASR_MIC_DEVICE_ID` をチェック。指定されていればそれに決定。
-3. 上記も失敗する場合はシステムの規定デバイスに決定。
-
 ### Webカメラの起動を高速に
 
 環境変数 `OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS` を `0` に指定することで、Webカメラの起動が早くなる。

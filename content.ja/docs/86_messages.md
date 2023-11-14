@@ -677,16 +677,6 @@ RECOG_EVENT_START
 RECOG_EVENT_STOP|認識結果の文字列
 {{</message>}}
 
-### MS版音声認識モジュール（msasr）
-
-MSASR_DEACTIVATE で実行中の音声認識モジュールを一時停止。MSASR_ACTIVATE で再開。
-一時停止中の入力音声は無視される。
-
-{{<message>}}
-MSASR_DEACTIVATE
-MSASR_ACTIVATE
-{{</message>}}
-
 ### Plugin_Julius
 
 **RECOG_EVENT_OVERFLOW**
