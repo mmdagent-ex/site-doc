@@ -19,10 +19,10 @@ Plugin_Julius は音声認識エンジン Julius を用いた音声認識機能�
 - dnn, en
 - gmm, ja
 
-```text
+{{<mdf>}}
 Plugin_Julius_conf=dnn
 Plugin_Julius_lang=en
-```
+{{</mdf>}}
 
 **Plugin_Julius_wordspacing**
 
@@ -32,25 +32,25 @@ Plugin_Julius_lang=en
 - `yes`: 単語間に空白を入れる（`ja` 以外のデフォルト）
 - `comma`: 単語間にカンマを入れる（旧MMDAgentと互換）
 
-```text
+{{<mdf>}}
 Plugin_Julius_wordspacing=yes
-```
+{{</mdf>}}
 
 **Plugin_Julius_logfile**
 
 Julius エンジンの内部ログをファイルに出力させる。
 
-```text
+{{<mdf>}}
 Plugin_Julius_logfile=log.txt
-```
+{{</mdf>}}
 
 **show_caption**
 
 字幕を表示する。画面左側に音声認識結果が、右側に音声合成内容（**SYNTH_START** で与えられた文章）がそれぞれ表示される。
 
-```txt
+{{<mdf>}}
 show_caption=true
-```
+{{</mdf>}}
 
 ## イベントメッセージ
 
@@ -58,53 +58,53 @@ show_caption=true
 
 音声入力を検知したときに出力。
 
-```text
+{{<message>}}
 RECOG_EVENT_START
-```
+{{</message>}}
 
 **RECOG_EVENT_STOP**
 
 認識結果が得られたときに出力。
 
-```text
+{{<message>}}
 RECOG_EVENT_STOP|認識結果の文章
-```
+{{</message>}}
 
 **RECOG_EVENT_OVERFLOW**
 
 入力音のレベルが大きすぎてオーバーフローを起こしたときに出力。
 
-```text
+{{<message>}}
 RECOG_EVENT_OVERFLOW
-```
+{{</message>}}
 
 **RECOG_EVENT_MODIFY**
 
 RECOG_MODIFY メッセージの処理が完了したときに出力。
 
-```text
+{{<message>}}
 RECOG_EVENT_MODIFY|GAIN
 RECOG_EVENT_MODIFY|USERDICT_SET
 RECOG_EVENT_MODIFY|USERDICT_UNSET
 RECOG_EVENT_MODIFY|CHANGE_CONF|(jconf_file_prefix)
-```
+{{</message>}}
 
 **RECOG_EVENT_AWAY**
 
 メニュー操作や外部制御等によって音声認識を一時中断(ON)あるいは再開(OFF)したときに出力。
 
-```text
+{{<message>}}
 RECOG_EVENT_AWAY|ON
 RECOG_EVENT_AWAY|OFF
-```
+{{</message>}}
 
 **RECOG_EVENT_GMM**
 
 Juliusの環境音識別機能を用いているときの識別結果タグの出力。
 
-```text
+{{<message>}}
 RECOG_EVENT_GMM|noise
-```
+{{</message>}}
 
 ## コマンドメッセージ
 
@@ -117,28 +117,28 @@ RECOG_EVENT_GMM|noise
 - `USERDICT_UNSET`: ユーザ辞書を削除
 - `CHANGE_CONF`: 指定した jconf 設定ファイルでエンジンを再起動
 
-```text
+{{<message>}}
 RECOG_EVENT_MODIFY|GAIN|(scale)
 RECOG_EVENT_MODIFY|USERDICT_SET|(dict_file_path)
 RECOG_EVENT_MODIFY|USERDICT_UNSET
 RECOG_EVENT_MODIFY|CHANGE_CONF|(jconf_file_prefix)
-```
+{{</message>}}
 
 **RECOG_RECORD_START**
 
 入力音声の自動録音を開始。切り出された音声断片が、指定したディレクトリ内に個別の .wav ファイルとして逐次保存される。
 
-```text
+{{<message>}}
 RECOG_RECORD_START|(directory)
-```
+{{</message>}}
 
 **RECOG_RECORD_STOP**
 
 入力音声の自動録音を停止。
 
-```text
+{{<message>}}
 RECOG_RECORD_STOP
-```
+{{</message>}}
 
 ## オーディオ入力状態の連携
 

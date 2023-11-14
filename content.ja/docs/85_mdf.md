@@ -26,18 +26,18 @@ slug: mdf
 
 ログをファイルに出力する。デフォルトは空白（＝出力しない）。
 
-```text
+{{<mdf>}}
 log_file=
-```
+{{</mdf>}}
 
 ## プラグイン
 
 プラグインの有効・無効を指定。
 
-```text
+{{<mdf>}}
 disablePlugin=ALL
 enablePlugin=Audio,VIManager
-```
+{{</mdf>}}
 
 右辺の値は、以下の文字列が指定可能
 
@@ -49,22 +49,22 @@ enablePlugin=Audio,VIManager
 
 例１：プラグイン `A`, `B`, `C` のみ有効でそれ以外は無効にする場合：
 
-```text
+{{<mdf>}}
 enablePlugin=A,B,C
 disablePlugin=ALL
-```
+{{</mdf>}}
 
 例２：プラグイン `D`, `E` を無効にしてそれ以外は有効にする場合：
 
-```text
+{{<mdf>}}
 disablePlugin=D,E
-```
+{{</mdf>}}
 
 ※ 以下の旧バージョンでの書き方（無効にするプラグインを1つずつ指定）も使える
 
-```text
+{{<mdf>}}
 exclude_Plugin_Audio=yes
-```
+{{</mdf>}}
 
 ## ネットワーク
 
@@ -76,37 +76,37 @@ exclude_Plugin_Audio=yes
 
 WebSocket の接続先のホスト名・ポート番号・パスを指定
 
-```text
+{{<mdf>}}
 Plugin_Remote_Websocket_Host=localhost
 Plugin_Remote_Websocket_Port=9000
 Plugin_Remote_Websocket_Directory=/chat
-```
+{{</mdf>}}
 
 ### TCP/IP サーバ
 
 TCP/IP クライアントになってサーバへ接続する場合
 
-```text
+{{<mdf>}}
 Plugin_Remote_EnableClient=true
 Plugin_Remote_Hostname=localhost
 Plugin_Remote_Port=60001
-```
+{{</mdf>}}
 
 TCP/IP サーバになる場合
 
-```text
+{{<mdf>}}
 Plugin_Remote_EnableServer=true
 Plugin_Remote_ListenPort=60001
-```
+{{</mdf>}}
 
 
 ### 共通の設定
 
 接続失敗時に自動リトライする回数を指定（デフォルトは 0）
 
-```text
+{{<mdf>}}
 Plugin_Remote_RetryCount=60
-```
+{{</mdf>}}
 
 
 
@@ -114,116 +114,116 @@ Plugin_Remote_RetryCount=60
 
 ウィンドウの初期サイズ（横,縦）
 
-```text
+{{<mdf>}}
 window_size=600,600
-```
+{{</mdf>}}
 
 起動時にフルスクリーンにする（`F`キーで起動後に切り替え可能）
 
-```text
+{{<mdf>}}
 full_screen=false
-```
+{{</mdf>}}
 
 起動時に左上の動作状態を表示（`S`キーで起動後に切り替え可能）
 
-```text
+{{<mdf>}}
 show_fps=true
-```
+{{</mdf>}}
 
 ## 3-Dモデル
 
 いちどに表示するモデルの最大数。最小は1、最大は1024。
 
-```text
+{{<mdf>}}
 max_num_model=10
-```
+{{</mdf>}}
 
 トゥーンエッジの太さ（`K`, `Shift+K` で起動後に変更可能）
 
 ![bold edge](/images/edge1.png)
 ![thin edge](/images/edge2.png)
 
-```text
+{{<mdf>}}
 cartoon_edge_width=0.35
-```
+{{</mdf>}}
 
 スキニングに使用する並列スレッド数。通常はデフォルトの1で問題ないが、頂点数の多い巨大なモデルでレンダリングが遅くなってしまう場合は `2` や `4` を指定する。メッセージであとで変更できる。
 
-```text
+{{<mdf>}}
 parallel_skinning_numthreads=1
-```
+{{</mdf>}}
 
 
 ## 視点（カメラ）
 
 初期カメラパラメータ。上から順に位置、回転量(度)、カメラ距離、視野角(度)。
 
-```text
+{{<mdf>}}
 camera_transition=0.0,13.0,0.0
 camera_rotation=0.0,0.0,0.0
 camera_distance=100.0
 camera_fovy=16.0
-```
+{{</mdf>}}
 
 ## CG描画
 
 アンチエイリアス (MSAA) 強度。大きいほど線が滑らかに表示されるが重くなる。0で機能をOFFにする。設定可能な最大値は 32。
 
-```text
+{{<mdf>}}
 max_multi_sampling=4
-```
+{{</mdf>}}
 
 背景画像と床画像の3D空間での大きさ。パラメータ(x,y,z)は x=幅の半分, y=背景の高さ, z=床の奥行。
 
 ![stage image](/images/stage.png)
 
-```text
+{{<mdf>}}
 stage_size=25.0,25.0,40.0
-```
+{{</mdf>}}
 
 キャンパスカラー（空間背景色） (R,G,B)
 
-```text
+{{<mdf>}}
 campus_color=0.0,0.0,0.2
-```
+{{</mdf>}}
 
 光源の到来方向 (x,y,z,w), 強さ (0.0～1.0)、色 (R,G,B) 。到来方向と色は起動後にメッセージでも変更可能。
 
-```text
+{{<mdf>}}
 light_direction=0.5,1.0,0.5,0.0
 light_intensity=0.6
 light_color=1.0,1.0,1.0
-```
+{{</mdf>}}
 
 ディフュージョンフィルター： `diffusion_postfilter=true` で有効化
 
 ※ Windows, Linux のみ　macOS では利用不可
 
-```text
+{{<mdf>}}
 diffusion_postfilter=false
 diffusion_postfilter_intensity=0.6
 diffusion_postfilter_scale=1.0
-```
+{{</mdf>}}
 
 ## 影
 
 起動時の影表示の初期設定（`Shift+S` で起動後に切り替え可能）
 
-```text
+{{<mdf>}}
 use_shadow=true
-```
+{{</mdf>}}
 
 起動時にシャドウマッピングをONにする（`X` で起動後に切り替え可能）
 
-```text
+{{<mdf>}}
 use_shadow_mapping=false
-```
+{{</mdf>}}
 
 Doppel Shadow エフェクトのON/OFF（デフォルトはOFF）とパラメータ
 
 ![doppel_shadow](/images/doppel_shadow.png)
 
-```text
+{{<mdf>}}
 # doppel shadow を on
 doppel_shadow=true
 # 二重影の色
@@ -232,43 +232,43 @@ doppel_shadow_color=r,g,b
 doppel_shadow_offset=x,y,z
 # 影の濃さ（デフォルト 0.5）
 shadow_density=0.5
-```
+{{</mdf>}}
 
 ## 物理演算
 
 物理演算のシミュレーション解像度(fps)。30, 60, 120 が指定可能。値を小さくすると
 処理が軽くなるが、剛体の抜けが生じやすくなる。
 
-```text
+{{<mdf>}}
 bullet_fps=120
-```
+{{</mdf>}}
 
 ## 外部操作
 
 外部操作中のリップシンクをリモート音声からマイク入力に切りかえる（`yes` 指定時）
 
-```text
+{{<mdf>}}
 Plugin_Remote_EnableLocalLipsync=no
-```
+{{</mdf>}}
 
 上記が `yes` のとき、さらに以下を `yes` を指定するとマイク入力を音声出力へパススルーする
 
-```text
+{{<mdf>}}
 Plugin_Remote_EnableLocalPassthrough=no
-```
+{{</mdf>}}
 
 リップシンクの音声を指定ディレクトリ以下に発話単位で録音する。録音時間の上限を分で指定可能（デフォルト: 120分）
 
-```text
+{{<mdf>}}
 Plugin_Remote_Record_Wave_Dir=directory
 Plugin_Remote_Record_Wave_Limit=120
-```
+{{</mdf>}}
 
 **MOTIONCAPTURE_START** メッセージでモーションを保存する際の最大持続時間（単位：分）
 
-```text
+{{<mdf>}}
 motion_capture_max_minutes=10
-```
+{{</mdf>}}
 
 ## 音声認識
 
@@ -284,10 +284,10 @@ motion_capture_max_minutes=10
 - dnn, en
 - gmm, ja
 
-```text
+{{<mdf>}}
 Plugin_Julius_conf=dnn
 Plugin_Julius_lang=en
-```
+{{</mdf>}}
 
 **Plugin_Julius_wordspacing**
 
@@ -297,25 +297,25 @@ Plugin_Julius_lang=en
 - `yes`: 単語間に空白を入れる（`ja` 以外のデフォルト）
 - `comma`: 単語間にカンマを入れる（旧MMDAgentと互換）
 
-```text
+{{<mdf>}}
 Plugin_Julius_wordspacing=yes
-```
+{{</mdf>}}
 
 **Plugin_Julius_logfile**
 
 Julius エンジンの内部ログをファイルに出力させる。
 
-```text
+{{<mdf>}}
 Plugin_Julius_logfile=log.txt
-```
+{{</mdf>}}
 
 **show_caption**
 
 字幕を表示する。画面左側に音声認識結果が、右側に音声合成内容（**SYNTH_START** で与えられた文章）がそれぞれ表示される。
 
-```txt
+{{<mdf>}}
 show_caption=true
-```
+{{</mdf>}}
 
 ## その他の調整項目
 
@@ -323,105 +323,104 @@ show_caption=true
 
 カートゥーンレンダリングを使用
 
-```text
+{{<mdf>}}
 use_cartoon_rendering=true
-```
+{{</mdf>}}
 
 MMD互換の色付けを使う
 
-```text
+{{<mdf>}}
 use_mmd_like_cartoon=true
-```
+{{</mdf>}}
 
 被選択モデルのエッジ色 (R,G,B,A、値は 0.0～1.0)
 
-```text
+{{<mdf>}}
 cartoon_edge_selected_color=1.0,0.0,0.0,1.0
-```
+{{</mdf>}}
 
 物理演算で y = 0 に床平面を入れるかどうか。
 
-```text
+{{<mdf>}}
 bullet_floor=true
-```
+{{</mdf>}}
 
 重力係数
 
-```test
+{{<mdf>}}test
 gravity_factor=10.0
-```
+{{</mdf>}}
 
 モデルの内部コメントをロード時に表示する長さ（秒）。0で表示しない。
 
-```text
+{{<mdf>}}
 display_comment_time=0
-```
+{{</mdf>}}
 
 シャドウマッピング用テクスチャの一辺のサイズ
 
-```text
+{{<mdf>}}
 shadow_mapping_texture_size=1024
-``````
+{{</mdf>}}
 
 シャドウマッピング時にモデルに落とす影の濃さ
 
-```text
+{{<mdf>}}
 shadow_mapping_self_density=1.0
-``````
+{{</mdf>}}
 
 シャドウマッピング時に床に落とす影の濃さ
 
-```text
+{{<mdf>}}
 shadow_mapping_floor_density=0.5
-``````
-
+{{</mdf>}}
 シャドウマッピングのレンダリング順：true で明→暗、false で暗→明の順
 
-```text
+{{<mdf>}}
 shadow_mapping_light_first=true
-```
+{{</mdf>}}
 
 ### 表示関連
 
 ボタン定義時、ボタンを起動時に画面に表示（`Q`キーで起動後に切り替え可能）
 
-```text
+{{<mdf>}}
 show_button=true
-```
+{{</mdf>}}
 
 簡易ログ表示位置（サイズ・位置・スケール）
 
-```text
+{{<mdf>}}
 log_size=80,30
 log_position=-17.5,3.0,-20.0
 log_scale=1.0
-```
+{{</mdf>}}
 
 モーション再生タイミング微調整（単位：秒、最大値 10.0）
 
-```text
+{{<mdf>}}
 motion_adjust_time=0.0
-```
+{{</mdf>}}
 
 自動リップシンクで生成されるリップモーションの再生時の優先度
 
-```text
+{{<mdf>}}
 lipsync_priority=100.0
-```
+{{</mdf>}}
 
 ### ユーザインタフェース関連
 
 キー・マウス操作時の感度調整：カメラ回転・カメラ移動・距離・視野角
 
-```text
+{{<mdf>}}
 rotate_step=4.5
 translate_step=0.5
 distance_step=4.0
 fovy_step=1.0
-```
+{{</mdf>}}
 
 `K`, `Shift+K` キーでエッジの太さを変更する際のステップ倍数
 
-```text
+{{<mdf>}}
 cartoon_edge_step=1.2
-```
+{{</mdf>}}

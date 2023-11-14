@@ -36,7 +36,7 @@ https://marketplace.visualstudio.com/items?itemName=MMDAgent-EX.dialogue-fst-edi
 
 `<eps>` は FST における空語を表す。すなわち、条件フィールドに `<eps>` がある場合、それは常にTRUEとなり、その行は入力を待たずに次へ進む。また、出力フィールドに `<eps>` がある場合、そこでは何も出力せずに進む。
 
-```text
+{{<fst>}}
 # initial values
 ${agentPMD}="Agents/mai/mai.pmd"
 ${camera_default}="1.7,12.7,0.0|0.0,0.0,0.0|44|16|1"
@@ -60,7 +60,7 @@ MAINLOOP MAINLOOP:
 
 MAINLOOP MAINLOOP:
   KEY|0 AVATAR_LOGSAVE_STOP
-```
+{{</fst>}}
 
 ## 基本書式
 
@@ -70,7 +70,7 @@ MAINLOOP MAINLOOP:
 
 各フィールドは空白もしくはタブで区切る。パス名等で空白を含む値を指定するときは `""` あるいは `''` を使う。
 
-```text
+{{<fst>}}
 name1 name2:
     input_message1 output_message2
     input_message2 output_message2
@@ -78,7 +78,7 @@ name1 name2:
 
 name2 name3:
     ...
-```
+{{</fst>}}
 
 ## 遷移の記述の詳細
 
@@ -88,14 +88,14 @@ name2 name3:
 
 同じ状態名で始まる複数のブロックを定義した場合、.fst ファイル上で先に定義されたほうから評価される。つまり、以下のような例でもし入力が `input_message1` と `input_message1` の両方にマッチしたときは上側が優先される。
 
-```text
+{{<fst>}}
 name1 name2:
     input_message1 output_message1
 
 name1 name3:
     input_message2 output_message2
     ...
-```
+{{</fst>}}
 
 ## ローカル変数
 
@@ -103,52 +103,52 @@ name1 name3:
 
 .fst ファイルの最初の部分（最初の状態定義より前）で初期値を指定できる。
 
-```text
+{{<fst>}}
 ${agentPMD}="Agents/mai/mai.pmd"
 ${camera_default}="1.7,12.7,0.0|0.0,0.0,0.0|44|16|1"
-```
+{{</fst>}}
 
 条件フィールドと出力フィールドにおいてローカル変数を参照できる。`${変数名}` と書くことで、その部分を実行時に（評価される瞬間に）その時点でのそのローカル変数の値に入れ替えて、評価や実行が行われる。
 
-```text
+{{<fst>}}
 XXX YYY:
     <eps> MODEL_ADD|mei|${agentPMD}
-```
+{{</fst>}}
 
 条件フィールドで、ローカル変数の値を遷移の条件とすることが可能。文字列として一致するかどうかだけ行える。比較演算子は `==` と `!=` のみ。
 
-```text
+{{<fst>}}
 XXX YYY:
     ${flag}==xxx  MODEL_ADD|mei|...
 
 WWW ZZZ:
     ${flag}!=yyy  MODEL_ADD|mei|...
-```
+{{</fst>}}
 
 実行時の値の変更や代入は各遷移の末尾に追加のフィールドとして記述する。変数どうしを参照することも可能。
 
-```text
+{{<fst>}}
 XXX YYY:
   <eps>            <eps>  ${place}=Nagoya
 
 ZZZ QQQ:
   MODEL_ADD|mei|.. <eps>  ${value}=${src}/${dst}
-```
+{{</fst>}}
 
 複数の値を一度に代入することも可能。
 
-```text
+{{<fst>}}
 XXX YYY:
   <eps>  <eps>  ${src}=Nara,${dst}=Tokyo,${pref}=nozomi
-```
+{{</fst>}}
 
 `${%グローバル変数名}` とすることでグローバル変数をローカル変数として扱ったり取得することができる。
 
 
-```text
+{{<fst>}}
 XXX YYY:
   <eps>            <eps>  ${place}=${%KeyName}
-```
+{{</fst>}}
 
 
 ## 条件フィールドの書き方
@@ -161,13 +161,13 @@ XXX YYY:
 
 ローカル変数の値を遷移条件にできる。この条件は入力メッセージには依存せず、与えられた式の評価がTRUEの場合に遷移が起こる。比較演算子は `==` と `!=` のみ。
 
-```text
+{{<fst>}}
 XXX YYY:
     ${flag}==xxx  MODEL_ADD|mei|...
 
 WWW ZZZ:
     ${flag}!=yyy  MODEL_ADD|mei|...
-```
+{{</fst>}}
 
 式の評価は、その状態に遷移した直後の1回のみである点に注意。式が成立するかどうかは状態に遷移してきた直後にのみ評価され、状態滞在中に式が成立しても反応しない。
 
@@ -175,27 +175,27 @@ WWW ZZZ:
 
 正規表現によるテキストマッチングを使える。書き方は、条件フィールド全体を `@` でくくる。以下は認識結果 (`RECOG_EVENT_STOP`) に `Station` もしくは `station` を含むメッセージが到来したときに条件マッチする遷移の記述例である。
 
-```text
+{{<fst>}}
 XXX YYY:
     @RECOG_EVENT_STOP\|.*[Ss]tation.*@  <eps>
-```
+{{</fst>}}
 
 `@` で囲まれた範囲は正規文法エンジンにそのまま投げられるので、例のように `|` は `\|` とする必要がある等、注意せよ。正規表現ライブラリは [Google RE2](https://github.com/google/re2) を利用している。書式は[Googleのドキュメント](https://support.google.com/a/answer/1371417?hl=ja)等を参考にすること。
 
 部分マッチではなくフルマッチである点に注意せよ。以下のように一部だけひっかかる正規表現ではマッチしない。メッセージ全体がマッチするように正規表現を書く。
 
-```text
+{{<fst>}}
 # だめな例
 XXX YYY:
     @[Ss]tation@  <eps>
-```
+{{</fst>}}
 
 正規表現を評価したあと、括弧でくくられたサブマッチ範囲がローカル変数 `${1}`, `${2}` 等に自動代入される。これを用いてマッチした部分をローカル変数に取り出すことができる。例えば、以下は `MOTION_EVENT_ADD` メッセージからモデルエイリアス名とモーションエイリアス名を `${model}`, `${motion}` に取り出す場合の例。
 
-```text
+{{<fst>}}
 XXX YYY:
     @MOTION_EVENT_ADD\|(.*)\|(.*)@ <eps> ${model}=${1},${motion}=${2}
-```
+{{</fst>}}
 
 ## %INCLUDE
 
@@ -203,9 +203,9 @@ XXX YYY:
 
 .fst 内で
 
-```text
+{{<fst>}}
 %INCLUDE("ファイル名.fst")
-```
+{{</fst>}}
 
 のようにすることで、指定されたファイルをその場所にインクルードできる。
 
