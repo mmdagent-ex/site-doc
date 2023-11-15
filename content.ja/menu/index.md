@@ -20,6 +20,7 @@ headless: true
 <br />
 
 - **コンテンツ作成**
+- [Webブラウザで試す]({{< relref "/docs/40_test_message" >}})
 - [パラメータを設定する]({{< relref "/docs/41_mdf_basic" >}})
 - [3Dモデルを表示する]({{< relref "/docs/43_3dmodel" >}})
   - [PMXモデル]({{< relref "/docs/45_pmx" >}})
