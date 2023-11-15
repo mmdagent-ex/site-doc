@@ -21,10 +21,10 @@ MMDAgent-EX は様々な外部プログラムと連係動作できます。こ�
 
 {{<fst>}}
 0 LOOP:
-    &lt;eps&gt; STAGE|images/floor_green.png,images/back_white.png
-    &lt;eps&gt; MODEL_ADD|0|gene/Gene.pmd
+    <eps> STAGE|images/floor_green.png,images/back_white.png
+    <eps> MODEL_ADD|0|gene/Gene.pmd
     MODEL_EVENT_ADD|0  MOTION_ADD|0|base|motions/wait/01_Wait.vmd|FULL|LOOP|ON|OFF
-    &lt;eps&gt; CAMERA|0,15.25,0|4.5,0,0|22.4|27.0
+    <eps> CAMERA|0,15.25,0|4.5,0,0|22.4|27.0
 {{</fst>}}
 
 ## 事前テスト

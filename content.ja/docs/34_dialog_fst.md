@@ -35,7 +35,7 @@ LOOP LOOP:
 {{<fst>}}
 LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
-    <b>&lt;eps&gt; MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE</b>
+    <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE</b>
 {{</fst>}}
 
 `.fst` を保存して試して見ましょう。MMDAgent-EX を閉じてもう一度起動するか、あるいは `Shift+r` キーでリロードします。もういちど「こんにちは」と話しかけ、応答しながら笑顔になることを確かめてください。
@@ -47,8 +47,8 @@ LOOP LOOP:
 {{<fst>}}
 LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
-    <b>&lt;eps&gt; MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE</b>
-    &lt;eps&gt; MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
+    <eps> MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE</b>
+    <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{</fst>}}
 
 保存してリロードしたら話しかけて、笑顔になりながらお辞儀を行うのを確かめてください。
@@ -71,18 +71,18 @@ LOOP LOOP:
 
 {{<fst>}}
 0 LOOP:
-    &lt;eps&gt; STAGE|images/floor_green.png,images/back_white.png
-    &lt;eps&gt; MODEL_ADD|0|gene/Gene.pmd
+    <eps> STAGE|images/floor_green.png,images/back_white.png
+    <eps> MODEL_ADD|0|gene/Gene.pmd
     MODEL_EVENT_ADD|0  MOTION_ADD|0|base|motions/wait/01_Wait.vmd|FULL|LOOP|ON|OFF
-    &lt;eps&gt; CAMERA|0,15.25,0|4.5,0,0|22.4|27.0
+    <eps> CAMERA|0,15.25,0|4.5,0,0|22.4|27.0
 
 LOOP LOOP:
     KEY|1 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
 
 LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
-    &lt;eps&gt; MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
-    &lt;eps&gt; MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
+    <eps> MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
+    <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{< / fst>}}
 
 MMDAgent-EXでは命令コマンドやイベント通知をすべてメッセージングで行なっています。.fst では、条件を満たすメッセージが来るまで待機（ブロック）し、条件を満たすメッセージが来たら対応するメッセージを発行して次の行に移動する、というのが基本的な仕組みです。同じ状態名から始まるブロックが複数ある場合、条件を先に満たしたブロックが実行されます。また、"`<eps>`" は「指定なし」を表し、条件部では何も待たずに即座にメッセージを発行して次へ行く、という表記です。
@@ -104,9 +104,9 @@ VS Code で .fst の編集を助けるための [VS Code 用の .fst ファイ�
 {{<fst>}}
 LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
-    <b>+RECOG_EVENT_STOP|ハロー。</b>
-    &lt;eps&gt; MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
-    &lt;eps&gt; MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
+    +RECOG_EVENT_STOP|ハロー。</b>
+    <eps> MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
+    <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{< / fst>}}
 
 このように "`+`" に続いて条件項だけを書くことで、その直前の行の条件に、OR で条件を追加することができます。どちらにマッチしても最初の行のメッセージ項目（例では `SYNTH_START`）が実行され、次の行に移動します。
@@ -116,9 +116,9 @@ LOOP LOOP:
 {{<fst>}}
 LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
-    <b>+RECOG_EVENT_STOP|ハロー。 SYNTH_START|0|mei_voice_normal|ハロー、ありがとうございます！</b>
-    &lt;eps&gt; MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
-    &lt;eps&gt; MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
+    +RECOG_EVENT_STOP|ハロー。 SYNTH_START|0|mei_voice_normal|ハロー、ありがとうございます！</b>
+    <eps> MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
+    <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{< / fst>}}
 
 "`+`" 行は複数個書くことができます。以下は「こんにちは」「ハロー」に加えて「ボンジュール」と言った場合にも同じ応答を返すよう拡張した例です。
@@ -128,8 +128,8 @@ LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
     +RECOG_EVENT_STOP|ハロー。
     +RECOG_EVENT_STOP|ボンジュール。
-    &lt;eps&gt; MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
-    &lt;eps&gt; MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
+    <eps> MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
+    <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{< / fst>}}
 
 完全に別の処理としたい場合は個別のブロックに分けるとよいでしょう。以下は「こんにちは」はそのままで、「ハロー」というと「ハロー、ありがとうございます！」と言いながら手を振るようにしたものです。同じ状態から始まるブロックを定義することで、各ブロックの１行目の条件でどのブロックが動作するかが分かれます。
@@ -137,13 +137,13 @@ LOOP LOOP:
 {{<fst>}}
 LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
-    &lt;eps&gt; MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
-    &lt;eps&gt; MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
+    <eps> MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
+    <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 
 LOOP LOOP:
     RECOG_EVENT_STOP|ハロー。 SYNTH_START|0|mei_voice_normal|ハロー、ありがとうございます！
-    &lt;eps&gt; MOTION_ADD|0|action|motions/action/wavehands.vmd|FULL|ONCE
-    &lt;eps&gt; MOTION_ADD|0|emote|gene/motion/10_impressed.vmd|PART|ONCE
+    <eps> MOTION_ADD|0|action|motions/action/wavehands.vmd|FULL|ONCE
+    <eps> MOTION_ADD|0|emote|gene/motion/10_impressed.vmd|PART|ONCE
 {{< / fst>}}
 
 ### 連続した動作
@@ -158,9 +158,9 @@ LOOP LOOP:
 {{<fst>}}
 LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！
-    &lt;eps&gt; MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
-    <b>MOTION_EVENT_STOP|0|action</b> SYNTH_START|0|mei_voice_happy|よろしくね！
-    &lt;eps&gt; MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
+    <eps> MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
+    MOTION_EVENT_STOP|0|action</b> SYNTH_START|0|mei_voice_happy|よろしくね！
+    <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{< / fst>}}
 
 ポイントはお辞儀モーションの終了を待つ部分です。
@@ -182,14 +182,14 @@ LOOP LOOP:
 
 {{<fst>}}
 LOOP LOOP:
-    <b>@RECOG_EVENT_STOP¥|(こんにちは|ハロー)。@</b>  SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
+    @RECOG_EVENT_STOP¥|(こんにちは|ハロー)。@</b>  SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
 {{< / fst>}}
 
 特殊な用途ですが、以下のように書くことで、認識結果のおうむ返しも記述できます。発行メッセージ項にある "`${1}`" は、正規表現の中でマッチする最初の括弧内の文字に対応する文字で置き換えられます。
 
 {{<fst>}}
 LOOP LOOP:
-    <b>@RECOG_EVENT_STOP¥|(.*)@</b>  SYNTH_START|0|mei_voice_normal|${1}
+    @RECOG_EVENT_STOP¥|(.*)@</b>  SYNTH_START|0|mei_voice_normal|${1}
 {{< / fst>}}
 
 正規表現は全体マッチです。

@@ -14,8 +14,9 @@ headless: true
 - [音声合成を試す]({{< relref "/docs/20_tts_test" >}})
 - [音声認識のセットアップ]({{< relref "/docs/33_asr_setup" >}})
 - [音声対話を試す (fst)]({{< relref "/docs/34_dialog_fst" >}})
-- [音声対話を試す (Python)]({{< relref "/docs/38_dialog_python" >}})
-- [ChatGPTと繋ぐ]({{< relref "/docs/39_dialog_chatgpt" >}})
+- [音声対話を試す (Python)]({{< relref "/docs/36_dialog_python" >}})
+- [ChatGPTと繋ぐ]({{< relref "/docs/37_dialog_chatgpt" >}})
+- [CGアバターを変えてみる]({{< relref "/docs/38_change_model" >}})
 <br />
 
 - **コンテンツ作成**
