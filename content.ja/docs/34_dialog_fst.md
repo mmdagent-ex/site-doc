@@ -11,7 +11,77 @@ slug: dialog-test-fst
 ](../tts-test)のセットアップを済ませてください。
 {{< /hint >}}
 
+## FST とは
+
+MMDAgent-EX に標準のスクリプト (.fst) の仕組みと書き方を解説します。.fst は状態と動作の集合からなる有限状態オートマトンで、「あるメッセージが来たらこのメッセージを出力する」を1動作として状態ごとに動作を定義します。また、状態は動作によって遷移します。ここでは簡単な概要を説明します。
+
+{{< hint info >}}
+全ての仕様を知りたい方は[リファレンスの書式解説](../fst-format)をご覧ください。
+{{< /hint >}}
+
+### 基本形
+
+.fst では1行ごとに動作を (1) 状態名、(2) 遷移先状態名、(3) 遷移条件、(4) 出力 で記述します。例えば、『状態 `Hoge` において、`KEY|1` メッセージが来たら「こんにちは！」と話して状態 `Foo` へ移行する』という動作は以下のように書きます。
+
+{{<fst>}}
+Hoge Foo  KEY|1 SYNTH_START|0|mei_voice_normal|こんにちは！
+{{</fst>}}
+
+### 複数の動作
+
+同じ状態で複数の動作を記述すると、どの状態においてそれらは同時に評価され、満たしたほうが実行されます。例えば以下のようにすると、状態 `Hoge` では `KEY|1` と `KEY|2` の入力を待ち、どちらかが来たらそれぞれの動作を行います。
+
+{{<fst>}}
+Hoge Foo  KEY|1 SYNTH_START|0|mei_voice_normal|こんにちは！
+Hoge Foo  KEY|2 SYNTH_START|0|mei_voice_normal|いかがですか？
+{{</fst>}}
+
+### 連続した動作
+
+遷移先の状態からさらに遷移を書くことで、連続した動作を書くことができます。
+
+{{<fst>}}
+Hoge foo1  KEY|1 SYNTH_START|0|mei_voice_normal|こんにちは！
+foo1 foo2  SYNTH_EVENT_STOP|0 SYNTH_START|0|mei_voice_normal|いかがですか？
+{{</fst>}}
+
+上記の例では、1行目で音声合成の開始メッセージを出したあとに状態 `Foo` で、その音声合成の終了イベント `SYNTH_EVENT_STOP|0` を条件とすることで音声合成終了を待っています。各モジュールは並列動作しており、.fst はメッセージを発行したら、発行したメッセージの結果を見ずに即座に次の状態へ遷移するので、何かの動作を待ちたい場合は、このようにメッセージを遷移条件として書きます。
+
+### &lt;eps&gt;
+
+空語 `<eps>` を条件にすると、その動作は条件なしで即座に実行されます。以下のように、音声合成とモーションを同時に再生開始することができます。
+
+{{<fst>}}
+Hoge foo1  KEY|1 SYNTH_START|0|mei_voice_normal|こんにちは！
+foo1 foo2  <eps> MOTION_ADD|0|greet|motions/action/ojigi.vmd
+{{</fst>}}
+
+また出力のほうに `<eps>` を使うことで出力を行わないこともできます。
+
+### ブロックによる記述
+
+.fst スクリプトではしばしば、一連のメッセージを処理させるために連続した状態遷移を記述することがあります。以下は起動時（初期状態 "`0`"）から背景を設定し、モデルをロードし、モーションを設定してカメラを設定する、という一連のコマンドを .fst で記述したものです。
+
+{{<fst>}}
+0  s1  <eps> STAGE|images/floor_green.png,images/back_white.png
+s1 s2  <eps> MODEL_ADD|0|gene/Gene.pmd
+s2 s3  MODEL_EVENT_ADD|0  MOTION_ADD|0|base|motions/wait/01_Wait.vmd|FULL|LOOP|ON|OFF
+s3 ss  <eps> CAMERA|0,15.25,0|4.5,0,0|22.4|27.0
+{{</fst>}}
+
+これは MMDAgent-EX では以下のようにブロックで記述することができます。1行目にはこのブロックの最初と最後の状態名を書き、続けてインデントして記述します。
+
+{{<fst>}}
+0  ss:
+    <eps> STAGE|images/floor_green.png,images/back_white.png
+    <eps> MODEL_ADD|0|gene/Gene.pmd
+    MODEL_EVENT_ADD|0  MOTION_ADD|0|base|motions/wait/01_Wait.vmd|FULL|LOOP|ON|OFF
+    <eps> CAMERA|0,15.25,0|4.5,0,0|22.4|27.0
+{{</fst>}}
+
 ## 一問一答を作ってみる
+
+Example の `main.fst` を編集して、簡単な一問一答を作ってみましょう。
 
 Example の `main.fst` をテキストエディタで開き、末尾に以下を新たに追加してください。これは「音声認識結果を含む `RECOG_EVENT_STOP` メッセージが発行されたら、音声合成の実行を指示する `SYNTH_START` メッセージを発行する」という、一問一答の最も簡単な形です。
 
