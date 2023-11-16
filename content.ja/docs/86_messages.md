@@ -540,6 +540,22 @@ CAPTION_STOP|alias
 CAPTION_EVENT_STOP|alias
 {{</message>}}
 
+## Notification
+
+**NOTIFY_SHOW**
+
+システムメッセージを画面に出す。2.0秒で消える。
+
+{{<message>}}
+ NOTIFY_SHOW|(text)
+{{</message>}}
+
+持続時間を変更することも可能。
+
+{{<message>}}
+ NOTIFY_SHOW|(text)|(seconds)
+{{</message>}}
+
 ## テキストプロンプトを提示しユーザの回答を得る
 
 **PROMPT_SHOW**

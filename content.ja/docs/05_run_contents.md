@@ -4,13 +4,11 @@ slug: run
 ---
 # Exampleの実行
 
-MMDAgent-EX はコンテンツを指定して起動します。ここで、コンテンツとは、3Dモデルやモーション、FSTスクリプト、音声・画像等といった対話システムを構成するファイルの集合（アセット）を差します。
-
-以下、MMDAgent-EX におけるコンテンツの概略と、実際に Example コンテンツを起動する手順を説明します。
+MMDAgent-EX はコンテンツを指定して起動します。以下、MMDAgent-EX におけるコンテンツの概略と、実際に Example コンテンツを起動する手順を説明します。
 
 ## コンテンツについて
 
-MMDAgent-EX はコンテンツを再生します。コンテンツとは、3Dモデルやモーション、FSTスクリプト、音声・画像等といった対話システムを構成するファイルの集合体（アセット）を差します。
+MMDAgent-EX はコンテンツを再生します。コンテンツとは、3Dモデルやモーション、FSTスクリプト、音声・画像等といった対話システムを構成するファイルの集合体（アセット）を指します。
 
 コンテンツの一般的な構成は以下のようになります。トップディレクトリに、起動ファイル兼設定ファイルとなる .mdf ファイルが必ず１つおかれます。さらに、使用するモジュールに応じて .fst, .dic, .jconf, .ojt といった各種ファイルが .mdf と同じプレフィックスで置かれます。また `BUTTON*.txt`, `PACKAGE_DESC.txt` もトップディレクトリに置きます。そのほかのファイル（モデル・モーション・画像等）は、フォルダ以下の任意の場所に置くことができます。
 
@@ -59,11 +57,23 @@ git clone --recursive https://github.com/mmdagent-ex/example
 
 MMDAgent-EX のコマンドライン引数にコンテンツのフォルダのトップにある .mdf ファイルを指定して起動します。
 
+macOS / Linux ターミナル：
+
 ```shell
-./Release/MMDAgent-EX.exe ./example/main.mdf
+./Release/MMDAgent-EX ./example/main.mdf
+```
+
+Windows: コマンドシェル：
+
+```text
+.\Release\MMDAgent-EX.exe .\example\main.mdf
 ```
 
 以下のような画面が出たら起動成功です。
 
 <img width="480" alt="example snapshot" src="/images/example_1.png"/>
+
+### WSL で失敗する場合
+
+WSL で画面が出てこず起動に失敗する場合は、WSL のバージョンが古い可能性があります。GUIアプリがサポートされた最新の WSL2 を使ってください。詳細は[こちらのサイトを参考に WSL のバージョンを最新にしてください](https://learn.microsoft.com/ja-jp/windows/wsl/tutorials/gui-apps)。
 

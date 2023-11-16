@@ -7,8 +7,9 @@ slug: build
 MMDAgent-EX の動作環境は macOS, Linux, Windows である。以下の環境でビルド動作を確認している。
 
 - **macOS**: M2 Macbook Air / macOS Ventura 13.5
-- **Linux**: Ubuntu-22.04, Ubuntu-20.04, Ubuntu-22.04 on WSL
-- **WIndows**: Windows 11 with Visual Studio 2022
+- **Linux**: Ubuntu-22.04, Ubuntu-20.04
+- **Windows**: Windows 11 with Visual Studio 2022
+- **Linux on WSL**: Ubuntu-22.04 on WSL2 (v1.2.5.0) on Windows
 
 ## コードの入手
 
@@ -80,18 +81,18 @@ cmake --build build
 
 ビルドした実行バイナリとプラグインが `Release/` ディレクトリ以下にコピーされる。
 
-### Ubuntu
+### Linux
 
-必要なパッケージ名の一覧が `requirements-linux.txt` ファイルにあるので、その中に記されているパッケージを全て事前に `apt install` しておく。以下の要領で一括で行える。
+必要なパッケージ名の一覧が `requirements-linux.txt` ファイルにあるので、その中に記されているパッケージを全て事前に `apt install` しておく。`Ubuntu` であれば以下の要領で一括で行える。
 
 ```shell
+cd MMDAgent-EX
 sudo apt install `cat requirements-linux.txt`
 ```
 
 CMake でビルド。
 
 ```shell
-cd MMDAgent-EX
 cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
@@ -125,6 +126,7 @@ Visual Studio 2022 でビルドする。
         ├── Plugin_AnyScript.dll
         ├── Plugin_Audio.dll
         ├── Plugin_Flite_plus_hts_engine.dll
+        ├── Plugin_Julius.dll
         ├── Plugin_Kafka.dll
         ├── Plugin_LookAt.dll
         ├── Plugin_Network.dll
