@@ -64,6 +64,7 @@ git clone https://github.com/mmdagent-ex/MMDAgent-EX.git
 - sox
 - rabbitmq-c
 - libomp
+- librdkafka
 
 `libomp` のヘッダファイルがうまくインストールされないことがある。ビルドでエラーが出る場合は以下を追加で行う。
 
@@ -159,4 +160,3 @@ Visual Studio 2022 でビルドする。
     Library_ffmpeg
     Library_OpenCV
     Library_librdkafka
-
