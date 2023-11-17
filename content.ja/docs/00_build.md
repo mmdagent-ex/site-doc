@@ -105,6 +105,10 @@ cmake --build build
 
 Visual Studio 2022 でビルドする。
 
+{{< hint info >}}
+インストールの際には「C++によるデスクトップ開発」にチェックを入れ、MSVC v143 と Windows 11 SDK (10.0.22000.0で確認）を併せてインストールする。
+{{< /hint >}}
+
 1. `MMDAgent_vs2022.sln` を Visual Studio 2022 で開く
 2. ソリューションエクスプローラで `main` を右クリックしてスタートアッププロジェクトに設定
 3. ビルド設定を `Release` に設定
