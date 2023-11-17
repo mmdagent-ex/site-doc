@@ -81,6 +81,8 @@ cmake --build build
 
 ビルドした実行バイナリとプラグインが `Release/` ディレクトリ以下にコピーされる。
 
+なお brew パッケージの場所は、環境変数 `HOMEBREW_PREFIX` が定義されていればそれを使い、指定されていなければ `brew --prefix` の出力を用います。
+
 ### Linux
 
 必要なパッケージ名の一覧が `requirements-linux.txt` ファイルにあるので、その中に記されているパッケージを全て事前に `apt install` しておく。`Ubuntu` であれば以下の要領で一括で行える。
