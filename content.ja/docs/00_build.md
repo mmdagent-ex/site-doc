@@ -152,3 +152,5 @@ Visual Studio 2022 でビルドする。
     Library_Poco
     Library_ffmpeg
     Library_OpenCV
+    Library_librdkafka
+

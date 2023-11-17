@@ -61,6 +61,12 @@ SOUND_STOP|(sound alias)
 SOUND_EVENT_STOP|(sound alias)
 {{</message>}}
 
+{{< hint warning >}}
+サウンドがならない場合は既定の音声出力デバイスをチェックしてください。また、再生には sox の `play` コマンドを使用していますが、[環境変数で異なるコマンドを指定することができます](../envval/#audio_start-用再生コマンド-play)。
+{{< /hint >}}
+
+
+
 ## 音声再生 with リップシンク
 
 ### 準備
