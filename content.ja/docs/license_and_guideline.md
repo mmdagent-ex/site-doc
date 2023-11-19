@@ -18,7 +18,8 @@ MMDAgent-EX は多くのソフトウェアを利用して構成されていま�
 - libjpeg
 - libpng
 - librdkafka
-- Libsndfile
+- libsndfile
+- libsamplerate
 - UTF8-CPP
 - google/re2
 - zlib
@@ -26,9 +27,8 @@ MMDAgent-EX は多くのソフトウェアを利用して構成されていま�
 - Open JTalk
 - Julius
 - POCO C++ Libraries
-- OpenCV
-- FFmpeg
 - RabbitMQ
+- cpp-httplib
 
 また、本ツールで3Dモデルやモーション、音や画像等の素材を利用する場合は、それらの作者（権利者）が定める利用規約に従ってください。
 
