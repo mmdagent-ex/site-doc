@@ -26,8 +26,6 @@ MMDAgent-EX depends on various open-source softwares and libraries. Some of them
 - Open JTalk
 - Julius
 - POCO C++ Libraries
-- OpenCV
-- FFmpeg
 - RabbitMQ
 
 When using materials in this system, i.e. MMD 3D model, music, motions etc., please take care of their licenses.

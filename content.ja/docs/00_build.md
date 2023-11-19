@@ -52,7 +52,6 @@ git clone https://github.com/mmdagent-ex/MMDAgent-EX.git
 
 以下のパッケージが必要。全てあらかじめ `brew install` する。
 
-- ffmpeg
 - cmake
 - poco
 - glew
@@ -60,7 +59,8 @@ git clone https://github.com/mmdagent-ex/MMDAgent-EX.git
 - re2
 - portaudio
 - minizip
-- opencv
+- libsndfile
+- libsamplerate
 - sox
 - rabbitmq-c
 - libomp
@@ -157,6 +157,4 @@ Visual Studio 2022 でビルドする。
     Library_PortAudio
     Library_glew
     Library_Poco
-    Library_ffmpeg
-    Library_OpenCV
     Library_librdkafka
