@@ -73,6 +73,17 @@ Windows: コマンドシェル：
 
 <img width="480" alt="example snapshot" src="/images/example_1.png"/>
 
+{{< hint info >}}
+この Example をホームにセットすれば、次回以降は実行バイナリのみで Example が起動するようにできます。
+
+実行中のコンテンツをホームに設定するには：
+
+- MMDAgent-EX の画面で `/` キーを押す→メニューが開く
+- → で右のメニューへ移動
+- 上下キーで "Set current as Home" を選択してエンター
+
+{{< /hint >}}
+
 ### WSL で失敗する場合
 
 WSL で画面が出てこず起動に失敗する場合は、WSL のバージョンが古い可能性があります。GUIアプリがサポートされた最新の WSL2 を使ってください。詳細は[こちらのサイトを参考に WSL のバージョンを最新にしてください](https://learn.microsoft.com/ja-jp/windows/wsl/tutorials/gui-apps)。
