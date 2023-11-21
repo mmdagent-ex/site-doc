@@ -1,7 +1,7 @@
 import socket
 import pyaudio
 
-server = ("127.0.0.1", 60001)
+server = ("localhost", 60001)
 tcp_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 tcp_client.connect(server)
 
@@ -19,7 +19,6 @@ stream = p.open(
     )
 while True:
     input_data = stream.read(chunk_samples)
-    print("aaa")
     header = ("SND" + f"{chunk_bytes:04}").encode('ascii')
     payload = bytearray(header + input_data)
     tcp_client.send(payload)

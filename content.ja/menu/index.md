@@ -48,7 +48,7 @@ headless: true
 - [ソケット接続で制御する]({{< relref "/docs/71_remote" >}})
   - [WebSocket]({{< relref "/docs/72_remote_websocket" >}})
   - [TCP/IP]({{< relref "/docs/73_remote_tcpip" >}})
-- [音声を再生する]({{< relref "/docs/74_remote_speech" >}})
+- [音声データを流し込む]({{< relref "/docs/74_remote_speech" >}})
 - [グローバル変数で連携する]({{< relref "/docs/75_global_variables" >}})
 <br />
 

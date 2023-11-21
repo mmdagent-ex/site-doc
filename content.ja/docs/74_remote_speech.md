@@ -1,12 +1,12 @@
 ---
-title: 音声を再生する
-slug: lipsync
+title: 音声データを流し込む
+slug: remote-speech
 ---
 {{< hint info >}}
 外部音声のリップシンクの機能は Plugin_Remote が提供しています。利用時はこのプラグインが有効になっているか確かめてください。
 {{< /hint >}}
 
-# 音声を再生する
+# 音声データを流し込む
 
 外部モジュールから音声データを MMDAgent-EX へ渡し、リップシンク付きで再生することができます。実現のための方法がいくつか用意されています。以下、順に説明します。
 
@@ -15,26 +15,28 @@ slug: lipsync
 音声データをファイルに保存し、そのパスを MMDAgent-EX に指定して再生させる方法です。以下の手順で実行します。
 
 - 音声合成（あるいは録音）した内容をオーディオファイルに保存
-- そのパスを指定した **SPEAK** コマンドを MMDAgent-EX に送信
+- そのパスを指定した **SPEAK** コマンドを MMDAgent-EX にソケット等で送信
 
-**SPEAK** コマンドの詳しい使い方については[「サウンドを再生する」で説明しています。](../sound/#%e9%9f%b3%e5%a3%b0%e5%86%8d%e7%94%9f-with-%e3%83%aa%e3%83%83%e3%83%97%e3%82%b7%e3%83%b3%e3%82%af) 
+**SPEAK** コマンドの詳しい使い方については[「サウンドを再生する」](../sound/#%e9%9f%b3%e5%a3%b0%e5%86%8d%e7%94%9f-with-%e3%83%aa%e3%83%83%e3%83%97%e3%82%b7%e3%83%b3%e3%82%af)をご覧ください。
 
-この方法はシンプルで簡単に実現できますが、外部プロセスとMMDAgent-EXが同じマシンの上で動いている必要があります。また、再生する音声データはファイル単位で、連続した音声ストリームの流し込みには使えません。
+この方法はシンプルで簡単ですが、ファイル名の受け渡しになるので、送信元のプロセスとMMDAgent-EXが同じファイルシステムを共有するマシン上で動いている必要があります。また、再生する音声データはファイル単位のみで、連続した音声ストリームには使えません。
 
-## 方法２：ソケットから音声データを流し込んで再生
+## 方法２：ソケットから音声データを流し込む
 
-[ソケット接続](../remote-control) を使って音声データをソケット経由で流し込む方法です。ソケット接続ではテキストメッセージだけでなく、以下に示す特定のヘッダを使うことで音声データを同一ソケット上で送ることができます。[TCPIP接続](../remote-tcpip)と [WebSocket接続](../remote-websocket) のいずれでも動作します。
+[ソケット接続](../remote-control) を使ってソケット経由で音声データを外部から流し込むことができます。ソケット接続ではテキストメッセージのやりとりができますが、以下に示す特定のヘッダを使うことで音声データを同一のソケット上で送ることができます。[TCPIP接続](../remote-tcpip)と [WebSocket接続](../remote-websocket) のいずれでも動作します。
 
-**この方法で音声データを送る場合、音声データのフォーマットは、エンコード無しの 16kHz, 16bit singed short, モノラル の PCM データである必要があります**。これ以外のサンプリングレートや形式には対応しないので注意してください。
+**この方法で音声データを送る場合、音声データのフォーマットは、エンコード無しの 16kHz, 16bit singed short, モノラル の PCM データである必要があります**。これ以外のサンプリングレートや形式には対応しないので注意してください。また、リップシンクするモデルは[.shapemap にリップシンク情報を記述する](../sound/#準備-1)必要があります。
 
-以下、手順を説明します。ソケットからの音声流し込みを使う場合、ソケット接続を確立した後に以下の２つのメッセージをあらかじめ MMDAgent-EX へ送ります。1つ目は操作開始のメッセージで、2つ目はリップシンクさせるモデルのモデルエイリアス名を指定します。それぞれ `__AV_START\n` のように末尾に改行コードを入れて送ることを忘れないでください。
+### 通信手順の解説
+
+以下、通信手順を説明します。ソケットからの音声流し込みを使う場合、ソケット接続を確立した後に以下の２つのメッセージをあらかじめ MMDAgent-EX へ送ります。1つ目は操作開始のメッセージで、2つ目は**リップシンクさせるモデルのモデルエイリアス名**の指定です。それぞれ `__AV_START\n` のように末尾に改行コードを入れて送ることを忘れないでください。
 
 ```text
 __AV_START
 __AV_SETMODEL,モデルエイリアス
 ```
 
-続けて転送モードを指定するメッセージを同様に送ります。連続した音声ストリームを送り続ける場合は `SNDSTRM\n` を送ります。この場合、終端はMMDAgent-EX側で自動検出されます。ファイルなど、区切られた音声データを送る場合は`SNDFILE\n` を送ります。この場合、終端は送る側が明示的に指定します（後述）。これらのメッセージは省略することもでき、その場合は前者の `SNDSTRM\n` がデフォルトとなります。
+続けて転送モードを指定するメッセージを送ります。連続した音声ストリームを送り続ける場合は `SNDSTRM\n` を送ります。指定しない場合のデフォルトはこちらです。この場合、MMDAgent-EX側で無音区間の除去と音声区間検出が自動的に行われます。ファイルなどあらかじめ区切られた音声データを送る場合は`SNDFILE\n` を送っておきます。この場合、MMDAgent-EX側で無音区間の検出・除去は行われません。音声データの終端は、送る側が明示的に指定する必要があります（後述）。
 
 ```text
 (ストリーミングの場合)
@@ -43,7 +45,7 @@ SNDSTRM
 SNDFILE
 ```
 
-その後、オーディオデータを短いチャンクごとに区切ってソケットへ送信します。１つのチャンクは、以下のように文字列 "`SND`" に続けて4桁(10進)のチャンク長（バイト数）、それに続けてその指定したチャンク長（バイト数）分のデータ本体を繋げます。改行コードは不要です。これを音声の短いチャンク（1024バイト程度）ごとに連続して送ってください。
+その後、オーディオデータを短いチャンクごとに区切って送信します。１つのチャンクは、以下のように文字列 "`SND`" に続けて4桁(10進)のチャンク長（バイト数）、それに続けてその指定したチャンク長（バイト数）分の音声波形データを繋げます。改行コードは不要です。これを音声の短いチャンク（1024バイト程度）ごとに連続して送ります。チャンクのサイズは 4K Bytes を越えないようにしてください。
 
 ```text
 SNDxxxxyyyyyyyyyyyyyyyyyyy....
@@ -52,19 +54,17 @@ SNDxxxxyyyyyyyyyyyyyyyyyyy....
   yy...　データ長分の音声波形データ
 ```
 
-ストリーミングの場合（`SNDSTRM\n` 指定時）は、上記のやりかたで短いチャンクごとに音声を送り続けます。`SNDFILE\n` 指定時は、音声終端は MMDAgent-EX 側で自動検出されないので、終端まで送信し終えたら `SNDBRKS\n` を送って入力終了をMMDAgent-EXに伝える必要があります。
+`SNDFILE\n` 指定時は、音声終端は MMDAgent-EX 側で自動検出されないので、終端まで送信し終えたら `SNDBRKS\n` を送って入力終了をMMDAgent-EXに伝えます。
 
-この方法は方法１に比べて手間がかかり、音声データ形式に制約がありますが、連続した音声ストリームの流し込みができることと、異なるマシン間でもやりとりできるという利点があります。
+### サンプル
 
-### サンプルプログラム
-
-マイクから音声を取り込んでMMDAgent-EXに逐次流し込むサンプルプログラムです。
+以下、「マイクデバイスから音声を録音しながらMMDAgent-EXにリアルタイムに流し込む」サンプルスクリプトを示します。WebSocket と TCPIP の両方のサンプルを示します。マイクデバイスを準備してから実行してください。
 
 {{< tabs "sample_remote_speech" >}}
 {{< tab "WebSocket" >}}
 ### WebSocket方式
 
-以下を .mdf に書いて、MMDAgent-EX が WebSocket プロトコルで localhost:9001 へ接続するように設定してください。
+MMDAgent-EX が WebSocket プロトコルで localhost:9001 へ接続するよう、以下を Example の .mdf に書いてください。（TCP/IP方式とは同時に使えないので、TCP/IP のサーバあるいはクライアントの設定があれば消すかコメントアウトしてください）
 
 {{<mdf>}}
 Plugin_Remote_Websocket_Host=localhost
@@ -72,18 +72,15 @@ Plugin_Remote_Websocket_Port=9001
 Plugin_Remote_Websocket_Directory=/chat
 {{</mdf>}}
 
-また PyAudio をインストールしてください
-
-```shell
-pip install pyaudio
-```
-
-先に以下のサーバスクリプトを実行してから、MMDAgent-EX を起動し、マイクに向かってしゃべると CGエージェントがリップシンクしながら音声を再生するのを確認してください。（うまく動かない場合はオーディオデバイスの設定を確認してください）。
+以下は WebSocket サーバのサンプルスクリプトです。
 
 ```python
 #
-# audio streaming example
+# audio streaming example: websocket server
 #
+#!pip install asyncio
+#!pip install websockets
+#!pip install pyaudio
 import asyncio
 import websockets
 import time
@@ -146,38 +143,39 @@ if __name__ == '__main__':
 
 ```
 
+まず上記のサーバスクリプトを実行し、次に MMDAgent-EX を Example で起動してください。起動したら、マイクに向かってしゃべると CGエージェントがリップシンクしながらその音声を再生します。うまく動かない場合はオーディオデバイスの設定を確認してください。
+
 {{< /tab >}}
-{{< tab "TCPIP" >}}
+{{< tab "TCP/IP" >}}
 ### TCPIP方式
 
-MMDAgent-EX を TCP/IP サーバとして起動し、クライアントの Python スクリプトから音声を流し込む例です。
-
-以下を .mdf に書いて、MMDAgent-EX が localhost:60001 を listen するよう設定してください。
+MMDAgent-EX が TCP/IP サーバとして起動し、クライアントが接続して音声を流し込む場合のサンプルです。まず以下を Example の .mdf に書いてください。（WebSocketと同時には使えないので、WebSocketの設定があれば消すかコメントアウトしてください）
 
 {{<mdf>}}
 Plugin_Remote_EnableServer=true
 Plugin_Remote_ListenPort=60001
 {{</mdf>}}
 
-また PyAudio をインストールしてください
-
-```shell
-pip install pyaudio
-```
-
-MMDAgent-EX を起動したあと、下記のスクリプトを起動してマイクに向かってしゃべり、 CGエージェントがリップシンクしながら音声を再生するのを確認してください。（うまく動かない場合はオーディオデバイスの設定を確認してください）。
-
+MMDAgent-EX を起動したあと、下記のスクリプトを起動することで接続され、音声のストリーミングが始まります。マイクに向かってしゃべり、 CGエージェントがリップシンクしながら音声を再生するのを確認してください。（うまく動かない場合はオーディオデバイスの設定を確認してください）。
 
 ```python
+#
+# audio streaming example: tcp/ip client
+#
+#!pip install pyaudio
 import socket
 import pyaudio
 
-server = ("127.0.0.1", 60001)
+# connect to localhost:60001
+server = ("localhost", 60001)
 tcp_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 tcp_client.connect(server)
 
+# send initial setup message: example script starts a model with "0", so specify it
 tcp_client.send(bytearray("__AV_START\n".encode('ascii')))
 tcp_client.send(bytearray("__AV_SETMODEL,0\n".encode('ascii')))
+
+# open audio for recording
 chunk_samples = 480
 chunk_bytes = chunk_samples * 2
 p = pyaudio.PyAudio()
@@ -188,6 +186,8 @@ stream = p.open(
     input=True,
     frames_per_buffer=chunk_samples
     )
+
+# main loop to capture audio and send it to MMDAgent-EX
 while True:
     input_data = stream.read(chunk_samples)
     header = ("SND" + f"{chunk_bytes:04}").encode('ascii')
@@ -198,9 +198,11 @@ while True:
 {{< /tab >}}
 {{< /tabs >}}
 
+この方法は、方法１に比べてコーディングが必要で、音声データの形式にも制約がありますが、連続した音声ストリームの流し込みができることと、送信プロセスと MMDAgent-EX が異なるマシン間でもやりとりできるという利点があります。
+
 ## 方法３：口パクさせる
 
-外部プロセスで完結して音声の再生まで行い、MMDAgent-EX には「口パク」だけさせることもできます。この場合、外部プロセスでリップシンク用のメッセージ **LYPSYNC_START** を作成し、音声を再生するタイミングに合わせて MMDAgent-EX に送ります。
+外部プロセスだけで音声の再生までを自前で行い、MMDAgent-EX には「口パク」だけさせることもできます。この場合、外部プロセスでリップシンク用のメッセージ **LYPSYNC_START** を作成し、音声を再生するタイミングに合わせてソケット等で MMDAgent-EX に送ります。
 
 **LIPSYNC_START** メッセージはリップシンクの実行を指示するメッセージです。第1引数は対象とするモデルのエイリアス名、第2引数がリップシンクの内容です。内容は、音素名および持続時間（単位はミリ秒）の列をカンマ区切りで指定します。
 
