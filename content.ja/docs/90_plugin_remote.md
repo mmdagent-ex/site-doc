@@ -24,9 +24,6 @@ __AV_SETMODEL,モデルエイリアス
 __AVCONF_DISABLEAUTOLIP,{NO|ARKIT|AU|ARKIT+AU|ALWAYS}
 　音声伝送時の伝送音声からの自動リップシンクを行わない場面の指定。デフォルトは `NO` 、つまりリップシンクを常に行う。
 
-__AV_ACTION,idx
-　指定した対話アクションを再生する。アクションは番号(1から）で指定する。モデルでは shapemap で指定した対応モーションが再生される。
-
 __AV_EXMORPH,name=rate,name=rate,...
 　任意モーフの外部制御。nameで指定した名前に対応するモーフの強度を指定する。値は [0..1]。ここで使われる名前 name と実際に操作するモーフは、shapemap 内で "EXMORPH_name ボーン名" のように対応を指定する必要あり。
 
@@ -46,16 +43,6 @@ SNDから始まるパート
 　音声データ。仕様は後述
 
 ```
-
-## 対話アクションの動作
-
-`__AV_ACTION` で実行される対話アクションは、 MMDAgent-EX 内部では以下の条件で重ね合わせ再生されます。
-
-- エイリアス名は `__action`
-- 全身ではなく部分モーションとして再生 (`PART`) （フレーム1以降に動作指定があるボーン・モーフのみ適用）
-- ループせずに1回のみ再生（`ONCE`）
-- スムージングは `ON`、リポジションは `OFF`
-- 優先度は `0` （デフォルト）
 
 ## 音声伝送の仕様
 
@@ -77,8 +64,6 @@ MMDAgent-EX は、デフォルトでは、送り込まれてくるオーディ�
 設定ファイル (.shapemap) はテキストファイルで、中身は以下のようになっています。`#` で始まる行はコメントで無視されます。
 
 ```text
-#### パラメータ
-
 #### リップシンク用モーフ名
 LIP_A あ
 LIP_I い
@@ -88,19 +73,6 @@ LIP_O お
 #### リップシンク中に０にリセットするモーフ名のリスト
 #### 上記で指定した以外の、口を開けるモーフを全て指定する
 NOLIP え,おお~,ワ,えー,ああ,いい,叫び,あーれー,口わらい,mouth_a_geo_C,mouth_i_geo_C,mouth_u_geo_C,mouth_e_geo_C,mouth_o_geo_C,mouth_oh_geo_C,mouth_smile_geo_C,mouth_surprise_geo
-
-#### プリセットモーション指定。プリセットアクション使用時に設定
-## __AV_ACTION に対応するモーションファイル名を指定
-ACT0 wait.vmd
-ACT1 joy.vmd
-ACT38 ashamed.vmd
-
-#### 個別制御の設定 それぞれ利用する場合に設定
-
-## __AV_EXMORPH で使用される name に対応するフェイス名
-## モーフの記述方法は AU や ARKIT と同じ
-#EXMORPH_name モーフ名
-
 ```
 
 ## ".pmd.loadmessage" ファイルと ".pmd.deletemessage" ファイル (MSのみ)
