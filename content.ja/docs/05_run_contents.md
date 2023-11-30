@@ -44,8 +44,10 @@ MMDAgent-EX はコンテンツを再生します。コンテンツとは、3Dモ
         |    |- mei/
         |- gene/            CG-CA model "Gene"
         |    |- Gene.pmd
-        +- uka/             CG-CA model "Uka"
-            |- Uka.pmd
+        |- uka/             CG-CA model "Uka"
+        |    |- Uka.pmd
+        |- example_motion/     Example files for motion blending
+        +- example_websocket/  Example files for websocket connection
 
 サンプルコンテンツを clone してください。submodule を使っているので `--recursive` をつけます。
 

@@ -13,25 +13,31 @@ MMDAgent-EX の動作環境は macOS, Linux, Windows である。以下の環境
 
 ## コードの入手
 
-Git LFS がインストールされているか事前にチェック。なければ先にインストールする。
+{{< hint danger >}}
+！MMDAgent-EX 関連のレポジトリを clone するには [Git LFS](https://git-lfs.com/) が必須です。
+{{< /hint >}}
 
-{{< details "Git LFS のチェック方法とインストールの手順" close >}}
-チェック
+Git LFS がインストールされているか事前にチェックし、なければインストールします。
+
+{{< details "チェックおよびインストール方法" close >}}
+インストールされているかどうかチェック
 
 ```shell
 git lfs version
 ```
 
-macOS
+macOS (brew)
 
 ```shell
 brew install git-lfs
+git lfs install
 ```
 
 Linux
 
 ```shell
 sudo apt install git-lfs
+git lfs install
 ```
 
 Windows

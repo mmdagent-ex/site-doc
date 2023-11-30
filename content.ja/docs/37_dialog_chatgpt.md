@@ -73,8 +73,14 @@ if __name__ == "__main__":
 
 ```
 
-単体で起動して動作を確認したら、これを[Pythonでのつなぎ方](../dialog-test-python) と同じ方法でサブモジュールとして起動するよう設定します。
+単体で起動して動作を確認したら、これを[Pythonでのつなぎ方](../dialog-test-python) と同じ方法でサブモジュールとして起動するよう設定します。たとえば Windows で Python の実行ファイルが "python.exe" の場合は以下のように書きます。
 
 {{< mdf>}}
 Plugin_AnyScript_Command=python.exe -u chatgpt.py
+{{< / mdf >}}
+
+macOS や Linux の場合も、コマンドラインと同じコマンドを記述してください。以下は例です。
+
+{{< mdf>}}
+Plugin_AnyScript_Command=python -u chatgpt.py
 {{< / mdf >}}
