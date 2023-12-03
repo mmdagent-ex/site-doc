@@ -11,7 +11,7 @@ MMDAgent-EX は PMX フォーマットの3Dモデルを暫定表示できます�
 PMX モデルは [PMXEditor](https://kkhk22.seesaa.net/category/14045227-1.html)（極北P作）を使って .pmd および .csv に変換することで MMDAgent-EX で暫定表示することができます。手順は以下の通りです。
 
 {{< hint info >}}
-バージョン 0.2.5.7 で動作確認しています。
+できるだけ最新版を使ってください（動作確認バージョン：0.2.7.3）
 {{< /hint >}}
 
 - [PMXEditor を入手](https://kkhk22.seesaa.net/category/14045227-1.html)し、インストールする
