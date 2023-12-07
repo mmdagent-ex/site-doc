@@ -62,7 +62,7 @@ MODEL_DELETE|(model alias)
 成功時には以下のような　**MODEL_EVENT_DELETE** イベントメッセージが発行されます。各種モジュールは、このメッセージでモデルがシーンから削除されたことを検知できます。
 
 {{<message>}}
-MODEL_EVENT_CHANGE|agent1
+MODEL_EVENT_DELETE|agent1
 {{</message>}}
 
 ## 他のモデルにマウントする
@@ -74,6 +74,14 @@ MODEL_ADD|object1|/some/where/obj.pmd|0,0,0|0,0,0|ON|agent1|頭
 {{</message>}}
 
 なお、マウント指定時は `MODEL_ADD` で指定した座標および回転量は、グローバル座標ではなくマウント先ボーンを起点とした相対座標（ローカル座標）で扱われます。
+
+Example にはサンプルとして眼鏡のモデル `glasses/glasses.pmd` が同梱されています。試しに以下のメッセージを発行してジェネに眼鏡をかけてみてください。
+
+{{<message>}}
+MODEL_ADD|glass|glasses/glasses.pmd|0,-.30,.02|0,0,0|ON|0|頭
+{{</message>}}
+
+<img alt="gene with glasses" src="/images/gene_with_glasses.png"/>
 
 ## 設定パラメータ
 
@@ -116,7 +124,13 @@ cartoon_edge_width=0.35
 
 同様に、`xxx.pmd.deletemessage` を記述することで、モデルが削除されたときに発行するメッセージを指定できます。
 
-例が Example の「ジェネ」のモデルにあります。この `Gene.pmd.loadmessage` では、ジェネのモデルをロードした際に、アクセサリの ON/OFF を行うメニューを追加するように書かれています。
+例えば `xxx.pmd.loadmessage` に以下のように[背景を変える](../scene)コマンドを指定することで、モデルをロードしたときに同時に背景を変えることができます。
+
+```text
+STAGE|stage/tatami_room/tatami_room.pmd
+```
+
+以下は実際に「ジェネ」のモデルで設定されている `Gene.pmd.loadmessage` の中身です。ジェネのモデルをロードした際に、アクセサリの ON/OFF を行うメニューを追加するように書かれています。
 
 ```text
 MENU|ADD|Gene
