@@ -259,13 +259,18 @@ MODEL_BINDFACE|(key name)|(min)|(max)|(model alias)|(morph name)|rate1|rate2
 指定ボーンのバインドを解除する。終了時に **MODEL_EVENT_UNBINDBONE** を発行する。
 
 {{<message>}}
-MODEL_UNBINDBONE|model alias|bone name
-MODEL_EVENT_UNBINDBONE|model alias|bone name
+MODEL_UNBINDBONE|(model alias)|(bone name)
+MODEL_EVENT_UNBINDBONE|(model alias)|(bone name)
 {{</message>}}
 
 **MODEL_UNBINDFACE**
 
 指定モーフのバインドを解除する。終了時に **MODEL_EVENT_UNBINDFACE** を発行する。
+
+{{<message>}}
+MODEL_UNBINDFACE|(model alias)|(morph name)
+MODEL_EVENT_UNBINDFACE|(model alias)|(morph name)
+{{</message>}}
 
 ## モデルの表示位置移動
 
