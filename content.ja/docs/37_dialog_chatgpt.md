@@ -17,7 +17,13 @@ ChatGPT を使って対話を行うシンプルなプログラムの例 `chatgpt
 
 ```python
 # chatgpt.py
+import re
 import openai
+
+# Make sure to use UTF-8 at stdin/out
+import sys
+sys.stdin.reconfigure(encoding="utf-8")
+sys.stdout.reconfigure(encoding="utf-8")
 
 # Replace YOUR_API_KEY with your OpenAI API key
 openai.api_key = "YOUR_API_KEY"
