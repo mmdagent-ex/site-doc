@@ -605,7 +605,7 @@ PROMPT_EVENT_SELECTED|(selected number or -1 for cancel)
 例： README.txt を表示
 
 {{<message>}}
-INFOTEXT_FILE|README.txt|"read me"|OK,NO
+INFOTEXT_FILE|README.md|"This is readme"|OK,Cancel
 {{</message>}}
 
 ![infotext](/images/infotext.png)
