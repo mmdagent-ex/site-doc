@@ -1,35 +1,29 @@
-
-
 ---
 title: Home
 type: docs
 ---
-
 # MMDAgent-EX
 
-{{< hint danger >}}
-**Attention**
-This site is currently under construction. Please wait for the official release.
-{{< /hint >}}
+MMDAgent-EX is a research and development platform for spoken dialogue systems, multi-modal interactions and avatar communications using CG avatars. It has been open-sourced since December 2023, with [CG Avatar Gene & Uka](https://www.slp.nitech.ac.jp/en/avatar/).
 
-The voice interaction and avatar communication toolkit MMDAgent-EX is preparing for release as open source software around December 2023. The following points are expected to be updated from the previously released [MMDAgent](https://www.mmdagent.jp/). The supported OS are Windows, macOS, Linux.
+> The notation can be either **MMDAgent-EX** or **MMD-Agent EX**. The "MMD" part has a double meaning, representing both "Multi-Modal Dialogue" and "MikuMikuDance". We call it “Em-Em-Dee-Agent E-X”.
 
-- Extension of model expression, including PMX support
-- Integration of Python-based speech recognition, synthesis, dialogue, and LLM modules
-- External control via WebSocket communication
-- External control on a per-bone or per-morph basis
-- Single display of text and images
-- README display, prompt dialog
-- Texture animation
-- Web-based content distribution and automatic updates
-- Transition to GitHub-based
-- Document management and updates
-- Other minor extensions and bug fixes
+This site contains all documents related to MMDAgent-EX.  If you are new, please proceed through the tutorials in order. You can also comment at the bottom of each page.
 
-The [CG-CA character model "Gene" and "Uka")"](https://www.slp.nitech.ac.jp/avatar/) developed for the system is also expected to be released for use at the same time.
+- Tutorials
+- Creating Content
+- Development
+- Reference Manual
 
-## What is this site?
+The software and CG avatars are published on GitHub. For bug reports, requests, and other development-related matters, please contact us on GitHub.
 
-Currently, the MMDAgent-EX site is being renewed in preparation for the above release. The content accessible from the left menu is being updated and is not guaranteed.
+- [MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX)
+- [CG Avatar Gene](https://github.com/mmdagent-ex/gene)
+- [CG Avatar Uka](https://github.com/mmdagent-ex/uka)
+- [Example used on this site](https://github.com/mmdagent-ex/example)
 
-We apologize for any inconvenience and ask for your patience until the official release.
+Other contact information is as follows:
+
+- Twitter/X [@MMDAgentEX](https://twitter.com/MMDAgentEX)（for announcements）
+- mmdagent-ex-official@lee-lab.org (for inquiries about research, development, and licensing)
+- Developed at: [Lee Laboratory, Nagoya Institute of Technology](https://www.slp.nitech.ac.jp/en/)

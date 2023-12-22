@@ -6,7 +6,7 @@ headless: true
 <br />
 
 - **チュートリアル**
-- [ビルド]({{< relref "/docs/00_build" >}})
+- [入手とビルド]({{< relref "/docs/00_build" >}})
 - [Example実行]({{< relref "/docs/05_run_contents" >}})
 - [画面の見方]({{< relref "/docs/10_screen" >}})
 - [基本操作]({{< relref "/docs/15_keybinds_basic" >}})
@@ -63,3 +63,6 @@ headless: true
 - [(仮)特別な外部操作]({{< relref "/docs/90_plugin_remote" >}})
 - [オリジナルとの違い]({{< relref "/docs/99_changes" >}})
 <br />
+
+- **関連リンク**
+- [Twitter @MMDAgentEX](https://twitter.com/MMDAgentEX)

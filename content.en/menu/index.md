@@ -6,7 +6,7 @@ headless: true
 <br />
 
 - **Tutorials**
-- [How To Build]({{< relref "/docs/00_build" >}})
+- [Get and Build]({{< relref "/docs/00_build" >}})
 - [Running Examples]({{< relref "/docs/05_run_contents" >}})
 - [Screen]({{< relref "/docs/10_screen" >}})
 - [Key / Mouse]({{< relref "/docs/15_keybinds_basic" >}})
@@ -63,3 +63,6 @@ headless: true
 - [(Provisional) Special External Operations]({{< relref "/docs/90_plugin_remote" >}})
 - [Differences from the Original]({{< relref "/docs/99_changes" >}})
 <br />
+
+- **Links**
+- [Twitter @MMDAgentEX](https://twitter.com/MMDAgentEX)

@@ -1,32 +1,29 @@
 ---
-title: Top
+title: Home
 type: docs
 ---
 # MMDAgent-EX
 
-{{< hint danger >}}
-**注意**
-本サイトは現在工事中です。正式公開までしばらくお待ちください。
-{{< /hint >}}
+MMDAgent-EX はCGアバターを用いた音声対話・マルチモーダル対話・アバターコミュニケーションのための研究開発プラットフォームです。[CGアバター ジェネ・うか](https://www.slp.nitech.ac.jp/avatar/) とともに、2023年12月よりオープンソースで公開されています。
 
-音声インタラクション・アバターコミュニケーション構築ツールキット MMDAgent-EX は、2023年12月をめどにオープンソースソフトウェアとして公開する準備を進めています。これまで公開されてきた [MMDAgent](https://www.mmdagent.jp/) から、以下の点が更新される予定です。対応OSは Windows, macOS, Linux です。
+> 表記は **MMDAgent-EX** でも **MMD-Agent EX** でも可です。”MMD” の部分は “Multi-Modal Dialogue” と “MikuMikuDance” のダブルミーニングです。我々は「エムエムディーエージェント イーエックス」と呼んでいます。
 
-- PMX 対応等のモデル表現拡張
-- Pythonベースの音声認識・合成・対話・LLMモジュールの組み込み
-- WebSocket 通信を介した外部制御
-- ボーンやモーフ単位の外部制御
-- テキスト・画像の単体表示
-- README表示・プロンプトダイアログ
-- テクスチャアニメーション
-- Webベースのコンテンツ配信・自動更新
-- GitHubベースへ移行
-- ドキュメントの管理・更新
-- その他、細かい拡張やバグ修正
+このサイトでは MMDAgent-EX に関するすべてのドキュメントが掲載されています。初めての方はチュートリアルから順に読み進めてください。各ページの下部からコメントも行えます。
 
-システム用に開発された[CG-CA キャラクターモデル（ジェネ・ウカ）](https://www.slp.nitech.ac.jp/avatar/) も、同時に利用可能な形で公開される予定です。
+- チュートリアル
+- コンテンツ作成
+- 拡張・開発
+- リファレンスマニュアル
 
-## このサイトは？
+ソフトウェア・CGアバターは GitHub ので公開しています。バグ報告や要望など、開発に関することは GitHub へお願いします。
 
-現在、MMDAgent-EX のサイトは上記の公開にむけてリニューアル中です。左のメニューからアクセスできる内容は、更新中のもので内容は無保証です。
+- [MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX)
+- [CGアバター ジェネ / Gene](https://github.com/mmdagent-ex/gene)
+- [CGアバター うか / Uka](https://github.com/mmdagent-ex/uka)
+- [Example (本サイトで使用)](https://github.com/mmdagent-ex/example)
 
-ご迷惑をおかけしていますが、正式公開までしばらくお待ちください。
+その他のコンタクト情報は以下の通りです。
+
+- Twitter/X [@MMDAgentEX](https://twitter.com/MMDAgentEX)（更新情報等お知らせ）
+- 問い合わせ先：mmdagent-ex-official@lee-lab.org （研究・開発・許諾等ご相談）
+- 開発元：[名古屋工業大学 李 研究室](https://www.slp.nitech.ac.jp/)
