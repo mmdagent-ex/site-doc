@@ -29,7 +29,7 @@ Hoge Foo  KEY|1 SYNTH_START|0|mei_voice_normal|こんにちは！
 
 ### 複数の動作
 
-同じ状態で複数の動作を記述すると、どの状態においてそれらは同時に評価され、満たしたほうが実行されます。例えば以下のようにすると、状態 `Hoge` では `KEY|1` と `KEY|2` の入力を待ち、どちらかが来たらそれぞれの動作を行います。
+同じ状態で複数の動作を記述すると、その状態においてそれらは同時に評価され、満たしたほうが実行されます。例えば以下のようにすると、状態 `Hoge` では `KEY|1` と `KEY|2` の入力を待ち、どちらかが来たらそれぞれの動作を行います。
 
 {{<fst>}}
 Hoge Foo  KEY|1 SYNTH_START|0|mei_voice_normal|こんにちは！
@@ -188,7 +188,7 @@ LOOP LOOP:
 {{<fst>}}
 LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
-    +RECOG_EVENT_STOP|ハロー。 SYNTH_START|0|mei_voice_normal|ハロー、ありがとうございます！</b>
+    +RECOG_EVENT_STOP|ハロー。 SYNTH_START|0|mei_voice_normal|ハロー、ありがとうございます！
     <eps> MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
     <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{< / fst>}}
@@ -231,7 +231,7 @@ LOOP LOOP:
 LOOP LOOP:
     RECOG_EVENT_STOP|こんにちは。 SYNTH_START|0|mei_voice_normal|こんにちは！
     <eps> MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
-    MOTION_EVENT_STOP|0|action</b> SYNTH_START|0|mei_voice_happy|よろしくね！
+    MOTION_EVENT_STOP|0|action SYNTH_START|0|mei_voice_happy|よろしくね！
     <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{< / fst>}}
 

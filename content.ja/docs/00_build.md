@@ -4,9 +4,9 @@ slug: build
 ---
 # ビルド
 
-MMDAgent-EX の動作環境は macOS, Linux, Windows である。以下の環境でビルド動作を確認している。
+MMDAgent-EX の動作環境は macOS, Linux, Windows である。Windows上での WSL2 もサポートしている。以下の環境でビルド動作を確認している。
 
-- **macOS**: M2 Macbook Air / macOS Ventura 13.5
+- **macOS**: M2 Macbook Air / macOS Ventura 13.5 / Sonoma
 - **Linux**: Ubuntu-22.04, Ubuntu-20.04
 - **Windows**: Windows 11 with Visual Studio 2022
 - **Linux on WSL**: Ubuntu-22.04 on WSL2 (v1.2.5.0) on Windows

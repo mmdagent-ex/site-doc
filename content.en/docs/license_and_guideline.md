@@ -1,8 +1,11 @@
+
+
 ---
-title: License and Guideline
+title: License and Guidelines
 slug: license-and-guideline
 ---
-# License and Usage Guideline
+
+# License and Guidelines
 
 ## License
 
@@ -18,7 +21,8 @@ MMDAgent-EX depends on various open-source softwares and libraries. Some of them
 - libjpeg
 - libpng
 - librdkafka
-- Libsndfile
+- libsndfile
+- libsamplerate
 - UTF8-CPP
 - google/re2
 - zlib
@@ -27,10 +31,11 @@ MMDAgent-EX depends on various open-source softwares and libraries. Some of them
 - Julius
 - POCO C++ Libraries
 - RabbitMQ
+- cpp-httplib
 
-When using materials in this system, i.e. MMD 3D model, music, motions etc., please take care of their licenses.
+Also, when using 3D models, motions, sounds, images, and other materials in this tool, please comply with the terms of use set by their authors (rights holders).
 
-## Usage Guildline
+## Usage Guidelines
 
 These guidelines outline the ethical, legal and social issues to be observed when using MMDAgent-EX.
 

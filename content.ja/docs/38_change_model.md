@@ -13,11 +13,13 @@ Example のデフォルトで表示されているのは「ジェネ」という
 
 ## うか / Uka
 
-Example にはもう1体、「うか」というCGアバターも同梱されています。example の `main.mdf` のモデルファイル `Gene.pmd` をしているところを以下のように変更して起動しなおして、モデルが変わることを確かめてください。
+Example にはもう1体、「うか」というCGアバターも同梱されています。example の `main.fst` のモデルファイル `Gene.pmd` をしているところを以下のように変更して起動しなおして、モデルが変わることを確かめてください。
 
-{{<mdf>}}
+{{<fst>}}
+    ...
     <eps> MODEL_ADD|0|uka/MS_Uka.pmd
-{{</mdf>}}
+    ...
+{{</fst>}}
 
 ```shell
 ./Release/MMDAgent-EX.exe ./example/main.mdf
@@ -25,5 +27,4 @@ Example にはもう1体、「うか」というCGアバターも同梱されて
 
 <img alt="example snapshot of uka" src="/images/Uka.png"/>
 
-このようにモデルを変えるには `MODEL_ADD` 等で指定している .pmd を変えます。詳しい方法は[3Dモデルの表示](../3d-model)のページを見てください。
-
+MMDAgent-EX は MikuMikuDance 形式の3Dモデルをサポートしており、同形式のモデルを読み込むことができます。詳しい方法は[3Dモデルの表示](../3d-model)のページを見てください。

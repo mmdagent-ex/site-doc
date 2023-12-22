@@ -4,9 +4,13 @@ slug: tts-test
 ---
 # 音声合成を試す
 
-MMDAgent-EX には、デフォルトの音声合成エンジンとして [Open JTalk](https://open-jtalk.sp.nitech.ac.jp/) が組み込まれており、任意の日本語文章を音声で出力できます。Open JTalk は軽量で処理速度が速く遅延が少ないのが特徴です。
+MMDAgent-EX には、デフォルトの音声合成エンジンとして日本語の [Open JTalk](https://open-jtalk.sp.nitech.ac.jp/) と英語の [FLite+HTS_Engine](http://flite-hts-engine.sp.nitech.ac.jp/) が組み込まれています。これらは軽量で処理速度が速く遅延が少ないのが特徴です。
 
-Example コンテンツに付属の Open JTalk 用ボイスモデル "mei" を使ってテストしてみましょう。
+{{< hint info >}}
+他のエンジンを MMDAgent-EX に組み入れて使うこともできます。別プロセスの合成エンジンを[ソケット接続する方法](../remote-control/) や [サブプロセスとして組み込む](../submodule/) などの方法があります。連携方法については[合成音声を外部プロセスから流し込む方法](../remote-speech/)も参考にしてください。
+{{< /hint >}}
+
+Example コンテンツには両エンジン用のボイスモデルが含まれています。以下ではそれらを使って実際に音声合成を試してみる手順を説明します。
 
 ## 準備
 
@@ -14,10 +18,12 @@ Example コンテンツに付属の Open JTalk 用ボイスモデル "mei" を�
 
 ## テスト
 
-Example コンテンツの対話スクリプトは、起動語に数字の `1` のキーを押すと音声合成が行われるようあらかじめ設定されています。コンテンツが起動したら、数字の `1` キーを押し、CGモデルのリップシンクとともに合成音声が出力されることを確認してください。
+Example コンテンツの対話スクリプトは、起動語に数字の `1` もしくは `2` キーを押すと音声合成が行われるようあらかじめ設定されています。コンテンツが起動したら、 `1` キーを押して日本語の「こんにちは！よろしくね！」という音声がCGモデルのリップシンクとともに出力されることを確認してください。また、`2` キーで英語で "Hello! My name is gene. How can I help you?" と発話することを確認してください。
 
 {{< details "詳細説明" close >}}
-対話スクリプトは、下記のようにモデルやモーションをロードしたあと状態 `LOOP` で待機しており、そこで数字の `1` のキーを押すことで音声合成メッセージ **SYNTH_START** が発行される。
+対話スクリプトは、下記のようにモデルやモーションをロードしたあと状態 `LOOP` で待機しており、そこでキーを押すことで音声合成メッセージ **SYNTH_START** が発行される。
+
+日本語のエンジン(Open JTalk)と英語のエンジン（FLite+HTS_Engine）ではそれぞれ異なるボイス名（`mei_voice_*` および `slt_voice_*`）が定義されており、このボイス名の指定でエンジンを振り分けている。これらのボイス名はそれぞれ Example コンテンツの `main.ojt` と `main.fph` でそれぞれ記述されている。
 
 {{<fst>}}
 0 LOOP:
@@ -28,6 +34,9 @@ Example コンテンツの対話スクリプトは、起動語に数字の `1` �
 
 LOOP LOOP:
     KEY|1 SYNTH_START|0|mei_voice_normal|こんにちは！よろしくね！
+
+LOOP LOOP:
+    KEY|2 SYNTH_START|0|slt_voice_normal|"Hello! My name is gene. How can I help you?"
 {{< / fst>}}
 
 {{< /details >}}
@@ -44,7 +53,7 @@ MMDAgent-EX の各種モジュールは[メッセージ](../messages)を通じ�
 SYNTH_START|モデルエイリアス|ボイス名|テキスト
 {{</message>}}
 
-"ボイス名" はボイス定義ファイル (`.ojt`)` で定義されるボイス名を指定します。Example では以下が定義されています。
+"ボイス名" はボイス定義ファイルで定義されるボイス名を指定します。起動する .mdf ファイルと同じ場所にある `.ojt` ファイルと `.fph` ファイルが読み込まれます。それぞれ、Open JTalk (日本語) 用のボイス名定義と、FLite+HTS_Engine (英語) 用のボイス定義です。Example では `main.ojt` に以下が定義されています。
 
     mei_voice_normal
     mei_voice_angry
@@ -82,6 +91,6 @@ SYNTH_START|0|mei_voice_happy|よろしくね！
 
 ### 関連ファイル
 
-Open JTalk のモジュールは実行ファイルのあるディレクトリの `Plugins` 以下にある `Plugin_Open_JTalk.dll` (or .so) です。
+Open JTalk のモジュールは実行ファイルのあるディレクトリの `Plugins` 以下にある `Plugin_Open_JTalk.dll` (or .so) です。FLite+HTS_Engine は `Plugin_Flite_plus_hts_engine.dll` (or .so) です。
 
-Open JTalk のボイスモデルと設定ファイルは、コンテンツ側で用意します。Example では `voice/mei` ディレクトリにボイスモデルがあり、設定ファイルは `main.ojt` です。設定ファイルではメッセージで指定する「ボイス名」の定義を行っています。これらを入れ替えることで他の Open JTalk モデルを利用したり声のパラメータの調整等が行えます。
+ボイスモデルと設定ファイルは、コンテンツ側で用意します。Example では `voice/mei` と `voice/slt` ディレクトリにそれぞれのボイスモデルがあり、設定ファイルは `main.ojt` および `main.fph` です。各設定ファイルではメッセージで指定する「ボイス名」の定義を行っています。

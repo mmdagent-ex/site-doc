@@ -1,32 +1,35 @@
+
+
 ---
-title: Top
+title: Home
 type: docs
 ---
+
 # MMDAgent-EX
 
 {{< hint danger >}}
-**Note**
-This site is currently under construction. Please wait for the official launch.
+**Attention**
+This site is currently under construction. Please wait for the official release.
 {{< /hint >}}
 
-The Voice Interaction and Avatar Communication Toolkit, MMDAgent-EX, is preparing for its release as open-source software around December 2023. MMDAgent-EX is a successor software to [MMDAgent](https://www.mmdagent.jp/), with the following new features.  It works on Windows, macOS, and Linux.
+The voice interaction and avatar communication toolkit MMDAgent-EX is preparing for release as open source software around December 2023. The following points are expected to be updated from the previously released [MMDAgent](https://www.mmdagent.jp/). The supported OS are Windows, macOS, Linux.
 
-- Extended CG character representation, including PMX compatible support
-- Can integrate Python-based voice recognition, synthesis, dialogue, and LLM modules
-- Full external control via WebSocket communication
-- Bone and morph level external control
-- Easy display of text and images
-- Function to show README
-- Texture animation (APNG support).
-- Web-based content delivery & auto-updates
-- Now on GitHub
-- Documentation
-- Many bug fixes
+- Extension of model expression, including PMX support
+- Integration of Python-based speech recognition, synthesis, dialogue, and LLM modules
+- External control via WebSocket communication
+- External control on a per-bone or per-morph basis
+- Single display of text and images
+- README display, prompt dialog
+- Texture animation
+- Web-based content distribution and automatic updates
+- Transition to GitHub-based
+- Document management and updates
+- Other minor extensions and bug fixes
 
-[The CG-CA character model "Gene" and "Uka"](https://www.slp.nitech.ac.jp/en/avatar/) for the system is also expected to be released with CC license at the same time.
+The [CG-CA character model "Gene" and "Uka")"](https://www.slp.nitech.ac.jp/avatar/) developed for the system is also expected to be released for use at the same time.
 
-## OK, so what is this site?
+## What is this site?
 
-We are now working on a renewal of the MMDAgent-EX site for the above release.  The documents in this site are still WIP, may include incorrect information.
+Currently, the MMDAgent-EX site is being renewed in preparation for the above release. The content accessible from the left menu is being updated and is not guaranteed.
 
-We apologize for any inconvenience caused. Please wait for the official launch.
+We apologize for any inconvenience and ask for your patience until the official release.

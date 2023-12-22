@@ -24,11 +24,14 @@ Send ボタンを押して以下のようなプロンプトダイアログが出
 
 このように、http://localhost:50000/ に任意のメッセージを動作中の MMDAgent-EX に投げ入れて動作を確認することができますので活用してください。
 
-なお、ポート番号は .mdf で変更できます。またこの機能を無効にすることもできます。
+## 設定
+
+ポート番号は .mdf で変更できます。またこの機能を無効にすることもできます。
 
 {{<mdf>}}
-# set to false to disable http server feature
+# set to false to disable the internal http server feature
 http_server=true
+
 # set port number to listen
 http_server_port=50000
 {{</mdf>}}

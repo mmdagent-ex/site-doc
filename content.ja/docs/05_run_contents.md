@@ -30,7 +30,7 @@ MMDAgent-EX はコンテンツを再生します。コンテンツとは、3Dモ
 
 ## Example コンテンツの入手
 
-[サンプルコンテンツ](https://github.com/mmdagent-ex/example)は最小限のスクリプト、サンプルの画像・モーション、Open JTalk 用のモデル mei、およびCGモデル[「ジェネ」](https://github.com/mmdagent-ex/gene)と[「うか」](https://github.com/mmdagent-ex/uka)を含むレポジトリです。
+[サンプルコンテンツ](https://github.com/mmdagent-ex/example)は最小限のスクリプト、サンプルの画像・モーション、Open JTalk 用のモデル mei、およびCGモデル[「ジェネ」](https://github.com/mmdagent-ex/gene)と[「うか」](https://github.com/mmdagent-ex/uka)を含むレポジトリです。このサイトの説明はこのサンプルコンテンツを使って行われますので、入手してください。
 
     example/
         |- main.mdf         Startup / Configuration
@@ -49,7 +49,7 @@ MMDAgent-EX はコンテンツを再生します。コンテンツとは、3Dモ
         |- example_motion/     Example files for motion blending
         +- example_websocket/  Example files for websocket connection
 
-サンプルコンテンツを clone してください。submodule を使っているので `--recursive` をつけます。
+サンプルコンテンツを clone してください。CG-CAのレポジトリを内部で clone するために submodule を使っているので `--recursive` をつけます。
 
 ```shell
 git clone --recursive https://github.com/mmdagent-ex/example
@@ -65,7 +65,7 @@ macOS / Linux ターミナル：
 ./Release/MMDAgent-EX ./example/main.mdf
 ```
 
-Windows: コマンドシェル：
+Windows コマンドシェル：
 
 ```text
 .\Release\MMDAgent-EX.exe .\example\main.mdf
@@ -88,5 +88,4 @@ Windows: コマンドシェル：
 
 ### WSL で失敗する場合
 
-WSL で画面が出てこず起動に失敗する場合は、WSL のバージョンが古い可能性があります。GUIアプリがサポートされた最新の WSL2 を使ってください。詳細は[こちらのサイトを参考に WSL のバージョンを最新にしてください](https://learn.microsoft.com/ja-jp/windows/wsl/tutorials/gui-apps)。
-
+WSL で画面が出てこず起動に失敗する場合は、WSL のバージョンが古い可能性があります。GUIアプリがサポートされた最新の WSL2 を使ってください。詳細は[こちらのサイトを参考に WSL のバージョンを最新にしてください](https://learn.microsoft.com/windows/wsl/tutorials/gui-apps)。

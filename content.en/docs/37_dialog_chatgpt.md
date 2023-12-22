@@ -1,32 +1,33 @@
 ---
-title: ChatGPTと繋ぐ
+title: Connecting with ChatGPT
 slug: dialog-test-chatgpt
 ---
-# ChatGPTと繋ぐ
+
+# Connect with ChatGPT
 
 {{< hint warning >}}
-さきに[音声認識](../asr-setup)と[音声合成
-](../tts-test)のセットアップを済ませてください。
+Please complete the setup for [voice recognition](../asr-setup) and [speech synthesis
+](../tts-test) first.
 {{< /hint >}}
 
-## シンプルな例
+## Basic Example
 
-OpenAI の chat completion API を使って対話を行うシンプルなプログラムの例 `chatgpt.py` を以下に示します。
+Here is a simple program, `chatgpt.py`, that uses the OpenAI chat completion API for dialogue.
 
 {{< hint warning >}}
-以下の例では非常に簡単なプロンプトしか使っておらず、実際に会話できる内容は非常に限定的です。本ページでは chatGPT の使いこなしや工夫に関する部分は使っておりません。以下は MMDAgent-EX とつなぐサンプルプログラムとしてご参照ください。
+The examples provided here use very simple prompts, so the scope of the conversation is quite limited. This page does not cover how to use and optimize chatGPT. The following sample is only for demonstrating integration with MMDAgent-EX.
 {{< /hint >}}
 
-以下は固定のプロンプトを使って OpenAI chat completion API で会話するシンプルなPythonスクリプトです。動作の概要は以下のとおりです。
+The following is a simple Python script that uses a fixed prompt to chat using the OpenAI chat completion API. The operation is as follows:
 
-- メッセージを標準入力から読み込みます。
-- その中から音声認識結果が入ったテキストを抽出します。
-- 音声認識結果に対するシステム応答を OpenAI API から得ます。
-- 音声合成開始メッセージとして標準出力へ出力します。
+- It reads MMDAgent-EX messages from standard input.
+- It filters out a message containing speech recognition result.
+- Using the OpenAI API, it generates response to the input.
+- It writes a message to standard output to tell MMDAgent-EX to start speech synthesis.
 
-このサンプルプログラムは OpenAI の Python ライブラリ バージョン 1.3.9 で動作を確認しています。
+This sample program was tested with version 1.3.9 of OpenAI's Python library.
 
-動作には OpenAI の API キーが必要です。 `YOUR_API_KEY` の部分を利用する API キーを入れて使ってください。
+To operate, you need an API key from OpenAI. Please replace `YOUR_API_KEY` with your API key.
 
 ```python
 # chatgpt.py
@@ -52,8 +53,8 @@ chatgpt_message_token_max=3000
 
 # static prompt
 chatgpt_prompt= '''
-あなたの名前はジェネと言います。明るく中性的な20歳ぐらいの男の子で、会話好きのナイーブな少年です。
-1回の発話は1文だけで、明るい雰囲気で話してください。
+Your name is Gene. You're a bright and gender-neutral young person around the age of 20, who enjoys conversations and is rather naive.
+Please speak in a cheerful tone and keep your remarks to one sentence at a time.
 '''
 #######################################################
 
@@ -111,40 +112,40 @@ def main():
             # extract user utternace from message and generate response
             outstr = generate_response(utterance[0])
             # output message to utter the response
-            print(f"SYNTH_START|0|mei_voice_normal|{outstr}")
+            print(f"SYNTH_START|0|slt_voice_normal|{outstr}")
 
 if __name__ == "__main__":
     main()
 
 ```
 
-これを[Pythonでのつなぎ方](../dialog-test-python) で説明した方法で、MMDAgent-EX からサブモジュールとして起動するよう設定します。たとえば Windows で Python の実行ファイルが "python.exe" の場合は以下のように書きます。
+You can set this up to run as a submodule from MMDAgent-EX using the method explained in [Connecting with Python](../dialog-test-python). For example, if the executable file for Python on Windows is "python.exe", you would write it as follows:
 
 {{< mdf>}}
 Plugin_AnyScript_Command=python.exe -u chatgpt.py
 {{< / mdf >}}
 
-macOS や Linux の場合も、コマンドラインと同じコマンドを記述してください。以下は例です。
+For macOS or Linux, write the same command as you would on the command line. Here is an example:
 
 {{< mdf>}}
 Plugin_AnyScript_Command=python -u chatgpt.py
 {{< / mdf >}}
 
-MMDAgent-EX を起動し、ChatGPT と会話をしてみましょう。
+Start up MMDAgent-EX and try conversing with ChatGPT.
 
-## ストリーミング
+## Enable streaming
 
-OpenAI の chat completion にはストリーミングモードがあり、応答文をトークン単位で得ることができます。このストリーミングモードでは文全体の出力を待つことなく応答が開始されるため、これを用いることで応答遅延を低減することができます。
+OpenAI's chat completion has a streaming mode, which allows you to receive responses token by token, not waiting for the whole response to made. With this streaming mode, responses can start before the entire sentence comes, so it can be used to reduce response latency.
 
-上記のプログラム例をストリーミングに対応させたバージョンを、以下に示します。以下、概要です。
+Here is a version of the above program that is adapted to streaming more. The highlights of this program is:
 
-- ストリーミングモードで接続し、サーバからの応答文字をトークン単位で順次受信します。
-- 受信したトークンを結合しつつ、「。」「？」「！」が出てきたらそこを文の切れ目と判断して得られた部分の音声合成を開始します。
-- 連続した文が出てくるため、「先に出した音声合成の終了イベントを待ってから次の文を開始する」という制御を行う必要があります。
-- このため、ストリーム受信と音声合成制御はスレッド処理を使用して並列する必要があります。以下では受信を別スレッドで動作するようにしています。
+- Connect in streaming mode and sequentially receive response characters from the server in token units.
+- As the received tokens are combined, voice synthesis of the obtained parts begins when "。", "？", or "！" appears, judging that as the end of the sentence.
+- Since continuous sentences come out, you need to control "waiting for the end event of the voice synthesis that was put out first before starting the next sentence".
+- Therefore, stream reception and voice synthesis control need to be parallelized using thread processing. The following makes the reception operate in a separate thread.
 
 ```python
-# chatgpt.py
+# chatgpt.py --- streaming version
 # tested on openai 1.3.9
 #
 import re
@@ -159,7 +160,6 @@ sys.stdin.reconfigure(encoding="utf-8")
 sys.stdout.reconfigure(encoding="utf-8")
 
 # Replace YOUR_API_KEY with your OpenAI API key
-#api_key = "YOUR_API_KEY"
 api_key = "YOUR_API_KEY"
 
 # ChatGPT model name to use
@@ -170,8 +170,8 @@ chatgpt_message_history_max=20
 
 # static prompt
 chatgpt_prompt= '''
-あなたの名前はジェネと言います。明るく中性的な20歳ぐらいの男の子で、会話好きのナイーブな少年です。
-1回の発話を短くして短い会話を交わし合うスタイルで、明るい雰囲気で話してください。
+Your name is Gene. You're a bright, gender-neutral boy, around 20 years old, a naive boy who loves to converse.
+Have conversations in a bright atmosphere, and keep each utterance short for quick exchanges.
 '''
 #######################################################
 
@@ -218,9 +218,9 @@ def generate_response(str):
         if token:
             # append new token to message holder
             total_answer += token
-            part += token.strip()
+            part += token
             # check if the current part sentence delimiter
-            mm = re.match(r'(.*(、|！|。|？))(.*)', part)
+            mm = re.match(r'(.*(\.|\!|\?|\:))(.*)', part)
             if mm:
                 # a new sentence has been received
                 sentence = mm.group(0)
@@ -246,7 +246,7 @@ def generate_response(str):
 
     return
 
-# response generaion thread
+# response generation thread
 def generate_response_run():
     while True:
         item = input_queue.get()
@@ -281,7 +281,7 @@ def main():
                 item = output_queue.get()
                 if (item == "***END***"):
                     break
-                print(f"SYNTH_START|0|mei_voice_normal|{item}")
+                print(f"SYNTH_START|0|slt_voice_normal|{item}")
                 wait_till_synth_event_stop()
     thread1.join()
 
