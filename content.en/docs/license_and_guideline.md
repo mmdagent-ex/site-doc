@@ -1,13 +1,14 @@
-
-
 ---
 title: License and Guidelines
 slug: license-and-guideline
 ---
-
 # License and Guidelines
 
+This document explains the licensing and usage guidelines for MMDAgent-EX and its CG avatars.
+
 ## License
+
+### MMDAgent-EX
 
 MMDAgent-EX is distributed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
 
@@ -35,9 +36,27 @@ MMDAgent-EX depends on various open-source softwares and libraries. Some of them
 
 Also, when using 3D models, motions, sounds, images, and other materials in this tool, please comply with the terms of use set by their authors (rights holders).
 
+### CG Avatars
+
+Our CG avatars on GitHub have their own license and usage guidelines. Here I summarize the overview, but please make sure to check the README included in each repository when using them.
+
+- [CG avatar "Gene" README](https://github.com/mmdagent-ex/gene/blob/main/README.md)
+- [CG avatar "Uka" README](https://github.com/mmdagent-ex/uka/blob/main/README.md)
+
+Generally, the CG avatarsare released under the CC-BY 4.0 License.  For use, please display the credit as defined in each model.  `[[Name]]` should be substituted to the model name.
+
+> CG-CA Model `[[Name]]` (c) 2023 by Nagoya Institute of Technology, Moonshot R&D Goal 1 Avatar Symbiotic Society
+
+Note that for "Gene", its trademark and design right is held by us. The following uses are permissible without explicit permission. For commercial use, profit-making activities, or other types of usage, please contact the developer directly.
+
+**Examples of permissible use without explicit permission:**
+
+- Academic activities (publication in papers, presentations, etc.)
+- Non-commercial use by individuals (posts on social media, displays at events, etc.)
+
 ## Usage Guidelines
 
-These guidelines outline the ethical, legal and social issues to be observed when using MMDAgent-EX.
+These guidelines outline the ethical, legal and social issues to be observed when using MMDAgent-EX and the CG avatars.
 
 ### Disallowed usage of our software:
 
