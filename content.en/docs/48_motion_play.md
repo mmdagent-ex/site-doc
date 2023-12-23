@@ -17,7 +17,9 @@ By specifying the motion file (.vmd) you want to play with the **MOTION_ADD** me
 MOTION_ADD|(model alias)|(motion alias)|file.vmd
 {{</message>}}
 
-If the specified model alias does not exist, or if the motion alias already exists, the system will output a Warning and does nothing.
+If the specified model does not exist, the system will output a Warning and does nothing.
+
+If a motion of the name is already running, overwrite it.
 
 At the time of starting the playback, the following **MOTION_EVENT_ADD** event message is issued.
 

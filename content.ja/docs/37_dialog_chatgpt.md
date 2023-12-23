@@ -58,7 +58,7 @@ chatgpt_prompt= '''
 #######################################################
 
 # initialize message holder
-chatgpt_messages = [{"role": "system", "content": chatgpt_prompt}];
+chatgpt_messages = [{"role": "system", "content": chatgpt_prompt}]
 
 # generate response
 def generate_response(str):

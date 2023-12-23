@@ -48,6 +48,8 @@ LOOP LOOP:
 
 The various modules of MMDAgent-EX, including the synthesis modules, communicate through [messages](../messages). Below, some messages for speech synthesis is briefly described.
 
+> You can see the live message by [output log](../log/#several-ways-of-outputting-logs).
+
 ### SYNTH_START
 
 The speech synthesis module executes speech synthesis when a **SYNTH_START** message was issued by other modules.  To tell module to start synthesizing speech, issue the following **SYNTH_START** message.

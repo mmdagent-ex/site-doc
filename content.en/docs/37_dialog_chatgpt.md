@@ -59,7 +59,7 @@ Please speak in a cheerful tone and keep your remarks to one sentence at a time.
 #######################################################
 
 # initialize message holder
-chatgpt_messages = [{"role": "system", "content": chatgpt_prompt}];
+chatgpt_messages = [{"role": "system", "content": chatgpt_prompt}]
 
 # generate response
 def generate_response(str):

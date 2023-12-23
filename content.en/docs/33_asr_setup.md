@@ -67,17 +67,21 @@ Try speaking English into the audio input device. When voice recognition starts,
 
 ![audiometer2](/images/julius_indicator_2.png)
 
-By default, subtitles are ON, so the recognition results will be displayed on the screen.
+The recognition results will be displayed on the screen.
+
+![result](/images/asr_test_en.png)
 
 ## How it works
 
-When recognition starts, the following event message is sent:
+When recognition starts, the following message will be issued to message queue.
+
+> You can see the live message by [output log](../log/#several-ways-of-outputting-logs).
 
 {{< message >}}
 RECOG_EVENT_START
 {{< / message >}}
 
-When recognition ends, the voice recognition result is output with the following event message:
+The recognition result will be issued as the following message.
 
 {{< message >}}
 RECOG_EVENT_STOP|The weather is nice today
@@ -92,6 +96,12 @@ Plugin_Julius_wordspacing=yes
 - `no`: nothing between words (default for `ja`)
 - `yes`: Insert a space between words (default for languages other than `ja`)
 - `comma`: Insert a comma between words (compatible with old MMDAgent)
+
+You can disable the caption by adding the following line to main.mdf.
+
+{{<mdf>}}
+show_caption=true
+{{</mdf>}}
 
 ## When You Want to Use Another Engine
 

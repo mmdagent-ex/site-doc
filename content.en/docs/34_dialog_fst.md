@@ -41,10 +41,10 @@ Hoge Foo  KEY|2 SYNTH_START|0|slt_voice_normal|How are you?
 
 Sequential actions can be defined as a sequence of state transitions. The following is a part of a .fst script that starts a speech synthesis of "Hello" and then continues to say "How are you?" after waiting for the previous synthesis to finish.
 
-```fst
+{{<fst>}}
 Hoge foo1  KEY|1 SYNTH_START|0|slt_voice_normal|Hello!
 foo1 foo2  SYNTH_EVENT_STOP|0 SYNTH_START|0|slt_voice_normal|How are you?
-```
+{{</fst>}}
 
 When the `1` key was pressed at state `Hoge`, the message to trigger the start message for speech synthesis is issued, and then it moves to state `foo1`.  In state `foo1`, it waits for the speech synthesis end event `SYTH_EVENT_STOP|0`, and when that message comes, it issues the next speech synthesis message.
 
@@ -54,10 +54,10 @@ Note that transition will not block. it move to the next state just after issuin
 
 When you use the empty string `<eps>` at the third field (input), the action is executed immediately. For instance, you can start both speech synthesis and motion at the same time as shown below.
 
-```fst
+{{<fst>}}
 Hoge foo1  KEY|1 SYNTH_START|0|slt_voice_normal|Hello!
 foo1 foo2  <eps> MOTION_ADD|0|greet|motions/action/ojigi.vmd
-```
+{{</fst>}}
 
 You can also use `<eps>` in the output to have no output.
 
@@ -65,24 +65,24 @@ You can also use `<eps>` in the output to have no output.
 
 In .fst scripts, you often describe sequential state transitions to process a series of messages. For example, the following is a set of commands in .fst that successively sets the background, loads the model, sets the motion, and configures the camera from the boot time (initial state is "`0`").
 
-```fst
+{{<fst>}}
 0  s1  <eps> STAGE|images/floor_green.png,images/back_white.png
 s1 s2  <eps> MODEL_ADD|0|gene/Gene.pmd
 s2 s3  MODEL_EVENT_ADD|0  MOTION_ADD|0|base|motions/wait/01_Wait.vmd|FULL|LOOP|ON|OFF
 s3 ss  <eps> CAMERA|0,15.25,0|4.5,0,0|22.4|27.0
-```
+{{</fst>}}
 
 As seen above the format is redundant since the middle states are straight forward and no need to have their specific names.
 
 In MMDAgent-EX, you can describe the set of single transition sequence as a block as follows. In this example, only the names of the first state and last state of this block should be written in the first line, and then follows the sequential processes with head indentation.
 
-```fst
+{{<fst>}}
 0  ss:
     <eps> STAGE|images/floor_green.png,images/back_white.png
     <eps> MODEL_ADD|0|gene/Gene.pmd
     MODEL_EVENT_ADD|0  MOTION_ADD|0|base|motions/wait/01_Wait.vmd|FULL|LOOP|ON|OFF
     <eps> CAMERA|0,15.25,0|4.5,0,0|22.4|27.0
-```
+{{</fst>}}
 
 ## Example of a Simple QA
 

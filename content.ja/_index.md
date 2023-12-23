@@ -4,6 +4,8 @@ type: docs
 ---
 # MMDAgent-EX
 
+[日本語 | [English](/../) ]
+
 MMDAgent-EX はCGアバターを用いた音声対話・マルチモーダル対話・アバターコミュニケーションのための研究開発プラットフォームです。[CGアバター ジェネ・うか](https://www.slp.nitech.ac.jp/avatar/) とともに、2023年12月よりオープンソースで公開されています。
 
 > 表記は **MMDAgent-EX** でも **MMD-Agent EX** でも可です。”MMD” の部分は “Multi-Modal Dialogue” と “MikuMikuDance” のダブルミーニングです。我々は「エムエムディーエージェント イーエックス」と呼んでいます。

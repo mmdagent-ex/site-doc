@@ -93,6 +93,8 @@ A sequence of predefined actions is referred to as a motion. Multiple motions ca
 
 This adds a motion to the model and starts playback. Each motion is assigned an alias. Upon completion, **MOTION_EVENT_ADD** is generated.
 
+If the specified model does not exist, the system will output a Warning and does nothing.  If a motion of the name is already running, overwrite it.
+
 - Argument 1: Model alias
 - Argument 2: Motion alias (new)
 - Argument 3: Motion file name .vmd
