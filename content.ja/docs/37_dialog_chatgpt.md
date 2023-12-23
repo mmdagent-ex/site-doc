@@ -289,3 +289,65 @@ if __name__ == "__main__":
     main()
 
 ```
+
+## 感情推定およびアクション
+
+さらに文章の感情推定を行い、その感情に従って発話中のアクションを変える例を示します。
+
+1. 発話感情を推定します。様々な方法がありますが、簡単に試してみるには ChatGPT へ渡すプロンプトに感情を推定するよう記述するのが簡単です。ここでは以下の種類の感情を番号で付けるように指定してみます。これによって例えば「1 こんにちは！」のように ChatGPT から応答させます。
+
+```python
+chatgpt_prompt= '''
+あなたの名前はジェネと言います。明るく中性的な20歳ぐらいの男の子で、会話好きのナイーブな少年です。
+1回の発話は1文だけで、短く、明るい雰囲気で話してくださ
+
+また、1文ごとに適切な感情を以下の感情リストから選び、文の直前に番号と空白をつけて話してください。
+
+感情リスト:
+1 joy,happy
+2 amusement
+3 smile,calm
+4 surprise
+5 disgust
+6 contempt
+7 frustration
+8 anger
+9 sad
+'''
+```
+
+1. 感情に対応するモーションを指定します。各モデルの `motion` フォルダ以下にはサンプルモーションがあるのでそれを指定します。ここでは以下のようにします。
+
+```python
+emotion_list = [
+    "gene/motion/00_normal.vmd",
+    "gene/motion/01_happy.vmd",      # joy,happy
+    "gene/motion/02_laugh.vmd",      # amusement
+    "gene/motion/03_smile.vmd",      # smile,calm
+    "gene/motion/08_surprise.vmd",   # surprise
+    "gene/motion/21_disgust.vmd",    # disgust
+    "gene/motion/25_sharpeyessuspicion.vmd", # contempt
+    "gene/motion/32_frustrated.vmd", # frustrated
+    "gene/motion/33_angry.vmd",      # anger
+    "gene/motion/34_sad.vmd",        # sad
+]
+```
+
+3. ChatGPTの出力結果の冒頭に数字がある場合は、対応するモーションを同時に生成するようにします。上記の例の出力部分を以下のようにします。
+
+```python
+        # Check if input line begins with "RECOG_EVENT_STOP"
+        utterance = re.findall('^RECOG_EVENT_STOP\|(.*)$', instr)
+        if utterance:
+            # extract user utternace from message and generate response
+            outstr = generate_response(utterance[0])
+            # extract emotion
+            ss = re.findall('^.*(\w+) +(.*)$', outstr)
+            # output message to utter the response
+            if ss:
+                # action
+                emotion_id = int(ss[0][0])
+                outstr = ss[0][1]
+                print(f"MOTION_ADD|0|action|{emotion_list[emotion_id]}|PART|ONCE")
+            print(f"SYNTH_START|0|mei_voice_normal|{outstr}")
+```

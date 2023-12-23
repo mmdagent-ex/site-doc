@@ -289,3 +289,67 @@ if __name__ == "__main__":
     main()
 
 ```
+
+## Add emotions and actions
+
+Furthermore, I will present an example of estimating the emotion in text and playing the corresponding action.
+
+1. Estimate the emotion of the speech. There are various methods, but a simple one is to write a prompt for ChatGPT that includes emotion estimation. Here, we assign numbers to the following types of emotions. This way, for example, ChatGPT might respond with "1 Hello!".
+
+```python
+chatgpt_prompt= '''
+Your name is Gene. You're a bright and gender-neutral young person around the age of 20,
+who enjoys conversations and is rather naive.  Please speak in a cheerful tone and keep
+your remarks to one sentence at a time.
+
+Additionally, please choose the appropriate emotion for each sentence from the following
+list of emotions, and speak the sentence with the number and a space before it.
+
+List of emotions:
+1 joy,happy
+2 amusement
+3 smile,calm
+4 surprise
+5 disgust
+6 contempt
+7 frustration
+8 anger
+9 sad
+'''
+```
+
+2. Specify motions corresponding to the emotions. There are sample motions in the `motion` folder of each model, so you can use it.
+
+```python
+emotion_list = [
+    "gene/motion/00_normal.vmd",
+    "gene/motion/01_happy.vmd",      # joy,happy
+    "gene/motion/02_laugh.vmd",      # amusement
+    "gene/motion/03_smile.vmd",      # smile,calm
+    "gene/motion/08_surprise.vmd",   # surprise
+    "gene/motion/21_disgust.vmd",    # disgust
+    "gene/motion/25_sharpeyessuspicion.vmd", # contempt
+    "gene/motion/32_frustrated.vmd", # frustrated
+    "gene/motion/33_angry.vmd",      # anger
+    "gene/motion/34_sad.vmd",        # sad
+]
+```
+
+3. Modify the main loop to find if the output of ChatGPT begins with a number, and generate the corresponding motion command.
+ 
+```python
+        # Check if input line begins with "RECOG_EVENT_STOP"
+        utterance = re.findall('^RECOG_EVENT_STOP\|(.*)$', instr)
+        if utterance:
+            # extract user utternace from message and generate response
+            outstr = generate_response(utterance[0])
+            # extract emotion
+            ss = re.findall('^.*(\w+) +(.*)$', outstr)
+            # output message to utter the response
+            if ss:
+                # action
+                emotion_id = int(ss[0][0])
+                outstr = ss[0][1]
+                print(f"MOTION_ADD|0|action|{emotion_list[emotion_id]}|PART|ONCE")
+            print(f"SYNTH_START|0|slt_voice_normal|{outstr}")
+```
