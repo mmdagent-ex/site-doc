@@ -111,16 +111,16 @@ After a successful build, the necessary executables and plugins are ready at the
 
 ### Windows
 
-Build with Visual Studio 2022.
-
-{{< hint info >}}
-Building MMDAgent-EX requires C++ development environment and Windows SDK.  During Visual Studio's installation, check "Desktop development with C++" and install MSVC v143 and Windows 11 SDK (confirmed with 10.0.22000.0).
-{{< /hint >}}
+Build with Visual Studio 2022.  It requires C++ development environment and Windows SDK.  During Visual Studio's installation, check "Desktop development with C++" and install MSVC v143 and Windows 11 SDK (confirmed with 10.0.22000.0).
 
 1. Open `MMDAgent_vs2022.sln` with Visual Studio 2022
 2. Right-click on `main` in Solution Explorer and set as the startup project
 3. Set the build configuration to `Release`
 4. Execute "Build Solution"
+
+{{< hint info >}}
+Pre-built executable binaries are also provided for convenience.  If you do not have build enviroment, download the latest zip file for win32 from the [GitHub releases page](https://github.com/mmdagent-ex/MMDAgent-EX/releases) and unzip the contents into the Release folder.
+{{< /hint >}}
 
 ## Built Files
 

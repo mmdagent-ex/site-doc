@@ -29,3 +29,23 @@ MMDAgent-EX はCGアバターを用いた音声対話・マルチモーダル対
 - Twitter/X [@MMDAgentEX](https://twitter.com/MMDAgentEX)（更新情報等お知らせ）
 - 問い合わせ先：mmdagent-ex-official@lee-lab.org （研究・開発・許諾等ご相談）
 - 開発元：[名古屋工業大学 李 研究室](https://www.slp.nitech.ac.jp/)
+
+文献等での引用情報です。
+
+**APA**
+
+    Lee, A. (2023). MMDAgent-EX (Version 1.0.0) [Computer software].
+    https://doi.org/10.5281/zenodo.10427369
+
+**BibTeX**
+
+    @software{Lee_MMDAgent-EX_2023,
+        author = {Lee, Akinobu},
+        doi = {10.5281/zenodo.10427369},
+        license = {Apache-2.0},
+        month = dec,
+        title = {{MMDAgent-EX}},
+        url = {https://github.com/mmdagent-ex/MMDAgent-EX},
+        version = {1.0.0},
+        year = {2023}
+    }

@@ -110,16 +110,16 @@ cmake --build build
 
 ### Windows
 
-Visual Studio 2022 でビルドする。
-
-{{< hint info >}}
-インストールの際には「C++によるデスクトップ開発」にチェックを入れ、MSVC v143 と Windows 11 SDK (10.0.22000.0で確認）を併せてインストールする。
-{{< /hint >}}
+Visual Studio 2022 でビルドする。インストールの際には「C++によるデスクトップ開発」にチェックを入れ、MSVC v143 と Windows 11 SDK (10.0.22000.0で確認）を併せてインストールする。
 
 1. `MMDAgent_vs2022.sln` を Visual Studio 2022 で開く
 2. ソリューションエクスプローラで `main` を右クリックしてスタートアッププロジェクトに設定
 3. ビルド設定を `Release` に設定
 4. 「ソリューションのビルド」を実行
+
+{{< hint info >}}
+※ビルドがうまくいかない場合、リリースごとに公開されている実行バイナリを使うこともできます。[GitHubのリリースページ](https://github.com/mmdagent-ex/MMDAgent-EX/releases)から最新の win32 用の zip ファイルをダウンロードし、中身を `Release` フォルダ以下にコピーしてください。
+{{< /hint >}}
 
 ## ビルドファイル
 

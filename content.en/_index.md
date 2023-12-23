@@ -29,3 +29,23 @@ Contact information
 - Twitter/X [@MMDAgentEX](https://twitter.com/MMDAgentEX)（for announcements）
 - mmdagent-ex-official@lee-lab.org (for inquiries about research, development, and licensing)
 - Developed at: [Lee Laboratory, Nagoya Institute of Technology](https://www.slp.nitech.ac.jp/en/)
+
+**Citations**
+
+**APA**
+
+    Lee, A. (2023). MMDAgent-EX (Version 1.0.0) [Computer software].
+    https://doi.org/10.5281/zenodo.10427369
+
+**BibTeX**
+
+    @software{Lee_MMDAgent-EX_2023,
+        author = {Lee, Akinobu},
+        doi = {10.5281/zenodo.10427369},
+        license = {Apache-2.0},
+        month = dec,
+        title = {{MMDAgent-EX}},
+        url = {https://github.com/mmdagent-ex/MMDAgent-EX},
+        version = {1.0.0},
+        year = {2023}
+    }
