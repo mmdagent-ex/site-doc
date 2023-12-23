@@ -36,22 +36,33 @@ MMDAgent-EX はコンテンツを再生します。コンテンツとは、3Dモ
         |- main.mdf         Startup / Configuration
         |- main.fst         Dialogue Script
         |- main.ojt         Open JTalk setting
-        |- images/
-        |    |- ...
+        |- main.fph         FLite+HTS_Engine setting
+        |- gene/            CG-CA model "Gene" (git submodule)
+        |    |- Gene.pmd
+        |- uka/             CG-CA model "Uka"  (git submodule)
+        |    |- Uka.pmd
         |- motions/
         |    |- ...
         |- voice/           Voice model "mei" for Open JTalk
         |    |- mei/
-        |- gene/            CG-CA model "Gene"
-        |    |- Gene.pmd
-        |- uka/             CG-CA model "Uka"
-        |    |- Uka.pmd
+        |- images/
+        |    |- ...
+        |- glasses/
+        |    |- ...
+        |- stage/
+        |    |- ...
+        |- demo/            Demonsration
+        |    |- Gene_en
+        |    |- Gene_jp
+        |    |- Uka_en
+        |    +- Uka_jp
         |- example_motion/     Example files for motion blending
         +- example_websocket/  Example files for websocket connection
 
 サンプルコンテンツを clone してください。CG-CAのレポジトリを内部で clone するために submodule を使っているので `--recursive` をつけます。
 
 ```shell
+cd MMDAgent-EX
 git clone --recursive https://github.com/mmdagent-ex/example
 ```
 

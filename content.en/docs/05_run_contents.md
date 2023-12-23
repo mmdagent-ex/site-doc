@@ -36,22 +36,33 @@ The [example content](https://github.com/mmdagent-ex/example) is a repository th
         |- main.mdf         Startup / Configuration
         |- main.fst         Dialogue Script
         |- main.ojt         Open JTalk setting
-        |- images/
-        |    |- ...
+        |- main.fph         FLite+HTS_Engine setting
+        |- gene/            CG-CA model "Gene" (git submodule)
+        |    |- Gene.pmd
+        |- uka/             CG-CA model "Uka"  (git submodule)
+        |    |- Uka.pmd
         |- motions/
         |    |- ...
         |- voice/           Voice model "mei" for Open JTalk
         |    |- mei/
-        |- gene/            CG-CA model "Gene"
-        |    |- Gene.pmd
-        |- uka/             CG-CA model "Uka"
-        |    |- Uka.pmd
+        |- images/
+        |    |- ...
+        |- glasses/
+        |    |- ...
+        |- stage/
+        |    |- ...
+        |- demo/            Demonsration
+        |    |- Gene_en
+        |    |- Gene_jp
+        |    |- Uka_en
+        |    +- Uka_jp
         |- example_motion/     Example files for motion blending
         +- example_websocket/  Example files for websocket connection
 
 Clone the sample content. Do not forget to use `--recursive` option ad clone, as it loads the CG-CA models as submodules.
 
 ```shell
+cd MMDAgent-EX
 git clone --recursive https://github.com/mmdagent-ex/example
 ```
 
@@ -89,3 +100,7 @@ To set the content being executed as home:
 ### If it fails in WSL
 
 If the screen doesn't appear and the launch fails in WSL, your version of WSL may be outdated. Please use the latest WSL2, which supports GUI apps. For details, [please refer to this site to update your WSL version](https://learn.microsoft.com/windows/wsl/tutorials/gui-apps).
+
+## Run demo
+
+Example 
