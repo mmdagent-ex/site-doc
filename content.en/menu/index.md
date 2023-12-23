@@ -15,27 +15,27 @@ headless: true
 - [Speech Recognition]({{< relref "/docs/33_asr_setup" >}})
 - [Dialogue Control by FST]({{< relref "/docs/34_dialog_fst" >}})
 - [Dialogue with Python]({{< relref "/docs/36_dialog_python" >}})
-- [Connect to ChatGPT]({{< relref "/docs/37_dialog_chatgpt" >}})
+- [ChatGPT Examples]({{< relref "/docs/37_dialog_chatgpt" >}})
 - [Other Avatars]({{< relref "/docs/38_change_model" >}})
 <br />
 
 - **Creating Content**
-- [Test a Messsage on Browser]({{< relref "/docs/40_test_message" >}})
-- [Configurations in .mdf]({{< relref "/docs/41_mdf_basic" >}})
-- [Displaying 3D Models]({{< relref "/docs/43_3dmodel" >}})
+- [How to Test a Messsage]({{< relref "/docs/40_test_message" >}})
+- [.mdf file]({{< relref "/docs/41_mdf_basic" >}})
+- [3D Avatars and Models]({{< relref "/docs/43_3dmodel" >}})
   - [PMX Models]({{< relref "/docs/45_pmx" >}})
   - [Post Effects]({{< relref "/docs/46_effect" >}})
-- [Controlling Motions]({{< relref "/docs/47_motion" >}})
+- [Motion Control]({{< relref "/docs/47_motion" >}})
   - [Play a Motion]({{< relref "/docs/48_motion_play" >}})
-  - [Motions Layering]({{< relref "/docs/49_motion_layer" >}})
+  - [Overlaying Motions]({{< relref "/docs/49_motion_layer" >}})
   - [Motion Blending]({{< relref "/docs/50_motion_blend" >}})
-  - [Direct Control]({{< relref "/docs/52_motion_bind" >}})
-  - [Timer Function]({{< relref "/docs/54_timer" >}})
-- [Controlling Camera]({{< relref "/docs/55_camera" >}})
-- [Background, Floor, Front Frame]({{< relref "/docs/62_scene" >}})
+  - [Direct Manipulation]({{< relref "/docs/52_motion_bind" >}})
+  - [Using Timers]({{< relref "/docs/54_timer" >}})
+- [Camera]({{< relref "/docs/55_camera" >}})
+- [Background, Floor, Frame]({{< relref "/docs/62_scene" >}})
 - Image, Text and Audio
   - [Play Audio and Speech]({{< relref "/docs/58_sound" >}})
-  - [Images & Text]({{< relref "/docs/60_text_image" >}})
+  - [Show Images & Text]({{< relref "/docs/60_text_image" >}})
   - [Prompt Dialogue with text]({{< relref "/docs/61_text_prompt" >}})
   - [Text Document]({{< relref "/docs/63_text_document" >}})
 - [Defining Menus]({{< relref "/docs/64_menu" >}})
@@ -44,7 +44,7 @@ headless: true
 <br />
 
 - **Developments**
-- [Add Submodule]({{< relref "/docs/70_submodule" >}})
+- [Integrating Submodule]({{< relref "/docs/70_submodule" >}})
 - [Control via Socket]({{< relref "/docs/71_remote" >}})
   - [WebSocket]({{< relref "/docs/72_remote_websocket" >}})
   - [TCP/IP]({{< relref "/docs/73_remote_tcpip" >}})
