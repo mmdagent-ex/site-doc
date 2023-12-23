@@ -100,7 +100,7 @@ Plugin_Julius_wordspacing=yes
 You can disable the caption by adding the following line to main.mdf.
 
 {{<mdf>}}
-show_caption=true
+show_caption=false
 {{</mdf>}}
 
 ## When You Want to Use Another Engine

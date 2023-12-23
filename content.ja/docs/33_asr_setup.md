@@ -101,7 +101,7 @@ Plugin_Julius_wordspacing=yes
 字幕の表示をOFFにすることができます。OFFにするには、以下の1行を main.mdf に設定してください。
 
 {{<mdf>}}
-show_caption=true
+show_caption=false
 {{</mdf>}}
 
 ## 他のエンジンを使いたいとき

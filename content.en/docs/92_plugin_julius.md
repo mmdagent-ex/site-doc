@@ -50,7 +50,7 @@ Plugin_Julius_logfile=log.txt
 
 **show_caption**
 
-Displays subtitles. The voice recognition results are displayed on the left side of the screen and the voice synthesis content (the sentence given with **SYNTH_START**) is displayed on the right side.
+Displays subtitles. The voice recognition results are displayed on the left side of the screen and the voice synthesis content (the sentence given with **SYNTH_START**) is displayed on the right side. Set to false to disable it.
 
 {{<mdf>}}
 show_caption=true
