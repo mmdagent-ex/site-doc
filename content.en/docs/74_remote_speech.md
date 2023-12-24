@@ -1,44 +1,46 @@
-
-
 ---
-title: Streaming Audio Data
+title: Speaking External Voice
 slug: remote-speech
 ---
 {{< hint info >}}
 The lip-sync functionality for external audio is provided by the Plugin_Remote. Please ensure that this plugin is enabled when using it.
 {{< /hint >}}
 
-# Streaming Audio Data
+# Speaking External Speech Data
 
-You can pass audio data from an external module to MMDAgent-EX and play it back with lip sync. Several methods are available to achieve this. Each will be explained in order below.
+You can prepare a speech data and make MMDAgent-EX to speak.Several methods are available to achieve this. Each will be explained in order below.
 
-## Method 1: Passing Via File
+## Method 1: Save to file and pass the path
 
-This method involves saving your audio data to a file and specifying that file's path in MMDAgent-EX to play it. Follow the steps below to execute this method.
+Save your audio data to file, and tell MMDAgent-EX to play it.
 
-- Save the synthesized speech (or recording) to an audio file
-- Send the **SPEAK** command, specifying the file path, to MMDAgent-EX via socket or similar
+- Your program saves the synthesized speech (or recording) to an audio file.
+- Send the command to MMDAgent-EX:
 
-For detailed instructions on how to use the **SPEAK** command, please see [Playing Sound](../sound/#sound-reproduction-with-lip-sync).
+{{<message>}}
+SPEAK_START|(model alias)|(audio file path)
+{{</message>}}
 
-While this method is simple and easy, it requires the process sending the filename and MMDAgent-EX to be running on the same machine, sharing the same filesystem. Also, it only works with file-based audio data and cannot be used for continuous audio streams.
+For detailed instructions on how to use the **SPEAK_START** command, please see [Playing Sound](../sound/#sound-reproduction-with-lip-sync).
 
-## Method 2: Streaming Audio Data from a Socket
+While this method is simple and easy, it requires the process and MMDAgent-EX to be running on the same machine, sharing the same filesystem. Also, it cannot be used for continuous audio streams.
+
+## Method 2: Stream audio data via socket
 
 You can stream audio data from an external source over a socket using a [socket connection](../remote-control). Although socket connections allow for text message exchanges, you can also send audio data over the same socket using the specific headers outlined below. This works with both [TCP/IP connections](../remote-tcpip) and [WebSocket connections](../remote-websocket).
 
 **When sending audio data using this method, the audio data format must be unencoded 16kHz, 16bit signed short, mono PCM data**. Please note that other sampling rates and formats are not supported. Also, the model for lip-syncing must have lip-sync information described in the [.shapemap](../sound/#preparation-1).
 
-### Explanation of Communication Procedures
+### The procedures
 
-Below, the communication procedures are explained. If you're using voice streaming from a socket, after establishing a socket connection, you need to send the following two messages to MMDAgent-EX. The first message is to start the operation, and the second is to specify the **model alias name of the model you want to lip-sync**. Each message should be sent with a newline code at the end, like `__AV_START\n`. Don't forget this.
+After establishing a socket connection, you need to send the following two messages to MMDAgent-EX. The first message is to start the operation, and the second is to specify the **model you want to lip-sync with**. Each message should be sent with a newline code at the end, like `__AV_START\n`. 
 
 ```text
 __AV_START
 __AV_SETMODEL, model alias
 ```
 
-Next, you send a message specifying the transfer mode. If you want to continue sending a continuous voice stream, send `SNDSTRM\n`. This is the default if no mode is specified. In this case, MMDAgent-EX will automatically remove silent sections and detect voice sections. If you want to send pre-segmented voice data, such as from a file, send `SNDFILE\n`. In this case, MMDAgent-EX will not detect or remove silent sections. The end of the voice data needs to be explicitly specified by the sender (explained later).
+Next, you send a message specifying the transfer mode. If you want to send a continuous voice stream like microphone input, send `SNDSTRM\n`. This is the default if no mode is specified. In this case, MMDAgent-EX will automatically skip silent sections from the stream. If you want to send pre-generated voice data, send `SNDFILE\n`. In this case, MMDAgent-EX will not detect or remove silent sections. With `SNDFILE\n`, the end of the voice data needs to be explicitly specified by the sender (explained later).
 
 ```text
 (For streaming)
@@ -47,7 +49,7 @@ SNDSTRM
 SNDFILE
 ```
 
-After that, the audio data is divided into short chunks and sent. One chunk consists of the string "`SND`" followed by a 4-digit (decimal) chunk length (in bytes), followed by the specified chunk length worth of voice waveform data. No newline code is needed. This is done continuously for each short chunk of voice (about 1024 bytes). Please make sure that the chunk size does not exceed 4K Bytes.
+After that, the audio data should divided into short chunks and sent. One chunk consists of the string "`SND`" followed by a 4-digit (decimal) chunk length (in bytes), followed by the body of the raw waveform data. No newline code is needed.  **The size of each chunk should be less than 4K bytes**. For longer audio data, divide it into the small chunks (less than 4K bytes) and send them in turn.
 
 ```text
 SNDxxxxyyyyyyyyyyyyyyyyyyy....
@@ -58,7 +60,9 @@ SNDxxxxyyyyyyyyyyyyyyyyyyy....
 
 When `SNDFILE\n` is specified, MMDAgent-EX does not automatically detect the end of the voice, so once you have finished sending up to the end, send `SNDBRKS\n` to notify MMDAgent-EX that input has finished.
 
-### Sample
+**Do not close socket immediately**. The audio playing is threaded, i.e., the sending function will return immediately without waiting for the data to play. If you close the socket immediately after finished sending the data, MMDAgent-EX will terminate the audio play immediately, so the whole audio will not be played. If you wish to close the socket after sending audio, **wait for the duration length of the audio before closing the connection**.
+
+### Sample program
 
 Below is a sample script for "Real-time streaming of voice from a microphone device to MMDAgent-EX". Both WebSocket and TCPIP samples are shown. Please prepare a microphone device before running it.
 
@@ -199,19 +203,12 @@ while True:
     tcp_client.send(payload)
 ```
 
-Tips on sending buffered audio data:
-
-1. The size of each chunk should be less than 1000 bytes. For longer audio data, divide it into the small chunks (less than 1000 bytes) and send them in turn.
-2. The sent audio data will be buffered and played on the MMDAgent-EX side without blocking. However, when the socket connection is closed, it terminates the ongoing audio playback forcibly. Therefore, if you close the socket immediately after finished sending the data, the rest will not be played. If you wish to close the socket immediately after sending audio, wait for the duration of the audio before closing the connection.
-
-```
-
 {{< /tab >}}
 {{< /tabs >}}
 
 This method requires more coding compared to Method 1, and it also places restrictions on the format of the audio data. However, it offers the advantages of being able to stream continuous audio and exchange data between the sending process and MMDAgent-EX, even if they are on different machines.
 
-## Method 3: Making it Lip Sync
+## Method 3: just play externally, only send lip information
 
 You can also make MMDAgent-EX do only the "lip sync" part, while an external process handles everything up to the playback of the sound. In this case, the external process creates a message for lip sync, **LYPSYNC_START**, and sends it to MMDAgent-EX via a socket or similar, timed with the playback of the sound.
 
@@ -223,9 +220,7 @@ LIPSYNC_START|gene|sil,187,k,75,o,75,N,75,n,75,i,62,ch,75,i,87,w,100,a,87,sil,21
 
 The default set of phoneme names is the one used by Open JTalk. This can be easily modified or extended by editing the "Lip Sync Definition File".
 
-<details close>
-
-### About the Lip Sync Definition File
+{{< details "About the Lip Sync Definition File" close >}}
 
 The definition of phoneme names and the conversion rules from each phoneme name to the character's morph are defined in the `lip.txt` file under the `AppData` folder where the MMDAgent-EX executable file is located. Here is a part of it. By default, it is defined to express the phoneme set of Open JTalk as a weighted combination of the four morphs "a", "i", "u", and "o". You can extend this to any phoneme sequence/morph by editing or adding phonemes.
 
@@ -250,7 +245,7 @@ a   0.5 0.0 0.0 0.0
 ...
 ```
 
-</details>
+{{< /details >}}
 
 MMDAgent-EX converts the phoneme sequence sent with **LIPSYNC_START** into motion according to the definition, and starts playback on the specified model. **LIPSYNC_EVENT_START** is issued at the start of lip sync, and **LIPSYNC_EVENT_STOP** is issued when it ends.
 

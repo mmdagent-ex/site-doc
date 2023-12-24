@@ -44,11 +44,11 @@ headless: true
 <br />
 
 - **Developments**
-- [Integrating Submodule]({{< relref "/docs/70_submodule" >}})
+- [Adding Modules]({{< relref "/docs/70_submodule" >}})
 - [Control via Socket]({{< relref "/docs/71_remote" >}})
   - [WebSocket]({{< relref "/docs/72_remote_websocket" >}})
   - [TCP/IP]({{< relref "/docs/73_remote_tcpip" >}})
-- [Voice Streaming]({{< relref "/docs/74_remote_speech" >}})
+- [Speaking External Voice]({{< relref "/docs/74_remote_speech" >}})
 - [Global Variables]({{< relref "/docs/75_global_variables" >}})
 <br />
 

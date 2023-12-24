@@ -1,7 +1,7 @@
 import socket
 import pyaudio
 
-server = ("localhost", 60001)
+server = ("localhost", 50001)
 tcp_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 tcp_client.connect(server)
 

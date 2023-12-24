@@ -20,8 +20,8 @@ headless: true
 <br />
 
 - **コンテンツ作成**
-- [Webブラウザで試す]({{< relref "/docs/40_test_message" >}})
-- [パラメータを設定する]({{< relref "/docs/41_mdf_basic" >}})
+- [メッセージを試す方法]({{< relref "/docs/40_test_message" >}})
+- [.mdf ファイル]({{< relref "/docs/41_mdf_basic" >}})
 - [3Dモデルを表示する]({{< relref "/docs/43_3dmodel" >}})
   - [PMXモデル]({{< relref "/docs/45_pmx" >}})
   - [エフェクト]({{< relref "/docs/46_effect" >}})
@@ -29,7 +29,7 @@ headless: true
   - [モーションの再生]({{< relref "/docs/48_motion_play" >}})
   - [モーションの重ね]({{< relref "/docs/49_motion_layer" >}})
   - [モーションのブレンド]({{< relref "/docs/50_motion_blend" >}})
-  - [数値で直接指定]({{< relref "/docs/52_motion_bind" >}})
+  - [数値で直接制御]({{< relref "/docs/52_motion_bind" >}})
   - [タイマーを活用する]({{< relref "/docs/54_timer" >}})
 - [視点（カメラ）]({{< relref "/docs/55_camera" >}})
 - [背景・床・フレーム]({{< relref "/docs/62_scene" >}})
@@ -43,12 +43,12 @@ headless: true
 - [Webでコンテンツを配信する]({{< relref "/docs/68_web" >}})
 <br />
 
-- **拡張**
-- [サブモジュールとして組み込む]({{< relref "/docs/70_submodule" >}})
+- **開発・拡張**
+- [モジュールを追加する]({{< relref "/docs/70_submodule" >}})
 - [ソケット接続で制御する]({{< relref "/docs/71_remote" >}})
   - [WebSocket]({{< relref "/docs/72_remote_websocket" >}})
   - [TCP/IP]({{< relref "/docs/73_remote_tcpip" >}})
-- [音声データを流し込む]({{< relref "/docs/74_remote_speech" >}})
+- [外部音声を話させる]({{< relref "/docs/74_remote_speech" >}})
 - [グローバル変数で連携する]({{< relref "/docs/75_global_variables" >}})
 <br />
 
