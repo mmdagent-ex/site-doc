@@ -157,7 +157,7 @@ This is a sample of MMDAgent-EX operating as a TCP/IP server, where a client con
 
 ```mdf
 Plugin_Remote_EnableServer=true
-Plugin_Remote_ListenPort=60001
+Plugin_Remote_ListenPort=50001
 ```
 
 After launching MMDAgent-EX, you can connect and start streaming audio by running the script below. Speak into your microphone, and confirm that the CG agent reproduces the sound while lip-syncing. (If it doesn't work, please check your audio device settings).
@@ -170,8 +170,8 @@ After launching MMDAgent-EX, you can connect and start streaming audio by runnin
 import socket
 import pyaudio
 
-# connect to localhost:60001
-server = ("localhost", 60001)
+# connect to localhost:50001
+server = ("localhost", 50001)
 tcp_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 tcp_client.connect(server)
 
@@ -199,6 +199,12 @@ while True:
     tcp_client.send(payload)
 ```
 
+Tips on sending buffered audio data:
+
+1. The size of each chunk should be less than 1000 bytes. For longer audio data, divide it into the small chunks (less than 1000 bytes) and send them in turn.
+2. The sent audio data will be buffered and played on the MMDAgent-EX side without blocking. However, when the socket connection is closed, it terminates the ongoing audio playback forcibly. Therefore, if you close the socket immediately after finished sending the data, the rest will not be played. If you wish to close the socket immediately after sending audio, wait for the duration of the audio before closing the connection.
+
+```
 
 {{< /tab >}}
 {{< /tabs >}}

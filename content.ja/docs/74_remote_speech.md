@@ -153,7 +153,7 @@ MMDAgent-EX が TCP/IP サーバとして起動し、クライアントが接続
 
 {{<mdf>}}
 Plugin_Remote_EnableServer=true
-Plugin_Remote_ListenPort=60001
+Plugin_Remote_ListenPort=50001
 {{</mdf>}}
 
 MMDAgent-EX を起動したあと、下記のスクリプトを起動することで接続され、音声のストリーミングが始まります。マイクに向かってしゃべり、 CGエージェントがリップシンクしながら音声を再生するのを確認してください。（うまく動かない場合はオーディオデバイスの設定を確認してください）。
@@ -166,8 +166,8 @@ MMDAgent-EX を起動したあと、下記のスクリプトを起動するこ�
 import socket
 import pyaudio
 
-# connect to localhost:60001
-server = ("localhost", 60001)
+# connect to localhost:50001
+server = ("localhost", 50001)
 tcp_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 tcp_client.connect(server)
 
@@ -194,6 +194,11 @@ while True:
     payload = bytearray(header + input_data)
     tcp_client.send(payload)
 ```
+
+ファイル等のバッファされたオーディオデータを送る場合は以下の点に注意してください。
+
+1. 1回あたり送信できるチャンクのサイズは1000バイト未満です。長いオーディオデータは小さなチャンク（1000バイト未満）に細切れにして送ってください。
+2. 送信されたオーディオデータは再生を待たずに即座に受け取られ、MMDAgent-EX内の別スレッドでバッファリングされつつ順次再生されます。このとき、ソケット接続を close したら、音声再生も含めて終了するため、データ送信終了後すぐに接続を close するとオーディオが最後まで再生されずに止まってしまいます。送信後すぐに接続をクローズしたい場合は、再生秒数分だけ待ってから close するようにしてください。
 
 {{< /tab >}}
 {{< /tabs >}}

@@ -92,14 +92,14 @@ When connecting to a server as a TCP/IP client
 ```markdown
 Plugin_Remote_EnableClient=true
 Plugin_Remote_Hostname=localhost
-Plugin_Remote_Port=60001
+Plugin_Remote_Port=50001
 ```
 
 When becoming a TCP/IP server
 
 ```markdown
 Plugin_Remote_EnableServer=true
-Plugin_Remote_ListenPort=60001
+Plugin_Remote_ListenPort=50001
 ```
 
 ### Common Settings

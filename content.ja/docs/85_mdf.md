@@ -90,14 +90,14 @@ TCP/IP クライアントになってサーバへ接続する場合
 {{<mdf>}}
 Plugin_Remote_EnableClient=true
 Plugin_Remote_Hostname=localhost
-Plugin_Remote_Port=60001
+Plugin_Remote_Port=50001
 {{</mdf>}}
 
 TCP/IP サーバになる場合
 
 {{<mdf>}}
 Plugin_Remote_EnableServer=true
-Plugin_Remote_ListenPort=60001
+Plugin_Remote_ListenPort=50001
 {{</mdf>}}
 
 

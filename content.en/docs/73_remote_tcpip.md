@@ -26,7 +26,7 @@ In the .mdf file, set `Plugin_Remote_EnableServer=true`, and the port number to 
 
 {{<mdf>}}
 Plugin_Remote_EnableServer=true
-Plugin_Remote_ListenPort=60001
+Plugin_Remote_ListenPort=50001
 {{</mdf>}}
 
 ### Client Script Example: Receiving
@@ -36,7 +36,7 @@ Here's an example of a script connecting to the MMDAgent-EX server and receiving
 ```python
 import socket
 
-server = ("127.0.0.1", 60001)
+server = ("127.0.0.1", 50001)
 tcp_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 tcp_client.connect(server)
 
@@ -57,7 +57,7 @@ Here's an example of a script connecting to the MMDAgent-EX server and sending m
 ```python
 import socket
 
-server = ("127.0.0.1", 60001)
+server = ("127.0.0.1", 50001)
 tcp_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 tcp_client.connect(server)
 tcp_client.send(b"MESSAGE|aaa|bbb\n")
@@ -75,7 +75,7 @@ In the .mdf file, set `Plugin_Remote_EnableClient=true` and the hostname and por
 {{<mdf>}}
 Plugin_Remote_EnableClient=true
 Plugin_Remote_Hostname=localhost
-Plugin_Remote_Port=60001
+Plugin_Remote_Port=50001
 {{</mdf>}}
 
 ### Server Script Example: Receiving
@@ -85,7 +85,7 @@ This is an example of a script operating as a server, receiving messages from MM
 ```python
 import socket
 
-server = ("127.0.0.1", 60001)
+server = ("127.0.0.1", 50001)
 listen_num = 5
 
 tcp_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -111,7 +111,7 @@ This is an example of a script operating as a server, sending messages to MMDAge
 ```python
 import socket
 
-server = ("127.0.0.1", 60001)
+server = ("127.0.0.1", 50001)
 listen_num = 5
 
 tcp_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

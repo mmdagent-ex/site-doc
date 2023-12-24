@@ -24,7 +24,7 @@ MMDAgent-EX がサーバとして起動し、クライアントからの接続�
 
 {{<mdf>}}
 Plugin_Remote_EnableServer=true
-Plugin_Remote_ListenPort=60001
+Plugin_Remote_ListenPort=50001
 {{</mdf>}}
 
 ### クライアントスクリプト例：受信
@@ -34,7 +34,7 @@ Plugin_Remote_ListenPort=60001
 ```python
 import socket
 
-server = ("127.0.0.1", 60001)
+server = ("127.0.0.1", 50001)
 tcp_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 tcp_client.connect(server)
 
@@ -55,7 +55,7 @@ tcp_client.close()
 ```python
 import socket
 
-server = ("127.0.0.1", 60001)
+server = ("127.0.0.1", 50001)
 tcp_client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 tcp_client.connect(server)
 tcp_client.send(b"MESSAGE|aaa|bbb\n")
@@ -73,7 +73,7 @@ tcp_client.close()
 {{<mdf>}}
 Plugin_Remote_EnableClient=true
 Plugin_Remote_Hostname=localhost
-Plugin_Remote_Port=60001
+Plugin_Remote_Port=50001
 {{</mdf>}}
 
 ### サーバスクリプト例：受信
@@ -83,7 +83,7 @@ Plugin_Remote_Port=60001
 ```python
 import socket
 
-server = ("127.0.0.1", 60001)
+server = ("127.0.0.1", 50001)
 listen_num = 5
 
 tcp_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -109,7 +109,7 @@ while True:
 ```python
 import socket
 
-server = ("127.0.0.1", 60001)
+server = ("127.0.0.1", 50001)
 listen_num = 5
 
 tcp_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

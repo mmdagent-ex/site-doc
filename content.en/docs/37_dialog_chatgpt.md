@@ -2,7 +2,6 @@
 title: Connecting with ChatGPT
 slug: dialog-test-chatgpt
 ---
-
 # Connect with ChatGPT
 
 {{< hint warning >}}
@@ -10,15 +9,18 @@ Please complete the setup for [voice recognition](../asr-setup) and [speech synt
 ](../tts-test) first.
 {{< /hint >}}
 
-## Basic Example
 
-Here is a simple program, `chatgpt.py`, that uses the OpenAI chat completion API for dialogue.
+MMDAgent-EX can be used as a frontend for dialogue systems. Here, we introduce a simple example that connects OpenAI's GPT model.
+
+## Connecting LLM-Based Dialogue Generation to MMDAgent-EX
+
+The following steps show a simple program that conducts dialogues using OpenAI's chat completion API, and how to start it as a submodule of MMDAgent-EX.
 
 {{< hint warning >}}
 The examples provided here use very simple prompts, so the scope of the conversation is quite limited. This page does not cover how to use and optimize chatGPT. The following sample is only for demonstrating integration with MMDAgent-EX.
 {{< /hint >}}
 
-The following is a simple Python script that uses a fixed prompt to chat using the OpenAI chat completion API. The operation is as follows:
+The `chatgpt.py` below is a simple Python script for making conversation with the OpenAI chat completion API. Except for the last main() part, it is a standard text chat code. In main(), it is implemented to perform the following actions to operate as a submodule of MMDAgent-EX.
 
 - It reads MMDAgent-EX messages from standard input.
 - It filters out a message containing speech recognition result.
@@ -133,11 +135,15 @@ Plugin_AnyScript_Command=python -u chatgpt.py
 
 Start up MMDAgent-EX and try conversing with ChatGPT.
 
-## Enable streaming
+## Extension to Streaming
 
-OpenAI's chat completion has a streaming mode, which allows you to receive responses token by token, not waiting for the whole response to made. With this streaming mode, responses can start before the entire sentence comes, so it can be used to reduce response latency.
+In LLM-based dialogue systems, generating response sentences can take from a few seconds to tens of seconds, and this response delay can be problematic. Some LLMs, including OpenAI's chat completion, offer a streaming mode, allowing the reception of generated text as a stream on a token-by-token basis, without accumulating the entire response.
 
-Here is a version of the above program that is adapted to streaming more. The highlights of this program is:
+By using this streaming mode to progressively receive generated text and detect appropriate breaks for voice synthesis, it's possible to reduce the delay before starting the response. This method is widely tried as a way to reduce delays in LLM dialogues.
+
+Below is a modified version of the example above that uses streaming mode. There are various approaches about how to efficiently find sentence breaks in a course of streamed sentences, but here we simply use the method of "breaking at punctuation marks".
+
+The synthesized voices are played in order without overlapping, so threads or queues are required for synthesis timing control. Here's an overview of its operation:
 
 - Connect in streaming mode and sequentially receive response characters from the server in token units.
 - As the received tokens are combined, voice synthesis of the obtained parts begins when "。", "？", or "！" appears, judging that as the end of the sentence.
@@ -294,7 +300,9 @@ if __name__ == "__main__":
 
 Furthermore, I will present an example of estimating the emotion in text and playing the corresponding action.
 
-1. Estimate the emotion of the speech. There are various methods, but a simple one is to write a prompt for ChatGPT that includes emotion estimation. Here, we assign numbers to the following types of emotions. This way, for example, ChatGPT might respond with "1 Hello!".
+Having the CG avatar express emotions and gestures with spoken sentences can make a dialogue system more effective. Here we try to make the first example "expressive", where the generated text is annotated with emotion labels, and the CG avatar performs actions in accordance with these emotions, simultaneously with the speech.
+
+1. Estimate the emotion of system utterance. There may be various approarches, but a simple one is to write a prompt for ChatGPT to estimate emotion when generating. Here, we assume the following types of emotions, and tell MMDAgent-EX to assign numbers from the list.
 
 ```python
 chatgpt_prompt= '''
@@ -318,7 +326,7 @@ List of emotions:
 '''
 ```
 
-2. Specify motions corresponding to the emotions. There are sample motions in the `motion` folder of each model, so you can use it.
+2. Specify the mapping of the assigned emotion labels to the CG avatar's actions. There are sample motions in the `motion` folder of each model, so we'll use those.
 
 ```python
 emotion_list = [
@@ -335,7 +343,7 @@ emotion_list = [
 ]
 ```
 
-3. Modify the main loop to find if the output of ChatGPT begins with a number, and generate the corresponding motion command.
+3. In the main processing part, if the beginning of ChatGPT's output has a number, we'll generate the corresponding motion simultaneously. Modify the output part of the above example as follows.
  
 ```python
         # Check if input line begins with "RECOG_EVENT_STOP"
@@ -353,3 +361,15 @@ emotion_list = [
                 print(f"MOTION_ADD|0|action|{emotion_list[emotion_id]}|PART|ONCE")
             print(f"SYNTH_START|0|slt_voice_normal|{outstr}")
 ```
+
+## Performing Functions mainly in Python and apply MMDAgent-EX as Frontend
+
+While the above example was explained with "MMDAgent-EX as the main module incorporating the dialogue part," it's also possible to integrate it with the idea of "Python as the main module, with MMDAgent-EX serving as a frontend interface."
+
+Below are typical cases:
+
+- Perform speech recognition and response generation in script, and send the output text and motion commands via a message to MMDAgent-EX to make the CG avatar speak.
+- Perform till speech synthesis in Python, and make the MMDAgent-EX CG avatar speak by [streaming synthesized voice data](../remote-speech/).
+- Handle all spoken dialogue modules (including synthezied audio playing) within Python script, while sending [lip-sync information](../remote-speech) and any action commands to MMDAgent-EX for multi-modal dialogue.
+
+Please feel free to use this approach as suits your application or purpose.
