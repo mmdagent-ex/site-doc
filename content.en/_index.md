@@ -49,3 +49,7 @@ Contact information
         version = {1.0.0},
         year = {2023}
     }
+
+## See it in action (Japanese)
+
+{{< youtube iu2gU2uHAcc >}}

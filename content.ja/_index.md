@@ -49,3 +49,7 @@ MMDAgent-EX はCGアバターを用いた音声対話・マルチモーダル対
         version = {1.0.0},
         year = {2023}
     }
+
+## 動作サンプル
+
+{{< youtube iu2gU2uHAcc >}}
