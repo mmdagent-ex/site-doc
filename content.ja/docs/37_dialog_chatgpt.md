@@ -146,7 +146,7 @@ LLMベースの対話システムでは応答文の生成に数秒から数十�
 - このため、ストリーム受信と音声合成制御はスレッド処理を使用して並列する必要があります。以下では受信を別スレッドで動作するようにしています。
 
 ```python
-# chatgpt.py
+# chatgpt_streaming.py
 # tested on openai 1.3.9
 #
 import re

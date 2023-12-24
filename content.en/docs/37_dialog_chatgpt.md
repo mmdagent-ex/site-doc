@@ -143,7 +143,7 @@ By using this streaming mode to progressively receive generated text and detect 
 
 Below is a modified version of the example above that uses streaming mode. There are various approaches about how to efficiently find sentence breaks in a course of streamed sentences, but here we simply use the method of "breaking at punctuation marks".
 
-The synthesized voices are played in order without overlapping, so threads or queues are required for synthesis timing control. Here's an overview of its operation:
+The synthesized voices should be played in order without overlapping, so threads or queues are required for synthesis timing control. Here's an overview of its operation:
 
 - Connect in streaming mode and sequentially receive response characters from the server in token units.
 - As the received tokens are combined, voice synthesis of the obtained parts begins when "。", "？", or "！" appears, judging that as the end of the sentence.
@@ -151,7 +151,7 @@ The synthesized voices are played in order without overlapping, so threads or qu
 - Therefore, stream reception and voice synthesis control need to be parallelized using thread processing. The following makes the reception operate in a separate thread.
 
 ```python
-# chatgpt.py --- streaming version
+# chatgpt_stream.py --- streaming version
 # tested on openai 1.3.9
 #
 import re
@@ -298,11 +298,11 @@ if __name__ == "__main__":
 
 ## Add emotions and actions
 
-Furthermore, I will present an example of estimating the emotion in text and playing the corresponding action.
+Having the CG avatar express emotions and gestures with spoken sentences makes a dialogue system more effective.
 
-Having the CG avatar express emotions and gestures with spoken sentences can make a dialogue system more effective. Here we try to make the first example "expressive", where the generated text is annotated with emotion labels, and the CG avatar performs actions in accordance with these emotions, simultaneously with the speech.
+Here we show some modification to the "chatgpt.py" example to add emotion expression.  We are going to annotate emotion id to the output sentence, and tell the CG avatar to perform corresponding actions.
 
-1. Estimate the emotion of system utterance. There may be various approarches, but a simple one is to write a prompt for ChatGPT to estimate emotion when generating. Here, we assume the following types of emotions, and tell MMDAgent-EX to assign numbers from the list.
+1. Estimate the emotion of system utterance. There may be various approarches, but a simple one is to write a prompt for ChatGPT to also estimate emotion at generation. Here, we give the following list of emotion types, and tell MMDAgent-EX to assign a number from the list.
 
 ```python
 chatgpt_prompt= '''
