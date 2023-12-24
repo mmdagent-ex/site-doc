@@ -50,6 +50,8 @@ Contact information
         year = {2023}
     }
 
-## See it in action (Japanese)
+## See it in action (in Japanese)
+
+Rule-based dialogue written in FST.  Whole system runs on a PC with CPU only.
 
 {{< youtube iu2gU2uHAcc >}}

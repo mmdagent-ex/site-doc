@@ -52,4 +52,6 @@ MMDAgent-EX はCGアバターを用いた音声対話・マルチモーダル対
 
 ## 動作サンプル
 
+FSTによるルールベース対話、PCにてCPUのみで動作。
+
 {{< youtube iu2gU2uHAcc >}}
