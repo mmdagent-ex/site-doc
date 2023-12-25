@@ -6,7 +6,16 @@ type: docs
 
 [[日本語](ja) | English ]
 
-MMDAgent-EX is a research and development platform for spoken dialogue systems, multi-modal interactions and avatar communications using CG avatars. It has been open-sourced since December 2023, with [CG Avatar Gene & Uka](https://www.slp.nitech.ac.jp/en/avatar/).
+MMDAgent-EX is a research and development platform for spoken dialogue systems, multi-modal interactions and avatar communications using CG avatars.
+
+- All-in-one platform for creating voice interaction systems on Windows, macOS and Linux
+- Light-weight fine-grained CG avatar rendering engine, fully compatible with MMD (MikuMikuDance) format
+- Low-latency ASR / TTS modules, running blazingly fast on CPU.
+- Can add any modules and processes easily, such as cloud engines, LLMs, etc.
+- Fully documented on this site.
+- Runs on Windows, macOS and Linux.
+
+It has been open-sourced since December 2023, with [CG Avatar Gene & Uka](https://www.slp.nitech.ac.jp/en/avatar/).
 
 > The notation can be either **MMDAgent-EX** or **MMD-Agent EX**. The "MMD" part has a double meaning, representing both "Multi-Modal Dialogue" and "MikuMikuDance". We call it “Em-Em-Dee-Agent E-X”.
 
