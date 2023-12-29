@@ -6,17 +6,7 @@ type: docs
 
 [日本語 | [English](/../) ]
 
-MMDAgent-EX はCGアバターを用いた音声対話・マルチモーダル対話・アバターコミュニケーションのための研究開発プラットフォームです。
-
-- 音声インタラクションや音声対話システムのためのオールインワンプラットフォーム（Windows, macOS, Linux）
-- 軽量で高効率な内蔵 CG アバターレンダリングエンジン：MMD (MikuMikuDance) ファイル形式にフル対応
-- CPUのみで高速に動く低遅延音声認識(Julius), 音声合成(Open JTalk)を内蔵、自由に入れ替え可能。
-- 容易な開発と拡張：各種クラウドエンジンやLLMなどの任意のアプリケーションやスクリプトと容易に結合可能。
-- 完全な集約されたドキュメント（本サイト）
-  
-[CGアバター ジェネ・うか](https://www.slp.nitech.ac.jp/avatar/) とともに、2023年12月よりオープンソースで公開されています。
-
-> 表記は **MMDAgent-EX** でも **MMD-Agent EX** でも可です。”MMD” の部分は “Multi-Modal Dialogue” と “MikuMikuDance” のダブルミーニングです。我々は「エムエムディーエージェント イーエックス」と呼んでいます。
+MMDAgent-EX はCGアバターを用いた音声対話・マルチモーダル対話・アバターコミュニケーションのための研究開発プラットフォームです。[CGアバター ジェネ・うか](https://www.slp.nitech.ac.jp/avatar/) とともに、2023年12月よりオープンソースで公開されています。
 
 このサイトでは MMDAgent-EX に関するすべてのドキュメントが掲載されています。初めての方はチュートリアルから順に読み進めてください。各ページの下部からコメントも行えます。
 
@@ -37,26 +27,6 @@ MMDAgent-EX はCGアバターを用いた音声対話・マルチモーダル対
 - Twitter/X [@MMDAgentEX](https://twitter.com/MMDAgentEX)（更新情報等お知らせ）
 - 問い合わせ先：mmdagent-ex-official@lee-lab.org （研究・開発・許諾等ご相談）
 - 開発元：[名古屋工業大学 李 研究室](https://www.slp.nitech.ac.jp/)
-
-文献等での引用情報です。
-
-**APA**
-
-    Lee, A. (2023). MMDAgent-EX (Version 1.0.0) [Computer software].
-    https://doi.org/10.5281/zenodo.10427369
-
-**BibTeX**
-
-    @software{Lee_MMDAgent-EX_2023,
-        author = {Lee, Akinobu},
-        doi = {10.5281/zenodo.10427369},
-        license = {Apache-2.0},
-        month = dec,
-        title = {{MMDAgent-EX}},
-        url = {https://github.com/mmdagent-ex/MMDAgent-EX},
-        version = {1.0.0},
-        year = {2023}
-    }
 
 ## 動作サンプル
 

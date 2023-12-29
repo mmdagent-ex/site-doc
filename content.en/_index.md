@@ -6,18 +6,7 @@ type: docs
 
 [[日本語](ja) | English ]
 
-MMDAgent-EX is a research and development platform for spoken dialogue systems, multi-modal interactions and avatar communications using CG avatars.
-
-- All-in-one platform for creating voice interaction systems on Windows, macOS and Linux
-- Light-weight fine-grained CG avatar rendering engine, fully compatible with MMD (MikuMikuDance) format
-- Low-latency ASR / TTS modules, running blazingly fast on CPU.
-- Can add any modules and processes easily, such as cloud engines, LLMs, etc.
-- Fully documented on this site.
-- Runs on Windows, macOS and Linux.
-
-It has been open-sourced since December 2023, with [CG Avatar Gene & Uka](https://www.slp.nitech.ac.jp/en/avatar/).
-
-> The notation can be either **MMDAgent-EX** or **MMD-Agent EX**. The "MMD" part has a double meaning, representing both "Multi-Modal Dialogue" and "MikuMikuDance". We call it “Em-Em-Dee-Agent E-X”.
+MMDAgent-EX is a research and development platform for spoken dialogue systems, multi-modal interactions and avatar communications using CG avatars.  It has been open-sourced since December 2023, with [CG Avatar Gene & Uka](https://www.slp.nitech.ac.jp/en/avatar/).
 
 This site contains all documents related to MMDAgent-EX.  If you are new, please proceed through the tutorials in order. You can also comment at the bottom of each page.
 
@@ -38,26 +27,6 @@ Contact information
 - Twitter/X [@MMDAgentEX](https://twitter.com/MMDAgentEX)（for announcements）
 - mmdagent-ex-official@lee-lab.org (for inquiries about research, development, and licensing)
 - Developed at: [Lee Laboratory, Nagoya Institute of Technology](https://www.slp.nitech.ac.jp/en/)
-
-**Citations**
-
-**APA**
-
-    Lee, A. (2023). MMDAgent-EX (Version 1.0.0) [Computer software].
-    https://doi.org/10.5281/zenodo.10427369
-
-**BibTeX**
-
-    @software{Lee_MMDAgent-EX_2023,
-        author = {Lee, Akinobu},
-        doi = {10.5281/zenodo.10427369},
-        license = {Apache-2.0},
-        month = dec,
-        title = {{MMDAgent-EX}},
-        url = {https://github.com/mmdagent-ex/MMDAgent-EX},
-        version = {1.0.0},
-        year = {2023}
-    }
 
 ## See it in action (in Japanese)
 

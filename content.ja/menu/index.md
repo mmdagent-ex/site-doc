@@ -2,6 +2,7 @@
 headless: true
 ---
 
+- [MMDAgent-EXとは]({{< relref "/docs/about" >}})
 - [ライセンスと利用指針]({{< relref "/docs/license_and_guideline" >}})
 <br />
 

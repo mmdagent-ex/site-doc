@@ -1,7 +1,7 @@
 ---
 headless: true
 ---
-
+- [About]({{< relref "/docs/about" >}})
 - [License and Guideline]({{< relref "/docs/license_and_guideline" >}})
 <br />
 
@@ -61,7 +61,7 @@ headless: true
 - [Voice Recognition Engine]({{< relref "/docs/92_plugin_julius" >}})
 - [PACKAGE_DESC.txt Format]({{< relref "/docs/95_package_desc" >}})
 - [(Provisional) Special External Operations]({{< relref "/docs/90_plugin_remote" >}})
-- [Differences from the Original]({{< relref "/docs/99_changes" >}})
+- [Changes]({{< relref "/docs/99_changes" >}})
 <br />
 
 - **Links**
