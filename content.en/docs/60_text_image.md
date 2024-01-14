@@ -92,6 +92,7 @@ As shown in the image below, text can be displayed as captions. The differences 
 - Automatically disappears after a specified time
 - Able to specify any font (ttf)
 - Up to two kinds of text outlines can be specified
+- Supports .lrc file (v1.0.2)
 
 ![caption](/images/caption.png)
 
@@ -124,7 +125,7 @@ Start a new caption display with **CAPTION_START**.
 
 - Argument 1: Alias name (new)
 - Argument 2: Alias name of the predefined style to use
-- Argument 3: Text of the display content. If it contains spaces, enclose it in "". You can also use "\n" for line breaks.
+- Argument 3: Text of the display content, or .lrc file name. On text, if it contains spaces, enclose it in "". You can also use "\n" for line breaks.
 - Argument 4: Text size
 - Argument 5: Specify the left-right position of the display with one of the strings CENTER, LEFT, RIGHT
 - Argument 6: The up-down position of the display. A relative value with the bottom of the screen being 0.0 and the top being 1.0
