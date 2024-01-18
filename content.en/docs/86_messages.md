@@ -497,21 +497,24 @@ Defines the style. After defining, issue **CAPTION_EVENT_SETSTYLE**.
 - First argument: New alias name for the style
 - Second argument: The path to the font file. The system font can be used by specifying "default"
 - Third argument: Text color r,g,b,a
-- Fourth argument: Color and size of the first outline r,g,b,a,thickness. If no outline is needed, set a or thickness to 0
-- Fifth argument: Color and size of the second outline, specified in the same way
-- Sixth argument: Frame background color r,g,b,a. If not needed, set a to 0
+- Fourth argument (optional): Color and size of the first outline r,g,b,a,thickness. If no outline is needed, set a or thickness to 0
+- Fifth argument (optional): Color and size of the second outline, specified in the same way
+- Sixth argument (optional): Frame background color r,g,b,a. If not needed, set a to 0
+
+The fourth and subsequent arguments can be omitted altogether. If omitted, MMDAgent-EX will apply default style for the edges.
 
 {{<message>}}
+CAPTION_SETSTYLE|style_alias|fontpath|r,g,b,a
 CAPTION_SETSTYLE|style_alias|fontpath|r,g,b,a|edge1|edge2|basecolor
 CAPTION_EVENT_SETSTYLE|style_alias
 {{</message>}}
 
 **CAPTION_START**
 
-Starts text display. Specifies the style. If a text display with the specified alias name already exists, it will be updated. It will disappear when **CAPTION_STOP** is issued or after the time specified with `duration`.
+Starts text display with a style. If already displayed, swap its text. It will disappear when **CAPTION_STOP** is issued or after the time specified with `duration`.
 
 - First argument: New alias name
-- Second argument: Alias name of the predefined style to use
+- Second argument: Style name.  Either one defined in **CAPTION_SETSTYLE** or "_default"
 - Third argument: The text to display. If it includes a space, surround it with "". You can also use "\n" to break lines.
 - Fourth argument: Text size
 - Fifth argument: Left/right position of the display. Specify either CENTER, LEFT, RIGHT
@@ -527,18 +530,6 @@ CAPTION_EVENT_STOP|alias
 Example of use:
 
 {{<message>}}
-
-# Test display caption with the "1" key
-
-# Use the font file rounded-mplus-1c-heavy.ttf
-
-# Text color: Orange
-
-# Edge1: White, thickness 4
-
-# Edge2: Semi-transparent black, thickness 6
-
-# Frame background: No drawing
 10 10:
     KEY|1 CAPTION_SETSTYLE|terop|rounded-mplus-1c-heavy.ttf|1,0.5,0,1|1,1,1,1,4|0,0,0,0.6,6|0,0,0,0
     CAPTION_EVENT_SETSTYLE|terop CAPTION_START|test|terop|てすと|3.0|CENTER|0.5|300

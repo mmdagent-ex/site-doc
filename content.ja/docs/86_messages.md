@@ -495,21 +495,24 @@ TEXTAREA_EVENT_DELETE|alias
 - 第1引数：スタイルのエイリアス名（新規）
 - 第2引数：フォントファイルのパス "default" でシステムフォントを利用
 - 第3引数：文字の色 r,g,b,a
-- 第4引数：1つ目の縁取りの色および大きさ r,g,b,a,thickness 縁取り不要の場合は a あるいは thinkness を 0 に
-- 第5引数：2つ目の縁取りの色および大きさ 指定は上記と同様
-- 第6引数：枠背景の色 r,g,b,a不要な場合は a に 0 を指定
+- 第4引数（省略可能）：1つ目の縁取りの色および大きさ r,g,b,a,thickness 縁取り不要の場合は a あるいは thinkness を 0 に
+- 第5引数（省略可能）：2つ目の縁取りの色および大きさ 指定は上記と同様
+- 第6引数（省略可能）：枠背景の色 r,g,b,a不要な場合は a に 0 を指定
+
+第4引数以降はまとめて省略することができる。省略した場合、エッジにはデフォルトのスタイルが適用される。
 
 {{<message>}}
+CAPTION_SETSTYLE|style_alias|fontpath|r,g,b,a
 CAPTION_SETSTYLE|style_alias|fontpath|r,g,b,a|edge1|edge2|basecolor
 CAPTION_EVENT_SETSTYLE|style_alias
 {{</message>}}
 
 **CAPTION_START**
 
-テキスト表示開始。スタイルを指定する。指定エイリアス名のテキスト表示が既にある場合は変更される。**CAPTION_STOP** あるいは `duration` で指定した時間が経過すれば消える。
+スタイルを指定してテキストの表示を開始する。既にある場合はテキストの内容のみが変更される。**CAPTION_STOP** の発行、あるいは下記の `duration` で指定した時間が経過すしたとき消える。
 
 - 第1引数：エイリアス名（新規）
-- 第2引数：使用する定義済みスタイルのエイリアス名
+- 第2引数：スタイル名。**CAPTION_SETSTYLE** で定義した名前あるいは "_default"。
 - 第3引数：表示内容のテキスト。空白を含む場合は ""で囲む。"\n" で改行もできる。
 - 第4引数：文字の大きさ
 - 第5引数：表示の左右位置 CENTER, LEFT, RIGHT のいずれかの文字列を指定
@@ -517,7 +520,7 @@ CAPTION_EVENT_SETSTYLE|style_alias
 - 第7引数：表示持続時間をフレーム数で（30=1秒）
 
 {{<message>}}
-CAPTION_START|alias|style_alias|text|size|align|height|duration
+CAPTION_START|alias|style|text|size|align|height|duration
 CAPTION_EVENT_START|alias
 CAPTION_EVENT_STOP|alias
 {{</message>}}
