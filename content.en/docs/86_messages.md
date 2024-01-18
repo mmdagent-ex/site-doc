@@ -487,6 +487,7 @@ Display text caption. Differences from the above TextArea:
 - Any font can be specified
 - Up to two types of text outlining can be specified
 - Can be set to automatically disappear after a specified time
+- (v1.0.2) support lyric file (.lrc) play
 
 ![caption](/images/caption.png)
 
@@ -501,7 +502,7 @@ Defines the style. After defining, issue **CAPTION_EVENT_SETSTYLE**.
 - Fifth argument (optional): Color and size of the second outline, specified in the same way
 - Sixth argument (optional): Frame background color r,g,b,a. If not needed, set a to 0
 
-The fourth and subsequent arguments can be omitted altogether. If omitted, MMDAgent-EX will apply default style for the edges.
+(v1.0.2) The fourth and subsequent arguments can be omitted altogether. If omitted, MMDAgent-EX will apply default style for the edges.
 
 {{<message>}}
 CAPTION_SETSTYLE|style_alias|fontpath|r,g,b,a
@@ -513,9 +514,11 @@ CAPTION_EVENT_SETSTYLE|style_alias
 
 Starts text display with a style. If already displayed, swap its text. It will disappear when **CAPTION_STOP** is issued or after the time specified with `duration`.
 
+(v1.0.2) Specify "file.lrc" instead of text to start playing .lrc file as captions.
+
 - First argument: New alias name
-- Second argument: Style name.  Either one defined in **CAPTION_SETSTYLE** or "_default"
-- Third argument: The text to display. If it includes a space, surround it with "". You can also use "\n" to break lines.
+- Second argument: Style name.  Either one defined in **CAPTION_SETSTYLE**, or "_default" (v1.0.2)
+- Third argument: The text to display. If it includes a space, surround it with "". You can also use "\n" to break lines. (v1.0.2) or LRC file path (file.lrc)
 - Fourth argument: Text size
 - Fifth argument: Left/right position of the display. Specify either CENTER, LEFT, RIGHT
 - Sixth argument: Up/down position of the display. Use relative values where the bottom of the screen is 0.0 and the top is 1.0
@@ -523,6 +526,7 @@ Starts text display with a style. If already displayed, swap its text. It will d
 
 {{<message>}}
 CAPTION_START|alias|style_alias|text|size|align|height|duration
+(v1.0.2) CAPTION_START|alias|style|file.lrc|size|align|height|duration
 CAPTION_EVENT_START|alias
 CAPTION_EVENT_STOP|alias
 {{</message>}}

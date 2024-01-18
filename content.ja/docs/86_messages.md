@@ -485,6 +485,7 @@ TEXTAREA_EVENT_DELETE|alias
 - 任意のフォントを指定可能
 - 文字の縁取りが２種まで指定可能
 - 指定時間経過後に自動で消えるよう指定可能
+- (v1.0.2) .lrc ファイルで連続したキャプションを再生可能
 
 ![caption](/images/caption.png)
 
@@ -499,7 +500,7 @@ TEXTAREA_EVENT_DELETE|alias
 - 第5引数（省略可能）：2つ目の縁取りの色および大きさ 指定は上記と同様
 - 第6引数（省略可能）：枠背景の色 r,g,b,a不要な場合は a に 0 を指定
 
-第4引数以降はまとめて省略することができる。省略した場合、エッジにはデフォルトのスタイルが適用される。
+(v1.0.2) 第4引数以降はまとめて省略することができる。省略した場合、エッジにはデフォルトのスタイルが適用される。
 
 {{<message>}}
 CAPTION_SETSTYLE|style_alias|fontpath|r,g,b,a
@@ -511,9 +512,11 @@ CAPTION_EVENT_SETSTYLE|style_alias
 
 スタイルを指定してテキストの表示を開始する。既にある場合はテキストの内容のみが変更される。**CAPTION_STOP** の発行、あるいは下記の `duration` で指定した時間が経過すしたとき消える。
 
+(v1.0.2) テキストの代わりに .lrc ファイルのパスを指定することで、.lrc ファイルに従ったキャプション再生を行うことができる。
+
 - 第1引数：エイリアス名（新規）
-- 第2引数：スタイル名。**CAPTION_SETSTYLE** で定義した名前あるいは "_default"。
-- 第3引数：表示内容のテキスト。空白を含む場合は ""で囲む。"\n" で改行もできる。
+- 第2引数：スタイル名。**CAPTION_SETSTYLE** で定義した名前。あるいは "_default" (v1.0.2)
+- 第3引数：表示内容のテキスト。空白を含む場合は ""で囲む。"\n" で改行もできる。 (v.1.0.2) あるいは .lrc ファイルのパスを指定する。
 - 第4引数：文字の大きさ
 - 第5引数：表示の左右位置 CENTER, LEFT, RIGHT のいずれかの文字列を指定
 - 第6引数：表示の上下位置 画面の一番下を 0.0、一番上を 1.0 とした相対値
@@ -521,6 +524,7 @@ CAPTION_EVENT_SETSTYLE|style_alias
 
 {{<message>}}
 CAPTION_START|alias|style|text|size|align|height|duration
+(v1.0.2) CAPTION_START|alias|style|file.lrc|size|align|height|duration
 CAPTION_EVENT_START|alias
 CAPTION_EVENT_STOP|alias
 {{</message>}}
