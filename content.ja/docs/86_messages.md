@@ -525,12 +525,6 @@ CAPTION_EVENT_STOP|alias
 使用例：
 
 {{<message>}}
-# "1" キーでキャプションをテスト表示
-# フォントファイルは rounded-mplus-1c-heavy.ttf を使う。
-# テキスト色：オレンジ
-# エッジ１：白、太さ４
-# エッジ２：黒半透明、太さ６
-# 枠背景：描画なし
 10 10:
     KEY|1 CAPTION_SETSTYLE|terop|rounded-mplus-1c-heavy.ttf|1,0.5,0,1|1,1,1,1,4|0,0,0,0.6,6|0,0,0,0
     CAPTION_EVENT_SETSTYLE|terop CAPTION_START|test|terop|てすと|3.0|CENTER|0.5|300
