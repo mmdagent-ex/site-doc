@@ -439,3 +439,23 @@ fovy_step=1.0
 {{<mdf>}}
 cartoon_edge_step=1.2
 {{</mdf>}}
+
+{{< hint ms >}}
+### フェイストラッキング関連パラメータ[MS]
+
+{{<mdf>}}
+# 頭部回転に対する「上半身2」ボーンの回転係数
+Plugin_Remote_RotationRateBody=0.5
+# 頭部回転に対する「首」ボーンの回転係数
+Plugin_Remote_RotationRateNeck=0.5
+# 頭部回転に対する「頭」ボーンの回転係数
+Plugin_Remote_RotationRateHead=0.6
+# 頭部回転から上下移動への変換スケール
+Plugin_Remote_MoveRateUpDown=3.0
+# 頭部回転から左右移動への変換スケール
+Plugin_Remote_MoveRateSlide=0.7
+# 左右反転
+Plugin_Remote_EnableMirrorMode=false
+{{</mdf>}}
+
+{{< /hint >}}

@@ -72,6 +72,13 @@ git clone https://github.com/mmdagent-ex/MMDAgent-EX.git
 - libomp
 - librdkafka
 
+{{< hint ms >}}
+MS版では以下のパッケージもインストールしてください。
+
+- ffmpeg
+- opencv
+{{< /hint >}}
+
 `libomp` のヘッダファイルがうまくインストールされないことがある。ビルドでエラーが出る場合は以下を追加で行う。
 
 ```shell
@@ -98,6 +105,17 @@ cmake --build build
 cd MMDAgent-EX
 sudo apt install `cat requirements-linux.txt`
 ```
+
+{{< hint ms >}}
+MS版では追加で ffmpeg と opencv のライブラリをインストールする必要があります。
+上記に加えて以下を実行して、必要なライブラリをインストールしてください。
+
+```shell
+sudo apt install libavcodec-dev
+sudo apt install libopencv-dev
+```
+
+{{< /hint >}}
 
 CMake でビルド。
 

@@ -44,7 +44,7 @@
   h2 {
     padding: 0.4em 0;
     border-bottom: 2px solid;
-    border-color: #336df3;
+    border-color: #eeeeee;
     font-weight: bold;
   }
 
@@ -115,9 +115,9 @@
     padding: $padding-8;
     border-radius: $border-radius;
     overflow-x: auto;
-    background: #ede;
-    color: #660066;
-    border: 1px solid #ddd;
+    background: #212;
+    color: #eee;
+    border: 1px solid #444;
     border-left: 3px solid #996df3;
     code {
       padding: 0;
@@ -129,8 +129,8 @@
     padding: 24px $padding-16 $padding-8 $padding-16;
     border-radius: $padding-16;
     overflow-x: auto;
-    background: #eed;
-    color: #333333;
+    background: #333;
+    color: #eed;
     border: 2px solid #eead26;
     position: relative;
     code {
@@ -143,8 +143,8 @@
     display: inline-block;
     box-sizing: border-box;
     line-height: 1;
-    background: #eed;
-    color: #333333;
+    background: #333;
+    color: #eed;
     border: 2px solid #eead26;
     content: attr(title);
     font-weight: bold;
@@ -157,8 +157,8 @@
   pre.fst {
     padding: 24px $padding-16 $padding-8 $padding-16;
     overflow-x: auto;
-    background: #cee;
-    color: #334;
+    background: #334;
+    color: #cee;
     border: 2px solid #26adee;
     position: relative;
     border-radius: $padding-8;
@@ -169,7 +169,7 @@
     display: inline-block;
     box-sizing: border-box;
     line-height: 1;
-    background: #cee;
+    background: #334;
     color: #26adee;
     border: 2px solid #26adee;
     content: attr(title);
@@ -292,8 +292,9 @@
 .book-hint {
   &.#{ms} {
     color: #fff;
-    background-image: -webkit-gradient(linear, left top, right top, from(#333), to(#ca2));
-    background-image: -webkit-linear-gradient(left, #333 0%, #ca2 100%);
-    background-image: linear-gradient(to right, #333 0%, #ca2 100%);
+    border-color: #862;
+    background-image: -webkit-gradient(linear, left top, right top, from(#333), to(#862));
+    background-image: -webkit-linear-gradient(left, #333 0%, #862 100%);
+    background-image: linear-gradient(to right, #333 0%, #862 100%);
   }
 }

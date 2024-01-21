@@ -51,6 +51,8 @@ headless: true
   - [TCP/IP]({{< relref "/docs/73_remote_tcpip" >}})
 - [外部音声を話させる]({{< relref "/docs/74_remote_speech" >}})
 - [グローバル変数で連携する]({{< relref "/docs/75_global_variables" >}})
+- [[MS]外部API]({{< relref "/docs/77_api" >}})
+- [[MS]リップシンク・トラッキング設定]({{< relref "/docs/78_shapemap" >}})
 <br />
 
 - **リファレンス**
@@ -61,7 +63,6 @@ headless: true
 - [FST の書式解説]({{< relref "/docs/88_fst" >}})
 - [音声認識エンジンの設定]({{< relref "/docs/92_plugin_julius" >}})
 - [PACKAGE_DESC.txt 書式]({{< relref "/docs/95_package_desc" >}})
-- [(仮)特別な外部操作]({{< relref "/docs/90_plugin_remote" >}})
 - [オリジナルとの違い]({{< relref "/docs/99_changes" >}})
 <br />
 

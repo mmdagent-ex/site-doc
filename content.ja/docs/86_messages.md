@@ -843,6 +843,40 @@ REMOTEKEY_DOWN|(key code string)
 REMOTEKEY_UP|(key code string)
 {{</message>}}
 
+{{< hint ms >}}
+## 映像伝送
+
+**SCREENENCODE_START, SCREENENCODE_STOP**
+
+遠隔操作時にMMDAgent-EXの表示されている画面とWebカメラのキャプチャ内容（音声＋動画）を、外部へ送信する機能が追加される。その開始および終了は以下のメッセージで行える。
+
+{{<message>}}
+SCREENENCODE_START|(ID of camera, -1 to disable)|bitrate|fps|base_width|base_height|camera_zoomrate
+SCREENENCODE_STOP
+SCREENENCODE_EVENT_START
+SCREENENCODE_EVENT_STOP
+{{</message>}}
+
+## ファイル送受信
+
+**REMOTE_TRANSFILE**
+
+リモートからのファイルを受信させる。
+
+リモート側から見たファイル転送の手順は以下の通り。
+
+- **REMOTE_TRANSFILE** メッセージを送信する
+- **REMOTE_TRANSFILE_PREPARED** を受信したら指定された名前のWebSocketチャネルへファイル内容をバイナリ送信する。
+- **REMOTE_TRANSFILE_FINISHED** を受信したらファイル伝送完了確認
+
+{{<message>}}
+REMOTE_TRANSFILE|ファイル名
+REMOTE_TRANSFILE_PREPARED|送受信用チャネル名|ファイル名
+REMOTE_TRANSFILE_FINISHED|送受信用チャネル名|ファイル名
+{{</message>}}
+
+{{< /hint >}}
+
 ## 操作ログ記録
 
 **AVATAR_LOGSAVE_START, AVATAR_LOGSAVE_STOP**
