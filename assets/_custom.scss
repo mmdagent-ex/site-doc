@@ -288,3 +288,12 @@
     margin-bottom: 0;
   }
 }
+
+.book-hint {
+  &.#{ms} {
+    color: #fff;
+    background-image: -webkit-gradient(linear, left top, right top, from(#333), to(#ca2));
+    background-image: -webkit-linear-gradient(left, #333 0%, #ca2 100%);
+    background-image: linear-gradient(to right, #333 0%, #ca2 100%);
+  }
+}
