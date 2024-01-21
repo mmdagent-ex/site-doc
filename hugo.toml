@@ -2,7 +2,7 @@
 googleAnalytics = "G-GPBZ7N4E64"
 
 baseURL = 'https://mmdagent-ex.dev/'
-title = 'MMDAgent-EX'
+title = 'MMDAgent-EX_MS'
 theme = 'hugo-book'
 
 # Book configuration
