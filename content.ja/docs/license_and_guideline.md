@@ -34,6 +34,13 @@ MMDAgent-EX のコードは [Apache License, Version 2.0](http://www.apache.org/
 - RabbitMQ
 - cpp-httplib
 
+{{< hint ms >}}
+MS版は以下のライブラリも利用しています。
+
+- OpenCV
+- ffmpeg
+{{< /hint >}}
+
 また、本ツールで3Dモデルやモーション、音や画像等の素材を利用する場合は、それらの作者（権利者）が定める利用規約に従ってください。
 
 ### CGアバター
