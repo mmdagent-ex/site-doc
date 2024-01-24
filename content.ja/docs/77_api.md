@@ -9,115 +9,119 @@ slug: api
 
 # 外部API
 
-外部プログラムから WebSocket または TCP/IP 接続を介して MMDAgent-EX を直接制御できます。[標準的なメッセージ送受信による制御](../remote-control/)に加えて、MS版ではアバターとしての利用のための外部APIが定義されており、利用することができます。
+外部プログラムからソケット通信を介して MMDAgent-EX を直接制御できます。[標準的なメッセージ送受信による制御](../remote-control/)に加えて、MS版ではCGエージェントをアバターとして利用するための外部APIが追加定義されており、利用することができます。
 
-## 仕様一覧
+## MMDAgent-EX へ接続する
 
-- メッセージは1つごとに改行 "\n" で区切って送信
-- WebSocket の場合、ソケットの送信モードとしてテキストモードとバイナリモードのどちらでも動作する。ただし `SNDで始まるコマンド` では音声波形データをテキストエンコードせずバイナリのまま送るので、バイナリモードを使うこと。
-- 接続が切断された場合これらのパラメータはリセットされる。次回の接続には引き継がれない。
+MMDAgent-EX へソケット接続する手順は、[ソケット接続で制御する](../remote-control/)のページを見てください。
+
+{{< hint warning >}}
+外部APIはサブモジュールからは利用できません。[ソケット接続](../remote-control/)でのみ使えます。
+
+TCP/IP 接続では一部の機能が未対応です。なるべく WebSocket 接続を使ってください。
+{{< /hint >}}
+
+## 送信仕様とコマンドメッセージ一覧
+
+- メッセージの末尾に必ず "\n" をつけて送信してください。
+- 1回の送信で複数のメッセージをまとめて送る場合は "メッセージ1\nメッセージ2\n" のように各メッセージの末尾に "\n" をつけてください。
+- WebSocket の送信モードが指定できる場合は、バイナリモードを使ってください。
+- メッセージで行った各種設定はソケット切断時にリセットされます。次回の接続には引き継がれません。
+- これら以外のメッセージが送られた場合、MMDAgent-EX はそれらを外部APIではなく通常のメッセージとして受け取りキューへ投げ込みます。
 
 ```text
 __AV_START
-　外部操作開始フラグ。これを受け取った MMDAgent-EX は、以後 __AV_END が来るまで受信した情報に従ってモデルの操作を行う。
-
 __AV_END
-　外部操作終了フラグ。これを受け取った MMDAgent-EX は、以後 __AV_START が来るまで外部操作を中断する。
-
-__AV_SETMODEL,モデルエイリアス
-　外部操作の対象とするモデルの名前。これを受け取った MMDAgent-EX は、指定された名前で動作しているモデルを以降の操作対象とする。
-
-__AVCONF_DISABLEAUTOLIP,{NO|ARKIT|AU|ARKIT+AU|ALWAYS}
-　音声伝送時の伝送音声からの自動リップシンクを行わない場面の指定。デフォルトは `NO` 、つまりリップシンクを常に行う。
-
-__AV_ACTION,idx
-　指定した対話アクションを再生する。アクションは番号(1から)で指定する。モデルでは shapemap で指定した対応モーションが再生される。
-
+__AV_SETMODEL,model_alias_name
 __AV_RECALIBRATE
-　顔の向きを再キャリブレーションする。__AV_START 時に、その時点の遠隔操作者の顔の向きを正面として向きのキャリブレーションが行われる。このコマンドはそのキャリブレーションのみを再実行する。
-
-__AVCONF_ALLOWFARCLOSEMOVE,値
-　体の前後の動きをトレースするかどうかのフラグ。1ならトレースする、0なら無視する。独立に、0なら平均した回転量を両目に適用する。
-
-__AV_TRACK,x,y,z,rx,ry,rz,eyeLrx,eyeLry,eyeLrz,eyeRrx,eyeRry,eyeRrz,flag
-　頭部動作のパラメータ。頭の移動量(x,y,z)と回転量(rx,ry,rz)のあと左目と右目の回転量。移動量の単位はミリ、回転量の単位はラジアン。
-　flag は目の回転量がグローバルのときに1、ローカルの時に0を指定する（OpenFace の AU の場合1, ARKit の値を使う場合は0）
-
-__AV_ARKIT,shape=rate,shape=rate,...
-　ARKit のフェイストラッキングの shape 名とその強度 [0..1] の組の集合。この値と shapemap の内容をもとにアバターの表情が制御される。 __AV_AU とは併用しない。
-
-__AV_AU,num=rate,num=rate,...
-　Action Unit の番号（1～46）とその強度 [0..1] の組の集合。この値と shapemap で定義したマッピングをもとにアバターの表情が制御される。__AV_ARKIT とは併用しない。
-
-__AV_EXMORPH,name=rate,name=rate,...
-　任意モーフの外部制御。nameで指定した名前に対応するモーフの強度を指定する。値は [0..1]。ここで使われる名前 name と実際に操作するモーフは、shapemap 内で "EXMORPH_name ボーン名" のように対応を指定する必要あり。
-
-__AV_EXBONE,name,x,y,z,rx,ry,rz,rw,name,x,y,z,rx,ry,rz,rw,...
-　任意ボーンの外部制御。nameで指定した名前に対応するボーンの移動量と回転量を指定する。単位はそれぞれミリとクォータニオン。ここで使われる名前 name と実際に操作するボーンの対応は、shapemap 内で "EXBONE_name ボーン名" のように指定する必要あり。複数の指定を1回で行える。
-
+__AV_ACTION,idx
+__AVCONF_ALLOWFARCLOSEMOVE,true
+__AV_ARKIT,shape=rate,shape=rate,…
+__AV_AU,num=rate,num=rate,…
+__AV_EXBONE,name,x,y,z,rx,ry,rz,rw,name,x,y,z,rx,ry,rz,rw,…
+__AV_EXMORPH,name=rate,name=rate,…
+__AVCONF_DISABLEAUTOLIP,{NO|ARKIT|AU|ARKIT+AU|ALWAYS}
 __AV_MESSAGE,string
-　string をMMDAgent-EXの制御メッセージとして MMDAgent-EX 内へ送る。任意のメッセージを指定可能。
-
 SNDSTRM
-　以後のSNDパートを音声ストリームとみなし、VADを有効にする。（デフォルト））
-
 SNDFILE
-　以後のSNDパートをファイルチャンクとみなし、VAD を無効にする。音声ファイル送信は(1) SNDFILE送信、(2)SNDパートで音声データ送信、(3) SNDBRKS で終了信号送信、の３段階で行われる。
-
 SNDBRKS
-　送られてきている音声をここで区切る。
-
-SNDから始まるパート
-　音声データ。仕様は後述
-
+SND
 ```
 
-## 制御開始・終了・設定
+## トラッキングにおける基礎仕様
 
-**__AV_START**
+トラッキングメッセージ（**__AV_TRACK**, **__AV_ARKIT**, **__AV_AU**, **__AV_EXBONE**, **__AV_EXMORPH**）で表情や動きのトラッキングを行う際の、各メッセージ共通の基礎仕様です。
 
-外部 API の有効化を宣言します。これを受け取った MMDAgent-EX は、次に **__AV_END** が来るまでの間、受信メッセージに従ってモデルの操作を行います。起動状態のデフォルトでは API は無効化されているため、APIを利用する場合は最初に必ずこれを送る必要があります。
+- **__AV_START** から **__AV_END** の間、有効です。
+- **__AV_SETMODEL** でセットされたモデルに対して適用されます。
+- 連続で送信することでリアルタイムのトラッキングが行えます。おおよそ60fps～30fps程度の頻度で送信されることを想定しています（これより遅くても動作しますが動きの滑らかさが減衰します）。
+- 動作のスムージングがMMDAgent-EX側で行われる影響で、指定した状態になるまで多少ディレイします。
+- トラッキングメッセージのどれも1秒以上送られてこなければ、MMDAgent-EX はトラッキング一時停止と判断して姿勢の制御を一時停止してデフォルトモーションに戻します。これは操作者が席を立ったりしてトラッキングが外れた場合への対応です。再びトラッキングメッセージの送信を再開することで制御も再開されます。
+
+## 各メッセージ解説
+
+### 開始・終了・設定
+
+#### __AV_START
+
+トラッキング制御を開始します。このメッセージ以降、外部APIモジュールはCGアバターの身体動作の一部を奪い、トラッキングメッセージ（**__AV_TRACK**, **__AV_ARKIT**, **__AV_AU**, **__AV_EXBONE**, **__AV_EXMORPH**）によるアバター操作を開始します。
 
 {{<message>}}
 __AV_START
 {{</message>}}
 
-**__AV_END**
+- 受信時、MMDAgent-EX はイベントメッセージ **AVATAR|START** を発行し、KeyValue値 `Avatar_mode` を `1.0` にセットします。
+- 以降、**__AV_TRACK**, **__AV_ARKIT**, **__AV_AU**, **__AV_EXBONE**, **__AV_EXMORPH** が有効となります。
+- トラッキングの操作対象のモデルは **__AV_SETMODEL** で指定してください
 
-外部 API の無効化を宣言します。これを受け取った MMDAgent-EX は、APIによる操作を終了します。（無効化中に送られたAPIメッセージは無視されます。）
+#### __AV_END
+
+トラッキング制御を終了（一時停止）します。停止中は外部APIによる身体動作制御はOFFになります。OFFになっている間に送られたトラッキングメッセージ（**__AV_TRACK**, **__AV_ARKIT**, **__AV_AU**, **__AV_EXBONE**, **__AV_EXMORPH**）は無視されます。
 
 {{<message>}}
 __AV_END
 {{</message>}}
 
-## モデル選択
+- 受信時、MMDAgent-EX はイベントメッセージ **AVATAR|END** を発行し、同時に KeyValue値 `Avatar_mode` の 値を `0.0` にセットします。
 
-**__AV_SETMODEL,エイリアス名**
+#### AV_SETMODEL,エイリアス名
 
-操作対象とするモデルのエイリアス名を指定します。これを受け取った MMDAgent-EX は、指定されたエイリアス名で動作しているモデルを以降の操作対象とします。
+外部APIで操作する対象のモデルを設定します。外部APIの全てのコマンドは、このメッセージで指定されたモデルに適用されます。接続後、トラッキングを開始する前に必ず行ってください。
 
 {{<message>}}
 __AV_SETMODEL,0
 {{</message>}}
 
-- 外部APIで同時に操作できるモデルは1体のみです。
-- 指定されたエイリアス名のモデルが MMDAgent-EX 上で動作していない場合、このメッセージは無視されます。
-- 利用中にこのメッセージで対象モデルを切り替えることも可能です。
+- モデルはエイリアス名を指定します。
+- 指定されたエイリアス名のモデルがない場合、このメッセージは無視されます。
+- トラッキング制御中でも対象モデルを随時変更することが可能です。
+- 同時に操作対象にできるモデルは1体のみです。
 
-## 対話アクション再生
+#### __AV_RECALIBRATE
 
-**__AV_ACTION,アクション番号**
+ヘッドトラッキングにおける顔の向きの補正を実行します。MMDAgent-EX は **__AV_START** を受け取った直後に顔の向きの補正を実行しますが、このメッセージは、そのキャリブレーションの再実行を通知するものです。
 
-指定した番号の対話アクションを再生します。番号は 0 から指定できます。これを受け取った MMDAgent-EX は、操作対象モデルに対して対応するモーションの再生を開始します。
+{{<message>}}
+__AV_RECALIBRATE
+{{</message>}}
+
+### 対話アクション再生
+
+#### __AV_ACTION,アクション番号
+
+指定した番号の対話アクションを再生します。番号として 0 以上の整数値を指定できます。
 
 {{<message>}}
 __AV_ACTION,3
 {{</message>}}
 
-- アクション番号は数値で指定します。
-- 番号と再生モーションの対応は、モデルの[.shapemap ファイル](../shapemap)で定義されています。
-- shapemap ファイルが存在しない、あるいは指定番号のアクションが未定義の場合、メッセージは無視されます。
-- CG-CA モデルでは、以下のアクションがデフォルトで定義されています。
+- 指定した番号に対応するモーションが[部分モーション](../motion-layer)として再生されます。
+- 開始されたモーションは、そのモーションファイルで定義された時間だけ再生を行ったあとに消えます（ループしません）。
+- **__AV_ACTION** によるモーション再生中にさらに **__AV_MOTION** を送った場合、新しいモーションが古いモーションを即時に上書きして開始されます。
+- この対話アクション再生とヘッドトラッキング・フェイストラッキングを併用することができます。トラッキング中に対話アクション再生を行った場合、制御が重なるボーン・モーフについてはトラッキング側が優先されます。
+
+指定番号に対するモーションはモデルの[.shapemap ファイル](../shapemap)で定義されています。
+shapemap ファイルが存在しない、あるいは指定された番号のアクションが未定義の場合、**__AV_ACTION** メッセージは無視されます。CG-CA モデルでは、以下の 39 種のアクションがデフォルトで定義されています。（0 のノーマルはデフォルト状態に戻すための指定です）
 
 ```text
 アクション番号 内容
@@ -162,73 +166,237 @@ __AV_ACTION,3
 38  恥じ入る/ ashamed
 ```
 
-新たなアクション番号と対応モーションを追加登録するには、.shapemapファイルに追記します。例えば、40番としてお辞儀モーション (ojigi.vmd) を追加する場合、以下のように .shapemap に書きます。（.vmdファイルのパスはモデルファイル(.pmd)からの相対パスです）
+新たなアクション番号と対応モーションの定義を .shapemapファイルに追記できます。番号は 00 から 99 まで使えます。例えば、新たに 40番にお辞儀モーション (ojigi.vmd) を追加する場合、以下のように .shapemap に書きます。ここで .vmdファイルのパスはモデルファイル(.pmd)からの相対パスであることに注意してください。
 
 ```text
 ACT40 somewhere/ojigi.vmd
 ```
 
-このアクションは以下のように指示して再生できます。
+以下のようにその番号を指定することで再生させることができます。
 
 {{<message>}}
 __AV_ACTION,40
 {{</message>}}
 
-## ヘッドトラッキング
+### ヘッドトラッキング
 
-**__AV_TRACK,x,y,z,rx,ry,rz,eyeLrx,eyeLry,eyeLrz,eyeRrx,eyeRry,eyeRrz,flag**
+#### __AV_TRACK,x,y,z,rx,ry,rz,eyeLrx,eyeLry,eyeLrz,eyeRrx,eyeRry,eyeRrz,flag
 
-操作者の頭部動作のパラメータを送ります。
+アバターの頭部のトラッキング情報を送信します。このメッセージが送信されるたび、MMDAgent-EXは対象モデルの頭部と上半身のボーンの姿勢をそれに合わせてセットします。連続で送信することでリアルタイムのヘッドトラッキングが行えます。
 
 - **x,y,z**: 頭部の移動量（mm）
-- **rx,ry,rz**: 頭部の回転量 (Radian)
-- **eyeLrx,eyeLry,eyeLrz**: 左目の回転量 (Radian)
-- **eyeRrx,eyeRry,eyeRrz**: 左目の回転量 (Radian)
+- **rx,ry,rz**: 頭部の回転量：x軸,y軸,z軸 (radian)
+- **eyeLrx,eyeLry,eyeLrz**: 左目の回転量 (radian)
+- **eyeRrx,eyeRry,eyeRrz**: 右目の回転量 (radian)
 - **flag** 目の回転量のグローバル(1), ローカル(0)を指定
 
-**flag** で目の回転量をグローバル回転量として扱うかローカル回転量として扱うかを指定できます。OpenFace の出力を使う場合は 1 を、Apple ARKit の出力を使う場合は 0 を指定してください。
+移動量の単位はミリメートルです。
 
-**__AV_RECALIBRATE**
+頭部の回転量は、x軸、y軸、z軸のローカル回転量をラジアンで表します。回転表現は全て左手系 (left-handed) です。
 
-顔の向きを再キャリブレーションします。MMDAgent-EX は **__AV_START** を受け取った直後の操作者の顔の向きを正面として向きのキャリブレーションが行われます。このコマンドは、そのキャリブレーションのみを再実行するものです。
+目の回転量は、x軸、y軸、z軸の回転量をラジアンで与えます。ローカル回転量（頭の正面に対する相対回転量）で与える場合は **flag** を 0 に、グローバル回転量（世界座標に対する絶対回転量）で与える場合は **flag** を 1 に指定します。OpenFace が出力するトラッキング情報を使う場合、OpenFaceはグローバル回転量を出力するので 1 を、Apple ARKit のヘッドトラッキング情報を使う場合、ARKit はローカル回転量を出すので 0 を指定してください。
+
+また、特別な処理として、**flag** が 1 の場合、MMDAgent-EXは右目と左目の回転量をそのままそれぞれの目に適用せず、代わりにその平均の回転量を「両目」ボーンに適用するようになっています。この措置は OpenFace において視線検出のブレによって左右の目の視線が揃わない状態を避けるための実装です。
+
+接続直後の情報を使って、顔の位置と向きの補正が MMDAgent-EX 側で行われます。この補正は **__AV_START** を送った直後に送信されるトラッキングパラメータ10回分を使って行われます。操作中にずれた場合は **__AV_RECALIBRATE** を送信することで MMDAgent-EX へ再補正を要求できます。
+
+CGらしい強調された動作を行うため、MMDAgent-EXは送信された頭部動作パラメータに基づいて頭部以外の複数のボーンを制御します。受け取ったメッセージに対してMMDAgent-EXが実際にどのボーンを動かすかは、モデル側の[.shapemap](../shapemap) ファイルにおいて `TRACK_HEAD`, `TRACK_NECK`, `TRACK_LEFTEYE`, `TRACK_RIGHTEYE`, `TRACK_BOTHEYE`, `TRACK_BODY`, `TRACK_CENTER` で指定します。CG-CA ではデフォルトで以下の設定がされています。ほとんどの入手可能な MMD モデルではこれらのボーンは共通で実装されているので、この設定をそのまま流用して問題ありません。
+以下の `TRACK_BODY` のように複数のボーン名を指定した場合、左から順にモデル上でボーンの有無が調べられ、最初に見つかったボーンが採用されます（一般のMMDモデルでは上半身を司るボーン名に表記の揺れがあるため、このような書式が許されるようになっています。）
+
+```text
+TRACK_HEAD 頭
+TRACK_NECK 首
+TRACK_LEFTEYE 左目
+TRACK_RIGHTEYE 右目
+TRACK_BOTHEYE 両目
+TRACK_BODY 上半身2,上半身２,上半身1,上半身
+TRACK_CENTER センター
+```
+
+受け取った頭部動作パラメータに対して、各ボーンを実際にどの程度動かすかは、予め内部で定義されていますが、.mdf で個別に変更・調整することが可能です。以下は設定項目とデフォルト値です。もっと大きく動かしたい、あるいは動きを抑制したい等あれば、これらを参考に値を変更してみてください。
+
+{{<mdf>}}
+# 頭部回転に対する「上半身2」ボーンの回転係数
+Plugin_Remote_RotationRateBody=0.5
+# 頭部回転に対する「首」ボーンの回転係数
+Plugin_Remote_RotationRateNeck=0.5
+# 頭部回転に対する「頭」ボーンの回転係数
+Plugin_Remote_RotationRateHead=0.6
+# 頭部回転から上下移動への変換スケール
+Plugin_Remote_MoveRateUpDown=3.0
+# 頭部回転から左右移動への変換スケール
+Plugin_Remote_MoveRateSlide=0.7
+{{</mdf>}}
+
+デフォルトでは操作者の左右がそのままCGアバターの左右として伝達されます。左右の動きを反転したい場合は、.mdf に以下の設定を記述してください。
+
+{{<mdf>}}
+# 左右反転
+Plugin_Remote_EnableMirrorMode=true
+{{</mdf>}}
+
+#### AVCONF_ALLOWFARCLOSEMOVE,値
+
+操作者の前後の動きをトレースするかどうかを指定します。 `true` なら前後の動きもアバターへトレースし、それ以外なら操作者の前後の動きは無視します。デフォルトは `true` です。
 
 {{<message>}}
-__AV_RECALIBRATE
+__AVCONF_ALLOWFARCLOSEMOVE,true
 {{</message>}}
 
-**__AVCONF_ALLOWFARCLOSEMOVE,値**
+### フェイシャルトラッキング：Apple AR Kit
 
-操作者の前後の動きをトレースするかどうかを指定します。1なら前後の動きもアバターへトレースし、0なら操作者の前後の動きは無視します。デフォルトは 1 です。
+#### __AV_ARKIT,name=rate,name=rate,...
+
+フェイストラッキングのためのシェイプ情報を送信します。MMDAgent-EX は、送られてきた情報に従ってアバターのフェイスモーフを制御します。連続で送信することでリアルタイムのフェイシャルトラッキングが行えます。やりとりするシェイプ情報としては[Apple ARKit](https://developer.apple.com/documentation/arkit/) のフェイストラッキング結果として得られる [blendShape](https://developer.apple.com/documentation/arkit/arfaceanchor/2928251-blendshapes) を想定しています。[AR Kit が検出する blendShape](https://developer.apple.com/documentation/arkit/arfaceanchor/blendshapelocation) （52個）を全て記述する必要はなく、利用する一部の blendShape のみ記述しても構いません。
+
+メッセージの `name=rate,...` の部分で、シェイプの名前とその強度 [0..1] の組を、カンマで区切って記述します。このメッセージでやりとりするシェイプ名と、実際のモデル上でこれに従って動かすモーフ名のマッピングを、モデル側の[.shapemap](../shapemap) ファイルで記述しておく必要があります。.shapemap でマッピングが定義されていないシェイプ名は無視されます。
+
+CG-CA は ARKit の52個の blendShape すべてに1対1で対応するモーフをあらかじめ仕込んであり、アプリケーション `iFacialMocap` が出力する ARKit ベースのシェイプパラメータ名にフル対応したマッピングが下記のようにあらかじめ定義されています。
+
+{{< details "CG-CA に付属の .shapemap で定義されているマッピングの詳細" close>}}
+```
+# iFacialMocapシェイプ名 モデル上のモーフ名
+browDown_L browDownLeft 
+browDown_R browDownRight 
+browInnerUp browInnerUp 
+browOuterUp_L browOuterUpLeft 
+browOuterUp_R browOuterUpRight 
+
+cheekPuff cheekPuff 
+cheekSquint_L cheekSquintLeft 
+cheekSquint_R cheekSquintRight 
+
+eyeBlink_R eyeBlinkRight 
+eyeBlink_L eyeBlinkLeft 
+eyeLookDown_L eyeLookDownLeft 
+eyeLookDown_R eyeLookDownRight 
+eyeLookIn_L eyeLookInLeft 
+eyeLookIn_R eyeLookInRight 
+eyeLookOut_L eyeLookOutLeft 
+eyeLookOut_R eyeLookOutRight 
+eyeLookUp_L eyeLookUpLeft 
+eyeLookUp_R eyeLookUpRight 
+eyeSquint_L eyeSquintLeft 
+eyeSquint_R eyeSquintRight 
+eyeWide_L eyeWideLeft 
+eyeWide_R eyeWideRight 
+
+jawForward jawForward 
+jawLeft jawLeft 
+jawOpen jawOpen 
+jawRight jawRight 
+
+mouthClose mouthClose 
+mouthDimple_L mouthDimpleLeft 
+mouthDimple_R mouthDimpleRight 
+mouthFrown_L mouthFrownLeft 
+mouthFrown_R mouthFrownRight 
+mouthFunnel mouthFunnel 
+mouthLeft mouthLeft 
+mouthLowerDown_L mouthLowerDownLeft 
+mouthLowerDown_R mouthLowerDownRight 
+mouthPress_L mouthPressLeft 
+mouthPress_R mouthPressRight 
+mouthPucker mouthPucker 
+mouthRight mouthRight 
+mouthRollLower mouthRollLower 
+mouthRollUpper mouthRollUpper 
+mouthShrugLower mouthShrugLower 
+mouthShrugUpper mouthShrugUpper 
+mouthSmile_L mouthSmileLeft 
+mouthSmile_R mouthSmileRight 
+mouthStretch_L mouthStretchLeft 
+mouthStretch_R mouthStretchRight 
+mouthUpperUp_L mouthUpperUpLeft 
+mouthUpperUp_R mouthUpperUpRight 
+
+noseSneer_L noseSneerLeft 
+noseSneer_R noseSneerRight 
+
+tongueOut tongueOut 
+```
+{{< /details >}}
+
+Action Unit 形式のトラッキング（**__AV_AU**）と併用すると動作が重なるため、どちらかを使うようにしてください。
+
+### フェイシャルトラッキング：Action Unit (AU)
+
+#### __AV_AU,num=rate,num=rate,...
+
+[Action Unit](https://en.wikipedia.org/wiki/Facial_Action_Coding_System) の番号（1～46）とその強度 [0..1] の情報を送信し、それに従って表情を制御します。MMDAgent-EX は、送られてきた Action Unit 情報に基づいてアバターのモーフ値を制御します。連続で送信することでリアルタイムのフェイシャルトラッキングが行えます。
+
+`num=rate` の部分には、Action Unit の番号（1から46）とその強度を指定します。強度は 0 以上 1 以下であり、1より大きい値は 1 として扱われます。カンマで区切って複数の Action Unit の値を指定できますので、参照する Action Unit の値を列挙して送信してください。
+
+Action Unit は表情筋の動きをエンコードするものであり、その値はモデルの表情モーフとは一対一に対応しません。__AV_AU で送られる各 Action Unit の値に対して、実際にモデルのどのモーフをどのようにセットするかを、shapemap ファイルで定義する必要があります。以下のように、受信する Action Unit に対して、モーフへのマッピング設定を１つずつ記述します。
+
+```text
+AU6 笑い >0.7
+AU1 上 0.5
+AU4 困る
+```
+
+- `AU番号 モーフ名` のみの場合、AUの番号の値を、そのモーフの値としてそのままマッピング
+- `AU番号 モーフ名 >閾値` の場合、もし値が閾値未満ならそのモーフの値を 0.0 にし、閾値以上だったなら 1.0 にする。
+- `AU番号 モーフ名 係数` の場合、AUの値に係数をかけたものをそのモーフの値として割り当てる。係数はゼロ以上、負はNGとする。
+
+AU番号とモーフ名は相互に複数マッピングが可能です。
+
+- ある AU 番号に対して、モーフのマッピングを複数回記述した場合、そのAUの値が定義したすべてのモーフへ一斉に適用されます。1つの AU 値で複数のモーフを動かしたい場合はこれを使ってください。
+- 逆に、複数の異なるAUが同一のモーフへ複数回マッピングされた場合、それらのすべての値が加算された値がモーフへ適用されます。
+
+Apple ARKit 形式によるトラッキング（**__AV_ARKIT**）と併用すると動作が重なるため、どちらかを使うようにしてください。
+
+### ボーン個別制御
+
+#### __AV_EXBONE,name,x,y,z,rx,ry,rz,rw,name,x,y,z,rx,ry,rz,rw,...**
+
+任意のボーンを外部から制御します。回転量が軸回転量ではなくクオータニオン（４要素）であることに注意してください。
+
+- **name**: 制御名
+- **x,y,z**: 移動量（mm）
+- **rx,ry,rz,rw**: 回転量クォータニオン (radian)
+
+このメッセージで指定する制御名 **name** と、実際に操作するモデル上のボーン名の対応は、shapemap 内で定義します。この定義には、以下のように "EXBONE_name ボーン名" の書式を使います。
+
+```text
+EXBONE_name ボーン名
+```
+
+例えば、モデルの右腕（上腕と下腕）を制御する場合は、.shapemap で
+
+```text
+EXBONE_RUarm 右腕
+EXBONE_RLarm 右ひじ
+```
+
+のようにマッピングを定義し、捜査の際は **__AV_EXBONE** メッセージで以下のように送信します。
 
 {{<message>}}
-__AVCONF_ALLOWFARCLOSEMOVE,1
+__AV_EXBONE,RUarm,0,0,0,0,0,0,0,RLarm,0,0,0,0,0,0,0
 {{</message>}}
 
+name とボーン名の対応は1対1で、重複や多重化はできません。複数のボーンを制御する場合、それぞれ異なる name を付けて送信してください。
 
-## フェイシャルトラッキング
+原理上は任意のボーンに対して任意の移動量と回転量を指定できますが、ボーンの種類によっては挙動が変わることがあります。特に「IKボーン」（足回り）や「物理演算ボーン」（揺れもの）はMMDAgent-EX側で演算によって自動制御されるため、本メッセージで指定しても指定通りの動作にならないことがある点に注意してください。
 
-**__AV_ARKIT,shape=rate,shape=rate,...**
-
-ARKit のフェイストラッキングの shape 名とその強度 [0..1] の組の集合。この値と shapemap の内容をもとにアバターの表情が制御される。 __AV_AU とは併用しない。
-
-**__AV_AU,num=rate,num=rate,...**
-
-Action Unit の番号（1～46）とその強度 [0..1] の組の集合。この値と shapemap で定義したマッピングをもとにアバターの表情が制御される。__AV_ARKIT とは併用しない。
-
-## ボーン個別制御
-
-**__AV_EXBONE,name,x,y,z,rx,ry,rz,rw,name,x,y,z,rx,ry,rz,rw,...**
-
-任意ボーンの外部制御。nameで指定した名前に対応するボーンの移動量と回転量を指定する。単位はそれぞれミリとクォータニオン。ここで使われる名前 name と実際に操作するボーンの対応は、shapemap 内で "EXBONE_name ボーン名" のように指定する必要あり。複数の指定を1回で行える。
-
-## モーフ個別制御
+### モーフ個別制御
 
 **__AV_EXMORPH,name=rate,name=rate,...**
 
-任意モーフの外部制御。nameで指定した名前に対応するモーフの強度を指定する。値は [0..1]。ここで使われる名前 name と実際に操作するモーフは、shapemap 内で "EXMORPH_name ボーン名" のように対応を指定する必要あり。
+任意のモーフを外部から制御します。回
 
+- **name**: 制御名
+- **rate**: モーフ値（0.0～1.0）
 
-## 音声伝送
+このメッセージで指定する制御名 **name** と、実際に操作するモデル上のモーフ名の対応は shapemap 内で定義します。以下のように "EXMORPH_name モーフ名" で記述します。
+
+```text
+EXMORPH_name モーフ名
+```
+
+name とモーフ名の対応は1対1で、重複や多重化はできません。複数のモーフを制御したい場合、それぞれ異なる name を付けて送信してください。
+
+### 音声伝送
 
 音声データは以下で説明する方法でエンコードして、外部操作と同じソケットへ送り込みます。以下の `xxxx` は4桁の数字で、そのあとに続くデータ本体のバイト長を10進数4桁で表します。16kHz, 16bit, mono のデータのみです。長い音声を一括で送信すると遅延が発生するので、なるべく40ms分 (1280 Bytes) ぐらいの短いセグメントで区切って逐次送信してください。
 

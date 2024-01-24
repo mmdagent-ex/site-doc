@@ -55,7 +55,13 @@
     font-weight: bold;
   }
 
-  h4,
+  h4 {
+    padding: 6px 8px;
+    border-bottom: 1px solid #555;
+    font-weight: bolder;
+    margin-bottom: 0px;
+  }
+
   h5,
   h6 {
     font-weight: bolder;
