@@ -13,7 +13,7 @@ headless: true
 - [基本操作]({{< relref "/docs/15_keybinds_basic" >}})
 - [ログ]({{< relref "/docs/17_log" >}})
 - [音声合成を試す]({{< relref "/docs/20_tts_test" >}})
-- [音声認識のセットアップ]({{< relref "/docs/33_asr_setup" >}})
+- [[MS]音声認識のセットアップ]({{< relref "/docs/32_asr_setup_ms" >}})
 - [音声対話を試す (fst)]({{< relref "/docs/34_dialog_fst" >}})
 - [音声対話を試す (Python)]({{< relref "/docs/36_dialog_python" >}})
 - [ChatGPTと繋ぐ]({{< relref "/docs/37_dialog_chatgpt" >}})

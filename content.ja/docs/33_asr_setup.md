@@ -2,6 +2,11 @@
 title: 音声認識の準備
 slug: asr-setup
 ---
+{{< hint ms >}}
+MS版では、Juliusより性能の高い[京大の実環境実時間音声認識キット](../asr-setup-ms)が利用できます。
+このページにある Julius のセットアップは行わず、[京大の実環境実時間音声認識キット](../asr-setup-ms)のほうを使ってください。
+{{< /hint >}}
+
 # 音声認識のセットアップ
 
 MMDAgent-EX には、デフォルトの音声認識エンジンとして [Julius](https://julius.osdn.jp/) が組み込まれています。
