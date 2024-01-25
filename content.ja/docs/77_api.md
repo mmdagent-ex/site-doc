@@ -21,6 +21,20 @@ MMDAgent-EX へソケット接続する手順は、[ソケット接続で制御�
 TCP/IP 接続では一部の機能が未対応です。なるべく WebSocket 接続を使ってください。
 {{< /hint >}}
 
+## ログを保存する
+
+**AVATAR_LOGSAVE_START** メッセージを発行することでログを保存できます。以下のようにファイル名を付けて **AVATAR_LOGSAVE_START** メッセージを発行することで、以降 MMDAgent-EX に送信された外部制御コマンドを全てログファイルにタイムスタンプ付きで記録を開始させることができます。
+
+{{<message>}}
+AVATAR_LOGSAVE_START|ファイル名
+{{</message>}}
+
+**AVATAR_LOGSAVE_STOP** メッセージでログ記録を止めることができます。
+
+{{<message>}}
+AVATAR_LOGSAVE_STOP|ファイル名
+{{</message>}}
+
 ## 送信仕様とコマンドメッセージ一覧
 
 - メッセージの末尾に必ず "\n" をつけて送信してください。
@@ -45,7 +59,7 @@ __AV_MESSAGE,string
 SNDSTRM
 SNDFILE
 SNDBRKS
-SND
+SNDxxxx(body)
 ```
 
 ## トラッキングにおける基礎仕様

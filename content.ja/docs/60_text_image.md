@@ -67,6 +67,21 @@ TEXTAREA_SET|(textarea alias)|"このように 文章を指定できます。\n�
 TEXTAREA_SET|(textarea alias)|somewhere/image.png
 {{</message>}}
 
+{{<hint ms>}}
+テキストや画像パスの代わりに `__camera0` を指定することで、Webカメラを開いてその映像を指定した表示エリアにリアルタイムに表示することができます。
+
+{{<message>}}
+TEXTAREA_SET|(textarea alias)|__camera0
+{{</message>}}
+
+![textarea with camera](/images/textarea_camera.png)
+
+`0` の部分数字はカメラ番号（0=デフォルト）で、`__camera1`, `__camera2` のようにすることで複数のWebカメラがあるときにカメラを個別に指定できます。
+
+※ OpenCVの仕様で高解像度のWebカメラを使用する際に表示開始まで数十秒以上かかる場合があります。その場合は環境変数 `OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS` に `0` を指定してから起動してみてください
+
+{{</hint>}}
+
 指定された表示を開始した時に **TEXTAREA_EVENT_SET** が発行されます。
 
 {{<message>}}
