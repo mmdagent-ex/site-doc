@@ -32,15 +32,18 @@ WebSocket 接続を使ってください。TCP/IP 接続では一部の機能が
 
 ```text
 __AV_SETMODEL,model_alias_name
+__AV_AUTOCALIBRATE,{true|false}
 __AV_AUTORETRACT,{true|false}
 __AV_START
 __AV_END
 __AV_RECALIBRATE
 __AV_ACTION,idx
 __AVCONF_ALLOWFARCLOSEMOVE,{true|false}
+__AV_TRACK,x,y,z,rx,ry,rz,eyeLrx,eyeLry,eyeLrz,eyeRrx,eyeRry,eyeRrz,flag
 __AV_ARKIT,shape=rate,shape=rate,…
 __AV_AU,num=rate,num=rate,…
-__AV_EXBONE,name,x,y,z,rx,ry,rz,rw,name,x,y,z,rx,ry,rz,rw,…
+__AV_EXBONE,name,x,y,z,rx,ry,rz,name,x,y,z,rx,ry,rz,…
+__AV_EXBONEQ,name,x,y,z,rx,ry,rz,rw,name,x,y,z,rx,ry,rz,rw,…
 __AV_EXMORPH,name=rate,name=rate,…
 __AVCONF_DISABLEAUTOLIP,{NO|ARKIT|AU|ARKIT+AU|ALWAYS}
 __AV_MESSAGE,string
@@ -50,6 +53,8 @@ SNDBRKS
 SNDxxxx(body)
 AVATAR_LOGSAVE_START|logfile.txt
 AVATAR_LOGSAVE_STOP
+AVATAR_EVENT_IDLE|START
+AVATAR_EVENT_IDLE|STOP
 ```
 
 ## トラッキングにおける基礎仕様
@@ -60,8 +65,11 @@ AVATAR_LOGSAVE_STOP
 - **__AV_START** で制御を開始し、**__AV_END** で制御を終了します。終了中のトラッキングメッセージは無視されます。
 - 制御中は、トラッキングによる動作が自律動作を上書きします。ただし、上書きするのはトラッキングで制御対象となっているボーン・モーフのみで、対象でないものはトラッキング中も自律による動作が継続します。
 - トラッキングメッセージは単発でも連続でも送れます。連続の場合、最大で 60 fps程度の頻度で送信されることを想定しています。
-- デフォルトでは AUTO_RETRACT が有効になっており、トラッキングメッセージがしばらく（デフォルトでは1秒）送られなければトラッキング制御が一時停止して自律制御に戻ります（送信を再開すれば戻ります）。AUTO_RETRACT を無効化すれば、**__AV_END** を送るまでトラッキング状態を常に維持するようになります。これは **__AV_AUTORETRACT** で設定を切り替えることができます。
+- デフォルトでは自動補正が有効になっており、最初の10回の **__AV_TRACK** を使って顔の向きの正面を補正します。このため、自動補正有効時は最初の10回の **__AV_TRACK** は反映されず、以降はこの10回の平均が顔の正面として補正されます。この自動補正のっ有効・無効は **__AV_AUTOCALIBRATE** で変更できます。
+- デフォルトでは自動退避（オートリトラクト）が有効になっており、トラッキングメッセージがしばらく（デフォルトでは1秒）送られなければトラッキング制御が一時停止して自律制御に戻ります（送信を再開すれば戻ります）。自動退避を無効化すれば、**__AV_END** を送るまでトラッキング状態を常に維持するようになります。自動退避の有効・無効は **__AV_AUTORETRACT** で変更できます。
 - MMDAgent-EX側では動作のスムージングが行われます。このため、指定した状態になるまで多少ディレイがあります。
+- 外部プログラムからのメッセージが 15秒間 途絶えたとき、MMDAgent-EX は **AVATAR_EVENT_IDLE|START** メッセージを発行します。再びメッセージが外部プログラムから届いたとき、 **AVATAR_EVENT_IDLE|STOP** を発行します。
+
 
 ## 各メッセージ解説
 
@@ -79,6 +87,28 @@ __AV_SETMODEL,0
 - 指定されたエイリアス名のモデルがない場合、このメッセージは無視されます。
 - トラッキング制御中でも対象モデルを随時変更することが可能です。
 - 同時に操作対象にできるモデルは1体のみです。
+
+#### __AV_AUTOCALIBRATE
+
+顔の向き・位置の自動補正機能の ON/OFF を設定します。
+
+顔の向きの自動補正機能は、フェイストラッキングにおいてWebカメラと操作者の顔の向きを補正するための機能です。この機能が ON であるとき、開始直後に送信される **__AV_TRACK** メッセージの最初の10回分を適用せずに保存し、その平均を顔の正位置として、以降の **__AV_TRACK** メッセージで送られるパラメータを補正して用います。OFFにした場合、自動補正機能は解除され、**__AV_TRACK** で送られた値がそのまま適用されることになります。
+
+有効な場合、最初の10回の **__AV_TRACK** メッセージは補正のためのパラメータ推定に用いられ、アバターには適用されないことに注意してください。
+
+以下のメッセージでON/OFFを変更できます。
+
+{{<message>}}
+__AV_AUTOCALIBRATE,true
+{{</message>}}
+
+自動補正機能を ON にする。
+
+{{<message>}}
+__AV_AUTOCALIBRATE,false
+{{</message>}}
+
+自動補正機能を OFF にする。
 
 #### __AV_AUTORETRACT
 
@@ -390,13 +420,27 @@ Apple ARKit 形式によるトラッキング（**__AV_ARKIT**）と併用する
 
 ### ボーン個別制御
 
-#### __AV_EXBONE,name,x,y,z,rx,ry,rz,rw,name,x,y,z,rx,ry,rz,rw,...**
+#### __AV_EXBONE , __AV_EXBONEQ
 
-任意のボーンを外部から制御します。回転量が軸回転量ではなくクオータニオン（４要素）であることに注意してください。
+任意のボーンを外部から制御します。これらによるボーン制御では、自動補正は行われません。
+
+**__AV_EXBONE** を使ってボーンの回転量を x軸, y軸, z軸の回転量（3要素）で与えます。あるいは **__AV_EXBONEQ** を使えば回転量をクオータニオン（４要素）で与えることができます。
+
+{{<message>}}
+ __AV_EXBONE,name,x,y,z,rx,ry,rz,rw,name,x,y,z,rx,ry,rz,rw,...**
+{{</message>}}
 
 - **name**: 制御名
 - **x,y,z**: 移動量（mm）
-- **rx,ry,rz,rw**: 回転量クォータニオン (radian)
+- **rx,ry,rz**: x軸, y軸, z軸回転量 (radian)
+
+{{<message>}}
+ __AV_EXBONEQ,name,x,y,z,rx,ry,rz,rw,name,x,y,z,rx,ry,rz,rw,...**
+{{</message>}}
+
+- **name**: 制御名
+- **x,y,z**: 移動量（mm）
+- **rx,ry,rz,rw**: 回転量のクォータニオン (radian)
 
 このメッセージで指定する制御名 **name** と、実際に操作するモデル上のボーン名の対応は、shapemap 内で定義します。この定義には、以下のように "EXBONE_name ボーン名" の書式を使います。
 
