@@ -73,6 +73,13 @@ The following packages are required. Install all before build with `brew install
 - libomp
 - librdkafka
 
+{{< hint ms >}}
+Also install the following packages for moonshot version.
+
+- ffmpeg
+- opencv
+{{< /hint >}}
+
 Sometimes the header file for `libomp` may not be installed correctly. If a build error occurs, perform the following.
 
 ```shell
@@ -99,6 +106,15 @@ The list of required packages is in the `requirements-linux.txt`, so install all
 cd MMDAgent-EX
 sudo apt install `cat requirements-linux.txt`
 ```
+
+{{< hint ms >}}
+Please install additional packages as the following.
+
+```shell
+sudo apt install libavcodec-dev
+sudo apt install libopencv-dev
+```
+{{< /hint >}}
 
 Build with CMake:
 

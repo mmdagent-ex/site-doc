@@ -441,3 +441,23 @@ Step multiplier when changing the thickness of the edge with `K`, `Shift+K` keys
 {{<mdf>}}
 cartoon_edge_step=1.2
 {{</mdf>}}
+
+{{< hint ms >}}
+### Face tracking parameters [MS]
+
+{{<mdf>}}
+# Coef. of BODY rotation from head rotation
+Plugin_Remote_RotationRateBody=0.5
+# Coef. of NECK rotation from head rotation
+Plugin_Remote_RotationRateNeck=0.5
+# Coef. of HEAD rotation from head rotation
+Plugin_Remote_RotationRateHead=0.6
+# Coef. of CENTER up/down movement from head rotation
+Plugin_Remote_MoveRateUpDown=3.0
+# Coef. of CENTER left/right movement from head rotation
+Plugin_Remote_MoveRateSlide=0.7
+# enable mirrored movement
+Plugin_Remote_EnableMirrorMode=false
+{{</mdf>}}
+
+{{< /hint >}}

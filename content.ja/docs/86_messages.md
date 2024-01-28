@@ -848,7 +848,7 @@ REMOTEKEY_UP|(key code string)
 
 **SCREENENCODE_START, SCREENENCODE_STOP**
 
-遠隔操作時にMMDAgent-EXの表示されている画面とWebカメラのキャプチャ内容（音声＋動画）を、外部へ送信する機能が追加される。その開始および終了は以下のメッセージで行える。
+遠隔操作時にMMDAgent-EXの表示されている画面とWebカメラのキャプチャ内容（音声＋動画）を、外部へ送信する。開始および終了は以下のメッセージで行える。
 
 {{<message>}}
 SCREENENCODE_START|(ID of camera, -1 to disable)|bitrate|fps|base_width|base_height|camera_zoomrate
@@ -865,8 +865,8 @@ SCREENENCODE_EVENT_STOP
 
 リモート側から見たファイル転送の手順は以下の通り。
 
-- **REMOTE_TRANSFILE** メッセージを送信する
-- **REMOTE_TRANSFILE_PREPARED** を受信したら指定された名前のWebSocketチャネルへファイル内容をバイナリ送信する。
+- **REMOTE_TRANSFILE** メッセージを送信してMMDAgent-EXからのメッセージを待つ
+- **REMOTE_TRANSFILE_PREPARED** を受信したら、そのメッセージで指定された名前のWebSocketチャネルを新たに開き、そこへファイルの内容をバイナリモードで送信する。
 - **REMOTE_TRANSFILE_FINISHED** を受信したらファイル伝送完了確認
 
 {{<message>}}

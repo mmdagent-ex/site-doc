@@ -1,5 +1,5 @@
 ---
-title: リップシンク・トラッキング設定
+title: Shapemap
 slug: shapemap
 ---
 

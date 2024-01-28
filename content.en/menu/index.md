@@ -12,7 +12,7 @@ headless: true
 - [Key / Mouse]({{< relref "/docs/15_keybinds_basic" >}})
 - [Viewing Logs]({{< relref "/docs/17_log" >}})
 - [Speech Synthesis]({{< relref "/docs/20_tts_test" >}})
-- [Speech Recognition]({{< relref "/docs/33_asr_setup" >}})
+- [[MS] Speech Recognition]({{< relref "/docs/32_asr_setup_ms" >}})
 - [Dialogue Control by FST]({{< relref "/docs/34_dialog_fst" >}})
 - [Dialogue with Python]({{< relref "/docs/36_dialog_python" >}})
 - [ChatGPT Examples]({{< relref "/docs/37_dialog_chatgpt" >}})
@@ -50,6 +50,8 @@ headless: true
   - [TCP/IP]({{< relref "/docs/73_remote_tcpip" >}})
 - [Speaking External Voice]({{< relref "/docs/74_remote_speech" >}})
 - [Global Variables]({{< relref "/docs/75_global_variables" >}})
+- [[MS] External API]({{< relref "/docs/77_api" >}})
+- [[MS] ShapeMap]({{< relref "/docs/78_shapemap" >}})
 <br />
 
 - **References**
@@ -58,9 +60,7 @@ headless: true
 - [mdf Configuration Items]({{< relref "/docs/85_mdf" >}})
 - [Messages]({{< relref "/docs/86_messages" >}})
 - [FST Format]({{< relref "/docs/88_fst" >}})
-- [Voice Recognition Engine]({{< relref "/docs/92_plugin_julius" >}})
 - [PACKAGE_DESC.txt Format]({{< relref "/docs/95_package_desc" >}})
-- [(Provisional) Special External Operations]({{< relref "/docs/90_plugin_remote" >}})
 - [Changes]({{< relref "/docs/99_changes" >}})
 <br />
 

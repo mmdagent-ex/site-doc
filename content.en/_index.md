@@ -6,6 +6,15 @@ type: docs
 
 [[日本語](ja) | English ]
 
+{{< hint ms >}}
+This site describes about the Moonshot version of MMDAgent-EX.
+
+This site is a modified version of the original public version of this site (mmdagent-ex.dev).  The moonshot version specific informations are shown in gradient background color section like here.
+
+This site will be updated from time to time in line with the development of the Moonshot version of MMDAgent-EX.
+
+{{< /hint >}}
+
 MMDAgent-EX is a research and development platform for spoken dialogue systems, multi-modal interactions and avatar communications using CG avatars.  It has been open-sourced since December 2023, with [CG Avatar Gene & Uka](https://www.slp.nitech.ac.jp/en/avatar/).
 
 This site contains all documents related to MMDAgent-EX.  If you are new, please proceed through the tutorials in order. You can also comment at the bottom of each page.
@@ -21,6 +30,10 @@ GitHub repositories (bug reports, requests, etc)
 - [CG Avatar Gene](https://github.com/mmdagent-ex/gene)
 - [CG Avatar Uka](https://github.com/mmdagent-ex/uka)
 - [Example used on this site](https://github.com/mmdagent-ex/example)
+
+{{< hint ms >}}
+The Moonshot version of MMDAgent-EX is available only for internal MS members for now.
+{{< /hint >}}
 
 Contact information
 

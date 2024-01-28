@@ -3,6 +3,10 @@ title: Set up for Voice Recognition
 slug: asr-setup
 ---
 
+{{< hint ms >}}
+Please use ["R2-ASR" kit for moonshot version](../asr-setup-ms).  It is far more better engine than public version's Julius.
+{{< /hint >}}
+
 # Setting Up Voice Recognition
 
 MMDAgent-EX comes with [Julius](https://julius.osdn.jp/) as the default voice recognition engine. 

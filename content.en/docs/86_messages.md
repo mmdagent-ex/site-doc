@@ -845,6 +845,40 @@ REMOTEKEY_DOWN|(key code string)
 REMOTEKEY_UP|(key code string)
 {{</message>}}
 
+{{< hint ms >}}
+## Screen Transmission
+
+**SCREENENCODE_START, SCREENENCODE_STOP**
+
+Start sending screen captures and web camera captures.
+
+{{<message>}}
+SCREENENCODE_START|(ID of camera, -1 to disable)|bitrate|fps|base_width|base_height|camera_zoomrate
+SCREENENCODE_STOP
+SCREENENCODE_EVENT_START
+SCREENENCODE_EVENT_STOP
+{{</message>}}
+
+## File Transmission
+
+**REMOTE_TRANSFILE**
+
+Receive a file from remote end.
+
+The procedure of file transmission as seen from the remote side is as follows:
+
+- Send **REMOTE_TRANSFILE** message to MMDAgent-EX and wait for return message.
+- When **REMOTE_TRANSFILE_PREPARED** has been sent from MMDAgent-EX, newly open the WebSocket channel of the name specified by the returned message, and send the file body with binary mode.
+- When **REMOTE_TRANSFILE_FINISHED** has been received, close the transmission channel.
+
+{{<message>}}
+REMOTE_TRANSFILE|fileName
+REMOTE_TRANSFILE_PREPARED|channelNameForTransmission|fileName
+REMOTE_TRANSFILE_FINISHED|channelNameForTransmission|fileName
+{{</message>}}
+
+{{< /hint >}}
+
 ## Operation Log Recording
 
 **AVATAR_LOGSAVE_START, AVATAR_LOGSAVE_STOP**

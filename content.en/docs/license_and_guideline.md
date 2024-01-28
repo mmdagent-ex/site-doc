@@ -34,6 +34,13 @@ MMDAgent-EX depends on various open-source softwares and libraries. Some of them
 - RabbitMQ
 - cpp-httplib
 
+{{< hint ms >}}
+MS version also uses the following libraries.
+
+- OpenCV
+- ffmpeg
+{{< /hint >}}
+
 Also, when using 3D models, motions, sounds, images, and other materials in this tool, please comply with the terms of use set by their authors (rights holders).
 
 ### CG Avatars
