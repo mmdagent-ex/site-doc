@@ -327,7 +327,7 @@ Switch whether to apply forward/backward movement of the head parameters to modf
 __AVCONF_ALLOWFARCLOSEMOVE,true
 {{</message>}}
 
-### Facial tracking: Apple AR Kit
+### Facial tracking by Shapes
 
 #### __AV_ARKIT,name=rate,name=rate,...
 
@@ -414,7 +414,7 @@ tongueOut tongueOut
 
 You should not mix using this message with AU based tracking (**__AV_AU**).
 
-### Facial Tracking: Action Unit (AU)
+### Facial Tracking by Action Unit (AU)
 
 #### __AV_AU,num=rate,num=rate,...
 
@@ -422,7 +422,7 @@ This message performs facial tracking based on AU ([Action Unit](https://en.wiki
 
 Repeat `num=rate` part to send several AU parameters.  The `num` should be an index of Action Unit (from 1 to 46), and the rate should be from 0.0 to 1.0.  A rate value larger than 1.0 will be truncated to 1.0.
 
-Action Unit does not directly corresponds to facial morphs, so you should define how morphs should be controlled for each AU parameters in [.shapemap](../shapemap) file at CG model side.  The following is an example of assigning AU number 6 (cheek raiser) to `笑い` (laughing eye) morph, number 1 (inner brow raiser) to `上` (brow raise), and number 4 (brow lowerer) to `困る` (annoying brow).
+Action Unit does not directly corresponds to facial morphs, so you should define how morphs should be controlled for each AU parameters in [.shapemap](../shapemap) file at CG model side.  The following is an example of assigning AU number 6 (cheek raiser) to `笑い` (laughing eye) morph, number 1 (inner brow raiser) to `上` (brow raise), and number 4 (brow lowerer) to `困る` (annoying brow). See the [Shapemap](../shapemap) page for details.
 
 ```text
 AU6 笑い >0.7
@@ -430,22 +430,13 @@ AU1 上 0.5
 AU4 困る
 ```
 
-- `AUnumber morphName`: assign the sent rate to morph rate as is.
-- `AUnumber morphName >value`: threshold-based: when the sent rate is above value, assign 1.0 to the morph, else 0.0 to the morph.
-- `AUnumber morphName value`: rate-multiplied: the sent rate will be multiplied by the given value and then assigned to the morph. The value should be positive.
-
-You can control several morphs with one AU parameter, and also several AU parameters can be summed up to a morph.
-
-- When you repeat assigning different morphs to an Action Unit, they are all active: the sent AU rates will be applied to all mapped morphs.
-- When AUs are mapped to the same morph, all the sent AU parameter values are summed up to the target morph.
-
 You should not mix using this message with another tracking message **__AV_ARKIT**.
 
-### Extra Bone Control
+### Individual Bone Control
 
 #### __AV_EXBONE, __AV_EXBONEQ
 
-Controls a bone via API.  Any bone on the target model can be controlled.
+Controls a bone via API. Any bone on the target model can be controlled.
 
 - Auto calibration is not performed on this message.
 - Auto retraction will be applied to this message.
@@ -468,45 +459,25 @@ Use **__AV_EXBONE** to give a rotation parameter by rotations around X-axis, Y-a
 - **x,y,z**: moves (mm)
 - **rx,ry,rz,rw**: rotation quaternion (radian)
 
-The mapping of `boneControlName` used in the message above and the actual bone name in the target CG model should be defined in the model-side [.shapemap](../shapemap) file.  As shown below, the `name` part should be the boneControlName as used in the message, and `boneName` specifies actual bone name defined in the model.
-
-{{<message>}}
-EXBONE_name boneName
-{{</message>}}
-
-Example: you are going to control CG model's both arms with API.  To do this, first write the following lines in .shapemap file to define the control name `RUarm` and `LUarm` to be mapped to `右腕` (right upper arm) and `左腕` (left upeer arm) bones in the CG model.
-
-```text
-EXBONE_RUarm 右腕
-EXBONE_LUarm 左腕
-```
-
-Then, send **__AV_EXBONE** or **__AV_EXBONEQ** to control them.
-
-{{<message>}}
-__AV_EXBONE,RUarm,0,0,0,0,0.8,0,LUarm,0,0,0,0,0.5,0
-{{</message>}}
-
-The control name should be unique to each corresponding bones.
+The mapping of `boneControlName` used in the message above and the actual bone name in the target CG model should be defined in the model-side [.shapemap](../shapemap) file.
 
 Note: CG model has special bones like "IK bones" and "Physics-simulated bones".  Those are controlled by computation inside MMDAgent-EX. You can still give parameters to such bones but the result may not be what you expected.
 
-### Extra Morph Control
+### Individual Morph Control
 
 #### __AV_EXMORPH,name=rate,name=rate,...
 
-Control arbitrary morph via API.
+Control arbitrary morph via API.  Any morph on the target model can be controlled.
+
+- Auto calibration is not performed on this message.
+- Auto retraction will be applied to this message.
+
+Use **__AV_EXMORPH** to give morph parameters.
 
 - **name**: controlMorphName
 - **rate**: morph value (from 0.0 to 1.0)
 
-The mapping of `controlMorphName` used in the message above and the actual morph name in the target CG model should be defined in the model-side [.shapemap](../shapemap) file.  The `name` part in the following example should be the a `controlMorphName` to be sent, and `morphName` specifies actual mophr name to be controlled in the model.
-
-{{<message>}}
-EXMORPH_name morphName
-{{</message>}}
-
-The control name should be unique to each corresponding bones.
+The mapping of `controlMorphName` used in the message above and the actual morph name in the target CG model should be defined in the model-side [.shapemap](../shapemap) file.
 
 ### Voice Transmission
 
