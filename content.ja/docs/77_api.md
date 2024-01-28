@@ -311,7 +311,7 @@ Plugin_Remote_MoveRateSlide=0.7
 Plugin_Remote_EnableMirrorMode=true
 {{</mdf>}}
 
-#### AVCONF_ALLOWFARCLOSEMOVE,値
+#### __AVCONF_ALLOWFARCLOSEMOVE,値
 
 操作者の前後の動きをトレースするかどうかを指定します。 `true` なら前後の動きもアバターへトレースし、それ以外なら操作者の前後の動きは無視します。デフォルトは `true` です。
 
@@ -434,7 +434,7 @@ Apple ARKit 形式によるトラッキング（**__AV_ARKIT**）と併用する
 **__AV_EXBONE** を使ってボーンの回転量を x軸, y軸, z軸の回転量（3要素）で与えます。あるいは **__AV_EXBONEQ** を使えば回転量をクオータニオン（４要素）で与えることができます。
 
 {{<message>}}
- __AV_EXBONE,name,x,y,z,rx,ry,rz,rw,name,x,y,z,rx,ry,rz,rw,...**
+ __AV_EXBONE,name,x,y,z,rx,ry,rz,rw,name,x,y,z,rx,ry,rz,rw,...
 {{</message>}}
 
 - **name**: 制御名
@@ -442,7 +442,7 @@ Apple ARKit 形式によるトラッキング（**__AV_ARKIT**）と併用する
 - **rx,ry,rz**: x軸, y軸, z軸回転量 (radian)
 
 {{<message>}}
- __AV_EXBONEQ,name,x,y,z,rx,ry,rz,rw,name,x,y,z,rx,ry,rz,rw,...**
+ __AV_EXBONEQ,name,x,y,z,rx,ry,rz,rw,name,x,y,z,rx,ry,rz,rw,...
 {{</message>}}
 
 - **name**: 制御名
