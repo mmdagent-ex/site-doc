@@ -255,7 +255,7 @@ __AV_ACTION,40
 
 #### __AV_TRACK,x,y,z,rx,ry,rz,eyeLrx,eyeLry,eyeLrz,eyeRrx,eyeRry,eyeRrz,flag
 
-Send head and eye target parameters for head tracking.  MMDAgent-EX will then control the related bones of the target model according to the message.  Sending this message continuously will perform realtime head tracking.
+Send head and eye target parameters for head tracking.  MMDAgent-EX will then control the related bones of the target model toward the given target posture.  Sending this message continuously will perform realtime head tracking.  Note that the given movements and rotations are not a direct movement command setting target: for example, give message to rotate by 30 degrees and then giving the same message does not result in 60 degrees rotation, they just say that model should be rotated for 30 degrees from the default pose.
 
 - **x,y,z**: head movement (mm)
 - **rx,ry,rz**: head rotation on X axis, Y axis and Z axis (radian)
