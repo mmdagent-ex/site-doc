@@ -102,3 +102,9 @@ SPEAK_EVENT_START|(model alias)
 {{<message>}}
 SPEAK_EVENT_STOP|(model alias)
 {{</message>}}
+
+再生中の音声を途中で止めたい場合は **SPEAK_STOP** を使います．発行されたとき，音声が停止あるいは既に停止であることが確認されたときに **SPEAK_EVENT_STOP** が出力されます．
+
+{{<message>}}
+SPEAK_STOP|(model alias)
+{{</message>}}

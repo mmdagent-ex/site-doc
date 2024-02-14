@@ -680,6 +680,17 @@ SPEAK_EVENT_START|(model alias)
 SPEAK_EVENT_STOP|(model alias)
 {{</message>}}
 
+
+**SPEAK_STOP**
+
+Stops the playing speech formaly started by **SPEAK_START** immediately.  **SPEAK_EVENT_STOP** will be issued whenever it has been processed successfully (i.e. stopped the playing audio or no audio was played at that time) 
+
+{{<message>}}
+SPEAK_STOP|(model alias)
+SPEAK_EVENT_STOP|(model alias)
+{{</message>}}
+
+
 ## Voice Recognition
 
 The content of the message changes depending on the module or plugin used.

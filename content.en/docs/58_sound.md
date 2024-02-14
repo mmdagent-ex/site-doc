@@ -103,3 +103,9 @@ At the end of playback, a **SPEAK_EVENT_STOP** message is output.
 {{<message>}}
 SPEAK_EVENT_STOP|(model alias)
 {{</message>}}
+
+**SPEAK_STOP** is a message that stops currently playing audio started by **SPEAK_START**.  It issues **SPEAK_EVENT_STOP** after confirmed that speaking audio has been stopped.
+
+{{<message>}}
+SPEAK_STOP|(model alias)
+{{</message>}}
