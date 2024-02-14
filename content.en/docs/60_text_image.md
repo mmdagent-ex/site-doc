@@ -109,22 +109,27 @@ As shown in the image below, text can be displayed as captions. The differences 
 - Automatically disappears after a specified time
 - Able to specify any font (ttf)
 - Up to two kinds of text outlines can be specified
-- Supports .lrc file (v1.0.2)
+
+v1.0.2 and later has the following changes:
+
+- Now support .lrc file playing (v1.0.2)
+- Pre-defined style is available `_default` (v1.0.2)
+- **CAPTION_SETSTYLE** made simpler, now can omit forth arguments and later.
 
 ![caption](/images/caption.png)
 
-To use it, first define the style of the caption (**CAPTION_SETSTYLE**), then display the text referencing that style (**CAPTION_START**).
+Use **CAPTION_START** to give a text string to display as caption, or specify .lrc file to play time-course captions.  The second argument specifies the caption style, in which you can use `_default` to use the default style.  When you want to use other styles, you can set your own style by **CAPTION_SETSTYLE** and specify the user-defined style in **CAPTION_START**.
 
 ### Defining Caption Style
 
-The style is defined with **CAPTION_SETSTYLE**.
+Define a user style with **CAPTION_SETSTYLE**.
 
 - Argument 1: Alias name of the style (new)
 - Argument 2: Font file path. Use system font with "default".
 - Argument 3: Text color r,g,b,a
-- Argument 4: Color and size of the first outline r,g,b,a,thickness. If no outline is needed, set a or thickness to 0.
-- Argument 5: Color and size of the second outline. The specification is the same as above.
-- Argument 6: Frame background color r,g,b,a. If not needed, set a to 0.
+- Argument 4: (optional) Color and size of the first outline r,g,b,a,thickness. If no outline is needed, set a or thickness to 0.
+- Argument 5: (optional) Color and size of the second outline. The specification is the same as above.
+- Argument 6: (optional) Frame background color r,g,b,a. If not needed, set a to 0.
 
 {{<message>}}
 CAPTION_SETSTYLE|style_alias|fontpath|r,g,b,a|edge1|edge2|basecolor

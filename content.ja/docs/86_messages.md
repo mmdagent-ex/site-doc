@@ -678,6 +678,15 @@ SPEAK_EVENT_START|(model alias)
 SPEAK_EVENT_STOP|(model alias)
 {{</message>}}
 
+**SPEAK_STOP**
+
+**SPEAK_START** で再生中の音声を止める。音声が停止した、あるいは既に停止であることが確認されたときに **SPEAK_EVENT_STOP** が発行される。
+
+{{<message>}}
+SPEAK_STOP|(model alias)
+SPEAK_EVENT_STOP|(model alias)
+{{</message>}}
+
 ## 音声認識
 
 使用するモジュールやプラグインによってメッセージの内容は変わる。
