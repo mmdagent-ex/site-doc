@@ -12,6 +12,8 @@ MMDAgent-EX runs on macOS, Linux, and Windows. It can also runs on WSL2 environm
 - **Windows**: Windows 11 with Visual Studio 2022
 - **Linux on WSL**: Ubuntu-22.04 on WSL2 (v1.2.5.0) on Windows
 
+Windows users can also get pre-built binaries from [GitHub Release page](https://github.com/mmdagent-ex/MMDAgent-EX/releases).
+
 ## Obtaining the Code
 
 {{< hint danger >}}
@@ -98,7 +100,7 @@ The built executable and plugins will be stored under to the `Release/` director
 
 The brew package directory may change depending on your environment, i.e., `/usr/local/` or `/opt/homebrew`.  The build script will try to guess the prefix directory by executing `brew --prefix`.  If it does not work well, specify the brew prefix path with environment variable `HOMEBREW_PREFIX`.
 
-### Linux
+### Linux (Ubuntu, WSL2)
 
 The list of required packages is in the `requirements-linux.txt`, so install all the packages listed in it in advance with `apt install`. If you are using `Ubuntu`, you can do all at once as follows:
 
