@@ -7,14 +7,12 @@ slug: build
 
 MMDAgent-EX runs on macOS, Linux, and Windows. It can also runs on WSL2 environment.  The build operation has been confirmed in the following environments:
 
-- **macOS**: M2 Macbook Air / macOS Ventura 13.5 / Sonoma
+- **macOS**: M2 Macbook Air / macOS Ventura, Intel Mac / macOS Sonoma
 - **Linux**: Ubuntu-22.04, Ubuntu-20.04
 - **Windows**: Windows 11 with Visual Studio 2022
 - **Linux on WSL**: Ubuntu-22.04 on WSL2 (v1.2.5.0) on Windows
 
 Windows users can also get pre-built binaries from [GitHub Release page](https://github.com/mmdagent-ex/MMDAgent-EX/releases).
-
-## コードの入手
 
 ## Obtaining the Code
 
@@ -77,13 +75,7 @@ The following packages are required. Install all before build with `brew install
 - libomp
 - librdkafka
 
-Sometimes the header file for `libomp` may not be installed correctly. If a build error occurs, perform the following.
-
-```shell
-brew link --force libomp
-```
-
-Build with CMake:
+Do build with CMake. The built executable and plugins will be stored under to the `Release/` directory.
 
 ```shell
 cd MMDAgent-EX
@@ -91,7 +83,17 @@ cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
 
-The built executable and plugins will be stored under to the `Release/` directory.
+Error on `libomp`: perform the following and retry.
+
+```shell
+brew link --force libomp
+```
+
+Error on jpeg: try installing `jpeg-turbo` and retry.
+
+```shell
+brew install jpeg-turbo
+```
 
 The brew package directory may change depending on your environment, i.e., `/usr/local/` or `/opt/homebrew`.  The build script will try to guess the prefix directory by executing `brew --prefix`.  If it does not work well, specify the brew prefix path with environment variable `HOMEBREW_PREFIX`.
 
