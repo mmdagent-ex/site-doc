@@ -81,13 +81,7 @@ MS版では以下のパッケージもインストールしてください。
 - opencv
 {{< /hint >}}
 
-`libomp` のヘッダファイルがうまくインストールされないことがある。ビルドでエラーが出る場合は以下を追加で行う。
-
-```shell
-brew link --force libomp
-```
-
-CMake でビルド。
+CMake でビルド。ビルドした実行バイナリとプラグインが `Release/` ディレクトリ以下にコピーされる。
 
 ```shell
 cd MMDAgent-EX
@@ -95,11 +89,21 @@ cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
 
-ビルドした実行バイナリとプラグインが `Release/` ディレクトリ以下にコピーされる。
+`libomp` 関連でエラーが出る場合、ヘッダファイルがうまくインストールされないことがあるため、以下を行ってから再トライ。
 
-なお brew パッケージの場所は、環境変数 `HOMEBREW_PREFIX` が定義されていればそれを使い、指定されていなければ `brew --prefix` の出力を用います。
+```shell
+brew link --force libomp
+```
 
-### Linux (Ubuntu / WSL2)
+jpeg 関連でエラーが出る場合、代わりに jpeg-turbo をインストールすることで解決することがある。
+
+```shell
+brew install jpeg-turbo
+```
+
+brew パッケージの場所は、環境変数 `HOMEBREW_PREFIX` が定義されていればそれを使い、指定されていなければ `brew --prefix` の出力を用います。
+
+### Linux (Ubuntu, WSL2)
 
 必要なパッケージ名の一覧が `requirements-linux.txt` ファイルにあるので、その中に記されているパッケージを全て事前に `apt install` しておく。`Ubuntu` であれば以下の要領で一括で行える。
 
