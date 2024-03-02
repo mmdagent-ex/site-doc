@@ -174,7 +174,7 @@ camera_fovy=16.0
 max_multi_sampling=4
 {{</mdf>}}
 
-背景画像と床画像の3D空間での大きさ。パラメータ(x,y,z)は x=幅の半分, y=背景の高さ, z=床の奥行。
+背景画像と床画像の3D空間での大きさ。パラメータ(x,y,z)は x=幅の半分, y=床の奥行, z=背景の高さ。
 
 ![stage image](/images/stage.png)
 
