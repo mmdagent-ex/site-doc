@@ -4,12 +4,14 @@ slug: build
 ---
 # ビルド
 
-MMDAgent-EX の動作環境は macOS, Linux, Windows である。Windows上での WSL2 もサポートしている。以下の環境でビルド動作を確認している。
+MMDAgent-EX の動作環境は macOS, Linux, Windows です。Windows上での WSL2 もサポートしています。以下の環境でビルド動作を確認しています。本ページの手順でビルドを実行して実行環境を構築してください。
 
-- **macOS**: M2 Macbook Air / macOS Ventura 13.5 / Sonoma
-- **Linux**: Ubuntu-22.04, Ubuntu-20.04
 - **Windows**: Windows 11 with Visual Studio 2022
+- **macOS**: M2 Macbook Air / macOS Ventura, Intel Mac / macOS Sonoma
+- **Linux**: Ubuntu-22.04, Ubuntu-20.04
 - **Linux on WSL**: Ubuntu-22.04 on WSL2 (v1.2.5.0) on Windows
+
+Windows のビルド済み実行バイナリが[GitHubのReleaseページ](https://github.com/mmdagent-ex/MMDAgent-EX/releases)にバージョンごとに置いてあるので、ビルド環境を構築できない場合はそちらをご利用ください。
 
 ## コードの入手
 
@@ -79,13 +81,7 @@ MS版では以下のパッケージもインストールしてください。
 - opencv
 {{< /hint >}}
 
-`libomp` のヘッダファイルがうまくインストールされないことがある。ビルドでエラーが出る場合は以下を追加で行う。
-
-```shell
-brew link --force libomp
-```
-
-CMake でビルド。
+CMake でビルド。ビルドした実行バイナリとプラグインが `Release/` ディレクトリ以下にコピーされる。
 
 ```shell
 cd MMDAgent-EX
@@ -93,11 +89,21 @@ cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
 
-ビルドした実行バイナリとプラグインが `Release/` ディレクトリ以下にコピーされる。
+`libomp` 関連でエラーが出る場合、ヘッダファイルがうまくインストールされないことがあるため、以下を行ってから再トライ。
 
-なお brew パッケージの場所は、環境変数 `HOMEBREW_PREFIX` が定義されていればそれを使い、指定されていなければ `brew --prefix` の出力を用います。
+```shell
+brew link --force libomp
+```
 
-### Linux
+jpeg 関連でエラーが出る場合、代わりに jpeg-turbo をインストールすることで解決することがある。
+
+```shell
+brew install jpeg-turbo
+```
+
+brew パッケージの場所は、環境変数 `HOMEBREW_PREFIX` が定義されていればそれを使い、指定されていなければ `brew --prefix` の出力を用います。
+
+### Linux (Ubuntu, WSL2)
 
 必要なパッケージ名の一覧が `requirements-linux.txt` ファイルにあるので、その中に記されているパッケージを全て事前に `apt install` しておく。`Ubuntu` であれば以下の要領で一括で行える。
 

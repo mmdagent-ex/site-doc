@@ -10,36 +10,41 @@ type: docs
 This site describes about the Moonshot version of MMDAgent-EX.
 
 This site is a modified version of the original public version of this site (mmdagent-ex.dev).  The moonshot version specific informations are shown in gradient background color section like here.
-
-This site will be updated from time to time in line with the development of the Moonshot version of MMDAgent-EX.
-
 {{< /hint >}}
 
-MMDAgent-EX is a research and development platform for spoken dialogue systems, multi-modal interactions and avatar communications using CG avatars.  It has been open-sourced since December 2023, with [CG Avatar Gene & Uka](https://www.slp.nitech.ac.jp/en/avatar/).
-
-This site contains all documents related to MMDAgent-EX.  If you are new, please proceed through the tutorials in order. You can also comment at the bottom of each page.
+MMDAgent-EX is a research and development platform for spoken dialogue systems, multi-modal interactions and avatar communications using CG avatars.  It has been open-sourced since December 2023, with [CG Avatar Gene & Uka](https://www.slp.nitech.ac.jp/en/avatar/).  This site contains all documents related to MMDAgent-EX:
 
 - Tutorials
 - Creating Content
 - Development
 - Reference Manual
 
-GitHub repositories (bug reports, requests, etc)
-
-- [MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX)
-- [CG Avatar Gene](https://github.com/mmdagent-ex/gene)
-- [CG Avatar Uka](https://github.com/mmdagent-ex/uka)
-- [Example used on this site](https://github.com/mmdagent-ex/example)
-
 {{< hint ms >}}
-The Moonshot version of MMDAgent-EX is available only for internal MS members for now.
+"MMDAgent-EX for MS" is an extended, private version for MoonShot project.  It supports remote avatar control and other new stuffs.
 {{< /hint >}}
 
-Contact information
+## How to Obtain it
 
-- Twitter/X [@MMDAgentEX](https://twitter.com/MMDAgentEX)（for announcements）
-- mmdagent-ex-official@lee-lab.org (for inquiries about research, development, and licensing)
-- Developed at: [Lee Laboratory, Nagoya Institute of Technology](https://www.slp.nitech.ac.jp/en/)
+{{< hint ms >}}
+
+"MMDAgent-EX for MS" is located on a **private** repository of GitHub.  You need a user registration.  Please make application from the MS internal site to access this site:
+
+- [Private repository of MMDAgent-EX for MS on GitHub](https://github.com/avatar-ss-cgca/MMDAgent-EX)
+
+All up-to-date documents are on this site.
+
+Use the [Discussion page of the repository](https://github.com/avatar-ss-cgca/MMDAgent-EX/discussions) for code-level issues like bug reports and feature requests.  For other stuffs or research-related issues, please make contact with G2-4 Lee with an E-mail or Slack.
+{{< /hint >}}
+
+{{< hint ms >}}
+
+Latest CG-CA models and examples are common with the public repositories:
+
+- [CG Avatar Gene](https://github.com/mmdagent-ex/gene)
+- [CG Avatar Uka](https://github.com/mmdagent-ex/uka)
+- [Example](https://github.com/mmdagent-ex/example)
+
+{{< /hint >}}
 
 ## See it in action (in Japanese)
 
