@@ -172,7 +172,7 @@ Anti-aliasing (MSAA) intensity. The higher the value, the smoother the lines wil
 max_multi_sampling=4
 {{</mdf>}}
 
-The size of the background image and floor image in the 3D space. The parameters (x, y, z) are x=half of the width, y=height of the background, z=depth of the floor.
+The size of the background image and floor image in the 3D space. The parameters (x, y, z) are x=half of the width, y=depth of the floor, z=height of the background.
 
 ![stage image](/images/stage.png)
 
