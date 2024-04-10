@@ -96,7 +96,7 @@ SPEAK_START|(model alias)|(audio file)
 SPEAK_EVENT_START|(model alias)
 {{</message>}}
 
-The audio file can use formats supported by [libsndfile](https://libsndfile.github.io/libsndfile/formats.html), such as .wav, .mp3, etc. Please note that it will be converted and output in 16kHz, mono at the time of output.
+The audio file can use formats supported by [libsndfile](https://libsndfile.github.io/libsndfile/formats.html), such as .wav, .mp3, etc.
 
 At the end of playback, a **SPEAK_EVENT_STOP** message is output.
 
