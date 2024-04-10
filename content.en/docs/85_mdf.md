@@ -110,6 +110,14 @@ Specify the number of automatic retries on connection failure (default is 0)
 Plugin_Remote_RetryCount=60
 ```
 
+## Voice playing (SPEAK_START) (v1.0.4)
+
+Switch **SPEAK_START** to use old 16kHz playing scheme for forced sync.  (If not set or set to false, use high-quality playing scheme)
+
+{{<mdf>}}
+Plugin_Remote_Speak_16k=true
+{{</mdf>}}
+
 ## Display
 
 Initial window size (width, height)

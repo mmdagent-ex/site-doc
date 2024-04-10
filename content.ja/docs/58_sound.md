@@ -1,12 +1,12 @@
 ---
-title: サウンド再生
+title: 音声・サウンド再生
 slug: sound
 ---
 {{< hint info >}}
 オーディオファイル再生は Plugin_Audio, 音声リップシンク再生は Plugin_Remote が提供しています。利用時はこれらのプラグインが有効になっているか確かめてください。
 {{< /hint >}}
 
-# サウンド再生
+# 音声・サウンド再生
 
 音楽や効果音を効果的に使うことでよりリッチなインタラクションを作ることができます。MMDAgent-EX はオーディオファイルを再生する機能があり、バックグラウンドで音楽を鳴らしたりイベントに合わせて効果音を鳴らすことができます。
 
@@ -95,7 +95,7 @@ SPEAK_START|(model alias)|(audio file)
 SPEAK_EVENT_START|(model alias)
 {{</message>}}
 
-音声ファイルは .wav, .mp3 など、[libsndfile でサポートされるフォーマット](https://libsndfile.github.io/libsndfile/formats.html) が使えます。なお、出力時には 16kHz, モノラルに変換して出力されるのでご注意ください。
+音声ファイルは .wav, .mp3 など、[libsndfile でサポートされるフォーマット](https://libsndfile.github.io/libsndfile/formats.html) が使えます。
 
 再生終了時には **SPEAK_EVENT_STOP** が出力されます。
 
@@ -108,3 +108,13 @@ SPEAK_EVENT_STOP|(model alias)
 {{<message>}}
 SPEAK_STOP|(model alias)
 {{</message>}}
+
+### 再生サンプリングレートとずれについて (v1.0.4)
+
+v1.0.3 までは **SPEAK_START** による音声リップシンク付き再生は 16kHz モノラルに変換して再生されていましたが、v1.0.4から再生は Plugin_Audio の機能に任せるようになり、オリジナルのサンプリングレートで再生されるようになり高音質化されました。
+
+ただし、リップシンクと音声再生が別スレッドで処理されるようになったため環境によってはリップと音声の開始タイミングがずれる可能性があります。**SPEAK_START** の挙動を v1.0.3以前の挙動に戻したい場合は .mdf に以下を指定してください。
+
+{{<mdf>}}
+Plugin_Remote_Speak_16k=true
+{{</mdf>}}
