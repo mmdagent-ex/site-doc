@@ -109,7 +109,13 @@ Plugin_Remote_ListenPort=50001
 Plugin_Remote_RetryCount=60
 {{</mdf>}}
 
+## 音声再生 (SPEAK_START) (v1.0.4)
 
+**SPEAK_START** において再生モードをv1.0.3以前の同期保証16kHz変換再生にする（未指定あるいは false の場合、v1.0.4以降の高音質再生を使う）
+
+{{<mdf>}}
+Plugin_Remote_Speak_16k=true
+{{</mdf>}}
 
 ## 画面
 

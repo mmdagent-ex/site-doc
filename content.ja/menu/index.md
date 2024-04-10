@@ -35,7 +35,7 @@ headless: true
 - [視点（カメラ）]({{< relref "/docs/55_camera" >}})
 - [背景・床・フレーム]({{< relref "/docs/62_scene" >}})
 - 多様なインタラクション
-  - [サウンド再生]({{< relref "/docs/58_sound" >}})
+  - [音声・サウンド再生]({{< relref "/docs/58_sound" >}})
   - [画像・テキスト提示]({{< relref "/docs/60_text_image" >}})
   - [プロンプトによる応答]({{< relref "/docs/61_text_prompt" >}})
   - [ドキュメント表示]({{< relref "/docs/63_text_document" >}})

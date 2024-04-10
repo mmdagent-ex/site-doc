@@ -109,3 +109,15 @@ SPEAK_EVENT_STOP|(model alias)
 {{<message>}}
 SPEAK_STOP|(model alias)
 {{</message>}}
+
+### Play quality changes and gap issues (v1.0.4)
+
+The audio output of **SPEAK_START** has been in 16kHz mono in the version before v1.0.3.  From v1.0.4, it has been improved so that voice file will be played as is with no conversion.
+
+However, since it now uses Plugin_Audio features to play audio, the lip-sync process and audio-playing process are separated so a gap may arise for the start timing of lip sync and audio.
+
+If you want **SPEAK_START** command to behave like older versions, set the following in .mdf file.  This will force MMDAgent-EX to use the old 16kHz playing.
+
+{{<mdf>}}
+Plugin_Remote_Speak_16k=true
+{{</mdf>}}
