@@ -17,6 +17,7 @@ headless: true
 - [Dialogue with Python]({{< relref "/docs/36_dialog_python" >}})
 - [ChatGPT Examples]({{< relref "/docs/37_dialog_chatgpt" >}})
 - [Other Avatars]({{< relref "/docs/38_change_model" >}})
+- [[MS] Virtual Webcam Casting]({{< relref "/docs/39_webcam" >}})
 <br />
 
 - **Creating Content**

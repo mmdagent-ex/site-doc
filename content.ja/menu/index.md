@@ -18,6 +18,7 @@ headless: true
 - [音声対話を試す (Python)]({{< relref "/docs/36_dialog_python" >}})
 - [ChatGPTと繋ぐ]({{< relref "/docs/37_dialog_chatgpt" >}})
 - [CGアバターを変えてみる]({{< relref "/docs/38_change_model" >}})
+- [[MS]仮想Webカメラで配信]({{< relref "/docs/39_webcam" >}})
 <br />
 
 - **コンテンツ作成**
