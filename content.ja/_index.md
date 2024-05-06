@@ -16,10 +16,10 @@ MMDAgent-EX はCGアバターを用いた音声対話・マルチモーダル対
 
 GitHubレポジトリ：
 
-- [MMDAgent-EX GitHub](https://github.com/mmdagent-ex/MMDAgent-EX)
-- [CGアバター ジェネ / Gene](https://github.com/mmdagent-ex/gene)
-- [CGアバター うか / Uka](https://github.com/mmdagent-ex/uka)
-- [Example (本サイトで使用)](https://github.com/mmdagent-ex/example)
+- [MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX) on GitHub
+- [CGアバター ジェネ / Gene](https://github.com/mmdagent-ex/gene) on GitHub
+- [CGアバター うか / Uka](https://github.com/mmdagent-ex/uka) on GitHub
+- [Example (本サイトで使用)](https://github.com/mmdagent-ex/example) on GitHub
 
 ## 連絡先
 

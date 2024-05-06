@@ -155,6 +155,12 @@ Toon edge thickness (can be changed after startup with `K`, `Shift+K`)
 cartoon_edge_width=0.35
 ```
 
+Disable light-direction-based edge deformation (v1.0.5 and later) and revert to MMD-compliant edge.
+
+{{<mdf>}}
+light_edge=false
+{{</mdf>}}
+
 Number of parallel threads to use for skinning. Normally, the default of 1 is no problem, but if rendering becomes slow with a huge model with many vertices, specify `2` or `4`. Can be changed later with a message.
 
 ```markdown

@@ -19,10 +19,10 @@ If you find bug or mis-information in this site, feel free to add comment at the
 
 See these GitHub repositories for latest codes, issues and discussions.
 
-- [MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX)
-- [CG Avatar Gene](https://github.com/mmdagent-ex/gene)
-- [CG Avatar Uka](https://github.com/mmdagent-ex/uka)
-- [Example](https://github.com/mmdagent-ex/example)
+- [MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX) on GitHub
+- [CG Avatar Gene](https://github.com/mmdagent-ex/gene) on GitHub
+- [CG Avatar Uka](https://github.com/mmdagent-ex/uka) on GitHub
+- [Example](https://github.com/mmdagent-ex/example) on GitHub
 
 ## Contact information
 
