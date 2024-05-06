@@ -89,26 +89,26 @@ Plugin_Remote_Websocket_Directory=/chat
 
 When connecting to a server as a TCP/IP client
 
-```markdown
+{{<mdf>}}
 Plugin_Remote_EnableClient=true
 Plugin_Remote_Hostname=localhost
 Plugin_Remote_Port=50001
-```
+{{</mdf>}}
 
 When becoming a TCP/IP server
 
-```markdown
+{{<mdf>}}
 Plugin_Remote_EnableServer=true
 Plugin_Remote_ListenPort=50001
-```
+{{</mdf>}}
 
 ### Common Settings
 
 Specify the number of automatic retries on connection failure (default is 0)
 
-```markdown
+{{<mdf>}}
 Plugin_Remote_RetryCount=60
-```
+{{</mdf>}}
 
 ## Voice playing (SPEAK_START) (v1.0.4)
 
@@ -122,55 +122,61 @@ Plugin_Remote_Speak_16k=true
 
 Initial window size (width, height)
 
-```markdown
+{{<mdf>}}
 window_size=600,600
-```
+{{</mdf>}}
 
 Start in full screen (can be switched after starting with the `F` key)
 
-```markdown
+{{<mdf>}}
 full_screen=false
-```
+{{</mdf>}}
 
 Show the operating status on the top left at startup (can be switched after starting with the `S` key)
 
-```markdown
+{{<mdf>}}
 show_fps=true
-```
+{{</mdf>}}
 
 ## 3-D Models
 
 Maximum number of models to display at once. Minimum is 1, maximum is 1024.
 
-```markdown
+{{<mdf>}}
 max_num_model=10
-```
+{{</mdf>}}
 
 Toon edge thickness (can be changed after startup with `K`, `Shift+K`)
 
 ![bold edge](/images/edge1.png)
 ![thin edge](/images/edge2.png)
 
-```markdown
+{{<mdf>}}
 cartoon_edge_width=0.35
-```
+{{</mdf>}}
+
+Disable light-direction-based edge deformation (v1.0.5 and later) and revert to MMD-compliant edge.
+
+{{<mdf>}}
+light_edge=false
+{{</mdf>}}
 
 Number of parallel threads to use for skinning. Normally, the default of 1 is no problem, but if rendering becomes slow with a huge model with many vertices, specify `2` or `4`. Can be changed later with a message.
 
-```markdown
+{{<mdf>}}
 parallel_skinning_numthreads=1
-```
+{{</mdf>}}
 
 ## Viewpoint (Camera)
 
 Initial camera parameters. In order from the top, position, amount of rotation (degrees), camera distance, field of view (degrees).
 
-```markdown
+{{<mdf>}}
 camera_transition=0.0,13.0,0.0
 camera_rotation=0.0,0.0,0.0
 camera_distance=100.0
 camera_fovy=16.0
-```
+{{</mdf>}}
 
 ## CG Rendering
 
