@@ -138,6 +138,13 @@ Show the operating status on the top left at startup (can be switched after star
 show_fps=true
 {{</mdf>}}
 
+(Windows) transparent window.  Can set a color to be transparent (default is green (0.0,1.0,0.0))
+
+{{<mdf>}}
+transparent_window=true
+transparent_color=0.0,1.0,0.0
+{{</mdf>}}
+
 ## 3-D Models
 
 Maximum number of models to display at once. Minimum is 1, maximum is 1024.
