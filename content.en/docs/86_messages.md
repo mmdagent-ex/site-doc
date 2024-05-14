@@ -399,7 +399,7 @@ STAGE|(floor image file),(back image file)
 STAGE|(stage file .xpmd or .pmd)
 {{</message>}}
 
-## Foreground & Frame
+## Foreground image overlay (Frame)
 
 **WINDOWFRAME**
 
@@ -409,6 +409,25 @@ Overlay a frame image (.png) on top of the screen. The image will be stretched t
 
 {{<message>}}
 WINDOWFRAME|filename.png
+{{</message>}}
+
+## Transparent Window (Win)
+
+**TRANSPARENT_START**
+
+(Windows only) Make app window transparent.  The transparent color can be specified.  If the color is not specified, the default value will be used.  (default value is the color specified by `transparent_color=` in .mdf, or `0.0,1.0,0.0`)
+
+{{<message>}}
+TRANSPARENT_START
+TRANSPARENT_START|r,g,b
+{{</message>}}
+
+**TRANSPARENT_STOP**
+
+(Windows only) Reset transparency and revert to normal window.
+
+{{<message>}}
+TRANSPARENT_STOP
 {{</message>}}
 
 ## Light Source

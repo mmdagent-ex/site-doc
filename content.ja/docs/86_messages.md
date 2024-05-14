@@ -397,7 +397,7 @@ STAGE|(floor image file),(back image file)
 STAGE|(stage file .xpmd or .pmd)
 {{</message>}}
 
-## 前景・フレーム
+## イメージ重ね（前景・フレーム）
 
 **WINDOWFRAME**
 
@@ -407,6 +407,25 @@ STAGE|(stage file .xpmd or .pmd)
 
 {{<message>}}
 WINDOWFRAME|filename.png
+{{</message>}}
+
+## 透過画面 (Win)
+
+**TRANSPARENT_START**
+
+(Windowsのみ) メインウィンドウを透過にする。色を指定しない場合はデフォルト値が用いられる。（デフォルト値＝.mdf の `transparent_color=` で指定した値、指定しない場合はグリーン（`0.0,1.0,0.0`）。
+
+{{<message>}}
+TRANSPARENT_START
+TRANSPARENT_START|r,g,b
+{{</message>}}
+
+**TRANSPARENT_STOP**
+
+(Windowsのみ) 透過にしたウィンドウを元に戻す。
+
+{{<message>}}
+TRANSPARENT_STOP
 {{</message>}}
 
 ## 光源
