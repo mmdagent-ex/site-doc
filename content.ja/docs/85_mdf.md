@@ -137,6 +137,13 @@ full_screen=false
 show_fps=true
 {{</mdf>}}
 
+(Windows)指定色を透明にする。透明色を指定（デフォルトはグリーン (0.0,1.0,0.0)）
+
+{{<mdf>}}
+transparent_window=true
+transparent_color=0.0,1.0,0.0
+{{</mdf>}}
+
 ## 3-Dモデル
 
 いちどに表示するモデルの最大数。最小は1、最大は1024。
