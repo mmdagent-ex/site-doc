@@ -138,11 +138,22 @@ Show the operating status on the top left at startup (can be switched after star
 show_fps=true
 {{</mdf>}}
 
-(Windows) transparent window.  Can set a color to be transparent (default is green (0.0,1.0,0.0))
+(Windows) transparent window.  When set to `true`, pixels of a color specified by the `transparent_color=` below will become transparent.  The transparent part is click-through.
 
 {{<mdf>}}
-transparent_window=true
+transparent_window=false
+{{</mdf>}}
+
+(Windows) Specify the transparent color when `transparent_window` is `true`.  Default is `0.0,1.0,0.0` (green).  If you want to make the background transparent, specify the same color to the campus color by `campus_color=`.
+
+{{<mdf>}}
 transparent_color=0.0,1.0,0.0
+{{</mdf>}}
+
+(Windows) Use pixmap transparent mode instead of color transparency.  When set to  `true` with `transparent_window=true`, it will perform pixmap based transparent method instead of default color-based method as described above.  The pixmap based method uses the alpha channel values rendered in the scene directly as transparency value, so high-quality transparency will be done without color rag, at a cost of processing speed.
+
+{{<mdf>}}
+transparent_pixmap=false
 {{</mdf>}}
 
 ## 3-D Models
