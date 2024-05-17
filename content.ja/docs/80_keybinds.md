@@ -71,8 +71,11 @@ slug: keybinding
 |(debug) ワイヤー表示 | - | `W` |
 |トゥーンエッジを太く | - |`K` |
 |トゥーンエッジを細く | - |`Shift+K` |
+|画面の透過ON/OFF *2| - | `T` |
 
 *1 Plugin_LookAt 有効時
+
+*2 Windows のみ, .mdf で設定が必要
 
 ## CGエフェクト
 
@@ -86,7 +89,6 @@ slug: keybinding
 |二重影効果ON/OFF | - | `Shift+J` |
 
 ## ログ表示
-
 
 |機能|ジェスチャ|マウス|キー|
 |:--|:--|:--|:--|

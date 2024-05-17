@@ -74,8 +74,11 @@ To return to the initial viewpoint state after operation, use the `Shift+C` key.
 |(debug) Show wireframe | - | `W` |
 |Thicken toon edge | - |`K` |
 |Thin toon edge | - |`Shift+K` |
+|Transparent window ON/OFF *2| - | `T` |
 
-*1 Effective when Plugin_LookAt is enabled
+*1 requires Plugin_LookAt
+
+*2 Windows only, requires parameter settings in .mdf
 
 ## CG Effects
 
@@ -89,7 +92,6 @@ To return to the initial viewpoint state after operation, use the `Shift+C` key.
 |Double shadow effect ON/OFF | - | `Shift+J` |
 
 ## Log Display
-
 
 |Function|Gesture|Mouse|Key|
 |:--|:--|:--|:--|
