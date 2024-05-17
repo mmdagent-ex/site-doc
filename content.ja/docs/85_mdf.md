@@ -137,12 +137,24 @@ full_screen=false
 show_fps=true
 {{</mdf>}}
 
-(Windows)指定色を透明にする。透明色を指定（デフォルトはグリーン (0.0,1.0,0.0)）
+(Windows)透明ウィンドウ。 `true` 時、透過部分はクリックが下のアプリケーションへ抜ける。透明色を `transparent_color` で指定するか `transparent_pixmap` を指定する必要がある。
 
 {{<mdf>}}
-transparent_window=true
+transparent_window=false
+{{</mdf>}}
+
+(Windows) 上記の色による透明ウィンドウで、透過の対象とする色を指定する（デフォルトはグリーン (0.0,1.0,0.0)）。画面上で指定された色の部分が透過する。背景を透過にしたい場合は `campus_color=` を使ってキャンパスカラーを同じ色に指定する。
+
+{{<mdf>}}
 transparent_color=0.0,1.0,0.0
 {{</mdf>}}
+
+(Windows) 色判定の代わりにピクスマップによる透過を行う。`transparent_window=true` のときにこれを `true` にすることで、上記の色での判定ではなく、レイヤードウィンドウを用いたピクスマップによる透過を行う。 ピクスマップによる透過では、色ではなくシーンで描画した結果に含まれるアルファチャネル値をそのまま直接用いて透過を行うため、境界部分の色残りや色抜けの無い高品位な描画が行える。一方で、処理速度がとても遅い。
+
+{{<mdf>}}
+transparent_pixmap=false
+{{</mdf>}}
+
 
 ## 3-Dモデル
 
