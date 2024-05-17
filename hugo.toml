@@ -1,7 +1,7 @@
 # hugo server --minify --themesDir ../.. --baseURL=http://0.0.0.0:1313/theme/hugo-book/
 googleAnalytics = "G-GPBZ7N4E64"
 
-baseURL = 'https://mmdagent-ex.dev/'
+baseURL = 'https://moonshot--sleepy-payne-604e78.netlify.app/'
 title = '[MS]MMDAgent-EX'
 theme = 'hugo-book'
 
