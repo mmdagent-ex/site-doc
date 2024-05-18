@@ -138,19 +138,27 @@ Show the operating status on the top left at startup (can be switched after star
 show_fps=true
 {{</mdf>}}
 
-(Windows) transparent window.  When set to `true`, pixels of a color specified by the `transparent_color=` below will become transparent.  The transparent part is click-through.
+(Windows) Enable / disable transparent window.  When set to `true`, window will become transparent.  The transparent part of the window is click-through.  
+
+By default, it performs **color based** transparency.  A special transparent color is temporary painted for campus background, and pixels with the color will be made transparent.  The default transparent color is green (0.0,1.0,0.0), but can be changed by `transparent_color`.
+
+When `transparent_pixmap` is set to true, it performs slow-but-better **pixmap based** transparency.  The alpha channel in the rendered picture will be directly used as window tranparent value.  This method results always results in better transparent quality, but it is slow (extremely for large screen) and may degrades smoothness.
+
+While transparent, the stage background image will not be rendered.
 
 {{<mdf>}}
 transparent_window=false
 {{</mdf>}}
 
-(Windows) Specify the transparent color when `transparent_window` is `true`.  Default is `0.0,1.0,0.0` (green).  If you want to make the background transparent, specify the same color to the campus color by `campus_color=`.
+(Windows) Change the transparent color used in the color based transparency.  Default is `0.0,1.0,0.0` (green).
 
 {{<mdf>}}
 transparent_color=0.0,1.0,0.0
 {{</mdf>}}
 
-(Windows) Use pixmap transparent mode instead of color transparency.  When set to  `true` with `transparent_window=true`, it will perform pixmap based transparent method using layered window instead of default color-based method as described above.  The pixmap based method uses the alpha channel values rendered in the scene directly as transparency value, so high-quality transparency will be done without color rag, at a cost of processing speed.
+(Windows) Use pixmap-based transparent mode instead of color based. 
+
+When set to true, it performs slow-but-better **pixmap based** transparency.  The alpha channel in the rendered picture will be directly used as window tranparent value.  This method results always results in better transparent quality, but it is slow and may degrades smoothness.
 
 {{<mdf>}}
 transparent_pixmap=false
