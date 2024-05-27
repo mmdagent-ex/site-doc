@@ -60,11 +60,31 @@ stage_size=x,y,z
 
 ![stage example](/images/stage_example.png)
 
-
 ## 画面フレーム
 
-**WINDOWFRAME** メッセージで任意の PNG 画像を画面の一番手前に全体に貼ることができます。透過PNGに対応しているので、以下のように透過画像を使うことで、画面にフレームを貼るような使い方ができます。以下は利用例です。
+**WINDOWFRAME** メッセージで任意の PNG 画像を画面の一番手前に全体に貼ることができます。透過PNGに対応しているので、以下のように透過画像を使うことで、画面にフレームを貼るような使い方ができます。**WINDOWFRAME|画像ファイル名** のように使います。以下は利用例です。
 
 ![window frame example 1](/images/windowframe_example.png)
 
 ![window frame example 2](/images/windowframe_example2.png)
+
+表示された状態で **WINDOWFRAME|別の画像ファイル名** で切り替えることができます。また、**WINDOWFRAME|NONE** とすることで削除して元の状態に戻せます。
+
+複数の画像を重ね合わせたいときは **WINDOWFRAME_ADD** を使います。**WINDOWFRAME_ADD|名前|画像ファイル名** で追加します。異なる名前を使うことで、どんどん足して重ね合わせ表示ができます。同じ名前で別の画像ファイルを指定することで表示中の画像を別のものに入れ替えることができます。
+
+{{<message>}}
+<eps> WINDOWFRAME_ADD|frame1|images/frame_trad.png
+{{</message>}}
+
+削除するには **WINDOWFRAME_DELETE|名前** で指定した名前のフレームを削除できます。
+
+{{<message>}}
+<eps> WINDOWFRAME_DELETE|frame1
+{{</message>}}
+
+あるいは **WINDOWFRAME_DELETEALL** ですべてのフレームを一括削除できます。
+
+{{<message>}}
+<eps> WINDOWFRAME_DELETEALL
+{{</message>}}
+

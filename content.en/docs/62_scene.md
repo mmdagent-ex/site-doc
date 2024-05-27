@@ -70,3 +70,24 @@ You can paste any PNG image over the entire front of the screen with the **WINDO
 ![window frame example 1](/images/windowframe_example.png)
 
 ![window frame example 2](/images/windowframe_example2.png)
+
+When you issue **WINDOWFRAME|other_image.png** while another frame is displaying, it will be swapped to the new one.  You can totally delete the frame by issuing **WINDOWFRAME|NONE"
+
+You can further handle multiple frames by using **WINDOWFRAME_ADD** and **WINDOWFRAME_DELETE**.  Issuing **WINDOWFRAME_ADD|name|foobar.png** will add a new frame to the screen.  You should specify a unique name to use multiple frames.  If you specify a **name** that exists, the image formally specified by the **name** will be swapped to the new one.
+
+{{<message>}}
+<eps> WINDOWFRAME_ADD|frame1|images/frame_trad.png
+{{</message>}}
+
+You can delete each frame by issuing **WINDOWFRAME_DELETE|name**.  When issued, frame of the specified name will be deleted.
+
+{{<message>}}
+<eps> WINDOWFRAME_DELETE|frame1
+{{</message>}}
+
+Also you can delete all the frames at once by issuing **WINDOWFRAME_DELETEALL**.
+
+{{<message>}}
+<eps> WINDOWFRAME_DELETEALL
+{{</message>}}
+

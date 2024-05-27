@@ -401,12 +401,44 @@ STAGE|(stage file .xpmd or .pmd)
 
 **WINDOWFRAME**
 
-画面の一番上にフレーム画像 (.png) を重ね表示する。画像は画面の縦横比に合わせて伸長される。
+画面の一番上にフレーム画像 (.png) を重ね表示する。画像は画面の縦横比に合わせて伸長される。単一画像のみの方法。
 
 ![frame](/images/frame.png)
 
 {{<message>}}
 WINDOWFRAME|filename.png
+{{</message>}}
+
+上記の **WINDOWFRAME** で指定された画像を消すには **NONE** をつけて発行する。
+
+{{<message>}}
+WINDOWFRAME|NONE
+{{</message>}}
+
+**WINDOWFRAME_ADD**
+
+フレーム画像を新たに追加する。引数には適当なエイリアス名をつける。成功時に **WINDOWFRAME_EVENT_ADD** が出力される。同じ名前でさらに **WINDOWFRAME_ADD** を実行した場合、画像が入れ替えられる。
+
+{{<message>}}
+WINDOWFRAME_ADD|frame1|filename.png
+WINDOWFRAME_EVENT_ADD|frame1
+{{</message>}}
+
+**WINDOWFRAME_DELETE**
+
+指定されたエイリアス名のフレーム画像を削除する。成功時に **WINDOWFRAME_EVENT_DELETE** が出力される。
+
+{{<message>}}
+WINDOWFRAME_DELETE|frame1
+WINDOWFRAME_EVENT_DELETE|frame1
+{{</message>}}
+
+**WINDOWFRAME_DELETEALL**
+
+全ての表示中のフレーム画像を一括削除する
+
+{{<message>}}
+WINDOWFRAME_DELETEALL
 {{</message>}}
 
 ## 透過画面 (Win)
