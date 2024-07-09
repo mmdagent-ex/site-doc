@@ -76,7 +76,11 @@ TEXTAREA_SET|(textarea alias)|__camera0
 
 ![textarea with camera](/images/textarea_camera.png)
 
-`0` の部分数字はカメラ番号（0=デフォルト）で、`__camera1`, `__camera2` のようにすることで複数のWebカメラがあるときにカメラを個別に指定できます。
+`0` の部分数字はカメラ番号（0=デフォルト）で、`__camera1`, `__camera2` のようにすることで複数のWebカメラがあるときにカメラを個別に指定できます。また、 カメラを開く際の解像度（幅x高さ）を .mdf で `Plugin_TextArea_Camera_Size` により指定できます。
+
+{{<mdf>}}
+Plugin_TextArea_Camera_Size=1280x720
+{{</mdf>}}
 
 ※ OpenCVの仕様で高解像度のWebカメラを使用する際に表示開始まで数十秒以上かかる場合があります。その場合は環境変数 `OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS` に `0` を指定してから起動してみてください
 

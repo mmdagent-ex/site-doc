@@ -33,6 +33,17 @@ Output logs to a file. The default is blank (i.e., no output).
 log_file=
 {{</mdf>}}
 
+{{< hint ms >}}
+## Webcam
+
+Webcam resolution when opened by `TEXTAREA_SET`.
+
+{{<mdf>}}
+Plugin_TextArea_Camera_Size=1280x720
+{{</mdf>}}
+
+{{< /hint >}}
+
 ## Plugin
 
 Specify whether to enable or disable plugins.

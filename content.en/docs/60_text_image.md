@@ -70,7 +70,7 @@ TEXTAREA_SET|(textarea alias)|somewhere/image.png
 {{</message>}}
 
 {{<hint ms>}}
-By specifying __camera0 instead of a text or image path, you can open a webcam and display its video in the designated display area in real-time.
+By specifying `__camera0` instead of a text or image path, you can open a webcam and display its video in the designated display area in real-time.
 
 {{<message>}}
 TEXTAREA_SET|(textarea alias)|__camera0
@@ -78,9 +78,11 @@ TEXTAREA_SET|(textarea alias)|__camera0
 
 ![textarea with camera](/images/textarea_camera.png)
 
-`0` の部分数字はカメラ番号（0=デフォルト）で、`__camera1`, `__camera2` のようにすることで複数のWebカメラがあるときにカメラを個別に指定できます。
+The number in the part is the camera index (0=default).  By specifying `__camera1` ,`__camera2`, etc., you can specify which camera to open.  You can also specify the camera image resolution by setting `Plugin_TextArea_Camera_Size` in .mdf.
 
-The number in the part is the camera index (0=default).  By specifying `__camera1` ,`__camera2`, etc., you can specify which camera to open.
+{{<mdf>}}
+Plugin_TextArea_Camera_Size=1280x720
+{{</mdf>}}
 
 Note: When using a high-resolution webcam, it may take tens of seconds or more to start, due to OpenCV's specifications. In such cases, you can bipass some initialization step and may be able to make the start up delay much smaller by setting the environment variable `OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS` to `0`.
 

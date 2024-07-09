@@ -489,6 +489,20 @@ TEXTAREA_SET|(textarea alias)|(string or image path)
 TEXTAREA_EVENT_SET|alias
 ```
 
+{{<hint ms>}}
+
+- specify `__camera0` to open webcam (number = camera id)
+
+You can also change camera resolution by setting `Plugin_TextArea_Camera_Size` in .mdf.
+
+{{<mdf>}}
+Plugin_TextArea_Camera_Size=1280x720
+{{</mdf>}}
+
+Note: When using a high-resolution webcam, it may take tens of seconds or more to start, due to OpenCV's specifications. In such cases, you can bipass some initialization step and may be able to make the start up delay much smaller by setting the environment variable `OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS` to `0`.
+
+{{</hint>}}
+
 **TEXTAREA_DELETE**
 
 This command deletes the area and removes the display. When the deletion is complete, **TEXTAREA_EVENT_DELETE** is issued.

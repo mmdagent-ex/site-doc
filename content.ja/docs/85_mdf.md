@@ -30,6 +30,17 @@ slug: mdf
 log_file=
 {{</mdf>}}
 
+{{< hint ms >}}
+## Webカメラ
+
+`TEXTAREA_SET` でWebカメラを開くときのWebカメラの解像度を指定する。
+
+{{<mdf>}}
+Plugin_TextArea_Camera_Size=1280x720
+{{</mdf>}}
+
+{{< /hint >}}
+
 ## プラグイン
 
 プラグインの有効・無効を指定。

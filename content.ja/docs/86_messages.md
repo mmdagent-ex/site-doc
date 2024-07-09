@@ -487,6 +487,20 @@ TEXTAREA_SET|(textarea alias)|(string or image path)
 TEXTAREA_EVENT_SET|alias
 {{</message>}}
 
+{{<hint ms>}}
+
+- `__camera0` でWebカメラ画像を表示（数字＝カメラ番号）
+
+カメラを開く際の解像度（幅x高さ）を .mdf で `Plugin_TextArea_Camera_Size` により指定できる。
+
+{{<mdf>}}
+Plugin_TextArea_Camera_Size=1280x720
+{{</mdf>}}
+
+※ OpenCVの仕様で高解像度のWebカメラを使用する際に表示開始まで数十秒以上かかる場合がある。その場合は環境変数 `OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS` に `0` を指定してから起動してみること。
+
+{{</hint>}}
+
 **TEXTAREA_DELETE**
 
 エリアを削除し表示を消す。削除完了時に **TEXTAREA_EVENT_DELETE** が発行される。
