@@ -411,6 +411,39 @@ Overlay a frame image (.png) on top of the screen. The image will be stretched t
 WINDOWFRAME|filename.png
 {{</message>}}
 
+Deleting the frame that was specified by **WINDOWFRAME** above:
+
+{{<message>}}
+WINDOWFRAME|NONE
+{{</message>}}
+
+**WINDOWFRAME_ADD**
+
+Add a frame image (.png).  Specify an alias name.  When success, **WINDOWFRAME_EVENT_ADD** will be issued.  Use the same existing name to swap the current image to the new one.
+
+{{<message>}}
+WINDOWFRAME_ADD|frame1|filename.png
+WINDOWFRAME_EVENT_ADD|frame1
+{{</message>}}
+
+**WINDOWFRAME_DELETE**
+
+Delete the specified frame image.  When success, **WINDOWFRAME_EVENT_DELETE** will be issued.
+
+{{<message>}}
+WINDOWFRAME_DELETE|frame1
+WINDOWFRAME_EVENT_DELETE|frame1
+{{</message>}}
+
+**WINDOWFRAME_DELETEALL**
+
+Totally delete all frame images.
+
+{{<message>}}
+WINDOWFRAME_DELETEALL
+{{</message>}}
+
+
 ## Transparent Window (Win)
 
 **TRANSPARENT_START**
