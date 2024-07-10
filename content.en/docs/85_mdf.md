@@ -323,6 +323,17 @@ Maximum duration when saving motion with **MOTIONCAPTURE_START** message (unit: 
 motion_capture_max_minutes=10
 {{</mdf>}}
 
+{{< hint ms >}}
+
+For speech-to-head-motion feature: scale factor for moving angle and speed.  Set larger value for more dynamic / faster movement.  Default value is 1.0.
+
+{{<mdf>}}
+Plugin_Remote_Speech2Head_Angle_Coef=1.0
+Plugin_Remote_Speech2Head_Speed_Coef=1.0
+{{</mdf>}}
+
+{{< /hint >}}
+
 ## Voice Recognition
 
 **Plugin_Julius_conf**, **Plugin_Julius_lang**

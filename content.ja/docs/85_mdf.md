@@ -317,6 +317,17 @@ Plugin_Remote_Record_Wave_Limit=120
 motion_capture_max_minutes=10
 {{</mdf>}}
 
+{{< hint ms >}}
+
+リップシンクに連動した頭部上下動 (speech2headmotion) 機能における上下動作の大きさと速度の調整係数。値が大きいほど大きく・速く動くようになる。デフォルトは 1.0。
+
+{{<mdf>}}
+Plugin_Remote_Speech2Head_Angle_Coef=1.0
+Plugin_Remote_Speech2Head_Speed_Coef=1.0
+{{</mdf>}}
+
+{{< /hint >}}
+
 ## 音声認識
 
 **Plugin_Julius_conf**, **Plugin_Julius_lang**
