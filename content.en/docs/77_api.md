@@ -48,6 +48,8 @@ __AVCONF_DISABLEAUTOLIP,{NO|ARKIT|AU|ARKIT+AU|ALWAYS}
 SNDSTRM
 SNDFILE
 SNDBRKS
+SNDOPUS
+SNDNPCM
 SNDxxxx(body)
 AVATAR_LOGSAVE_START|logfile.txt
 AVATAR_LOGSAVE_STOP
@@ -481,7 +483,7 @@ The mapping of `controlMorphName` used in the message above and the actual morph
 
 ### Voice Transmission
 
-Audio waveform data can be streamed via a socket and played back with lip-sync. This works even when not in tracking control mode.  The audio data should be raw waveform data in 16kHz, 16bit, mono format, other format is not acceptable.
+Audio waveform data can be streamed via a socket and played back with lip-sync. This works even when not in tracking control mode.  The audio data should be in raw PCM (16kHz, 16bit, mono format, other format is not acceptable), or you can use Opus encoder to transmit 48kHz sampling speech (ver.2024.7.24 and later).
 
 There are two modes of voice transmission: File mode and Streaming mode.
 
@@ -533,6 +535,36 @@ Switch to Streaming mode.
 {{<message>}}
 SNDSTRM
 {{</message>}}
+
+#### SNDOPUS
+
+This 7-letter message tells MMDAgent-EX to switch to Opus mode.  In opus mode, MMDAgent-EX accepts Opus-encoded audio packets of 48kHz sampling audio.  Sampling rate must be 48k, and channel should be monoral.  The encoded speech data can be transmitted just as same as normal PCM, using 'SND'.  The following is an example of voice transmitter using Opus mode in python with PyOGG module.
+
+```python
+from pyogg import OpusEncoder
+
+# prepare encoder
+encoder = OpusEncoder()
+encoder.set_application("voip")
+encoder.set_sampling_frequency(48000)
+encoder.set_channels(1)
+
+# tell MMDAgent-EX to switch to OPUS mode
+await websocket.send("SNDOPUS\n")
+
+...
+
+async def send_audio_opus(chunk_data, chunk_bytes):
+    encoded_data = encoder.encode(chunk_data)
+    header = ("SND" + f"{len(encoded_data):04}").encode('ascii')
+    payload = bytearray()
+    payload = header + encoded_data
+    await websocket.send(payload)
+```
+
+#### SNDNPCM
+
+Disable Opus mode and go back to normal mode.
 
 #### __AVCONF_DISABLEAUTOLIP,{NO|ARKIT|AU|ARKIT+AU|ALWAYS}
 

@@ -49,6 +49,8 @@ __AVCONF_DISABLEAUTOLIP,{NO|ARKIT|AU|ARKIT+AU|ALWAYS}
 SNDSTRM
 SNDFILE
 SNDBRKS
+SNDOPUS
+SNDNPCM
 SNDxxxx(body)
 AVATAR_LOGSAVE_START|logfile.txt
 AVATAR_LOGSAVE_STOP
@@ -466,7 +468,9 @@ Apple ARKit 形式によるトラッキング（**__AV_ARKIT**）と併用する
 
 ### 音声伝送
 
-音声波形データをソケット経由で流し込み、リップシンク付きで再生させます。トラッキング制御中でなくても動作します。音声波形データは 16kHz, 16bit, mono のみ扱えます。
+音声波形データをソケット経由で流し込み、リップシンク付きで再生させます。トラッキング制御中でなくても動作します。音声波形データは 16kHz, 16bit, mono で送ります。
+
+2024.7.24以降のバージョンでは、OPUS圧縮形式を用いた48kHzサンプリングの高音質・低ビットレート音声圧縮伝送に対応しました。
 
 音声伝送のモードとして、ファイルモードとストリーミングモードの2種類のモードがあります。
 
@@ -475,6 +479,8 @@ Apple ARKit 形式によるトラッキング（**__AV_ARKIT**）と併用する
 ストリーミングモードでは、音声送信は短チャンクごとに行う必要があります。明示的な発話終端は与えられないため、MMDAgent-EX 側で無音部分の検出から発話区間の区切りが行われます。
 
 デフォルトはストリーミングモードです。ファイルモードにするには、まず先に `SNDFILE\n` を送信してモードを切り替えてから、ファイルの中身を逐次 `SND` で転送します。その際、ファイルの終端まで送信し終えたら `SNDBRKS\n` を送って入力終了をMMDAgent-EXに伝えます。ストリーミングモードに戻すには `SNDSTRM\n` を送信します。
+
+2024.7.24以降のバージョンでは `SNDOPUS` を送ることで OPUS モードに切り替えることができます。従来のモードに戻すには `SNDNPCM` を送ります。
 
 #### SNDxxxx(body)
 
@@ -518,6 +524,36 @@ SNDBRKS
 {{<message>}}
 SNDSTRM
 {{</message>}}
+
+#### SNDOPUS
+
+Opus 圧縮を用いた高音質音声伝送方式に切り替えます。サンプリングレートは48kHz（固定）、チャンネルはモノラルで固定です。エンコードしたデータパケットを通常音声と同じ要領で `SND` を使って送ります。以下は Python で PyOGG を使う場合のコード例です。
+
+```python
+from pyogg import OpusEncoder
+
+# prepare encoder
+encoder = OpusEncoder()
+encoder.set_application("voip")
+encoder.set_sampling_frequency(48000)
+encoder.set_channels(1)
+
+# tell MMDAgent-EX to switch to OPUS mode
+await websocket.send("SNDOPUS\n")
+
+...
+
+async def send_audio_opus(chunk_data, chunk_bytes):
+    encoded_data = encoder.encode(chunk_data)
+    header = ("SND" + f"{len(encoded_data):04}").encode('ascii')
+    payload = bytearray()
+    payload = header + encoded_data
+    await websocket.send(payload)
+```
+
+#### SNDNPCM
+
+Opus モードから通常のモードに戻します。
 
 #### __AVCONF_DISABLEAUTOLIP,{NO|ARKIT|AU|ARKIT+AU|ALWAYS}
 
