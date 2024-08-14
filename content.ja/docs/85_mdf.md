@@ -326,6 +326,12 @@ Plugin_Remote_Speech2Head_Angle_Coef=1.0
 Plugin_Remote_Speech2Head_Speed_Coef=1.0
 {{</mdf>}}
 
+WebSocket 経由の接続に対してパスワードを要求する
+
+{{<mdf>}}
+Plugin_Remote_WebSocket_Password=パスワード
+{{</mdf>}}
+
 {{< /hint >}}
 
 ## 音声認識

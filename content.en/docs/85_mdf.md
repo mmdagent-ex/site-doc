@@ -332,6 +332,12 @@ Plugin_Remote_Speech2Head_Angle_Coef=1.0
 Plugin_Remote_Speech2Head_Speed_Coef=1.0
 {{</mdf>}}
 
+Tells requirement for password authentication in WebSocket connection.
+
+{{<mdf>}}
+Plugin_Remote_WebSocket_Password=*****
+{{</mdf>}}
+
 {{< /hint >}}
 
 ## Voice Recognition
