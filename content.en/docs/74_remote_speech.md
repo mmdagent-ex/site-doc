@@ -214,9 +214,9 @@ You can also make MMDAgent-EX do only the "lip sync" part, while an external pro
 
 The **LIPSYNC_START** message is a command to execute lip sync. The first argument is the alias name of the model to target, and the second argument is the content of the lip sync. The content is a sequence of phoneme names and their durations (in milliseconds), separated by commas.
 
-```markdown
+{{<message>}}
 LIPSYNC_START|gene|sil,187,k,75,o,75,N,75,n,75,i,62,ch,75,i,87,w,100,a,87,sil,212
-```
+{{</message>}}
 
 The default set of phoneme names is the one used by Open JTalk. This can be easily modified or extended by editing the "Lip Sync Definition File".
 
@@ -249,16 +249,16 @@ a   0.5 0.0 0.0 0.0
 
 MMDAgent-EX converts the phoneme sequence sent with **LIPSYNC_START** into motion according to the definition, and starts playback on the specified model. **LIPSYNC_EVENT_START** is issued at the start of lip sync, and **LIPSYNC_EVENT_STOP** is issued when it ends.
 
-```markdown
+{{<message>}}
 LIPSYNC_EVENT_START|(model alias)
 LIPSYNC_EVENT_STOP|(model alias)
-```
+{{</message>}}
 
 You can also interrupt it partway with **LIPSYNC_STOP**.
 
-```markdown
+{{<message>}}
 LIPSYNC_STOP|(model alias)
-```
+{{</message>}}
 
 Here are the pros and cons of this method from the perspective of an external process.
 

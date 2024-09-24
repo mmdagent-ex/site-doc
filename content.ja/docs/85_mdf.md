@@ -39,6 +39,12 @@ log_file=
 Plugin_TextArea_Camera_Size=1280x720
 {{</mdf>}}
 
+`TEXTAREA_SET` で長いテキストを指定したときに自動折り返しを有効にし、その1行当たりの文字数を指定する (>0) もしくは自動折り返しを無効にする(<=0)。
+
+{{<mdf>}}
+Plugin_TextArea_MaxLineLen=40
+{{</mdf>}}
+
 {{< /hint >}}
 
 ## プラグイン
@@ -76,6 +82,18 @@ disablePlugin=D,E
 {{<mdf>}}
 exclude_Plugin_Audio=yes
 {{</mdf>}}
+
+{{< hint ms >}}
+
+## フォント
+
+システムフォントを変更する。フォントファイル（.otf もしくは .ttf ファイル）を `AppData/Noto_Fonts/` フォルダ以下へ置き、そのファイル名を以下のように指定する。
+
+{{<mdf>}}
+systemFontFile=フォントファイル名
+{{</mdf>}}
+
+{{< /hint >}}
 
 ## ネットワーク
 
@@ -330,6 +348,12 @@ WebSocket 経由の接続に対してパスワードを要求する
 
 {{<mdf>}}
 Plugin_Remote_WebSocket_Password=パスワード
+{{</mdf>}}
+
+操作が一定時間行われないときに **AVATAR_EVENT_IDLE|START** メッセージが発行されるが、その一定時間（デフォルトでは15秒）を指定した秒数に変更する。
+
+{{<mdf>}}
+Plugin_Remote_Idle_Timeout_Second=秒数
 {{</mdf>}}
 
 {{< /hint >}}

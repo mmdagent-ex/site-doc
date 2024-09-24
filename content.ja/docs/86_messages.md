@@ -136,7 +136,7 @@ MOTION_RESET|(model alias)|(motion alias)
 
 **MOTION_DELETE**
 
-モーションの再生を中断して削除する。完了時に **MOTION_EVENT_DELETE** を発行する。
+モーションの再生を中断して削除する。完了時に **MOTION_EVENT_DELETE** を発行する。当該モーションエイリアスが存在しない場合は何もしない（**MOTION_EVENT_DELETE** も発行されない）。
 
 {{<message>}}
 MOTION_DELETE|(model alias)|(model alias)
@@ -535,12 +535,34 @@ Plugin_TextArea_Camera_Size=1280x720
 
 **TEXTAREA_DELETE**
 
-エリアを削除し表示を消す。削除完了時に **TEXTAREA_EVENT_DELETE** が発行される。
+エリアを削除して表示を消す。削除完了時に **TEXTAREA_EVENT_DELETE** が発行される。
 
 {{<message>}}
 TEXTAREA_DELETE|(textarea alias)
 TEXTAREA_EVENT_DELETE|alias
 {{</message>}}
+
+{{< hint ms >}}
+
+**TEXTAREA_HIDE**
+
+指定したエリアを一時的に隠す。隠されたエリアは画面に表示されなくなるが、シーン内には存在し、**TEXTAREA_SHOW** で再び表示することができる。
+
+{{< message >}}
+TEXTAREA_HIDE|(textarea alias)
+TEXTAREA_EVENT_HIDE|alias
+{{< /message >}}
+
+**TEXTAREA_SHOW**
+
+**TEXTAREA_HIDE** により一時的に隠されているエリアを戻す。
+
+{{< message >}}
+TEXTAREA_SHOW|(textarea alias)
+TEXTAREA_EVENT_SHOW|alias
+{{< /message >}}
+
+{{< /hint >}}
 
 ## テキストキャプション
 
@@ -1085,6 +1107,28 @@ TIMER_EVENT_STOP|(count down alias)
 TIMER_CANCEL|(count down alias)
 TIMER_EVENT_CANCELLED|(count down alias)
 {{</message>}}
+
+{{< hint ms >}}
+
+**TIMER_PAUSE**
+
+タイマー変数を一時停止させる。一時停止されたタイマーはカウントが進まない。**TIMER_RESUME** で再開できる。
+
+一時停止の回数はカウントしていない：複数回 **TIMER_PAUSE** を実行しても1回の **TIMER_RESUME** で解除される。
+
+{{<message>}}
+TIMER_PAUSE|(count down alias)
+{{</message>}}
+
+**TIMER_RESUME**
+
+一時停止中のタイマー変数の動作を再開させる。
+
+{{<message>}}
+TIMER_RESUME|(count down alias)
+{{</message>}}
+
+{{< /hint >}}
 
 ## KeyValue値のセット
 

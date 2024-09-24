@@ -19,6 +19,23 @@ When using the external API from an external program, connect to MMDAgent-EX via
 Use WebSocket connections. Some features are not supported with TCP/IP connections.
 {{< /hint >}}
 
+{{< hint ms >}}
+
+When connection was established, the following message will be issued in MMDAgent-EX.  This message is also sent to the connected peer, so the peer can be notified that connection has been established by capturing this message.
+
+{{<message>}}
+REMOTE_EVENT_CONNECTED|peer_host_info
+{{</message>}}
+
+The following message will be sent when a connection was lost.  The disconnected peer can not receive this since this will be issued after connection lost.  However any program with MMDAgent-EX can capture that a client has been lost with this message.
+
+{{<message>}}
+REMOTE_EVENT_DISCONNECTED|peer_host_info
+{{</message>}}
+
+{{< /hint >}}
+
+
 ## Specifications and Messages
 
 Specification and the list of messages to be sent from outer program to MMDAgent-EX are as follows:
@@ -67,7 +84,13 @@ In this API, especially the "tracking messages" (**__AV_TRACK**, **__AV_ARKIT**,
 - Tracking message gives target parameter to MMDAgent-EX, and MMDAgnet-EX will make the model move towards the specified parameter.  You can send messages successively at most 60fps for real-time control.
 - "Auto Calibration" for head tracking is enabled by default.  Enabling this function makes MMDAgent-EX to use the first arriving 10 messages of **__AV_TRACK** to calibrates the orientation of the user's face.  You can disable or enable this feature by **__AV_AUTOCALIBRATE** message.
 - "Auto Retraction" while no signal is enabled by default.  When enabled, if a tracking message is not sent for a while (default is 1 second), the motion control will stop temporarily, and will be resume at a new tracking message.  When disabled the last tracking state will be always maintained. You can disable or enable this ffeature by **__AV_AUTORETRACT** message.
-- MMDAgent-EX will issue "avatar control idle" message.  It will issue **AVATAR_EVENT_IDLE|START** if any message has not been sent for 15 seconds.  When a message arrives after that, it will issue  **AVATAR_EVENT_IDLE|STOP**.
+- MMDAgent-EX will issue "avatar control idle" message.  It will issue **AVATAR_EVENT_IDLE|START** if any message has not been sent for a while.  When a message arrives after that, it will issue  **AVATAR_EVENT_IDLE|STOP**.
+
+{{< hint ms >}}
+
+The waiting time before **AVATAR_EVENT_IDLE|START** is 15 seconds by default but can be changed by specifying `Plugin_Remote_Idle_Timeout_Second=` in .mdf.
+
+{{< /hint >}}
 
 ## Details of each message
 

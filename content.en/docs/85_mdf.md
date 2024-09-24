@@ -42,6 +42,12 @@ Webcam resolution when opened by `TEXTAREA_SET`.
 Plugin_TextArea_Camera_Size=1280x720
 {{</mdf>}}
 
+Enable auto text wrap and set length of line when setting a long text to `TEXTAREA_SET`.
+
+{{<mdf>}}
+Plugin_TextArea_MaxLineLen=40
+{{</mdf>}}
+
 {{< /hint >}}
 
 ## Plugin
@@ -79,6 +85,18 @@ disablePlugin=D,E
 {{<mdf>}}
 exclude_Plugin_Audio=yes
 {{</mdf>}}
+
+{{< hint ms >}}
+
+## Font
+
+To change system font, place a font file to use (.otf or .ttf file) under `AppData/Noto_Fonts/` and specify its file name:
+
+{{<mdf>}}
+systemFontFile=font_file.ttf
+{{</mdf>}}
+
+{{< /hint >}}
 
 ## Network
 
@@ -336,6 +354,12 @@ Tells requirement for password authentication in WebSocket connection.
 
 {{<mdf>}}
 Plugin_Remote_WebSocket_Password=*****
+{{</mdf>}}
+
+Waiting idle time to issue **AVATAR_EVENT_IDLE|START** message.  Default is 15 seconds but can be changed:
+
+{{<mdf>}}
+Plugin_Remote_Idle_Timeout_Second=wait_in_seconds
 {{</mdf>}}
 
 {{< /hint >}}

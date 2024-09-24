@@ -121,28 +121,28 @@ This is a command to modify engine settings. It dynamically changes the engine t
 - `USERDICT_UNSET`: Delete user dictionary
 - `CHANGE_CONF`: Restart the engine with the specified jconf configuration file
 
-```markdown
+{{<message>}}
 RECOG_EVENT_MODIFY|GAIN|(scale)
 RECOG_EVENT_MODIFY|USERDICT_SET|(dict_file_path)
 RECOG_EVENT_MODIFY|USERDICT_UNSET
 RECOG_EVENT_MODIFY|CHANGE_CONF|(jconf_file_prefix)
-```
+{{</message>}}
 
 **RECOG_RECORD_START**
 
 Starts automatic recording of the input voice. The cut-out voice fragments are sequentially saved as individual .wav files in the specified directory.
 
-```markdown
+{{<message>}}
 RECOG_RECORD_START|(directory)
-```
+{{</message>}}
 
 **RECOG_RECORD_STOP**
 
 Stops automatic recording of the input voice.
 
-```markdown
+{{<message>}}
 RECOG_RECORD_STOP
-```
+{{</message>}}
 
 ## Synchronization of Audio Input Status
 

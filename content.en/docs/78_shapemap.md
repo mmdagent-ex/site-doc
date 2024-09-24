@@ -11,15 +11,15 @@ The content of this page is for MS version only.
 
 Shapemap file (.shapemap) is a definition file for lip-sync and external API control for CG avatars. It specifies which parts of the CG model should be controlled by lip-sync and tracking commands from external APIs.
 
-The structure and composition of parts in CG models vary greatly between models. Therefore, complete bone / morph mappings should be given at each CG model by the .shapemap file.
+MMDAgent-EX has a generic shapemap file.  However,  the structure and composition of parts in CG models vary greatly between models. Therefore, model-specific bone / morph mappings can be also given.
 
-## File Placement
+## Default shapemap file
 
-The Shapemap file (.shapemap) should be placed in the same folder as the CG avatar's model file `xxx.pmd`, with a filename like `xxx.pmd.shapemap`, appending `.shapemap` after the model file name. Note that it should be `xxx.pmd.shapemap`, not `xxx.shapemap`.
+Default shapemap file is located in `AppData` directory, as `default.shapemap`.  If the loaded model does not have its own shapemap defined, this default file will be loaded.
 
-When using a CG agent as an avatar, make sure to prepare a .shapemap file for each model. If a Shapemap file is not available, the CG model will not operate in response to external APIs and automatic lip-sync.
+## Model-specific shapemap
 
-For complete reference, see the Shapemap file of CG-CA. CG-CA comes with a Shapemap file already defined, and many MMD models have a similar structure, so they generally work fine as is. When setting up a new CG model, it's a good idea to start by copying the .shapemap file included with CG-CA.
+A model can have its own shapemap file.  The model-specific shapemap file should be placed in the same folder as the model file `xxx.pmd`, with filename like `xxx.pmd.shapemap`.
 
 ## Example
 

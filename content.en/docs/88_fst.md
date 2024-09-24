@@ -235,3 +235,43 @@ Typical uses include, for example,
 - Launching corresponding messages when certain messages arrive
 
 These allow you to write operations that run independently from the state in dialogue management.
+
+{{< hint ms >}}
+
+## launching Sub FST by message
+
+You can start a FST as sub-fst by **SUBFST_START** message.
+
+{{< message >}}
+SUBFST_START|(new_alias)|fst_filename
+{{< / message >}}
+
+**SUBFST_START** will produce error when the specified fst file does not exist.  You can instead use **SUBFST_START_IF** to start the sub-fst only when the file exists (no error when the file foes not exist, just do nothing)
+
+{{< message >}}
+SUBFST_START_IF|(new_alias)|fst_filename
+{{< / message >}}
+
+Upon success, they issue **SUBFST_EVENT_START|alias**.
+
+{{< message >}}
+SUBFST_EVENT_START|(alias)
+{{< / message >}}
+
+The started sub-FST will disappear when **it reaches a state with no arc**.  Or you can explicitly terminate a sub-fst by **SUBFST_STOP** message.
+
+{{< message >}}
+SUBFST_STOP|(alias)
+{{< / message >}}
+
+When a sub-FST has been stopped by either reached no-arc state or terminated by **SUBFST_STOP**, it issues **SUBFST_EVENT_STOP**.
+
+{{< message >}}
+SUBFST_EVENT_STOP|(alias)
+{{< / message >}}
+
+{{< hint info >}}
+A special state **AT_EXIT**: In case a running sub-fst is told to stop immediately by **SUBFST_STOP**, if it has a state label **AT_EXIT** in it, it immediately jumps to the **AT_EXIT** state instead of termination.  You can use this feature to define end-of-fst processing.  Note the the processing after **AT_EXIT** should not have any incomplete wait or loop, since it prevents the sub-fst to terminate forever.
+{{< /hint >}}
+
+{{< /hint >}}

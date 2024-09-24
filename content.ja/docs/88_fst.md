@@ -234,3 +234,43 @@ foobar.fst.xxx.fst
 - あるメッセージが来たら、対応するメッセージを起動する
 
 のように、対話管理における状態とは別に独立で動く処理を書くのに使える。
+
+{{< hint ms >}}
+
+## launching Sub FST by message
+
+サブ FST をメッセージで実行開始させることができる。あるサブFSTを実行開始するには **SUBFST_START** メッセージを使う。
+
+{{< message >}}
+SUBFST_START|(new_alias)|fst_filename
+{{< / message >}}
+
+この **SUBFST_START** は指定した FST ファイルが無い場合はエラーを出力する。代わりに **SUBFST_START_IF** を使うことで、その FST ファイルが存在するときだけ実行する（存在しない場合にはエラーを出力せず何もしない）ことができる。
+
+{{< message >}}
+SUBFST_START_IF|(new_alias)|fst_filename
+{{< / message >}}
+
+実行開始した際に **SUBFST_EVENT_START|alias** が発行される。
+
+{{< message >}}
+SUBFST_EVENT_START|(alias)
+{{< / message >}}
+
+実行開始したサブ FST は他のFSTと並列に動作し、「出力のない状態（＝最終状態）」に到達したか、あるいは **SUBFST_STOP** コマンドが発行されると停止する。
+
+{{< message >}}
+SUBFST_STOP|(alias)
+{{< / message >}}
+
+サブFSTが最終状態到達もしくはメッセージによって強制停止したとき、**SUBFST_EVENT_STOP** が発行される。
+
+{{< message >}}
+SUBFST_EVENT_STOP|(alias)
+{{< / message >}}
+
+{{< hint info >}}
+**AT_EXIT** 状態について：実行中のサブFSTが **SUBFST_STOP** で停止させられたとき、もし **AT_EXIT** という状態ラベルが定義されていたら、そのサブFSTは強制停止せずにその **AT_EXIT** 状態へ強制ジャンプする。これは C の `at_exit()` と同じ機能であり、これによってサブFSTの終了時処理を記述することができる。なお **AT_EXIT** 移動後にループや待ちがあると終了できなくなるので、**AT_EXIT** からの処理は停止せずに出力無し状態まで到達するようにすること。
+{{< /hint >}}
+
+{{< /hint >}}
