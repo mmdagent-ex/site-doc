@@ -213,65 +213,73 @@ By doing so, you can include the specified file at that location.
 
 Includes are expanded when reading .fst, and the contents are interpreted as if they were expanded right there. No particular scope processing is done for state names or variables. Be very careful about state name conflicts and processing consistency.
 
-## Parallel FST Launch (Sub FST)
+## Multi-threading FSTs (Sub FST)
 
-You can run multiple FSTs in parallel. When the main FST file is
+MMDAgent-EX can run multiple sub-FSTs in parallel in addition to the main FST. Sub-FSTs, like the main FST, are connected to the main queue, and their output is thrown into the main queue.
+
+Sub-FSTs run in parallel with the main FST. Input is also cascaded to the sub-FST, and the output of the sub-FST is sent to the message queue. Sub-FSTs operate independently of the main FST. 
+
+When running multiple FSTs, local variables are independent for each FST. Note that KeyValue values are in the memory of the MMDAgent-EX main body, so they can be used to share data among each FST.
+
+### Method 1: Static
+
+When the main FST file is
 
 ```text
 foobar.fst
 ```
 
-if there are .fst files with names like the following, MMDAgent-EX will also open them at the same time. (`xxx` is any character)
+Place an .fst files with names like the following:
 
 ```text
 foobar.fst.xxx.fst
 ```
 
-All launched sub FSTs will start in parallel with the main FST. Input is cascaded to the sub FST and the output of the sub FST is streamed into the message queue. Sub FSTs operate independently of the main FST.
+At startup, MMDAgent-EX checks if there are .fst files like above, and opens all of them as sub-FSTs at startup, along with the main FST.
 
-Typical uses include, for example,
+### Method 1: Dynamic
 
-- Playing motions at regular intervals
-- Launching corresponding messages when certain messages arrive
+You can start the execution of a sub-FST by issuing the message **SUBFST_START**. It can be thrown either from other process or network peer, or can be issued by an existing running FST.  The `alias` can be any string that designates the sub-FST to be launched
 
-These allow you to write operations that run independently from the state in dialogue management.
+{{<message>}}
+SUBFST_START|alias|file.fst
+{{</message>}}
 
-{{< hint ms >}}
+An error will occur if the specified file `file.fst` cannot be opened. To skip file check and start only if it exists, use **SUBFST_START_IF**.
 
-## launching Sub FST by message
+{{<message>}}
+SUBFST_START_IF|alias|file.fst
+{{</message>}}
 
-You can start a FST as sub-fst by **SUBFST_START** message.
+The event **SUBFST_EVENT_START** will be issued when the sub-FST starts operating.
 
-{{< message >}}
-SUBFST_START|(new_alias)|fst_filename
-{{< / message >}}
+{{<message>}}
+SUBFST_EVENT_START|alias
+{{</message>}}
 
-**SUBFST_START** will produce error when the specified fst file does not exist.  You can instead use **SUBFST_START_IF** to start the sub-fst only when the file exists (no error when the file foes not exist, just do nothing)
+Every started FST will start from the state name `0`. All sub-FSTs operate in parallel with the main FST.
 
-{{< message >}}
-SUBFST_START_IF|(new_alias)|fst_filename
-{{< / message >}}
+### Termination of sub-FST
 
-Upon success, they issue **SUBFST_EVENT_START|alias**.
+When a sub-FST reaches a state where the next transition destination is not defined (terminal state), it immediately terminates its operation and kill itself.  **SUBFST_EVENT_STOP** message will be issued when it ends.
 
-{{< message >}}
-SUBFST_EVENT_START|(alias)
-{{< / message >}}
+{{<message>}}
+SUBFST_EVENT_STOP|alias
+{{</message>}}
 
-The started sub-FST will disappear when **it reaches a state with no arc**.  Or you can explicitly terminate a sub-fst by **SUBFST_STOP** message.
+The sub-FST will not end if it does not reach any terminal state due to message wait or loop condition.  To stop a sub-FST immediately,
+use the following **SUBFST_STOP**.
 
-{{< message >}}
-SUBFST_STOP|(alias)
-{{< / message >}}
+### Forced termination of sub-FST
 
-When a sub-FST has been stopped by either reached no-arc state or terminated by **SUBFST_STOP**, it issues **SUBFST_EVENT_STOP**.
+A running sub-FST can be forcibly terminated by sending a **SUBFST_STOP** message. It also make MMDAgent-EX issue SUBFST_EVENT_STOP message.
 
-{{< message >}}
-SUBFST_EVENT_STOP|(alias)
-{{< / message >}}
+{{<message>}}
+SUBFST_STOP|alias
+{{</message>}}
 
-{{< hint info >}}
-A special state **AT_EXIT**: In case a running sub-fst is told to stop immediately by **SUBFST_STOP**, if it has a state label **AT_EXIT** in it, it immediately jumps to the **AT_EXIT** state instead of termination.  You can use this feature to define end-of-fst processing.  Note the the processing after **AT_EXIT** should not have any incomplete wait or loop, since it prevents the sub-fst to terminate forever.
-{{< /hint >}}
+### `AT_EXIT` state
 
-{{< /hint >}}
+If a state named `AT_EXIT` is defined in the sub-FST, when **SUBFST_STOP** message is issued, it does not stop immediately but forcibly make transition to the `AT_EXIT` state.  It then executes the subsequent instructions from the state. By using this `AT_EXIT`, one can describe termination procedure of sub-FST.
+
+After moved to `AT_EXIT`, the sub-FST still continues to operate from the `AT_EXIT` state. Therefore, a long message wait or a loop condition after `AT_EXIT` may prevent the sub-FST from shutting down. The script creator is responsible for writing the script so that it reaches the end state from `AT_EXIT` and the sub-FST ends when he uses `AT_EXIT`.

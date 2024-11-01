@@ -214,63 +214,71 @@ XXX YYY:
 
 ## 並列FST起動（サブFST）
 
-並列に複数の FST を走らせることができる。メインの FST ファイル が
+MMDAgent-EX ではメインのFST以外に複数のサブFSTを並列に走らせることができる。サブFSTはメインFSTと同様にメインキューに接続され、その出力はメインキューに投げられる。
+
+サブFSTはメインFSTと並列に起動する。入力はサブFSTにもカスケードされ、サブFSTの出力はメッセージキューに流される。サブFSTはメインFSTとは独立に動く。任意数のサブFSTを起動することができる。
+
+ローカル変数は各 FST ごとに独立である。なお、KeyValue 値は MMDAgent-EX 本体のメモリのため各FST間で共有することができる。
+
+### 起動方法１：静的
+
+メインの FST ファイル が
 
 ```text
 foobar.fst
 ```
 
-であるとき、以下のような名前の .fst ファイルがあると MMDAgent-EX はそれらも同時に開く。（`xxx` は任意の文字）
+であるとき、以下のような名前の .fst ファイルを置いておく。
 
 ```text
 foobar.fst.xxx.fst
 ```
 
-起動されたサブFSTは全てメインFSTと並列に起動する。入力はサブFSTにもカスケードされ、サブFSTの出力はメッセージキューに流される。サブFSTはメインFSTとは独立に動く。
+MMDAgent-EX は起動時、メインのFSTファイルと同じ場所に上記のような名前の .fst ファイルがあるかどうか調べ、ある場合それらすべてをサブFSTとして起動時にメインFSTと同時に開く。
 
-典型的な使い方としては、例えば
+### 起動方法２：動的
 
-- 一定時間おきにモーションを再生する
-- あるメッセージが来たら、対応するメッセージを起動する
+メッセージ **SUBFST_START** を発行することで、サブFSTの実行を開始できる。外部からの投げ込みで起動させたり、既存の動作中の FST からイベントに応じて別のサブFSTを起動するようなこともできる。
+`alias` は起動するサブFSTに付ける任意のエイリアス名を指定する。
 
-のように、対話管理における状態とは別に独立で動く処理を書くのに使える。
+{{<message>}}
+SUBFST_START|alias|file.fst
+{{</message>}}
 
-{{< hint ms >}}
+上記の指定では指定したファイル `file.fst` が開けない場合はエラーになる。そのファイルの存在を調べ、存在するときだけ起動する場合は **SUBFST_START_IF** を使う。
 
-## launching Sub FST by message
+{{<message>}}
+SUBFST_START_IF|alias|file.fst
+{{</message>}}
 
-サブ FST をメッセージで実行開始させることができる。あるサブFSTを実行開始するには **SUBFST_START** メッセージを使う。
+サブFSTが動作を開始したとき、イベント **SUBFST_EVENT_START** が発行される。
 
-{{< message >}}
-SUBFST_START|(new_alias)|fst_filename
-{{< / message >}}
+{{<message>}}
+SUBFST_EVENT_START|alias
+{{</message>}}
 
-この **SUBFST_START** は指定した FST ファイルが無い場合はエラーを出力する。代わりに **SUBFST_START_IF** を使うことで、その FST ファイルが存在するときだけ実行する（存在しない場合にはエラーを出力せず何もしない）ことができる。
+起動したサブFSTは状態名 `0` から動作を開始する。全てのサブFSTはメインFSTと並列に動作する。
 
-{{< message >}}
-SUBFST_START_IF|(new_alias)|fst_filename
-{{< / message >}}
+### サブFSTの終了
 
-実行開始した際に **SUBFST_EVENT_START|alias** が発行される。
+サブFSTは **次の遷移先が定義されていない状態（終端状態）に到達したとき、即座に動作を終了する**。動作終了時に **SUBFST_EVENT_STOP** メッセージが発行されるため、他のモジュールはこのメッセージを見てモジュールが終了したかどうかを判定できる。
 
-{{< message >}}
-SUBFST_EVENT_START|(alias)
-{{< / message >}}
+{{<message>}}
+SUBFST_EVENT_STOP|alias
+{{</message>}}
 
-実行開始したサブ FST は他のFSTと並列に動作し、「出力のない状態（＝最終状態）」に到達したか、あるいは **SUBFST_STOP** コマンドが発行されると停止する。
+もしFSTがメッセージ待ちやループ状態等を保ち何らかの終端状態に達さない場合、そのサブFSTは動き続ける。これを止めるには次の **SUBFST_STOP** を使う。
 
-{{< message >}}
-SUBFST_STOP|(alias)
-{{< / message >}}
+### サブFSTの強制停止
 
-サブFSTが最終状態到達もしくはメッセージによって強制停止したとき、**SUBFST_EVENT_STOP** が発行される。
+稼働中のサブFSTは **SUBFST_STOP** メッセージを送ることでその場で強制終了できる。この場合も終了時には**SUBFST_EVENT_STOP** メッセージが発行される。
 
-{{< message >}}
-SUBFST_EVENT_STOP|(alias)
-{{< / message >}}
+{{<message>}}
+SUBFST_STOP|alias
+{{</message>}}
 
-{{< hint info >}}
-**AT_EXIT** 状態について：実行中のサブFSTが **SUBFST_STOP** で停止させられたとき、もし **AT_EXIT** という状態ラベルが定義されていたら、そのサブFSTは強制停止せずにその **AT_EXIT** 状態へ強制ジャンプする。これは C の `at_exit()` と同じ機能であり、これによってサブFSTの終了時処理を記述することができる。なお **AT_EXIT** 移動後にループや待ちがあると終了できなくなるので、**AT_EXIT** からの処理は停止せずに出力無し状態まで到達するようにすること。
-{{< /hint >}}
+### `AT_EXIT` 状態
 
-{{< /hint >}}
+**SUBFST_STOP** メッセージによる終了命令を受けたとき、そのサブFSTに `AT_EXIT` という名前の状態が定義されている場合は、そのサブFSTは即座に停止せず、代わりに `AT_EXIT` 状態へ強制遷移し、以降の命令を実行する。この `AT_EXIT` を使うことで、例えばサブFSTで表示させたモデルを終了させてから処理を終わる、等、終了時に常に実施する終了処理を記述することができる。
+
+`AT_EXIT` へ遷移後もそのサブFSTは `AT_EXIT` 状態から通常通り動作を行い続ける。そのため、ここで他モジュールからのメッセージを待ったりループ処理を書くと、サブFSTが落ちない要因になりうる。`AT_EXIT` を使う場合、スクリプト制作者は責任をもって `AT_EXIT` から終了状態へ達しサブFSTが終了するよう書くこと。

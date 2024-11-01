@@ -1161,6 +1161,31 @@ FST_LOAD|(.fst file path)
 FST_LOAD|(.fst file path)|(initial state label)
 {{</message>}}
 
+**SUBFST_START**, **SUBFST_START_IF**
+
+指定した .fst をサブFSTとして新たに起動する。**SUBFST_START_IF** はファイルがある場合のみ実行する（ないときにエラーを出さない）。
+
+- 起動したときに **SUBFST_EVENT_START** が発行される。
+- 終了したとき **SUBFST_EVENT_STOP** が発行される
+
+{{<message>}}
+SUBFST_START|(alias)|(.fst file path)
+SUBFST_START_IF|(alias)|(.fst file path)
+SUBFST_EVENT_START|(alias)
+SUBFST_EVENT_STOP|(alias)
+{{</message>}}
+
+**SUBFST_STOP**
+
+指定したサブFSTを強制終了する。
+
+- 終了したとき **SUBFST_EVENT_STOP** が発行される
+
+{{<message>}}
+SUBFST_STOP|(alias)
+SUBFST_EVENT_STOP|(alias)
+{{</message>}}
+
 ## ホームの強制セット
 
 **HOME_SET**

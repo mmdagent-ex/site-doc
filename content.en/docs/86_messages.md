@@ -1168,6 +1168,31 @@ FST_LOAD|(.fst file path)
 FST_LOAD|(.fst file path)|(initial state label)
 {{< /message >}}
 
+**SUBFST_START**, **SUBFST_START_IF**
+
+Start a sub-FST process of an FST file.  Use **SUBFST_START_IF** when start only if the file exists.
+
+- Will issue **SUBFST_EVENT_START** on successful start.
+- Will issue **SUBFST_EVENT_STOP** on termination.
+
+{{<message>}}
+SUBFST_START|(alias)|(.fst file path)
+SUBFST_START_IF|(alias)|(.fst file path)
+SUBFST_EVENT_START|(alias)
+SUBFST_EVENT_STOP|(alias)
+{{</message>}}
+
+**SUBFST_STOP**
+
+Force terminate the specified sub-FST.
+
+- Will issue **SUBFST_EVENT_STOP** on termination.
+
+{{<message>}}
+SUBFST_STOP|(alias)
+SUBFST_EVENT_STOP|(alias)
+{{</message>}}
+
 ## Forced Home Setting
 
 **HOME_SET**
