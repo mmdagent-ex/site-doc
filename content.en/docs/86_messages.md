@@ -981,6 +981,15 @@ VALUE_SET|(variable alias)|(minimum value for random)|(maximum value for random)
 VALUE_EVENT_SET|(variable alias)
 {{</message>}}
 
+**VALUE_GET**
+
+Get the value of a variable and issue **VALUE_EVENT_GET**.
+
+{{<message>}}
+VALUE_GET|(variable alias)
+VALUE_EVENT_GET|(variable alias)|(value)
+{{</message>}}
+
 **VALUE_UNSET**
 
 Delete a variable. Upon completion, it issues a **VALUE_EVENT_UNSET**.
