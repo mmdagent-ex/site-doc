@@ -1046,6 +1046,15 @@ VALUE_SET|(variable alias)|(minimum value for random)|(maximum value for random)
 VALUE_EVENT_SET|(variable alias)
 {{</message>}}
 
+**VALUE_GET**
+
+変数の値を **VALUE_EVENT_GET** メッセージで発行する。
+
+{{<message>}}
+VALUE_GET|(variable alias)
+VALUE_EVENT_GET|(variable alias)|(value)
+{{</message>}}
+
 **VALUE_UNSET**
 
 変数を削除。完了時に **VALUE_EVENT_UNSET** を発行する。
