@@ -7,11 +7,11 @@ slug: build
 MMDAgent-EX の動作環境は macOS, Linux, Windows です。Windows上での WSL2 もサポートしています。以下の環境でビルド動作を確認しています。本ページの手順でビルドを実行して実行環境を構築してください。
 
 - **Windows**: Windows 11 with Visual Studio 2022
-- **macOS**: M2 Macbook Air / macOS Ventura, Intel Mac / macOS Sonoma
+- **macOS**: M2 Macbook Air / macOS Ventura / Sonoma / Sequoia, Intel Mac / macOS Sonoma
 - **Linux**: Ubuntu-22.04, Ubuntu-20.04
-- **Linux on WSL**: Ubuntu-22.04 on WSL2 (v1.2.5.0) on Windows
+- **Linux on WSL**: Ubuntu-22.04, 24.04 on WSL2 on Windows
 
-Windows のビルド済み実行バイナリが[GitHubのReleaseページ](https://github.com/mmdagent-ex/MMDAgent-EX/releases)にバージョンごとに置いてあるので、ビルド環境を構築できない場合はそちらをご利用ください。
+Windows のビルド済み実行バイナリは、[GitHubのReleaseページ](https://github.com/mmdagent-ex/MMDAgent-EX/releases)にバージョンごとに置いてあるので、ビルド環境を構築できない場合はそちらをご利用ください。
 
 ## コードの入手
 
@@ -64,6 +64,7 @@ git clone https://github.com/mmdagent-ex/MMDAgent-EX.git
 - poco
 - glew
 - libjpeg
+- jpeg-turbo
 - re2
 - portaudio
 - minizip
@@ -89,19 +90,40 @@ cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
 
-`libomp` 関連でエラーが出る場合、ヘッダファイルがうまくインストールされないことがあるため、以下を行ってから再トライ。
+#### エラーケース１：`libomp` 関連でエラーが出る
+
+環境によっては関連ファイルがうまくインストールされないことがある。以下を行ってから再トライする。
 
 ```shell
 brew link --force libomp
 ```
 
-jpeg 関連でエラーが出る場合、代わりに jpeg-turbo をインストールすることで解決することがある。
+#### エラーケース２：`Utf8Proc::Utf8Proc` 関連でエラーが出る。
+
+Poco ライブラリのバージョンが 14 以降だと、MMDAgent-EX が動きません。MMDAgent-EX に古い Poco 1.12.4 のソースアーカイブが同梱されているので、それを使ってビルドして使います。エラーが出たら、その後以下の手順に従ってください。(# の行は分かりやすくするためのコメントなので実際には入力しないでください)
 
 ```shell
-brew install jpeg-turbo
+# homebrew で入れた poco をアンインストール
+brew uninstall poco
+# 必要なモジュールをインストール
+brew install pcre2
+# Library_Poco 直下にある Poco 1.12.4 のソースコードを展開
+cd Library_Poco
+unzip poco-1.12.4-all.zip
+cd poco-1.12.4-all
+# cmake でビルドして /usr/local へインストール
+mkdir cmake-build
+cd cmake-build
+cmake .. -DPOCO_UNBUNDLED=ON
+make -s -j
+sudo make install
+# 戻ってビルドを通常どおりやりなおす
+cd ../../..
+cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
+cmake --build build
 ```
 
-brew パッケージの場所は、環境変数 `HOMEBREW_PREFIX` が定義されていればそれを使い、指定されていなければ `brew --prefix` の出力を用います。
+なお、brew パッケージの場所は、環境変数 `HOMEBREW_PREFIX` が定義されていればそれを使い、指定されていなければ `brew --prefix` の出力を用います。
 
 ### Linux (Ubuntu, WSL2)
 
