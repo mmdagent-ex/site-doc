@@ -65,6 +65,7 @@ The following packages are required. Install all before build with `brew install
 - poco
 - glew
 - libjpeg
+- jpeg-turbo
 - re2
 - portaudio
 - minizip
@@ -83,16 +84,39 @@ cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
 
-Error on `libomp`: perform the following and retry.
+#### Error case 1: an error occurs for `libomp`
+
+Perform the following and retry.
 
 ```shell
 brew link --force libomp
 ```
 
-Error on jpeg: try installing `jpeg-turbo` and retry.
+#### Error case 2: an error for `Utf8Proc::Utf8Proc`
+
+This error comes from Poco library.  Recent brew installes Poco-14.x, which is not compatible with MMDAgent-EX.  In such case you should use old Poco.  A source code of version 1.12.4 is included in the MMDAgent-EX repository, so build and install it.
+
+After you see the above error, perform below (ignore `#` lines)
 
 ```shell
-brew install jpeg-turbo
+# uninstall poco previously installed by homebrew
+brew uninstall poco
+# install required library
+brew install pcre2
+# Unpack source code of Poco-1.12.4 that exists under Library_Poco folder
+cd Library_Poco
+unzip poco-1.12.4-all.zip
+cd poco-1.12.4-all
+# build it with cmake, and install to /usr/local
+mkdir cmake-build
+cd cmake-build
+cmake .. -DPOCO_UNBUNDLED=ON
+make -s -j
+sudo make install
+# return back to MMDAgent-EX top and redo build process from start
+cd ../../..
+cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
+cmake --build build
 ```
 
 The brew package directory may change depending on your environment, i.e., `/usr/local/` or `/opt/homebrew`.  The build script will try to guess the prefix directory by executing `brew --prefix`.  If it does not work well, specify the brew prefix path with environment variable `HOMEBREW_PREFIX`.
