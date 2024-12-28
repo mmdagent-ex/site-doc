@@ -147,7 +147,9 @@ XXX YYY:
   <eps>  <eps>  ${src}=Nara,${dst}=Tokyo,${pref}=nozomi
 {{</fst>}}
 
-By writing `${%global variable name}`, you can handle and retrieve global variables as local variables.
+## Global Variables
+
+You can access to any [global variable](./75_global_variables.md) by prepending `%` at the variable name like `${%global variable name}`.  You can read the value of the specified global variable, and also set any value to the global variable.  The initial value of global vairables can be set in .mdf file, and its values are common among other FSTs or plugins.
 
 {{<fst>}}
 XXX YYY:
