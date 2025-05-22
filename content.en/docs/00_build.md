@@ -149,7 +149,11 @@ Build with Visual Studio 2022.  It requires C++ development environment and Wind
 4. Execute "Build Solution"
 
 {{< hint info >}}
-Pre-built executable binaries are also provided for convenience.  If you do not have build enviroment, download the latest zip file for win32 from the [GitHub releases page](https://github.com/mmdagent-ex/MMDAgent-EX/releases) and unzip the contents into the Release folder.
+Pre-built executable binaries are also provided at  [GitHub releases page](https://github.com/mmdagent-ex/MMDAgent-EX/releases). Download the latest zip file for win32 from the [GitHub releases page](https://github.com/mmdagent-ex/MMDAgent-EX/releases) and unzip the contents into the Release folder.
+{{< /hint >}}
+
+{{< hint info >}}
+If MMDAgent-EX.exe does not work, try installing the latest x86 [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170).  You need to install **x86** version (vc_redist_x86.exe), even if your os is 64 bit, since the MMDAgent-EX.exe is compiled as 32bit application.
 {{< /hint >}}
 
 ## Built Files
