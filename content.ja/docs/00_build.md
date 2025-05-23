@@ -164,7 +164,11 @@ Visual Studio 2022 でビルドする。インストールの際には「C++に�
 4. 「ソリューションのビルド」を実行
 
 {{< hint info >}}
-※ビルドがうまくいかない場合、リリースごとに公開されている実行バイナリを使うこともできます。[GitHubのリリースページ](https://github.com/mmdagent-ex/MMDAgent-EX/releases)から最新の win32 用の zip ファイルをダウンロードし、中身を `Release` フォルダ以下にコピーしてください。
+ビルド済み実行バイナリを使うこともできます。[GitHubのリリースページ](https://github.com/mmdagent-ex/MMDAgent-EX/releases)から最新の win32 用の zip ファイルをダウンロードし、中身を `Release` フォルダ以下にコピーしてください。
+{{< /hint >}}
+
+{{< hint info >}}
+起動後すぐに終了してしまう場合は、[Visual C++ 2022の再配布可能パッケージ](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170)をインストールしてください。x86版をインストールします。（x64版でないことに注意してください。MMDAgent-EX はデフォルトで32bit環境でビルドされています。OSが64bit でも、x64ではなく x86 版（vc_redist.x86.exe）をインストールしてください。
 {{< /hint >}}
 
 ## ビルドファイル
