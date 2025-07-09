@@ -156,6 +156,15 @@ XXX YYY:
   <eps>            <eps>  ${place}=${%KeyName}
 {{</fst>}}
 
+## Environmental Variables
+
+You can read environmental variable by `${%ENV{ENV_NAME}}`.  (supported on 2025.7.9 and later versions)
+
+{{<fst>}}
+XXX YYY:
+  <eps>            <eps>  ${place}=${%ENV{PLACE_NAME}}
+{{</fst>}}
+
 ## How to Write Condition Fields
 
 ### Plain Text
