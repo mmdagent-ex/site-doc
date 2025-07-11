@@ -27,11 +27,18 @@ slug: mdf
 
 ## Input/Output
 
-Output logs to a file. The default is blank (i.e., no output).
+Specify where to output log.  When a file path is specified, all logs will bbe saved to the file as text.  When left black (default), no log will be output on Windows, or use stdout on mac/Linux.
 
 {{<mdf>}}
 log_file=
 {{</mdf>}}
+
+Specify whether to utilize stdin/stdout as messaging queue.  When set to `true`, any text from stdin will be treated as a message and sent to internal queue.  Also all messages will be output to stdout.  When `true`, only messages (except logs) will be output to stdout, so use `log_file=` to save log to another file.
+
+{{<mdf>}}
+use_stdinout=false
+{{</mdf>}}
+
 
 {{< hint ms >}}
 ## Webcam
