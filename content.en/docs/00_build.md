@@ -9,7 +9,7 @@ MMDAgent-EX runs on macOS, Linux, and Windows. It can also runs on WSL2 environm
 
 - **macOS**: M2 Macbook Air / macOS Ventura, Intel Mac / macOS Sonoma
 - **Linux**: Ubuntu-22.04, Ubuntu-20.04
-- **Windows**: Windows 11 with Visual Studio 2022
+- **Windows**: Windows 11 with Visual Studio 2022 (win32 / x64)
 - **Linux on WSL**: Ubuntu-22.04 on WSL2 (v1.2.5.0) on Windows
 
 Windows users can also get pre-built binaries from [GitHub Release page](https://github.com/mmdagent-ex/MMDAgent-EX/releases).
@@ -161,15 +161,16 @@ Build with Visual Studio 2022.  It requires C++ development environment and Wind
 
 1. Open `MMDAgent_vs2022.sln` with Visual Studio 2022
 2. Right-click on `main` in Solution Explorer and set as the startup project
-3. Set the build configuration to `Release`
-4. Execute "Build Solution"
+3. Choose platform, `x64` or `Win32` (`Win32` is a safe bit since it is stable)
+4. Set the build configuration to `Release`
+5. Execute "Build Solution"
 
 {{< hint info >}}
-Pre-built executable binaries are also provided at  [GitHub releases page](https://github.com/mmdagent-ex/MMDAgent-EX/releases). Download the latest zip file for win32 from the [GitHub releases page](https://github.com/mmdagent-ex/MMDAgent-EX/releases) and unzip the contents into the Release folder.
+Pre-built executable binaries are also provided at  [GitHub releases page](https://github.com/mmdagent-ex/MMDAgent-EX/releases). Download the latest zip file from the [GitHub releases page](https://github.com/mmdagent-ex/MMDAgent-EX/releases) and unzip the contents into the Release folder.
 {{< /hint >}}
 
 {{< hint info >}}
-If MMDAgent-EX.exe does not work, try installing the latest x86 [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170).  You need to install **x86** version (vc_redist_x86.exe), even if your os is 64 bit, since the MMDAgent-EX.exe is compiled as 32bit application.
+If MMDAgent-EX.exe does not work, try installing the latest [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170).  You need the X86 version since older MMDAgent-EX are build as 32bit app, or will need the X64 version if you use MMDAgent-EX of x64 version.  If not sure, try installing both.
 {{< /hint >}}
 
 ## Built Files
@@ -179,13 +180,14 @@ All the files required for execution will be generated under the `Release` folde
 On Windows, an executable file has ".exe" prefix and the plugin files has ".dll" suffix.  On macOS and Linux, there is no ".exe" for executable file, and plugin file has ".so" suffix instead.
 {{< /hint >}}
 
-Under `AppData`, there are various data files required for execution, and `DLLs` includes external DLLs necessary for operation for Windows.
+Under `AppData`, there are various data files required for execution, and `DLLs` includes external DLLs necessary for operation for Windows.  Note that for x64 build MMDAgent-EX will read `DLLs64` folder instead of `DLLs`.
 
     Release/
     ├── MMDAgent-EX.exe
     ├── MMDAgent-EX.mdf
     ├── AppData/
     ├── DLLs/
+    ├── DLLs64/
     └── Plugins/
         ├── Plugin_AnyScript.dll
         ├── Plugin_Audio.dll
