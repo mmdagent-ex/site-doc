@@ -23,11 +23,9 @@ GitHubレポジトリ：
 
 ## 連絡先
 
-- 開発者は [MMDAgent-EX の GitHub レポジトリ](https://github.com/mmdagent-ex/MMDAgent-EX)の[Discussions](https://github.com/mmdagent-ex/MMDAgent-EX/discussions) に居ます。
-- E-mail：mmdagent-ex-official@lee-lab.org
-- Twitter/X [@MMDAgentEX](https://twitter.com/MMDAgentEX)（更新情報等お知らせのみ）
+MMDAgent-EX は[名古屋工業大学 李 研究室](https://www.slp.nitech.ac.jp/)にて開発されています。コンタクトは研究室までお願いします。
 
-MMDAgent-EX は[名古屋工業大学 李 研究室](https://www.slp.nitech.ac.jp/)にて開発されました。
+- Twitter/X [@MMDAgentEX](https://twitter.com/MMDAgentEX) 
 
 ## 動作サンプル
 

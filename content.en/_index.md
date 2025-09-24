@@ -26,11 +26,9 @@ See these GitHub repositories for latest codes, issues and discussions.
 
 ## Contact information
 
-- We are on [Discussions](https://github.com/mmdagent-ex/MMDAgent-EX/discussions) in [MMDAgent-EX GitHub](https://github.com/mmdagent-ex/MMDAgent-EX)
-- mmdagent-ex-official@lee-lab.org (for inquiries about research, development, and licensing)
-- Twitter/X [@MMDAgentEX](https://twitter.com/MMDAgentEX)（for announcements only）
+MMDAgent-EX is being developed at [Lee Laboratory, Nagoya Institute of Technology, Japan](https://www.slp.nitech.ac.jp/en/).  For any information, please access to the laboratory.
 
-Developed at [Lee Laboratory, Nagoya Institute of Technology, Japan](https://www.slp.nitech.ac.jp/en/).
+- Twitter/X [@MMDAgentEX](https://twitter.com/MMDAgentEX)（for announcements only）
 
 ## See it in action (in Japanese)
 
