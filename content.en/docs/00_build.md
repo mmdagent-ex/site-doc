@@ -1,65 +1,101 @@
 ---
-title: How To Build
+title: Installation and Build
 slug: build
 ---
 
-# How To Build
+# Installation and Build
 
-MMDAgent-EX runs on macOS, Linux, and Windows. It can also runs on WSL2 environment.  The build operation has been confirmed in the following environments:
+MMDAgent-EX runs on Windows, macOS, and Linux. It also works on WSL2 under Windows.
 
-- **macOS**: M2 Macbook Air / macOS Ventura, Intel Mac / macOS Sonoma
-- **Linux**: Ubuntu-22.04, Ubuntu-20.04
+The following environments have been tested for build and execution:
+
 - **Windows**: Windows 11 with Visual Studio 2022 (win32 / x64)
-- **Linux on WSL**: Ubuntu-22.04 on WSL2 (v1.2.5.0) on Windows
+- **macOS**: M2 MacBook Air / macOS Ventura / Sonoma / Sequoia, Intel Mac / macOS Sonoma
+- **Linux**: Ubuntu-22.04, Ubuntu-20.04
+- **Linux on WSL**: Ubuntu-22.04, 24.04 on WSL2 on Windows
 
-Windows users can also get pre-built binaries from [GitHub Release page](https://github.com/mmdagent-ex/MMDAgent-EX/releases).
+## Windows
 
-## Obtaining the Code
+Executables can be downloaded from the Release page of the MMDAgent-EX repository.  Download the file `MMDAgent-EX-x64-vx.x.zip` from the latest release.
 
-{{< hint danger >}}
-[GIT LFS](https://git-lfs.com/) should be installed beforehand.
+- [Releases - MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX/releases/latest)
+
+{{< hint info >}}
+
+If you need the 32-bit version (win32), download the `win32` package.  Normally, the 64-bit version (`x64`) is recommended.
+
 {{< /hint >}}
 
-Before obtaining repository, make sure to have Git LFS installed on your envieonment; if not, install it.
+Extract the downloaded `.zip` file and place the contents in a suitable location.
 
-{{< details "Check and Install Git LFS" close >}}
-Check if it's installed
+※ Do not run the program directly from the ZIP file. Always extract (unzip) it before running.
 
-```shell
-git lfs version
-```
+{{< hint info >}}
 
-Install on macOS using brew:
+On Windows, attempting to run `.exe` or `.dll` files inside a ZIP archive downloaded from the Internet may result in them being "blocked" by Windows security features.  
+This is part of antivirus protection and is not an error.
 
-```shell
-brew install git-lfs
-git lfs install
-```
+### If you cannot run the program
 
-Install on Linux:
+Right-click the downloaded ZIP file, select "Properties," and look for a message near the bottom such as:  
+*"This file came from another computer and might be blocked to help protect this computer."*  
+There will be a [Unblock] checkbox (or "Allow" button). Check it, click OK, and then extract the ZIP file.
 
-```shell
-sudo apt install git-lfs
-git lfs install
-```
+{{< /hint >}}
 
-Windows:
+After extraction, make sure the contents look like this:
 
-Install the LFS extension from the [Git LFS website](https://git-lfs.com/).
+    (top)/
+    ├── MMDAgent-EX.exe
+    ├── MMDAgent-EX.mdf
+    ├── AppData/
+    ├── DLLs64/  (or Dlls/ on win32)
+    └── Plugins/
+        ├── Plugin_AnyScript.dll
+        ├── Plugin_Audio.dll
+        ├── Plugin_Flite_plus_hts_engine.dll
+        ├── Plugin_Julius.dll
+        ├── Plugin_Kafka.dll
+        ├── Plugin_LookAt.dll
+        ├── Plugin_Network.dll
+        ├── Plugin_Open_JTalk.dll
+        ├── Plugin_RabbitMQ.dll
+        ├── Plugin_Remote.dll
+        ├── Plugin_TextArea.dll
+        ├── Plugin_Variables.dll
+        └── Plugin_VIManager.dll
 
-{{< /details >}}
+Test the startup by double-clicking `MMDAgent-EX.exe`.  
+If a window appears, the program is running. Since it won’t work without content, you can close the window right after confirming.
 
-Obtain the repository from [GitHub](https://github.com/mmdagent-ex/MMDAgent-EX) using Git LFS:
+If the program exits immediately and does not run, install the [Visual C++ 2022 Redistributable Package](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170).  
+Download and run `vc_regist.x64.exe`, then try again.
+
+{{< hint info >}}
+
+For the 32-bit version (win32), install the "X86" package (`vc_regist_x86.exe`).
+
+{{< /hint >}}
+
+If it works, you’re done. Continue to the next steps.
+
+To build from source code, read the following.
+
+## Build Instructions
+
+## Getting the Code
+
+Clone the repository from [GitHub](https://github.com/mmdagent-ex/MMDAgent-EX):
 
 ```shell
 git clone https://github.com/mmdagent-ex/MMDAgent-EX.git
 ```
 
-## Build Procedure
+## Build Steps
 
 ### macOS
 
-The following packages are required. Install all before build with `brew install`.
+Install the following packages with `brew install`:
 
 - cmake
 - poco
@@ -76,7 +112,7 @@ The following packages are required. Install all before build with `brew install
 - libomp
 - librdkafka
 
-Do build with CMake. The built executable and plugins will be stored under to the `Release/` directory.
+Build with CMake. The executable and plugins will be generated under the Release/ directory.
 
 ```shell
 cd MMDAgent-EX
@@ -84,87 +120,104 @@ cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
 
-#### Error case 1: an error occurs for `libomp`
+**Error Case 1: Errors related to libomp**
 
-Perform the following and retry.
+Run the following and retry:
 
 ```shell
 brew link --force libomp
 ```
 
-#### Error case 2: an error for `Utf8Proc::Utf8Proc`
+**Error Case 2: Errors related to `Utf8Proc::Utf8Proc`**
 
-This error comes from Poco library.  Recent brew installes Poco-14.x, which is not compatible with MMDAgent-EX.  In such case you should use old Poco.  A source code of version 1.12.4 is included in the MMDAgent-EX repository, so build and install it.
-
-After you see the above error, perform below (ignore `#` lines)
+If the Poco library version is 1.14 or newer, MMDAgent-EX will not work.  MMDAgent-EX includes Poco 1.12.4 source archive, which should be used. If this error occurs, follow these steps (lines beginning with # are comments for clarity and should not be entered):
 
 ```shell
-# uninstall poco previously installed by homebrew
+# Uninstall Poco installed via Homebrew
 brew uninstall poco
-# install required library
+# Install required modules
 brew install pcre2
-# Unpack source code of Poco-1.12.4 that exists under Library_Poco folder
+# Extract Poco 1.12.4 source code included under Library_Poco
 cd Library_Poco
 unzip poco-1.12.4-all.zip
 cd poco-1.12.4-all
-# build it with cmake, and install to /usr/local
+# Build with cmake and install to /usr/local
 mkdir cmake-build
 cd cmake-build
 cmake .. -DPOCO_UNBUNDLED=ON
 make -s -j
 sudo make install
-# return back to MMDAgent-EX top and redo build process from start
+# Return and rebuild as usual
 cd ../../..
 cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
 
-The brew package directory may change depending on your environment, i.e., `/usr/local/` or `/opt/homebrew`.  The build script will try to guess the prefix directory by executing `brew --prefix`.  If it does not work well, specify the brew prefix path with environment variable `HOMEBREW_PREFIX`.
+If your brew package prefix is non-standard, define the environment variable `HOMEBREW_PREFIX`.
+MMDAgent-EX uses this variable if defined, otherwise it uses the result of `brew --prefix`.
 
-### Linux (Ubuntu, WSL2)
+## Linux (Ubuntu, WSL2)
 
-The list of required packages is in the `requirements-linux.txt`, so install all the packages listed in it in advance with `apt install`. If you are using `Ubuntu`, you can do all at once as follows:
+A list of required packages is in the file `requirements-linux.txt`. Install all of them via apt. For example:
 
 ```shell
 cd MMDAgent-EX
+sudo apt update
 sudo apt install `cat requirements-linux.txt`
 ```
 
-Build with CMake:
+Then build with CMake:
 
 ```shell
 cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
 
-After a successful build, the necessary executables and plugins are ready at the `Release/` directory.
+The executable and plugins will be generated under the `Release/` directory.
 
 ### Windows
 
-Build with Visual Studio 2022.  It requires C++ development environment and Windows SDK.  During Visual Studio's installation, check "Desktop development with C++" and install MSVC v143 and Windows 11 SDK (confirmed with 10.0.22000.0).
+You can build with Visual Studio 2022.
 
-1. Open `MMDAgent_vs2022.sln` with Visual Studio 2022
-2. Right-click on `main` in Solution Explorer and set as the startup project
-3. Choose platform, `x64` or `Win32` (`Win32` is a safe bit since it is stable)
-4. Set the build configuration to `Release`
-5. Execute "Build Solution"
+When installing Visual Studio 2022, check "Desktop development with C++" and install MSVC v143 and the Windows 11 SDK (confirmed with 10.0.22000.0).
+
+Since version 2.1 (2025.10.1), required DLLs and prebuilt binaries are no longer included in the repository.
+To build on Windows, download `MMDAgent-EX-deps_win.zip` from the latest release.
+
+Download location:
+
+- [Releases - MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX/releases/latest)
+- Download `MMDAgent-EX-deps_win.zip` in the `Assets`.
+
+After download, unpack the .zip file, and copy the contents into the top directory of the repository.
+
+Then follow the build steps:
+
+1. Open MMDAgent_vs2022.sln in Visual Studio 2022
+2. In Solution Explorer, right-click main and set it as the startup project
+3. Select the platform: x64 or Win32
+4. Set build configuration to Release
+5. Run "Build Solution"
+
+If the program exits immediately and does not run, install [the Visual C++ 2022 Redistributable Package](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170).  Download and run `vc_regist.x64.exe`, then try again.
 
 {{< hint info >}}
-Pre-built executable binaries are also provided at  [GitHub releases page](https://github.com/mmdagent-ex/MMDAgent-EX/releases). Download the latest zip file from the [GitHub releases page](https://github.com/mmdagent-ex/MMDAgent-EX/releases) and unzip the contents into the Release folder.
+
+For the 32-bit version (win32), install the "X86" package (`vc_regist_x86.exe`).
+
 {{< /hint >}}
+
+## Generated Files
+
+All necessary runtime files are generated under the `Release` folder.
 
 {{< hint info >}}
-If MMDAgent-EX.exe does not work, try installing the latest [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170).  You need the X86 version since older MMDAgent-EX are build as 32bit app, or will need the X64 version if you use MMDAgent-EX of x64 version.  If not sure, try installing both.
+The following is an example for Windows.
+On macOS and Linux, there is no .exe extension, and .dll files become .so.
 {{< /hint >}}
 
-## Built Files
-
-All the files required for execution will be generated under the `Release` folder.
-{{< hint info >}}
-On Windows, an executable file has ".exe" prefix and the plugin files has ".dll" suffix.  On macOS and Linux, there is no ".exe" for executable file, and plugin file has ".so" suffix instead.
-{{< /hint >}}
-
-Under `AppData`, there are various data files required for execution, and `DLLs` includes external DLLs necessary for operation for Windows.  Note that for x64 build MMDAgent-EX will read `DLLs64` folder instead of `DLLs`.
+`AppData` contains required runtime data files.
+`DLLs` and `DLLs64 `are Windows-only external DLLs required for certain features.
 
     Release/
     ├── MMDAgent-EX.exe
@@ -187,17 +240,7 @@ Under `AppData`, there are various data files required for execution, and `DLLs`
         ├── Plugin_Variables.dll
         └── Plugin_VIManager.dll
 
-If installation is necessary, copy everything under this `Release` folder, maintaining the directory structure.
+That completes the build.
 
-## Libraries included in the archive but not used in macOS and Linux
+Only the files under the Release folder are required to run the program.  To run in another location, simply copy the entire Release folder.
 
-The following bundled libraries are used only on Windows. On macOS / Ubuntu, these bundled files are not used, and the ones from the packages installed on the system are linked instead.
-
-    Library_RE2
-    Library_zlib
-    Library_JPEG
-    Library_libsndfile
-    Library_PortAudio
-    Library_glew
-    Library_Poco
-    Library_librdkafka
