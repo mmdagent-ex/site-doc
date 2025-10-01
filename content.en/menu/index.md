@@ -6,7 +6,7 @@ headless: true
 <br />
 
 - **Tutorials**
-- [Get and Build]({{< relref "/docs/00_build" >}})
+- [Installation and Build]({{< relref "/docs/00_build" >}})
 - [Running Examples]({{< relref "/docs/05_run_contents" >}})
 - [Screen]({{< relref "/docs/10_screen" >}})
 - [Key / Mouse]({{< relref "/docs/15_keybinds_basic" >}})

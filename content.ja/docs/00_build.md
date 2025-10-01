@@ -15,19 +15,9 @@ MMDAgent-EX の動作環境は Windows, macOS, Linux, です。Windows上で WSL
 
 ## Windows
 
-実行ファイルはMMDAgent-EX のレポジトリの Release ページからダウンロードできます。最新のリリースのところにある `MMDAgent-EX-x64-vx.x.zip` をダウンロードします。
+MMDAgent-EX のレポジトリの Release ページからダウンロードしてください。最新リリースの Assets にある `MMDAgent-EX-x64-vx.x.zip` （32ビット版が必要なときは `win32`）をダウンロードし、フォルダにすべて展開してください。
 
 - [Releases - MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX/releases/latest)
-
-{{< hint info >}}
-
-32ビット版(win32) が必要な場合は `win32` のほうをダウンロードしてください。通常は 64ビット版(`x64`) を推奨します。
-
-{{< /hint >}}
-
-ダウンロードした .zip ファイルを展開して、中身を適当な場所に置いてください。
-
-※ ZIP のまま直接開くと正しく動かない場合があります。必ず展開（解凍）してから実行してください。
 
 {{< hint info >}}
 
@@ -41,7 +31,7 @@ Windows では、インターネットからダウンロードした ZIP ファ�
 
 {{< /hint >}}
 
-展開した中身が以下のようになっているか、確認してください。
+展開したファイルが以下のようになっているかを確認してください。
 
     (top)/
     ├── MMDAgent-EX.exe
@@ -63,9 +53,9 @@ Windows では、インターネットからダウンロードした ZIP ファ�
         ├── Plugin_Variables.dll
         └── Plugin_VIManager.dll
 
-起動テストしましょう。`MMDAgent-EX.exe` をダブルクリックして、ウィンドウが立ち上がるか確認してください。何かウィンドウが開いたら動作している証拠です。コンテンツが無ければ動かないので、ここでは確認できたらすぐウィンドウを閉じてもらって構いません。
+起動テストをします。`MMDAgent-EX.exe` をダブルクリックして、ウィンドウが出てくるか確認してください。何かウィンドウが開いたら、無事に動作している証拠です。ウィンドウを閉じて、次へ進んでください。
 
-もしすぐに終了してしまい動かない場合は、[Visual C++ 2022の再配布可能パッケージ](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170) のページにある `vc_regist.x64.exe` をダウンロードして実行したあと、再び確認してみてください。
+もし何も出てこない場合、[Visual C++ 2022の再配布可能パッケージ](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170) のインストールが必要かもしれません。[配布サイト](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170))にある `vc_regist.x64.exe` をダウンロードし、実行したあと、再び確認してみてください。
 
 {{< hint info >}}
 

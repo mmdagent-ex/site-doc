@@ -16,19 +16,9 @@ The following environments have been tested for build and execution:
 
 ## Windows
 
-Executables can be downloaded from the Release page of the MMDAgent-EX repository.  Download the file `MMDAgent-EX-x64-vx.x.zip` from the latest release.
+Download from the Release page of the MMDAgent-EX repository.  Get `MMDAgent-EX-x64-vx.x.zip` from the latest release (or Win32 if you prefer) and rxtract all to a folder.
 
 - [Releases - MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX/releases/latest)
-
-{{< hint info >}}
-
-If you need the 32-bit version (win32), download the `win32` package.  Normally, the 64-bit version (`x64`) is recommended.
-
-{{< /hint >}}
-
-Extract the downloaded `.zip` file and place the contents in a suitable location.
-
-※ Do not run the program directly from the ZIP file. Always extract (unzip) it before running.
 
 {{< hint info >}}
 
@@ -43,7 +33,7 @@ There will be a [Unblock] checkbox (or "Allow" button). Check it, click OK, and 
 
 {{< /hint >}}
 
-After extraction, make sure the contents look like this:
+Make sure the unpacked files look like this:
 
     (top)/
     ├── MMDAgent-EX.exe
@@ -65,10 +55,9 @@ After extraction, make sure the contents look like this:
         ├── Plugin_Variables.dll
         └── Plugin_VIManager.dll
 
-Test the startup by double-clicking `MMDAgent-EX.exe`.  
-If a window appears, the program is running. Since it won’t work without content, you can close the window right after confirming.
+Then Test if it works. Double-click the `MMDAgent-EX.exe` and see a window opens.  If you see some window, it means it works well, so close the window and go on.
 
-If the program exits immediately and does not run, install the [Visual C++ 2022 Redistributable Package](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170).  
+If it would not start, just seeing nothing, you may need to install the [Visual C++ 2022 Redistributable Package](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170).  
 Download and run `vc_regist.x64.exe`, then try again.
 
 {{< hint info >}}
