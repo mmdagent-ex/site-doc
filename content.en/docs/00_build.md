@@ -16,7 +16,7 @@ The following environments have been tested for build and execution:
 
 ## Windows
 
-Download from the Release page of the MMDAgent-EX repository.  Get `MMDAgent-EX-x64-vx.x.zip` from the latest release (or Win32 if you prefer) and rxtract all to a folder.
+Download from the Release page of the MMDAgent-EX repository.  Get `MMDAgent-EX-x64-vx.x.zip` from the latest release (or Win32 if you prefer) and extract all to a folder.
 
 - [Releases - MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX/releases/latest)
 
@@ -70,7 +70,7 @@ If it works, you’re done. Continue to the next steps.
 
 To build from source code, read the following.
 
-## Build Instructions
+# Build Instructions
 
 ## Getting the Code
 
@@ -145,7 +145,7 @@ cmake --build build
 If your brew package prefix is non-standard, define the environment variable `HOMEBREW_PREFIX`.
 MMDAgent-EX uses this variable if defined, otherwise it uses the result of `brew --prefix`.
 
-## Linux (Ubuntu, WSL2)
+### Linux (Ubuntu, WSL2)
 
 A list of required packages is in the file `requirements-linux.txt`. Install all of them via apt. For example:
 
