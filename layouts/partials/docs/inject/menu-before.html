@@ -1,0 +1,14 @@
+<!-- layouts/partials/docs/inject/menu-before.html -->
+<script>
+  // ここは同期実行。パースをブロックしてくれる＝初回ペイント前に走る
+  (function () {
+    var KEY = 'bookFoldOpen';
+    try { window.__FOLD_STATE__ = JSON.parse(localStorage.getItem(KEY)) || {}; }
+    catch (e) { window.__FOLD_STATE__ = {}; }
+    window.__FOLD_SAVE__ = function (state) {
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    };
+    // ハイドレーション完了までアニメ/回転を抑止（チラつき防止）
+    document.documentElement.classList.add('fold-hydrating');
+  })();
+</script>

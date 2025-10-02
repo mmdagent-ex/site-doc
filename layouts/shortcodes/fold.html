@@ -1,0 +1,9 @@
+{{ $open := cond (isset .Params "open") (.Get "open") false }}
+{{ $key  := cond (isset .Params "id") (.Get "id") (printf "fold-%s" (urlize (.Get "title"))) }}
+
+<details class="js-fold" data-fold-key="{{ $key }}" {{ if $open }}open{{ end }}>
+  <summary>{{ .Get "title" }}</summary>
+  <div class="fold-body">
+    {{ .Inner | markdownify }}
+  </div>
+</details>

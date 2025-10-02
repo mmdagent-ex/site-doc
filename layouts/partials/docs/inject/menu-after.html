@@ -1,0 +1,45 @@
+<!-- layouts/partials/docs/inject/menu-after.html -->
+<script>
+  (function () {
+    var state = window.__FOLD_STATE__ || {};
+    var root  = document.querySelector('.book-menu');
+    if (!root) { document.documentElement.classList.remove('fold-hydrating'); return; }
+
+    // 一致リンクの自動展開（保存が無い場合のみ）
+    var path = location.pathname.replace(/\/+$/, '');
+
+    root.querySelectorAll('details.js-fold[data-fold-key]').forEach(function (d) {
+      var key = d.getAttribute('data-fold-key');
+      if (state.hasOwnProperty(key)) {
+        d.open = !!state[key];                 // ★ 初回ペイント前に反映
+      } else {
+        var hasActive = !!d.querySelector('a[href="' + path + '"], a[href="' + path + '/"]');
+        if (hasActive) d.open = true;
+      }
+    });
+
+    // この後の開閉は通常JS（toggle）で保存
+    root.addEventListener('toggle', function (ev) {
+      var t = ev.target;
+      if (t.matches('details.js-fold[data-fold-key]')) {
+        var k = t.getAttribute('data-fold-key');
+        state[k] = t.open;
+        window.__FOLD_SAVE__(state);
+      }
+    });
+
+    // メニュー内リンククリック時も即保存（遷移前）
+    root.querySelectorAll('details.js-fold[data-fold-key] a[href]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var d = a.closest('details.js-fold[data-fold-key]');
+        if (!d) return;
+        state[d.getAttribute('data-fold-key')] = d.open;
+        window.__FOLD_SAVE__(state);
+      });
+    });
+
+    // ハイドレーション完了 → CSSでアニメ等を再有効化
+    document.documentElement.classList.remove('fold-hydrating');
+    document.documentElement.classList.add('fold-hydrated');
+  })();
+</script>

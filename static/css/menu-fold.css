@@ -1,0 +1,95 @@
+/* 基本 */
+/* ハイドレーションが完了するまで（fold-hydrating 中）は回転/開閉アニメを止める */
+.fold-hydrating .book-menu summary::before,
+.fold-hydrating .book-menu .fold-body {
+  transition: none !important;
+}
+
+.book-menu details { margin: 0.2rem 0; }
+
+.book-menu summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;                 /*  caret とタイトルを横並び */
+  align-items: center;
+  gap: .35rem;
+  padding: 5px 0;                /*  クリックしやすさUP（見た目は控えめ） */
+  outline: none;                 /*  クリック時の枠を消す */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* フォーカス枠を完全に抑止（アクセシビリティ的に必要なら適宜調整） */
+.book-menu summary:focus,
+.book-menu summary:focus-visible { outline: none; }
+
+/* 既定の開閉マーカーを消す */
+.book-menu summary::-webkit-details-marker { display: none; }
+
+.book-menu summary {
+  font-weight: 700;  /* 太字 */
+}
+
+.book-menu summary::before {
+  font-weight: normal;  /* caret は太くしない */
+}
+
+/* caret（前の△）を大きく・滑らかに回転 */
+.book-menu summary::before {
+  content: "▸";
+  display: inline-block;
+  font-size: 1.25em;             /* ← 前より大きく */
+  line-height: 1;
+  transform-origin: 0.35em 50%;
+  transition: transform .18s ease;
+}
+.book-menu details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+/* メニュー内のリスト（フォールド内アイテム）の行間を少しだけ詰める */
+.book-menu .fold-body li,
+.book-menu details ul li {
+  list-style: none;
+  margin: .15rem 0;              /* ← ほんの少し狭く */
+  line-height: 1.60;             /* ← 行間を控えめに */
+}
+
+/* インデントと余白調整（fold-body でも ul でも効くように両対応） */
+.book-menu details .fold-body,
+.book-menu details ul {
+  margin: .20rem 0 .20rem 0.9rem;
+  padding: 0;
+}
+
+/* ───────── アニメーション（開閉） ───────── */
+/* fold-body がある前提。ない場合は details > ul を対象にしてもOK */
+.book-menu details .fold-body {
+  max-height: 0;                 /* 高さトランジション用の定番テク */
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height .22s ease, opacity .22s ease;
+  will-change: max-height, opacity;
+}
+
+/* 開いたときにスムーズに展開（十分大きい上限を与える） */
+.book-menu details[open] .fold-body {
+  max-height: 1000px;            /* 中身が増えるなら値は大きめに */
+  opacity: 1;
+}
+
+/* fold-body を使わず UL だけの構造でも動かしたい場合のフォールバック（任意） */
+.book-menu details > ul {
+  max-height: none;              /* 既定はそのまま */
+  transition: none;
+}
+.book-menu details:not([open]) > ul {
+  display: none;                 /* 簡易フォールバック（アニメなし） */
+}
+
+/* 低モーション環境ではアニメ無効化 */
+@media (prefers-reduced-motion: reduce) {
+  .book-menu summary::before,
+  .book-menu details .fold-body {
+    transition: none !important;
+  }
+}
