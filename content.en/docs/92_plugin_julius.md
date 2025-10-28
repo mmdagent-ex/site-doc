@@ -1,23 +1,20 @@
-
-
 ---
-title: Setting up the Julius Voice Recognition Engine
+title: Julius Speech Recognition Engine Settings
 slug: asr-setting
 ---
+# Julius Speech Recognition Engine Settings
 
-# Setting up the Julius Voice Recognition Engine
+Plugin_Julius is a plugin that provides speech recognition using the Julius engine. It is characterized by compact operation. Below are explanations of the settings, messages, and usage for this plugin.
 
-Plugin_Julius is a plugin that provides voice recognition functionality using the Julius voice recognition engine. It is characterized by its compact operation. Below, we explain the settings, messages, and how to use this plugin.
+## .mdf settings
 
-## .mdf Configuration
+**Plugin_Julius_conf**, **Plugin_Julius_lang** (required)
 
-**Plugin_Julius_conf**, **Plugin_Julius_lang** (Required)
+Names of the recognition engine configuration and the language.
 
-The configuration name and language name of the voice recognition engine.
+No defaults are provided. Prepare models and enable Plugin_Julius by specifying a valid combination of these in the .mdf.
 
-No default designation. By preparing a model and specifying these valid combinations in .mdf, Plugin_Julius is activated.
-
-Combinations supported by the default model:
+Combinations supported by the default models:
 
 - dnn, ja
 - dnn, en
@@ -30,11 +27,11 @@ Plugin_Julius_lang=en
 
 **Plugin_Julius_wordspacing**
 
-Specify whether to separate words in the recognition result output.
+Specifies whether to separate words in recognition output.
 
-- `no`: Pack without putting anything between words (default for `ja`)
-- `yes`: Insert a space between words (default for languages other than `ja`)
-- `comma`: Insert a comma between words (compatible with old MMDAgent)
+- `no`: join words without any separator (default for `ja`)
+- `yes`: insert spaces between words (default for non-`ja`)
+- `comma`: insert commas between words (compatible with old MMDAgent)
 
 {{<mdf>}}
 Plugin_Julius_wordspacing=yes
@@ -42,7 +39,7 @@ Plugin_Julius_wordspacing=yes
 
 **Plugin_Julius_logfile**
 
-Outputs the internal log of the Julius engine to a file.
+Output Julius engine internal logs to a file.
 
 {{<mdf>}}
 Plugin_Julius_logfile=log.txt
@@ -50,17 +47,17 @@ Plugin_Julius_logfile=log.txt
 
 **show_caption**
 
-Displays subtitles. The voice recognition results are displayed on the left side of the screen and the voice synthesis content (the sentence given with **SYNTH_START**) is displayed on the right side. Set to false to disable it.
+Display captions. Recognition results appear on the left side of the screen, and synthesized speech (the text provided by **SYNTH_START**) appears on the right.
 
 {{<mdf>}}
 show_caption=true
 {{</mdf>}}
 
-## Event Messages
+## Event messages
 
 **RECOG_EVENT_START**
 
-Output when voice input is detected.
+Emitted when voice input is detected.
 
 {{<message>}}
 RECOG_EVENT_START
@@ -68,7 +65,7 @@ RECOG_EVENT_START
 
 **RECOG_EVENT_STOP**
 
-Output when recognition results are obtained.
+Emitted when a recognition result is obtained.
 
 {{<message>}}
 RECOG_EVENT_STOP|Recognition result sentence
@@ -76,7 +73,7 @@ RECOG_EVENT_STOP|Recognition result sentence
 
 **RECOG_EVENT_OVERFLOW**
 
-Output when the input sound level is too high and causes an overflow.
+Emitted when the input level is too high and causes overflow.
 
 {{<message>}}
 RECOG_EVENT_OVERFLOW
@@ -84,7 +81,7 @@ RECOG_EVENT_OVERFLOW
 
 **RECOG_EVENT_MODIFY**
 
-Output when the processing of the RECOG_MODIFY message is complete.
+Emitted when processing of a RECOG_MODIFY message is completed.
 
 {{<message>}}
 RECOG_EVENT_MODIFY|GAIN
@@ -95,7 +92,7 @@ RECOG_EVENT_MODIFY|CHANGE_CONF|(jconf_file_prefix)
 
 **RECOG_EVENT_AWAY**
 
-Output when voice recognition is temporarily suspended (ON) or restarted (OFF) due to menu operations or external control.
+Emitted when speech recognition is temporarily paused (ON) or resumed (OFF) by menu operations or external control.
 
 {{<message>}}
 RECOG_EVENT_AWAY|ON
@@ -104,80 +101,80 @@ RECOG_EVENT_AWAY|OFF
 
 **RECOG_EVENT_GMM**
 
-Output of identification result tag when using Julius's environmental sound identification function.
+Output tag for environment-sound classification when using Julius's environmental sound detection.
 
 {{<message>}}
 RECOG_EVENT_GMM|noise
 {{</message>}}
 
-## Command Messages
+## Command messages
 
 **RECOG_MODIFY**
 
-This is a command to modify engine settings. It dynamically changes the engine that is running.
+Command to change engine settings. Dynamically modifies the running engine.
 
-- `GAIN`: Amplitude scaling factor of the input voice (default 1.0)
-- `USERDICT_SET`: Load user dictionary (if it's already loaded, it will be replaced)
-- `USERDICT_UNSET`: Delete user dictionary
-- `CHANGE_CONF`: Restart the engine with the specified jconf configuration file
+- `GAIN`: input amplitude scaling factor (default 1.0)
+- `USERDICT_SET`: load a user dictionary (replaces one already loaded)
+- `USERDICT_UNSET`: remove the user dictionary
+- `CHANGE_CONF`: restart the engine with the specified jconf configuration file
 
-```markdown
+{{<message>}}
 RECOG_EVENT_MODIFY|GAIN|(scale)
 RECOG_EVENT_MODIFY|USERDICT_SET|(dict_file_path)
 RECOG_EVENT_MODIFY|USERDICT_UNSET
 RECOG_EVENT_MODIFY|CHANGE_CONF|(jconf_file_prefix)
-```
+{{</message>}}
 
 **RECOG_RECORD_START**
 
-Starts automatic recording of the input voice. The cut-out voice fragments are sequentially saved as individual .wav files in the specified directory.
+Start automatic recording of input audio. Segmented audio fragments are sequentially saved as individual .wav files in the specified directory.
 
-```markdown
+{{<message>}}
 RECOG_RECORD_START|(directory)
-```
+{{</message>}}
 
 **RECOG_RECORD_STOP**
 
-Stops automatic recording of the input voice.
+Stop automatic recording of input audio.
 
-```markdown
+{{<message>}}
 RECOG_RECORD_STOP
-```
+{{</message>}}
 
-## Synchronization of Audio Input Status
+## Audio input state synchronization
 
-During operation, in all display models, the morph values with the following names are automatically updated according to the state of the audio input (no change if there is no morph).
+While running, across all display models the following morph values are continuously updated to reflect the audio input state (no change if the morph does not exist).
 
-- Morph "`volume`": Volume value of audio input (0.0~1.0)
-- Morph "`trigger`": 1.0 when the audio input is voice, 0.0 when it's not
+- Morph "`volume`": audio input volume value (0.0–1.0)
+- Morph "`trigger`": 1.0 when the audio input is speech, 0.0 when non-speech
 
-By using this, you can, for example, change the morph in sync with the input volume or switch the display according to the voice input ON/OFF, implementing interactivity.
+Using these, you can implement interactive behaviors such as changing morphs in response to input volume or toggling displays according to speech input ON/OFF.
 
-In addition, the volume of the audio input is also set to the KeyValue value "`Julius_MaxVol`" at any time.
+Also, the audio input volume is set to the KeyValue value "`Julius_MaxVol`" as needed.
 
 ## Customization
 
-### Content Dictionary (.dic)
+### Content dictionary (.dic)
 
-You can expand your vocabulary by preparing a dictionary that defines unknown words. A dictionary for each content is placed within the content under a file name with the extension of the .mdf file changed to .dic (if it is `foobar.mdf`, it would be `foobar.dic`). Plugin_Julius will search for the above .dic file at startup and, if found, will read it in as an additional user dictionary.
+You can expand the vocabulary by preparing a dictionary that defines unknown words. A content-specific dictionary should be placed in the content directory with the same filename as the .mdf but with the extension changed to .dic (for example, if the .mdf is `foobar.mdf`, name it `foobar.dic`). Plugin_Julius searches for this .dic at startup and, if found, loads it as an additional user dictionary.
 
-### Per Content Settings (.jconf)
+### Per-content configuration (.jconf)
 
-Similarly, if there is a file like `foobar.jconf`, Plugin_Julius will read it in as an additional configuration file. By using this, it is also possible to provide different Julius parameters and settings for each content.
+Plugin_Julius also looks for files like `foobar.jconf` and, if present, loads them as additional configuration files. This allows you to provide different Julius parameters or settings per content.
 
-### Further Expansion such as Adding Models
+### Further extensions such as adding models
 
-The latest original version of Julius is fully incorporated, allowing for complete customization. You can use all the features, models, and settings that are available with Julius. For example, by preparing a language model and an acoustic model for Julius in a certain language, you can add support for other languages.
+The upstream Julius is fully integrated, allowing full customization. You can use all features, models, and settings supported by Julius. For example, by preparing a Julius language model and acoustic model for another language, you can add support for that language.
 
-When using customized models or dictionaries, please place the Julius configuration file in `Release/AppData/Julius`, with a filename of `jconf_configurationname_languagename.txt`. By specifying these configuration names and language names in .mdf, Plugin_Julius will launch with that configuration file.
+When using customized models or dictionaries, place the corresponding Julius configuration file under Release/AppData/Julius with the filename `jconf_configurationname_languagename.txt`.txt`. By specifying those configuration name and language in the .mdf, Plugin_Julius will start using that configuration file.
 
-## When you want to use other engines
+## Using other engines
 
-Julius is a compact open-source speech recognition engine, but it was created with technology from a bygone era, so its model performance, noise resistance, and recognition accuracy, especially in noisy environments, are inferior to the latest speech recognition engines.
+Julius is a compact open-source speech recognition engine, but it was developed some time ago; model performance and noise robustness—especially recognition accuracy in noisy environments—may be inferior to modern speech recognition engines.
 
-If you create a system in Python using a cloud speech recognition engine like Google STT or Whisper,
+If you build a system using cloud speech recognition engines like Google STT or Whisper in Python, you can integrate them with MMDAgent-EX in two ways:
 
-- Operate as a submodule of MMDAgent-EX with Plugin_AnyScript
-- Collaborate with the separate process of MMDAgent-EX through the WebSocket feature
+- Run them as a submodule of MMDAgent-EX using Plugin_AnyScript
+- Connect an external process to MMDAgent-EX via the WebSocket feature
 
-You can collaborate in these two ways. Please refer to the relevant documentation for each.
+Refer to the respective documentation for details.

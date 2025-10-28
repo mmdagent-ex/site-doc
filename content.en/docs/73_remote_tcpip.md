@@ -1,28 +1,26 @@
-
-
 ---
-title: Connection Using TCP/IP
+title: TCP/IP Connection
 slug: remote-tcpip
 ---
 {{< hint info >}}
-The TCP/IP connection is provided by Plugin_Remote. Please ensure that this plugin is enabled when in use.
+TCP/IP connections are provided by Plugin_Remote. Ensure this plugin is enabled before use.
 {{< /hint >}}
 
-# Communication Using TCP/IP
+# TCP/IP Communication
 
-We also support [connection and control](../remote-control) using TCP/IP. With TCP/IP, **MMDAgent-EX can act as either a client or a server**. Once a connection is established, the behavior of both is the same, with all of MMDAgent-EX's messages being sent to the server, and text sent from the other party is issued as a message within MMDAgent-EX.
+TCP/IP also supports [connection and control](../remote-control). With TCP/IP, **MMDAgent-EX can act as either a client or a server**. After a connection is established the behavior is the same in both cases: all MMDAgent-EX messages are sent to the server, and text received from the peer is posted as messages inside MMDAgent-EX.
 
 {{< hint danger >}}
-WebSocket and TCP/IP cannot be set up simultaneously. When using TCP/IP, please omit the WebSocket settings from the .mdf file.
+WebSocket and TCP/IP cannot be configured at the same time. When using TCP/IP, remove any WebSocket settings from the .mdf.
 {{< /hint >}}
 
-## Case 1: When MMDAgent-EX serves as the server
+## Case 1: MMDAgent-EX as Server
 
-Here are the settings and program example when MMDAgent-EX launches as a server and accepts connections from clients.
+Configuration and example programs for when MMDAgent-EX runs as a server and accepts connections from clients.
 
-### Launching MMDAgent-EX as a TCP/IP Server
+### Configuration: Start MMDAgent-EX as a TCP/IP Server
 
-In the .mdf file, set `Plugin_Remote_EnableServer=true`, and the port number to listen on.
+In the .mdf, set `Plugin_Remote_EnableServer=true` and the port number to listen on.
 
 {{<mdf>}}
 Plugin_Remote_EnableServer=true
@@ -31,7 +29,7 @@ Plugin_Remote_ListenPort=50001
 
 ### Client Script Example: Receiving
 
-Here's an example of a script connecting to the MMDAgent-EX server and receiving messages.
+Example where a script connects to the MMDAgent-EX server and receives messages.
 
 ```python
 import socket
@@ -52,7 +50,7 @@ tcp_client.close()
 
 ### Client Script Example: Sending
 
-Here's an example of a script connecting to the MMDAgent-EX server and sending messages.
+Example where a script connects to the MMDAgent-EX server and sends a message.
 
 ```python
 import socket
@@ -64,13 +62,13 @@ tcp_client.send(b"MESSAGE|aaa|bbb\n")
 tcp_client.close()
 ```
 
-## When MMDAgent-EX serves as the client
+## MMDAgent-EX as Client
 
-Here are the settings and program example when an external program serves as the server, and MMDAgent-EX connects as a client.
+Configuration and example programs for when an external program acts as the server and MMDAgent-EX connects as a client.
 
-### Launching MMDAgent-EX as a TCP/IP Client
+### Configuration: Start MMDAgent-EX as a TCP/IP Client
 
-In the .mdf file, set `Plugin_Remote_EnableClient=true` and the hostname and port number of the server to connect to.
+In the .mdf, set `Plugin_Remote_EnableClient=true` and specify the hostname and port to connect to, as shown below.
 
 {{<mdf>}}
 Plugin_Remote_EnableClient=true
@@ -80,7 +78,7 @@ Plugin_Remote_Port=50001
 
 ### Server Script Example: Receiving
 
-This is an example of a script operating as a server, receiving messages from MMDAgent-EX that connects to it.
+Example where a script acts as a server and receives messages from a connecting MMDAgent-EX.
 
 ```python
 import socket
@@ -106,7 +104,7 @@ while True:
 
 ### Server Script Example: Sending
 
-This is an example of a script operating as a server, sending messages to MMDAgent-EX that connects to it.
+Example where a script acts as a server and sends a message to a connecting MMDAgent-EX.
 
 ```python
 import socket

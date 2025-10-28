@@ -1,28 +1,25 @@
-
-
 ---
-title: PMX Model
+title: PMX Models
 slug: pmx
 ---
+# PMX Models
 
-# PMX Model
+MMDAgent-EX can temporarily display 3D models in the PMX format. However, it cannot load .pmx files directly -- you must first convert them to another format (.pmd and .csv).
 
-MMDAgent-EX can temporarily display 3D models in the PMX format. However, it is not possible to directly read .pmx files, so they need to be converted to another format (.pmd and .csv) in advance.
+## Conversion steps
 
-## Conversion Procedure
-
-PMX models can be temporarily displayed in MMDAgent-EX by converting them to .pmd and .csv using [PMXEditor](https://kkhk22.seesaa.net/category/14045227-1.html) (created by HokkyokuP). The procedure is as follows:
+PMX models can be temporarily displayed in MMDAgent-EX by converting them to .pmd and .csv using [PMXEditor](https://kkhk22.seesaa.net/category/14045227-1.html) (by KyokuhokuP). The steps are as follows.
 
 {{< hint info >}}
 Please use the latest version if possible (tested version: 0.2.7.3)
 {{< /hint >}}
 
-- [Acquire PMXEditor](https://kkhk22.seesaa.net/category/14045227-1.html) and install it
-- Open the target PMX file with PMXEditor.
-- From the menu, select "File - Export" and save with the extension `.pmd`.
-- From the menu, select "File - Convert to Text(CSV) - Export to CSV file" and save with the extension `.pmd.csv`.
+- [Get PMXEditor](https://kkhk22.seesaa.net/category/14045227-1.html) and install it
+- Open the target PMX file in PMXEditor
+- From the menu "File - Export", save with the `.pmd` extension
+- From the menu "File - Convert to Text(CSV) - Export to CSV file, save with the `.pmd.csv` extension
 
-Please place the .pmd and .csv converted by the above procedure in the same location as the original pmx. In particular, the file names need to be as follows. Please pay attention to the name of the .csv.
+Place the .pmd and .csv files converted by the above steps in the same location as the original pmx. In particular, the filenames must be as follows -- pay attention to the .csv filename:
 
 ```text
   model.pmx
@@ -30,45 +27,44 @@ Please place the .pmd and .csv converted by the above procedure in the same loca
   model.pmd.csv
 ```
 
-## How to Use
+## Usage
 
-When using MMDAgent-EX, specify the converted .pmd file with the `MODEL_ADD` command. The .csv file is read at the same time, and rendering close to PMX is performed.
+When using with MMDAgent-EX, specify the converted .pmd file with the `MODEL_ADD` command. The .csv file will be loaded automatically, enabling rendering close to the original PMX.
 
 ## Compatibility
 
-This is a list of the features of PMD and PMX supported by MMDAgent-EX. Please note that even for items marked with ○, operation is not guaranteed and it may not work depending on the model.
+The table below lists PMD and PMX features supported by MMDAgent-EX. Note that even if items are marked with "o", it does not guarantee them to work in all cases; some models may not function correctly.
 
-|Item|PMD|PMX|
+|Feature|PMD|PMX|
 |----|---|---|
-|Physics Calculation|○|○|
-|IK ON/OFF|○|○|
-|Hidden Morph|○|○|
-|Material Information|○|○|
-|Edge Ratio|-|○|
-|BDEF4|-|○|
-|SDEF|-|△(Temporary)|
-|Transformation Hierarchy|-|○|
-|Post-Physics Deformation|-|○|
-|Bone Update Order|-|○|
-|Vertex Morph|-|○|
-|Bone Morph|-|○|
-|UV Morph|-|○|
-|Material Morph|-|○(Only TeX coefficient is ×)|
-|Group Morph|-|○|
-|Additional UV|-|×|
-|External Parent Transformation|-|×|
+|Physics|o|o|
+|IK ON/OFF|o|o|
+|Hidden morphs|o|o|
+|Material info|o|o|
+|Edge scale|-|o|
+|BDEF4|-|o|
+|SDEF|-|o(tentative)|
+|Transform hierarchy|-|o|
+|Post-physics deformation|-|o|
+|Bone update order|-|o|
+|Vertex morphs|-|o|
+|Bone morphs|-|o|
+|UV morphs|-|o|
+|Material morphs|-|o (texture coefficients only)|
+|Group morphs|-|o|
+|Additional UV|-|-|
+|External parent transform|-|-|
 
+## Notes on use
 
-## Usage Guidelines
+Please comply with this software's ELSI guidelines and follow applicable terms of use and community practices when using models.
 
-Please ensure you adhere to the ELSI guidelines of this software, respect the terms of use and community practices, and use it appropriately.
-
-Note: When using the PMX model in this system, the word "PMX" will continuously be displayed in the top right corner.
+Note: When a PMX model is in use, the system will always display the text "PMX" in the upper-right corner.
 
 ## Tips
 
-Attempting to display a large model (vertices > around 200,000) may result in the CPU not keeping up with vertex calculations, leading to dropped frames. In such cases, try setting the number of parallel skinning threads to `2` or `4` in the .mdf file.
+For very large models (vertices > ~200,000), CPU vertex calculations may not keep up and frames may drop. In that case, try setting the number of parallel skinning threads to `2` or `4` in the .mdf.
 
-{{< mdf >}}
+{{< mdf>}}
 parallel_skinning_numthreads=2
-{{< /mdf >}}
+{{< /mdf>}}

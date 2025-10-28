@@ -25,8 +25,6 @@ GitHubレポジトリ：
 
 MMDAgent-EX は[名古屋工業大学 李 研究室](https://www.slp.nitech.ac.jp/)にて開発されています。コンタクトは研究室までお願いします。
 
-- Twitter/X [@MMDAgentEX](https://twitter.com/MMDAgentEX) 
-
 ## 動作サンプル
 
 FSTによるルールベース対話、PCにてCPUのみで動作。

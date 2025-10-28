@@ -1,76 +1,76 @@
 ---
-title: Changes from the Original MMDAgent
+title: Changes Since the Original MMDAgent
 slug: changes-since-original-mmdagent
 ---
-# Changes from the Original MMDAgent
+# Changes Since the Original MMDAgent
 
-This article summarizes the main changes from [MMDAgent](https://www.mmdagent.jp/) to MMDAgent-EX.
+This summarizes the main changes from [MMDAgent](https://www.mmdagent.jp/) to MMDAgent-EX.
 
-### Screen and Display
+### Display
 
-- Added menu
-- Added [tab bar](../screen) at the bottom
-- [Message errors shown sticky on screen for noticability](../screen)
+- Added menus
+- [Bottom tab bar](../screen)
+- [Detailed log view](../log/) (`Shift+f`)
+- Errors are now persistently displayed on-screen ([see screen](../screen))
 
-### Added functions
+### Features
 
-- [Detailed log on screen](../log/) (`Shift+f`)
-- Show History (`Shift+H`)
-- Open FST in editor (`E`: for windows only)
-- Open folder (`Shift+E`: for windows only)
-- Save screenshot (`Shift+G`)
-- Disabled viewpoint change by mouse by default: `c` key to toggle
-- Revert camera (`Shift+C`)
+- Content playback history (`Shift+H`)
+- Open FST in editor (`E`: Windows only)
+- Open folder in Explorer (`Shift+E`: Windows only)
+- Screenshot (`Shift+G`)
+- Change view with mouse: off by default (toggle with `c`)
+- Camera reset (`Shift+C`)
 
-### Post effeects
+### Post Effects
 
-- AutoLuminous (`Shift+L`)
-- Soft diffusion effect (`O` key and `I` key, for Windows only)
-- Doppel shadow effect (`Shift+J`)
+- AutoLuminous effect (adjust intensity with `Shift+L`)
+- Diffusion effect (adjust intensity with `O` and `I`; Windows only)
+- Double-shadow effect (`Shift+J`)
 
-### 3D model
+### 3D Models
 
-- [Now supports PMX model, with improved compatibility](../pmx/)
-- [Enhanced motion blending function](../motion-layer/)
-- Now supports animated PNG format for all textures and images
+- [PMX model support and compatibility improvements](../pmx/)
+- [Enhanced motion blending between motions](../motion-layer/)
+- Animated PNG support
 
-### FST extension
+### FST Extensions
 
-[Extended FST format](../fst-format/), old version still works.
+[Expanded FST format](../fst-format/) (legacy format still supported)
 
-- Block definition
-- Regular expression
-- Local variable initialization
-- Global variables (KeyValue) are now accessible in FST 
-- Now can refer to environmental variables
-- VS Code Extension to write FST file
+- Block definitions
+- Regular expressions
+- Local variable initial values
+- Access to global variables (KeyValue)
+- Access to environment variables
+- VS Code extension
 
-### Speech recognition
+### Speech Recognition
 
-- Updated engine and models to their latest versions, now DNN based
-- Added English ASR / TTS example modules
+- Performance improvements: engine, acoustic models, and language models updated to the latest DNN-based versions
+- Provides English models in addition to Japanese
 
 ### Multimodal
 
-- [Added several ways to show image and text in the scene](../image-and-text/)
+- [Enhanced image and text display features](../image-and-text/)
 
-### Enhancements for development
+### External Integration
 
-- [Added "Plugin_AnyScript" to incorporate any program easily](../submodule/)
-- [Added way to playing audio files or stream from other program](../remote-speech/)
-- [Enhanced socket connection](../remote-control/)
-  - [WebSocket support](../remote-websocket/)
-- [Morph-level outer control](../motion-bind/)
+- [Added Plugin_AnyScript for embedding arbitrary programs](../submodule/)
+- [Improved external audio playback](../remote-speech/)
+- [Improved socket connections](../remote-control/)
+  - [Added WebSocket support](../remote-websocket/)
+- [External control per morph](../motion-bind/)
 
-### Extensions on mdf and messages
+### mdf and Message Extensions
 
-Many configurations in .mdf and messages are newly defined.
+Many settings and messages have been added.
 
-- [List of configuration items in .mdf](../mdf/)
-- [List of all messages](../messages/)
+- [List of mdf settings](../mdf/)
+- [List of messages](../messages/)
 
-### Others
+### Other
 
-- [Delivering content on Web](../web-content/)
+- [Web content](../web-content/)
 
-For more details, please refer to each document.
+For details, see the individual documents.

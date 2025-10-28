@@ -1,36 +1,32 @@
 ---
-title: Browser-based Operational Testing Environment
+title: Browser-based message testing environment
 slug: message-test
 ---
-# Browser interface for testing message
+# Browser-based message testing environment
 
-MMDAgent-EX is a messaging system where all the commands and events are managed through messages.  It is best to know MMDAgent-EX by knowing messages practically.
+To make development easier, a way to easily try messages via a web browser is provided. With MMDAgent-EX running, open http://localhost:50000/ in a browser on the same machine.
 
-MMDAgent-EX has Web browser interface for instant message posting test.  While MMDAgent-EX is running, open http://localhost:50000/ with a web browser on the same machine.
+- <a href="http://localhost:50000" target="_blank">http://localhost:50000</a> (opens in a new window when clicked)
 
-- <a href="http://localhost:50000" target="_blank">http://localhost:50000</a> (← Click to open in a new window)
-
-The browser will open a page like this:
+The browser connects to the running MMDAgent-EX and opens a page like the following.
 
 <img alt="test message page snapshot" src="/images/test_message.png"/>
 
-By typing a message into the text box and pressing the Send button, then the message will be sent to MMDAgent-EX and processed.  You can send any message.
-
-For example, enter the following [message](../prompting) to the text box and send.
+You can enter a message in this text box and press the Send button to send any message to the running MMDAgent-EX. Try entering the following [prompt display message](../prompting).
 
 ```text
 PROMPT_SHOW|"This is test"|Yes|OK|"I got it"
 ```
 
-When you press the Send button, a prompt dialog like the one below appears on MMDAgent-EX.
+Press Send; if a prompt dialog like the following appears, it's working.
 
 <img alt="test message prompt snapshot" src="/images/test_message_prompt.png"/>
 
-In this way, you can send any message to the running MMDAgent-EX and check its operation via http://localhost:50000/.
+This lets you send arbitrary messages to the running MMDAgent-EX at http://localhost:50000/ to verify behavior -- feel free to use it.
 
-## Configuration 
+## Configuration
 
-There are some options in .mdf to configure this feature:
+You can change the port number in the .mdf. You can also disable this feature.
 
 {{<mdf>}}
 # set to false to disable the internal http server feature

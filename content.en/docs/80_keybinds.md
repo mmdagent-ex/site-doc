@@ -1,142 +1,137 @@
-
-
 ---
-title: Key and Mouse Operations
+title: Key and Mouse Controls
 slug: keybinding
 ---
+# Key and Mouse Controls
 
-# Key and Mouse Operations
-
-A list of all operations.
+A complete list of all controls.
 
 ## General
 
-||Mouse|Key|
+| |Mouse|Key|
 |:--|:--|:--|
-|**Exit App** | - |`ESC`|
-|**Switch Fullscreen** | - | `F`
-|**Switch VSync** | - | `Shift+V` |
+|**Quit app** | - |`ESC`|
+|**Toggle fullscreen** | - | `F`|
+|**Toggle VSync** | - | `Shift+V` |
 |**Reload** | - |`Shift+R` |
 |Screenshot *1  | - | `Shift+G` |
-|Force Update *2 |-  | `!` |
+|Force refresh *2 |-  | `!` |
 
-*1 Saves the screen under `MMDAgent-Content` on the desktop as `snapshot.png`
+*1 Saves the screen to Desktop under `MMDAgent-Content` as `snapshot.png`.
 
-*2 Only valid when auto-update is set up
+*2 Only effective if auto-update is set up.
 
-## Bookmark・History・File
+## Bookmarks, History & Files
 
 |Function|Mouse|Key|
 |:--|:--|:--|
-|**Open Bookmark** |Bookmark icon||
-|**Open History** |History icon|`Shift+H`|
+|**Open bookmark** |bookmark icon||
+|**Open history** |history icon|`Shift+H`|
 |Open current .fst in editor *1  | - | `E`|
 |Open current content folder in Explorer *1 | - | `Shift+E` |
-|Built-in File Browser|-|`Shift+O`|
+|Built-in file browser|-|`Shift+O`|
 
 *1 Windows only
 
-## Menu and Button
+## Menus and Buttons
 
 |Function|Mouse|Key|
 |:--|:--|:--|
-|**Show/Hide Menu** |Menu icon| `/` |
-|Flip through Menu|Flick|Left/Right keys|
-|Cursor movement|-|Up/Down keys|
-|Select item|Click| `Enter` |
-|Item options | Long press on item|`Shift+Enter` |
-|Hide/Show button|Long press on screen | `Q` |
+|**Show/hide menu** |menu icon| `/` |
+|Turn menu page|flick|Left / Right|
+|Move cursor|-|Up / Down|
+|Select item|click| `Enter` |
+|Item options | long-press item|`Shift+Enter` |
+|Hide/show buttons|long-press the screen | `Q` |
 
-## Viewpoint (Camera) Change
+## View (Camera) Controls
 
-By default, viewpoint change is locked and does not work. You can change it by unlocking it with the `C` key. Lock it again with the `C` key.
+By default view changes are locked. Press `C` to unlock and enable view changes. Press `C` again to re-lock.
 
-To return to the initial viewpoint state after operation, use the `Shift+C` key.
-
-|Function|Mouse|Key|
-|:--|:--|:--|
-|**Unlock / Re-lock** |-|`C`
-|**Camera Reset** |ー|`Shift+C`
-|**Rotation**|Drag or Slide|Arrow keys |
-|**Pan**|Shift+Drag or Slide from Double Tap | `Shift`+Arrow keys|
-|**Zoom**|Ctrl+Wheel or Pinch with Two Fingers|`+`, `-` |
-
-## Display Switch
+To return to the initial view state after changing, press `Shift+C`.
 
 |Function|Mouse|Key|
 |:--|:--|:--|
-|**Switch Operation Status Display ON/OFF** | - | `S` |
-|Switch Shadow Display ON/OFF   | - |`Shift+S`|
-|Switch Physics OFF/ON | - | `P` |
-|Eye follows mouse pointer *1 | - | `L`|
+|**Unlock / Re-lock** |-|`C`|
+|**Reset camera** | - |`Shift+C`|
+|**Rotate**|drag or slide|Arrow keys|
+|**Pan**|Shift+drag or slide after double-tap | `Shift` + Arrow keys|
+|**Zoom**|Ctrl+wheel or two-finger pinch|`+`, `-` |
+
+## Display Toggles
+
+|Function|Mouse|Key|
+|:--|:--|:--|
+|**Toggle motion state display** | - | `S` |
+|Toggle shadow display   | - |`Shift+S`|
+|Toggle physics simulation | - | `P` |
+|Make gaze follow mouse pointer *1 | - | `L`|
 |(debug) Show bones| - | `B` |
-|(debug) Show physical rigid body | - | `Shift+W`|
+|(debug) Show physics rigid bodies | - | `Shift+W`|
 |(debug) Show wireframe | - | `W` |
-|Thicken toon edge | - |`K` |
-|Thin toon edge | - |`Shift+K` |
-|Transparent window ON/OFF *2| - | `T` |
+|Thicken toon edges | - |`K` |
+|Thin toon edges | - |`Shift+K` |
+|Toggle screen transparency *2| - | `T` |
 
-*1 requires Plugin_LookAt
+*1 When Plugin_LookAt is enabled
 
-*2 Windows only, requires parameter settings in .mdf
-
-*1 Effective when Plugin_LookAt is enabled
+*2 Windows only; requires setting in .mdf
 
 ## CG Effects
 
 |Function|Mouse|Key|
 |:--|:--|:--|
-|Toggle shadow display method (Projection/Shadow map)| - |`X`|
-|Change light source position|Ctrl+Shift+Drag | - |
-|AutoLuminous: OFF→Weak→Strong→OFF | - |`Shift+L` |
-|Diffusion Effect intensity: OFF→Weak→Strong→OFF | - | `O` |
-|Diffusion Effect spread: OFF→Weak→Strong→OFF | - | `I` |
-|Double shadow effect ON/OFF | - | `Shift+J` |
+|Toggle shadow rendering mode (Projected / Shadow Map)| - |`X`|
+|Change light position|Ctrl+Shift+drag | - |
+|AutoLuminous: OFF→Low→High→OFF | - |`Shift+L` |
+|Diffusion effect intensity: OFF→Low→High→OFF | - | `O` |
+|Diffusion effect spread: OFF→Low→High→OFF | - | `I` |
+|Toggle double-shadow effect | - | `Shift+J` |
 
 ## Log Display
 
 |Function|Gesture|Mouse|Key|
 |:--|:--|:--|:--|
-|**Simplified log display ON/OFF**| - | - | `D` |
-|**Detailed log display ON/OFF**| - | - | `Shift+F` |
-|Display log in console window *1| - | - | `Shift+D` |
-|Scroll log| - | - | `PageUP`, `PageDown` |
-|Search keywords in log| - | - | `?` + Enter text, `Del` to finish |
+|**Toggle simple log display**| - | - | `D` |
+|**Toggle detailed log display**| - | - | `Shift+F` |
+|Show logs in console window *1| - | - | `Shift+D` |
+|Scroll logs| - | - | `PageUp`, `PageDown` |
+|Search logs by keyword| - | - | `?` + type text, finish with `Del` |
 
 *1 Windows only
 
-## Scene Management
+## Scene Operations
 
 |Function|Mouse|Key|
 |:--|:--|:--|
-|Move model on XZ plane |Drag model with Ctrl | - |
-|Move model on XY plane |Drag model with Ctrl+Shift | - |
-|Delete model | Double click model and hit `Del` | -|
-|Reset rigid body position | - |`Shift+P` |
-|Fast forward/rewind scene| - | `Ctrl+leftright`|
-|Pause/unpause scene | - | `H` |
+|Move model on XZ plane |Ctrl+drag model | - |
+|Move model on XY plane |Ctrl+Shift+drag model | - |
+|Delete model | double-click the model and press `Del` | -|
+|Reset rigid body positions | - |`Shift+P` |
+|Fast-forward / rewind scene| - | `Ctrl` + Left/Right|
+|Pause / unpause scene | - | `H` |
 
 ## File Drag & Drop
 
 Windows only
 
-|What file to | Where to | While pressing key | What happens | Note |
+|What file|Where|With key held|Result|Notes|
 |:--|:--|:--|:--|:--|
-|.pmd|On model|-|Replace existing model with specified file||
-|.pmd|Anywhere|Ctrl|Display new model||
-|.vmd|On model|-|Play motion| Loop play ("base", FULL, LOOP)|
-|.vmd|Anywhere|Ctrl|Play on all models| Apply to all models
-|.vmd|On model|Shift|Add motion|Overlap motions and play once (PART, ONCE)
-|.vmd|Anywhere|Ctrl+Shift|Add and play on all models|Apply to all models|
-|image file|Anywhere|-|Replace background image|png, jpg, bmp, tga|
-|image file|Anywhere|Ctrl|Replace floor image|png, jpg, bmp, tga|
-|.xpmd|Anywhere|-|Replace stage||
+|.pmd|on a model|-|Replace the existing model with the specified file||
+|.pmd|anywhere|Ctrl|Add the model to the scene||
+|.vmd|on a model|-|Play motion|Loop playback ("base", FULL, LOOP)|
+|.vmd|anywhere|Ctrl|Play on all models|Applies the above to all models|
+|.vmd|on a model|Shift|Add motion|Stack motion and play once (PART, ONCE)|
+|.vmd|anywhere|Ctrl+Shift|Add and play on all models|Applies to all models|
+|image file|anywhere|-|Replace background image|png, jpg, bmp, tga|
+|image file|anywhere|Ctrl|Replace floor image|png, jpg, bmp, tga|
+|.xpmd|anywhere|-|Replace stage||
 
-## Voice Recognition (Plugin_Julius)
+## Speech Recognition (Plugin_Julius)
 
 Only when Plugin_Julius is enabled
 
 |Function|Mouse|Key|
 |:--|:--|:--|
-|Toggle voice input volume display ON/OFF|- |`a` |
-|Change voice detection sensitivity | - | `<`, `>`|
+|Toggle voice input volume display|- |`a` |
+|Adjust voice detection sensitivity | - | `<`, `>`|

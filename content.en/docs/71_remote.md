@@ -1,29 +1,27 @@
-
-
 ---
 title: Control via Socket Connection
 slug: remote-control
 ---
 {{< hint info >}}
-Plugin_Remote provides the functionality for control via socket connections. Please make sure this plugin is enabled when using it.
+Socket-based control is provided by the Plugin_Remote plugin. Make sure this plugin is enabled before use.
 {{< /hint >}}
 
 # Control via Socket Connection
 
-You can connect to a running MMDAgent-EX process via a socket and operate MMDAgent-EX from an external source.
+You can connect to a running MMDAgent-EX process via a socket and control MMDAgent-EX externally.
 
-- Text sent to the socket is issued directly as a message to MMDAgent-EX
-- All messages issued from MMDAgent-EX are sent as input to the socket
+- Text sent to the socket is forwarded to MMDAgent-EX as a message.
+- All messages emitted by MMDAgent-EX are sent to the socket.
 
-While the implementation is slightly more complex compared to [embedding as a submodule](../submodule), it offers the following advantages:
+This implementation is somewhat more complex than the [submodule integration approach](../submodule), but:
 
-1. High independence from MMDAgent-EX
-2. Can connect even with applications that do not handle standard input/output
-3. Can be run on different machines, such as GPU machines, separate from the machine running MMDAgent-EX
+1. It offers greater independence from MMDAgent-EX.
+2. It allows connections from applications that don't use standard input/output.
+3. It can run on a different machine than MMDAgent-EX (for example, a GPU machine).
 
-## Method
+## Methods
 
-MMDAgent-EX supports two types of communication: via WebSocket and TCP/IP. Please see the explanations and samples for each.
+MMDAgent-EX supports two types of communication: WebSocket and TCP/IP. See the explanations and samples for each.
 
-- [Connection using WebSocket](../remote-websocket)
-- [Connection using TCP/IP](../remote-tcpip)
+- [WebSocket-based connection](../remote-websocket)
+- [TCP/IP-based connection](../remote-tcpip)

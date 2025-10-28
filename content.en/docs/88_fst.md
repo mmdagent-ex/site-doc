@@ -1,52 +1,48 @@
-
-
 ---
 title: FST Format
 slug: fst-format
 ---
-
 # FST Format
 
 ## Introduction
 
-The operation scripts of MMDAgent-EX are described using a state transition model, with conditions and actions. The file extension is .fst.
+MMDAgent-EX behavior scripts describe conditions and actions as a state-transition model. File extension is .fst.
 
-At runtime, MMDAgent-EX is always in a certain state. The module monitors messages flowing within MMDAgent (input messages) and if an input message matches any of the conditions waiting in the current state, it outputs the corresponding message to MMDAgent and transitions to the next state. This process is repeated to execute the dialogue scenario.
+At runtime, MMDAgent-EX is always in a single state. Modules monitor messages flowing inside MMDAgent (input messages). If an input message matches one of the conditions waiting in the current state, the module outputs the corresponding message to MMDAgent and transitions to the specified next state. Repeating this executes the interaction scenario.
 
-In MMDAgent-EX, the .fst specification has been expanded from the original MMDAgent, but compatibility is maintained, and old .fst files for the original can still be used.
+MMDAgent-EX extends the original MMDAgent .fst specification, but compatibility is preserved: older .fst files for the original MMDAgent can be used as-is.
 
-In MMDAgent, you can display the .fst debug window internally with the `Shift+f` key. Also, you can open the running fst file in an editor with the `e` key. Please utilize this for operation checks.
+In MMDAgent, pressing Shift+f opens an internal debug window for .fst files. Pressing e opens the running .fst file in an editor. Use these for checking behavior.
 
-How to use Sub-FST.
+Using subFSTs.
 
-## VSCode Extension
+## VS Code Extension
 
-We have released a VS Code extension for .fst files, please give it a try.
+A VS Code extension for .fst files is available — please try it:
 
 https://marketplace.visualstudio.com/items?itemName=MMDAgent-EX.dialogue-fst-editing-support
 
-The extension includes the following features:
+Features include:
 
-- Input assistance that tells you about message specifications and arguments
-- Detection of states to be aware of, such as states with no transitions or states that are not transitioned from anywhere
-- The ability to move to the definition by specifying the state name
-- Display a list of references that jump to the state name
+- Input assist that shows message specifications and arguments
+- Detection of problematic states such as states with no outgoing transitions or states never transitioned to
+- Jump to a state's definition by specifying its name
+- Show a list of references that jump to a given state name
 
 ## Overview
 
-.fst files are text files. Lines starting with `#` are ignored as comments.
+.fst files are plain text. Lines beginning with `#` are comments and ignored.
 
-The following is an example. In this example, it first sets the background image, loads the model file and plays the motion, and sets the camera parameters. Then, it transitions to a state named `MAINLOOP`. In the `MAINLOOP` state, it sends corresponding messages for each key input and returns to the `MAINLOOP` state.
+The following is an example. In this example, the script first sets background images, loads a model file and plays a motion, and once camera parameters are set it transitions to the state named `MAINLOOP`. In the `MAINLOOP` state, it sends the corresponding messages for various key inputs and returns to the `MAINLOOP` state.
 
-`<eps>` represents an empty word in FST. That is, if there is an `<eps>` in the condition field, it is always TRUE and the line proceeds to the next without waiting for input. Also, if there is an `<eps>` in the output field, it proceeds without outputting anything.
+`<eps>` denotes the empty symbol in FST. That is, if the condition field is `<eps>` it is always TRUE and the line proceeds without waiting for input. If the output field is `<eps>` nothing is output and it proceeds.
 
 {{<fst>}}
-
 # initial values
 ${agentPMD}="Agents/mai/mai.pmd"
 ${camera_default}="1.7,12.7,0.0|0.0,0.0,0.0|44|16|1"
 
-# Begins with state "0"
+# begins with state "0"
 0 MAINLOOP:
   <eps>                    STAGE|floor.png,back.jpg
   <eps>                    CAMERA|${camera_default}
@@ -67,13 +63,13 @@ MAINLOOP MAINLOOP:
   KEY|0 AVATAR_LOGSAVE_STOP
 {{</fst>}}
 
-## Basic Format
+## Basic Syntax
 
-Indentation is critical. The state name line should have no indent, and the transition description line should be indented. This is mandatory.
+Indentation is important. State-name lines must have no indentation; transition lines must be indented. This is mandatory.
 
-The state name can be any string. In older versions of MMDAgent, it was just a number, but in the latest version, you can use any string. The state ID representing the initial state is fixed at "`0`" (zero).
+State names may be any string. In older MMDAgent versions they were numeric only, but the latest version accepts arbitrary strings. The initial state ID is fixed to "0" (the numeral zero).
 
-Each field is separated by a space or tab. If you want to specify a value that includes a space, such as a path name, use `""` or `''`.
+Fields are separated by spaces or tabs. When specifying values that include spaces (e.g., paths), use double or single quotes.
 
 {{<fst>}}
 name1 name2:
@@ -85,13 +81,13 @@ name2 name3:
     ...
 {{</fst>}}
 
-## Details of Transition Description
+## Transition Details
 
-`name1`, `name2`, ... are state names. The first one represents the current state, the second one represents the transition destination state. The lines indented from the next line represent the behavior definition sequence between the two states. Each `input_message` is the field for the transition condition, and `output_message` is the field for the message to be output at runtime.
+`name1`, `name2`, ... are state names: the first is the current state and the second is the next state. The indented lines following them define a sequence of action definitions between those two states. Each line's `input_message` is the transition condition field, and `output_message` is the message emitted at runtime.
 
-The behavior definition can be written over several lines. If it is described in multiple lines, it will be processed sequentially as a sub-state from top to bottom. In other words, in the above example, when the current state becomes `name1`, first wait for `input_message1`. When it arrives, output `output_message2` and wait for the next line's `input_message2`. When a message corresponding to `input_message2` arrives, issue `output_message2`... and so on, connecting in order. When the last line of that block ends, transition to the state name specified by `name2`.
+An action definition can span multiple lines. When multiple lines are provided, they are processed in order as sub-states. That is, if the current state is `name1`, it first waits for `input_message1`. When that arrives, it emits `output_message1` and then waits for `input_message2` on the next line. When `input_message2` arrives, it emits `output_message2`, and so on. After the last line of that block is completed, the FST transitions to the state named by `name2`.
 
-If you define multiple blocks that start with the same state name, they are evaluated from the one defined earlier in the .fst file. That is, in the following example, if the input matches both `input_message1` and `input_message1`, the top one is prioritized.
+If you define multiple blocks starting with the same state name, they are evaluated in the order they appear in the .fst file. Therefore, if both `input_message1` and `input_message2` match, the earlier (upper) block takes precedence.
 
 {{<fst>}}
 name1 name2:
@@ -104,23 +100,23 @@ name1 name3:
 
 ## Local Variables
 
-You can define, assign, and reference local variables for each .fst. They are enclosed for each .fst. (Do not confuse with MMDAgent-EX's global variables)
+Each .fst can define, assign, and reference local variables. Local variables are scoped to each .fst and are not shared with other sub .fst files or plugins.
 
-The initial value can be specified in the first part of the .fst file (before the first state definition).
+You can set initial values at the start of the .fst file (before the first state definition).
 
 {{<fst>}}
 ${agentPMD}="Agents/mai/mai.pmd"
 ${camera_default}="1.7,12.7,0.0|0.0,0.0,0.0|44|16|1"
 {{</fst>}}
 
-Local variables can be referenced in the condition field and output field. By writing `${variable name}`, it will replace that part at runtime (the moment it is evaluated) with the value of that local variable at that time, and evaluation and execution will be performed.
+You can reference local variables in both condition and output fields. Writing `${variable_name}` replaces that portion at runtime (when evaluated) with the current value of the local variable for evaluation or execution.
 
 {{<fst>}}
 XXX YYY:
     <eps> MODEL_ADD|mei|${agentPMD}
 {{</fst>}}
 
-In the condition field, you can use the value of a local variable as a transition condition. Only matches as a string are possible. The comparison operators are `==` and `!=` only.
+Local variable values can be used as transition conditions. These conditions do not rely on input messages and trigger when the given expression evaluates to TRUE. Only the `==` and `!=` comparison operators are supported.
 
 {{<fst>}}
 XXX YYY:
@@ -130,7 +126,9 @@ WWW ZZZ:
     ${flag}!=yyy  MODEL_ADD|mei|...
 {{</fst>}}
 
-Changes in runtime values and assignments are described as additional fields at the end of each transition. It is also possible to reference between variables.
+Note that expression evaluation occurs only once immediately after the state is entered. The expression is evaluated right after the transition into the state; if it becomes true later during the state's residence, it will not trigger.
+
+Runtime value changes and assignments are written as additional fields at the end of each transition line. You can reference other variables in assignments.
 
 {{<fst>}}
 XXX YYY:
@@ -140,7 +138,7 @@ ZZZ QQQ:
   MODEL_ADD|mei|.. <eps>  ${value}=${src}/${dst}
 {{</fst>}}
 
-It is also possible to assign multiple values at once.
+You can assign multiple values at once.
 
 {{<fst>}}
 XXX YYY:
@@ -149,31 +147,31 @@ XXX YYY:
 
 ## Global Variables
 
-You can access to any [global variable](./75_global_variables.md) by prepending `%` at the variable name like `${%global variable name}`.  You can read the value of the specified global variable, and also set any value to the global variable.  The initial value of global vairables can be set in .mdf file, and its values are common among other FSTs or plugins.
+By prefixing the variable name with `%` like `${%globalVarName}` you can reference and write to [global variables](./75_global_variables.md). Global variables’ initial values are set in the .mdf and their values are shared across FSTs and plugins.
 
 {{<fst>}}
 XXX YYY:
   <eps>            <eps>  ${place}=${%KeyName}
 {{</fst>}}
 
-## Environmental Variables
+## Environment Variables
 
-You can read environmental variable by `${%ENV{ENV_NAME}}`.  (supported on 2025.7.9 and later versions)
+You can reference environment variables with `${%ENV{ENV_NAME}}`. (Available in versions from 2025.7.9 onward)
 
 {{<fst>}}
 XXX YYY:
   <eps>            <eps>  ${place}=${%ENV{PLACE_NAME}}
 {{</fst>}}
 
-## How to Write Condition Fields
+## Condition Field Syntax
 
 ### Plain Text
 
-If you write a string that does not match any of the following in the condition field, it will match an input message that exactly matches it.
+If the condition field contains a string that does not match any of the special forms below, it matches input messages that are exactly equal to that string.
 
-### Variable Value
+### Variable Values
 
-The value of a local variable can be a transition condition. This condition does not depend on the input message, and the transition occurs when the evaluation of the given expression is TRUE. The comparison operators are `==` and `!=` only.
+You can use local variable values as transition conditions. These conditions do not depend on input messages; the transition occurs when the expression evaluates to TRUE. Only `==` and `!=` are supported.
 
 {{<fst>}}
 XXX YYY:
@@ -183,29 +181,28 @@ WWW ZZZ:
     ${flag}!=yyy  MODEL_ADD|mei|...
 {{</fst>}}
 
-Please note that the evaluation of the expression is only once immediately after transitioning to that state. Whether the expression holds true or not is only evaluated immediately after the transition to the state, and it does not respond even if the expression holds true during the state stay.
+Remember that expressions are evaluated only once right after the state is entered.
 
 ### Regular Expressions
 
-You can use regular expressions for text matching. To write it, enclose the entire condition field with `@`. The following is an example of a transition description that conditionally matches when a message containing `Station` or `station` arrives in the recognition result (`RECOG_EVENT_STOP`).
+You can match text using regular expressions by enclosing the entire condition field with `@`. The following example matches when the recognition result (`RECOG_EVENT_STOP`) contains `Station` or `station`.
 
 {{<fst>}}
 XXX YYY:
     @RECOG_EVENT_STOP\|.*[Ss]tation.*@  <eps>
 {{</fst>}}
 
-The range enclosed by `@` is thrown directly to the regular grammar engine, so be careful, for example, `|` needs to be written as `\|` as in the example. The regular expression library uses [Google RE2](https://github.com/google/re2). Refer to [Google's document](https://support.google.com/a/answer/1371417?hl=ja) etc. for the format.
+The content between `@` is passed directly to the regex engine, so characters like `|` must be escaped as `\|` as in the example. The regex library used is Google RE2. Refer to Google’s documentation (e.g., https://support.google.com/a/answer/1371417?hl=ja) for syntax details.
 
-Note that it is a full match, not a partial match. Regular expressions that only catch part of it will not match. Write the regular expression so that the entire message matches.
+Note that matching is full-match, not substring match. A regex that only matches part of the message will not match; write the regex so the entire message matches.
 
 {{<fst>}}
-
 # Bad example
 XXX YYY:
     @[Ss]tation@  <eps>
 {{</fst>}}
 
-After evaluating the regular expression, the sub-match range enclosed in parentheses is automatically assigned to local variables `${1}`, `${2}`, etc. This allows you to extract the matched part into a local variable. For example, the following is an example of extracting the model alias name and motion alias name from the `MOTION_EVENT_ADD` message into `${model}` and `${motion}`.
+After evaluating a regex, captured groups are automatically assigned to local variables `${1}`, `${2}`, etc. You can use these to extract matched parts into local variables. For example, the following extracts model alias and motion alias from a `MOTION_EVENT_ADD` message into `${model}` and `${motion}`.
 
 {{<fst>}}
 XXX YYY:
@@ -214,83 +211,80 @@ XXX YYY:
 
 ## %INCLUDE
 
-Inside .fst,
+Inside an .fst you can include another file with:
 
 {{<fst>}}
 %INCLUDE("filename.fst")
 {{</fst>}}
 
-By doing so, you can include the specified file at that location.
+Includes are expanded when reading the .fst; the included content is inserted as-is at that location and interpreted. There is no special scoping for state names or variables. Be careful to avoid name collisions and ensure consistency when including files.
 
-Includes are expanded when reading .fst, and the contents are interpreted as if they were expanded right there. No particular scope processing is done for state names or variables. Be very careful about state name conflicts and processing consistency.
+## Parallel FST Execution (SubFSTs)
 
-## Multi-threading FSTs (Sub FST)
+MMDAgent-EX can run multiple subFSTs in parallel alongside the main FST. SubFSTs connect to the main queue in the same way as the main FST; their outputs are sent to the main queue.
 
-MMDAgent-EX can run multiple sub-FSTs in parallel in addition to the main FST. Sub-FSTs, like the main FST, are connected to the main queue, and their output is thrown into the main queue.
+SubFSTs run in parallel with the main FST. Inputs are cascaded to subFSTs, and subFST outputs flow into the message queue. SubFSTs operate independently of the main FST. You can start any number of subFSTs.
 
-Sub-FSTs run in parallel with the main FST. Input is also cascaded to the sub-FST, and the output of the sub-FST is sent to the message queue. Sub-FSTs operate independently of the main FST. 
+Local variables are independent per FST. Note that KeyValue values are stored in MMDAgent-EX's memory and can be shared across FSTs.
 
-When running multiple FSTs, local variables are independent for each FST. Note that KeyValue values are in the memory of the MMDAgent-EX main body, so they can be used to share data among each FST.
+### Startup Method 1: Static
 
-### Method 1: Static
-
-When the main FST file is
+If the main FST file is:
 
 ```text
 foobar.fst
 ```
 
-Place an .fst files with names like the following:
+place files with names like:
 
 ```text
 foobar.fst.xxx.fst
 ```
 
-At startup, MMDAgent-EX checks if there are .fst files like above, and opens all of them as sub-FSTs at startup, along with the main FST.
+MMDAgent-EX checks, at startup, whether any files with names like that exist next to the main FST file and automatically starts all those found as subFSTs when launching the main FST.
 
-### Method 1: Dynamic
+### Startup Method 2: Dynamic
 
-You can start the execution of a sub-FST by issuing the message **SUBFST_START**. It can be thrown either from other process or network peer, or can be issued by an existing running FST.  The `alias` can be any string that designates the sub-FST to be launched
+You can start a subFST at runtime by issuing the message **SUBFST_START**. This allows starting a subFST from an external trigger or from an existing running FST in response to events. `alias` specifies an arbitrary alias name for the subFST being started.
 
 {{<message>}}
 SUBFST_START|alias|file.fst
 {{</message>}}
 
-An error will occur if the specified file `file.fst` cannot be opened. To skip file check and start only if it exists, use **SUBFST_START_IF**.
+If the specified file `file.fst` cannot be opened, the above triggers an error. To check whether the file exists and only start when present, use **SUBFST_START_IF**.
 
 {{<message>}}
 SUBFST_START_IF|alias|file.fst
 {{</message>}}
 
-The event **SUBFST_EVENT_START** will be issued when the sub-FST starts operating.
+When a subFST starts running, the event **SUBFST_EVENT_START** is issued.
 
 {{<message>}}
 SUBFST_EVENT_START|alias
 {{</message>}}
 
-Every started FST will start from the state name `0`. All sub-FSTs operate in parallel with the main FST.
+A started subFST begins execution from state `0`. All subFSTs run in parallel with the main FST.
 
-### Termination of sub-FST
+### SubFST Termination
 
-When a sub-FST reaches a state where the next transition destination is not defined (terminal state), it immediately terminates its operation and kill itself.  **SUBFST_EVENT_STOP** message will be issued when it ends.
+A subFST immediately stops when it reaches a state that has no defined next transitions (a terminal state). When it stops, the message **SUBFST_EVENT_STOP** is issued so other modules can detect that the subFST has terminated.
 
 {{<message>}}
 SUBFST_EVENT_STOP|alias
 {{</message>}}
 
-The sub-FST will not end if it does not reach any terminal state due to message wait or loop condition.  To stop a sub-FST immediately,
-use the following **SUBFST_STOP**.
+If an FST is waiting for messages or looping and never reaches a terminal state, that subFST will keep running. To stop it, use the following **SUBFST_STOP**.
 
-### Forced termination of sub-FST
+### Forcible SubFST Stop
 
-A running sub-FST can be forcibly terminated by sending a **SUBFST_STOP** message. It also make MMDAgent-EX issue SUBFST_EVENT_STOP message.
+A running subFST can be forcibly stopped by sending the **SUBFST_STOP** message. In this case, the **SUBFST_EVENT_STOP** message is also issued on termination.
 
 {{<message>}}
 SUBFST_STOP|alias
 {{</message>}}
 
-### `AT_EXIT` state
+### AT_EXIT State
 
-If a state named `AT_EXIT` is defined in the sub-FST, when **SUBFST_STOP** message is issued, it does not stop immediately but forcibly make transition to the `AT_EXIT` state.  It then executes the subsequent instructions from the state. By using this `AT_EXIT`, one can describe termination procedure of sub-FST.
+When a subFST receives a stop command via **SUBFST_STOP**, if the subFST defines a state named `AT_EXIT` it will not stop immediately. Instead, it is forcibly transitioned to the `AT_EXIT` state and then executes the subsequent instructions. Using `AT_EXIT` allows you to define cleanup actions that always run on termination, for example removing models displayed by the subFST before finishing.
 
-After moved to `AT_EXIT`, the sub-FST still continues to operate from the `AT_EXIT` state. Therefore, a long message wait or a loop condition after `AT_EXIT` may prevent the sub-FST from shutting down. The script creator is responsible for writing the script so that it reaches the end state from `AT_EXIT` and the sub-FST ends when he uses `AT_EXIT`.
+After transitioning to `AT_EXIT`, the subFST continues to operate from the `AT_EXIT` state as usual. Therefore, if you wait for messages or write loops in `AT_EXIT`, the subFST may not terminate. If you use `AT_EXIT`, the script author is responsible for ensuring that `AT_EXIT` eventually reaches a terminal state so the subFST can finish.

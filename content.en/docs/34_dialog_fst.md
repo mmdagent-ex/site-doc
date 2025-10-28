@@ -1,69 +1,67 @@
 ---
-title: Dialogue Control by FST
+title: Try voice dialogue (fst)
 slug: dialog-test-fst
 ---
-# Try Dialogue Control by FST
+# Try voice dialogue (fst)
 
-Upon working voice recognition and speech synthesis, you can start creating a voice responses. Let's try writing a simple voice response scenario using FST script (.fst).
+If speech recognition and speech synthesis are working, you can create voice responses. Let's try a simple voice response using a script (.fst).
 
 {{< hint warning >}}
-Please complete the setup for [voice recognition](../asr-setup) and [speech synthesis](../tts-test) before start.
+Please complete the setup for [speech recognition](../asr-setup) and [speech synthesis](../tts-test) first.
 {{< /hint >}}
 
-## What is FST?
+## What is FST
 
-MMDAgent-EX offers a finite-state machine based interaction management.  It defines how to act with the messages sent by the modules.  The definision file is ".fst", which defines sequencial input-to-output message translation as a form of FST (finite state transducer).
-
-It consists of a set of states and transitions, in which each transition defines input-output actions to define a course of dialogue.  In this page we provide a simple overview and example as follows.
+This explains the standard script (.fst) mechanism and how to write it for MMDAgent-EX. An .fst (finite-state transducer) is a state-based scripts with transition condition and actions; for each state you define actions like "when a certain message arrives, output this message". States transition according to actions. Below is a brief overview.
 
 {{< hint info >}}
-To know all the specifications and format of FST, please see the [reference format explanation](../fst-format).
+For the full specification, see the [FST format reference](../fst-format).
 {{< /hint >}}
 
-### Basic Form
+### Basic form
 
-In .fst, each line defines one transition from state to state, which consists of space-separated fields: (1) source state name, (2) destination state name, (3) input message matching pattern, and (4) output message. The following example shows an action that "at state `Hoge`, If the `KEY|1` message comes, issue a message `SYNTH_START|0|...`, and move to the state `Foo`".  All .fst files have the initial state '0' and starts with the state.
-
-{{<fst>}}
-Hoge Foo  KEY|1 SYNTH_START|0|slt_voice_normal|Hello!
-{{</fst>}}
-
-### Multiple Actions
-
-You can define everal actions for different conditions in the same source state.  When specified, they are evaluated in the state at run time and the one whose condition is met is executed. For example, if you define actions as follows, it waits for the input of `KEY|1` and `KEY|2` on state `Hoge`, and performs corresponding action when either comes.
+In .fst each action is written on one line as (1) state name, (2) next state name, (3) transition condition, (4) output. For example, the action "in state `Foo`, when a `KEY|1` message arrives, say 'Hello!' and transition to state `Bar`" is written like this:
 
 {{<fst>}}
-Hoge Foo  KEY|1 SYNTH_START|0|slt_voice_normal|Hello!
-Hoge Foo  KEY|2 SYNTH_START|0|slt_voice_normal|How are you?
+Foo Bar  KEY|1 SYNTH_START|0|slt_voice_normal|Hello!
 {{</fst>}}
 
-### Sequential Actions
+### Multiple actions
 
-Sequential actions can be defined as a sequence of state transitions. The following is a part of a .fst script that starts a speech synthesis of "Hello" and then continues to say "How are you?" after waiting for the previous synthesis to finish.
+If you write multiple actions for the same state, they are evaluated concurrently in that state and the one whose condition is satisfied will execute. For example, the following makes state `Foo` wait for either `KEY|1` or `KEY|2`, and perform the corresponding action when one arrives:
 
 {{<fst>}}
-Hoge foo1  KEY|1 SYNTH_START|0|slt_voice_normal|Hello!
-foo1 foo2  SYNTH_EVENT_STOP|0 SYNTH_START|0|slt_voice_normal|How are you?
+Foo Bar  KEY|1 SYNTH_START|0|slt_voice_normal|Hello!
+Foo Bar  KEY|2 SYNTH_START|0|slt_voice_normal|How are you?
 {{</fst>}}
 
-When the `1` key was pressed at state `Hoge`, the message to trigger the start message for speech synthesis is issued, and then it moves to state `foo1`.  In state `foo1`, it waits for the speech synthesis end event `SYTH_EVENT_STOP|0`, and when that message comes, it issues the next speech synthesis message.
+### Sequential actions
 
-Note that transition will not block. it move to the next state just after issuing the output message, without waiting for the result of the message issued. So, if you want to wait for some action to occur, you write the message as a transition condition like above.
+By writing transitions from the target state you can describe sequential actions. The following is part of an .fst that starts speech synthesis for "Hello!", waits for that to finish, then continues with "How are you?":
+
+{{<fst>}}
+Foo Bar1  KEY|1 SYNTH_START|0|slt_voice_normal|Hello!
+Bar1 Bar2  SYNTH_EVENT_STOP|0 SYNTH_START|0|slt_voice_normal|How are you?
+{{</fst>}}
+
+On the first line, in state `Foo` when key `1` is pressed it issues the speech-start message and transitions to state `Bar1`. In state `Bar1` it waits for the speech-finish event `SYNTH_EVENT_STOP|0`, and when that message arrives it issues the next speech message.
+
+Because .fst transitions to the next state immediately after issuing a message without waiting for the result, if you want to wait for some action to complete you should write the awaited message as a transition condition as shown above.
 
 ### &lt;eps&gt;
 
-When you use the empty string `<eps>` at the third field (input), the action is executed immediately. For instance, you can start both speech synthesis and motion at the same time as shown below.
+If you use the empty symbol `<eps>` as a condition, that action executes immediately without any condition. For example, you can start speech and play a motion at the same time like this:
 
 {{<fst>}}
-Hoge foo1  KEY|1 SYNTH_START|0|slt_voice_normal|Hello!
-foo1 foo2  <eps> MOTION_ADD|0|greet|motions/action/ojigi.vmd
+Foo Bar1  KEY|1 SYNTH_START|0|slt_voice_normal|Hello!
+Bar1 Bar2  <eps> MOTION_ADD|0|greet|motions/action/ojigi.vmd
 {{</fst>}}
 
-You can also use `<eps>` in the output to have no output.
+You can also use `<eps>` in the output to indicate no output.
 
-### Block style
+### Block notation
 
-In .fst scripts, you often describe sequential state transitions to process a series of messages. For example, the following is a set of commands in .fst that successively sets the background, loads the model, sets the motion, and configures the camera from the boot time (initial state is "`0`").
+In .fst scripts you often write a sequence of state transitions to process a series of messages. The following example describes a sequence that, at startup (initial state "0"), sets the stage background, loads a model, adds motions, and sets the camera:
 
 {{<fst>}}
 0  s1  <eps> STAGE|images/floor_green.png,images/back_white.png
@@ -72,9 +70,7 @@ s2 s3  MODEL_EVENT_ADD|0  MOTION_ADD|0|base|motions/wait/01_Wait.vmd|FULL|LOOP|O
 s3 ss  <eps> CAMERA|0,15.25,0|4.5,0,0|22.4|27.0
 {{</fst>}}
 
-As seen above the format is redundant since the middle states are straight forward and no need to have their specific names.
-
-In MMDAgent-EX, you can describe the set of single transition sequence as a block as follows. In this example, only the names of the first state and last state of this block should be written in the first line, and then follows the sequential processes with head indentation.
+In MMDAgent-EX you can write this as a block. Write the first and last state names on the first line of the block, then indent the subsequent lines:
 
 {{<fst>}}
 0  ss:
@@ -84,11 +80,11 @@ In MMDAgent-EX, you can describe the set of single transition sequence as a bloc
     <eps> CAMERA|0,15.25,0|4.5,0,0|22.4|27.0
 {{</fst>}}
 
-## Example of a Simple QA
+## Create a simple Q&A
 
-Let's edit the `main.fst` in the Example to create a simple Q&A session.
+Edit the example's `main.fst` to make a simple Q&A.
 
-Open `main.fst` of the Example in a text editor, and append the following part at the end. This is the simplest form of Q&A session, which says, "When a `RECOG_EVENT_STOP` message containing a voice recognition result is issued, issue a `SYNTH_START` message to instruct voice synthesis."
+Open the example `main.fst` in a text editor and add the following at the end. This is the simplest Q&A: when a `RECOG_EVENT_STOP` message containing the recognition result is issued, issue a `SYNTH_START` message to trigger speech synthesis.
 
 {{<fst>}}
 LOOP LOOP:
@@ -96,16 +92,16 @@ LOOP LOOP:
 {{</fst>}}
 
 {{< hint info >}}
-In .fst files, indentation matters. The first line of a block should have no indentation, and the following lines should be indented. The width of the indentation is up to you.
+Indentation matters in .fst. The first line of a block must be unindented; subsequent lines must be indented. The indent width is flexible.
 {{< /hint >}}
 
-After editing, launch the content and try saying "Hello". The agent will respond "Hello, nice to meet you!"
+After editing, start the content.  Say "Hello", and the agent replies "Hello! Nice to meet you!".
 
 <img width="480" alt="snapshot" src="/images/example_2.png"/>
 
-## Adding Facial Expression
+## Add facial expressions
 
-Let's try to add expression to your speech. Start the facial motion at the same time as the speech. Add a new line at the end of the part you just added, as shown below.
+Let's add an expression to the utterance. Start an expression motion at speech start. Add the following line to the end of the section you added earlier:
 
 {{<fst>}}
 LOOP LOOP:
@@ -113,11 +109,11 @@ LOOP LOOP:
     <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{</fst>}}
 
-Save the .fst and give it a try. Close MMDAgent-EX and relaunch it, or reload it with the `Shift+r` key. Say "Hello" again and confirm that it responds with a smile.
+Save the `.fst` and try it. Close MMDAgent-EX and start it again, or reload with Shift+r. Say "Hello" again and confirm the agent smiles while responding.
 
-## Performing Facial Expressions and Actions Concurrently
+## Run expressions and motions concurrently
 
-Let's also perform actions along with the facial expressions. Add the bold line below above the line you just added.
+Make the agent perform a motion along with the expression. Insert the following bolded line above the previously added line.
 
 {{<fst>}}
 LOOP LOOP:
@@ -126,21 +122,21 @@ LOOP LOOP:
     <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{</fst>}}
 
-After saving and reloading, say "Hello" and confirm that it bows while smiling.
+Save and reload, then say something to confirm the agent bows while smiling.
 
-By using `<eps>` for unconditional execution, the first `MOTION_ADD` and the second `MOTION_ADD` are passed to MMDAgent-EX in succession without any time gap. In MMDAgent-EX, multiple motions can be overlaid and played at the same time.
+Because `<eps>` causes unconditional immediate execution, the first `MOTION_ADD` and the second `MOTION_ADD` are both sent to MMDAgent-EX with no time gap. MMDAgent-EX can blend multiple motions and play them simultaneously.
 
 ## Overview of .fst
 
-Here, we'll briefly introduce .fst. .fst is a script that describes operations as a finite state automaton (more precisely, a finite state transducer). In simple terms, it sequentially describes "what to do when something happens".
+Here is a brief summary of .fst. An .fst is a finite-state automaton (more precisely a finite-state transducer) used to describe behavior. Simply put, it lists "what to do when something happens."
 
-The current .fst looks as follows. For example, the block up to the 5th line after startup defines a series of processes such as:
+The current .fst looks like the following. For example, the block up to the fifth line defines a sequence that:
 
-- Setting the floor and background images
-- Loading the model
-- Once loading is complete, looping the standby motion
-- Setting the camera position
-- After the above is done, moving to a state named "LOOP"
+- sets the floor and background images on startup,
+- loads the model,
+- when loading finishes starts a looping wait motion,
+- sets the camera position,
+- then moves to the state named "LOOP".
 
 {{<fst>}}
 0 LOOP:
@@ -158,58 +154,58 @@ LOOP LOOP:
     <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{< / fst>}}
 
-In MMDAgent-EX, all command instructions and event notifications are done via messaging. In .fst, the basic mechanism is to wait (block) until a message that meets the conditions arrives, and when a message that meets the conditions arrives, issue a corresponding message and move to the next line. If there are multiple blocks starting from the same state name, the block that meets the conditions first is executed. Also, "`<eps>`" represents "no specification", and in the condition part, it indicates to issue a message immediately without waiting and move on.
+In MMDAgent-EX all commands and event notifications are handled via messaging. In .fst you block until a message matching the condition arrives; when it does, you emit the corresponding message and move to the next line. If multiple blocks start with the same state name, the block whose condition is satisfied first will execute. The token "`<eps>`" means "no specification": as a condition it issues its message immediately without waiting.
 
-.fst allows you to describe various interactions based on an automaton. This is the end of the explanation here, but for more details about .fst, please refer to [FST Format](../fst-format).
+.fst lets you describe various interactions based on automata. This overview ends here; for details see [FST format](../fst-format).
 
 {{< hint info >}}
-We have released a [VS Code extension for .fst files](https://marketplace.visualstudio.com/items?itemName=MMDAgent-EX.dialogue-fst-editing-support) to assist with .fst editing in VS Code. Please use it together.
+We provide a [VS Code extension for .fst file editing](https://marketplace.visualstudio.com/items?itemName=MMDAgent-EX.dialogue-fst-editing-support) to help editing .fst in VS Code. Please consider using it.
 {{< /hint >}}
 
-## Advanced Usage Cases
+## Additional: Extend the script
 
-We'll introduce a way to describe the dialogue a bit more effectively within the range that can be realized using the .fst script function.
+Here are a few ways to write more flexible dialogues using .fst features.
 
-### OR Conditions
+### OR conditions
 
-Let's set it up so that the same response is returned when you say not only "Konnichiwa" but also "Hello". If you want to match multiple conditions, you can add parallel nodes using "`+`".
+Let's make the same response for both "Konnichiwa" and "Hello". To match multiple conditions, add parallel nodes using "`+`".
 
 {{<fst>}}
 LOOP LOOP:
-    RECOG_EVENT_STOP|hello. SYNTH_START|0|slt_voice_normal|"Nice to meet you!"
-    +RECOG_EVENT_STOP|hello</b>
+    RECOG_EVENT_STOP|Konnichiwa. SYNTH_START|0|slt_voice_normal|"Nice to meet you!"
+    +RECOG_EVENT_STOP|hello
     <eps> MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
     <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{< / fst>}}
 
-By writing the condition term following "`+`", you can add conditions to the condition of the line immediately above with OR. Regardless of which matches, the message item of the first line (for example `SYNTH_START`) is executed and it moves to the next line.
+By writing a "`+`" line with only a condition, you add that condition as an OR to the previous line. If either matches, the message item on the first line (here `SYNTH_START`) is executed and then the script moves to the next line.
 
-If you write the issued message in the "`+`" line as well as the condition, you can parallelize the issued messages as well. The following is an example of returning "Nice to meet you!" for "Konnichiwa" and "Hello, thank you!" for "Hello". After executing either, it moves to the next line of motion playback.
+If you include output messages on the "`+`" line as well, they will also be emitted in parallel. The following example returns "Nice to meet you!" for "Konnichiwa" and "Hello, thank you!" for "hello", and plays the same motion.
 
 {{<fst>}}
 LOOP LOOP:
-    RECOG_EVENT_STOP|hello. SYNTH_START|0|slt_voice_normal|"Nice to meet you!"
+    RECOG_EVENT_STOP|Konnichiwa. SYNTH_START|0|slt_voice_normal|"Nice to meet you!"
     +RECOG_EVENT_STOP|hello SYNTH_START|0|slt_voice_normal|"Hello, thank you!"
     <eps> MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
     <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{< / fst>}}
 
-You can write multiple "`+`" lines. Below is an example of extending the same response to "Konnichiwa", "Hello", and also "Bonjour".
+You can write multiple "`+`" lines. The example below extends the previous case to also match "Bonjour" and give the same response:
 
 {{<fst>}}
 LOOP LOOP:
-    RECOG_EVENT_STOP|hello. SYNTH_START|0|slt_voice_normal|"Nice to meet you!"
+    RECOG_EVENT_STOP|Konnichiwa SYNTH_START|0|slt_voice_normal|"Nice to meet you!"
     +RECOG_EVENT_STOP|hello
-    +RECOG_EVENT_STOP|Bonjour.
+    +RECOG_EVENT_STOP|Bonjour
     <eps> MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
     <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{< / fst>}}
 
-If you want to perform completely different processes, it may be a good idea to divide them into individual blocks. The following is an example where "Konnichiwa" remains the same, and when you say "Hello", it responds with "Hello, thank you!" while waving its hand. By defining blocks that start from the same state, you can determine which block operates based on the condition of the first line of each block.
+If you want completely different processing, split them into separate blocks. The example below keeps the "Konnichiwa" behavior, and makes "Hello" produce "Hello, thank you!" while waving.
 
 {{<fst>}}
 LOOP LOOP:
-    RECOG_EVENT_STOP|hello. SYNTH_START|0|slt_voice_normal|"Nice to meet you!"
+    RECOG_EVENT_STOP|Konnichiwa SYNTH_START|0|slt_voice_normal|"Nice to meet you!"
     <eps> MOTION_ADD|0|action|motions/action/ojigi.vmd|FULL|ONCE
     <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 
@@ -219,12 +215,12 @@ LOOP LOOP:
     <eps> MOTION_ADD|0|emote|gene/motion/10_impressed.vmd|PART|ONCE
 {{< / fst>}}
 
-### Sequential Actions
+### Sequential actions
 
-Here's an example of how to describe a sequence of actions using .fst. The following shows a two-step response to "Hello".
+Here is an example describing a two-stage response to "Hello":
 
-1. Respond with "Hello" while bowing.
-2. After the bow, respond with a happy voice saying, "Nice to meet you" with a smile.
+1. Reply "Hello!" while bowing.
+2. After the bow finishes, say "Nice to meet you" in a happy voice while smiling.
 
 {{<fst>}}
 LOOP LOOP:
@@ -234,13 +230,13 @@ LOOP LOOP:
     <eps> MOTION_ADD|0|emote|gene/motion/03_smile.vmd|PART|ONCE
 {{< / fst>}}
 
-The key point is the part where it waits for the bowing motion to finish. When the bowing motion ends, MMDAgent-EX issues `MOTION_EVENT_STOP|0|action`. In this .fst, it is designed to perform the next action after waiting for `MOTION_EVENT_STOP|0|action`.
+The key is waiting for the bow motion to finish. MMDAgent-EX issues `MOTION_EVENT_STOP|0|action` when the action motion ends, so this .fst waits for `MOTION_EVENT_STOP|0|action` before proceeding.
 
-Thus, the basic idea of .fst is to describe interactions by stacking procedures that wait for any event and output any event.
+In general, you describe interactions by chaining waits for events and outputting messages as needed.
 
-## Using Regular Expressions
+## Using regular expressions
 
-The condition judgment is an exact match, and it only matches if the text of the description and the message match exactly. However, by using regular expressions, you can describe more flexible matching. When using regular expressions, enclose the condition term with "`@`". For instance,
+Conditions are matched by exact text by default, but you can use regular expressions for more flexible matching. To use a regex, surround the condition with "`@`". For example, the earlier
 
 {{<fst>}}
 LOOP LOOP:
@@ -248,22 +244,22 @@ LOOP LOOP:
     +RECOG_EVENT_STOP|hello
 {{< / fst>}}
 
-The part written like above can also be written with regular expressions as follows. When the condition term is a regular expression, it is determined whether the message matches that regular expression.
+can be written with a regular expression like this. When the condition is a regex, it matches if the message text satisfies the regex.
 
 {{<fst>}}
 LOOP LOOP:
-    @RECOG_EVENT_STOP¥|(Hello|Hello)。@</b>  SYNTH_START|0|slt_voice_normal|"Hello! Nice to meet you!"
+    @RECOG_EVENT_STOP\|(Hello|Hello)@</b>  SYNTH_START|0|slt_voice_normal|"Hello! Nice to meet you!"
 {{< / fst>}}
 
-For special purposes, you can also describe mimicry of recognition results by writing as follows. The "`${1}`" in the issued message item is replaced by the character corresponding to the first character in the parentheses that matches in the regular expression.
+For a special use, you can echo back the recognition result. In the output message, "${1}" is replaced with the text matched by the first capture group in the regex.
 
 {{<fst>}}
 LOOP LOOP:
-    @RECOG_EVENT_STOP¥|(.*)@</b>  SYNTH_START|0|slt_voice_normal|${1}
+    @RECOG_EVENT_STOP\|(.*)@</b>  SYNTH_START|0|mei_voice_normal|${1}
 {{< / fst>}}
 
-The regular expression is a total match.
+Regular expressions perform a full-match.
 
-### Non-detereministic arcs
+### Handling overlaps
 
-If multiple conditions match, the one defined earlier takes precedence.
+If multiple conditions match, the one defined earlier takes priority.

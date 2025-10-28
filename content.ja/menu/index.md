@@ -17,28 +17,34 @@ headless: true
 - [Pythonとの接続]({{< relref "/docs/36_dialog_python" >}})
 - [CGアバターを変える]({{< relref "/docs/38_change_model" >}})
 {{< /fold >}}
-- [ChatGPTを用いた対話]({{< relref "/docs/37_dialog_chatgpt" >}})
+- [OpenAI GPT を用いた対話]({{< relref "/docs/37_dialog_chatgpt" >}})
+- [キー・マウス操作一覧]({{< relref "/docs/80_keybinds" >}})
 
 <br />
 
 **システム**
 
-- [設定ファイル (.mdf)]({{< relref "/docs/41_mdf_basic" >}})
-- [キー・マウス操作一覧]({{< relref "/docs/80_keybinds" >}})
+- [パラメータ設定]({{< relref "/docs/41_mdf_basic" >}})
+- [設定項目一覧(.mdf)]({{< relref "/docs/85_mdf" >}})
 - [メッセージ一覧]({{< relref "/docs/86_messages" >}})
-- [.mdf 設定項目一覧]({{< relref "/docs/85_mdf" >}})
-- [メッセージのテスト方法]({{< relref "/docs/40_test_message" >}})
-- [グローバル変数]({{< relref "/docs/75_global_variables" >}})
+- [環境変数一覧]({{< relref "/docs/81_environmental_variables" >}})
+- [ブラウザでメッセージテスト]({{< relref "/docs/40_test_message" >}})
+- [グローバル変数の利用]({{< relref "/docs/75_global_variables" >}})
 
 <br />
 
-**3Dモデルとモーション**
+**3Dモデルの表示**
 
-- [データ構造]({{< relref "/docs/47_motion" >}})
-- [モデルの表示・調整]({{< relref "/docs/43_3dmodel" >}})
+- [モデルの表示]({{< relref "/docs/43_3dmodel" >}})
 - [PMXモデルの利用手順]({{< relref "/docs/45_pmx" >}})
 - [ポストエフェクト]({{< relref "/docs/46_effect" >}})
-- [モーション開始・設定]({{< relref "/docs/48_motion_play" >}})
+
+<br />
+
+**モーション**
+
+- [データ構造]({{< relref "/docs/47_motion" >}})
+- [モーション再生]({{< relref "/docs/48_motion_play" >}})
   - [ループ再生]({{< relref "/docs/49_motion_layer#ループ再生指定" >}})
 - [高度なモーション制御]({{< relref "/docs/49_motion_layer" >}})
   - [部分再生]({{< relref "/docs/49_motion_layer#部分モーション指定" >}})
@@ -49,7 +55,7 @@ headless: true
 
 **音声・オーディオ**
 
-- [ファイル再生]({{< relref "/docs/58_sound" >}})
+- [オーディオファイル再生]({{< relref "/docs/58_sound" >}})
 - [音声ファイル再生（＋リップシンク）]({{< relref "/docs/58_sound#音声再生-with-リップシンク" >}})
 - [ストリーミング再生]({{< relref "/docs/74_remote_speech" >}})
 
@@ -75,17 +81,16 @@ headless: true
   - [WebSocket]({{< relref "/docs/72_remote_websocket" >}})
   - [TCP/IP]({{< relref "/docs/73_remote_tcpip" >}})
 - [サブモジュール組み込み]({{< relref "/docs/70_submodule" >}})
-- [音声のストリーミング]({{< relref "/docs/74_remote_speech" >}})
+
 <br />
 
 - **リファレンス**
-- [環境変数一覧]({{< relref "/docs/81_environmental_variables" >}})
 - [FST の書式解説]({{< relref "/docs/88_fst" >}})
-- [音声認識エンジンの設定]({{< relref "/docs/92_plugin_julius" >}})
 - [PACKAGE_DESC.txt 書式]({{< relref "/docs/95_package_desc" >}})
+- [音声認識エンジンの設定]({{< relref "/docs/92_plugin_julius" >}})
 - [(仮)特別な外部操作]({{< relref "/docs/90_plugin_remote" >}})
 - [オリジナルとの違い]({{< relref "/docs/99_changes" >}})
 <br />
 
-- **関連リンク**
-- [Twitter @MMDAgentEX](https://twitter.com/MMDAgentEX)
+- **連絡先**
+- [Lee-Lab, NITech, Japan](https://www.slp.nitech.ac.jp/)

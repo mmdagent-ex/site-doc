@@ -1,20 +1,18 @@
-
-
 ---
 title: Connection Using WebSocket
 slug: remote-websocket
 ---
 {{< hint info >}}
-WebSocket connection is provided by Plugin_Remote. Please make sure this plugin is enabled when using it.
+WebSocket connections are provided by Plugin_Remote. Please make sure this plugin is enabled before use.
 {{< /hint >}}
 
-# Communication Using WebSocket
+# WebSocket Communication
 
-It supports [connection and control](../remote-control) using WebSocket. **MMDAgent-EX acts as a client** and connects to the WebSocket server specified in .mdf. Once the connection is established, all subsequent messages from MMDAgent-EX are sent to the server. Also, any text sent from the server to the socket is issued as a message within MMDAgent-EX.
+Supports [connection/control](../remote-control) via WebSocket. MMDAgent-EX acts as a client and connects to the WebSocket server specified in the .mdf. Once the connection is established, all MMDAgent-EX messages are sent to the server. Text sent from the server to the socket is emitted as messages inside MMDAgent-EX.
 
-## Setting the Connection Destination of MMDAgent-EX
+## Configuring the MMDAgent-EX Connection
 
-Specify the host name, port number, and path of the target WebSocket server in .mdf. This feature will be turned ON by these settings.
+Specify the WebSocket server's host name, port number, and path in the .mdf. Providing these settings enables this feature.
 
 {{<mdf>}}
 Plugin_Remote_Websocket_Host=localhost
@@ -22,7 +20,7 @@ Plugin_Remote_Websocket_Port=9001
 Plugin_Remote_Websocket_Directory=/chat
 {{</mdf>}}
 
-When connecting to a WebSocket Secure (WSS) server (a server with the scheme `wss`, like `wss://foo.bar.com/channel`), please specify `443` for the port number. The `ws://` scheme is `80`.
+For WebSocket Secure (WSS) servers (those using the `wss` scheme like `wss://foo.bar.com/channel`), set the port to `443`. The `ws://` scheme uses port `80`.
 
 {{<mdf>}}
 Plugin_Remote_Websocket_Host=foo.bar.com
@@ -31,12 +29,12 @@ Plugin_Remote_Websocket_Directory=/channel
 {{</mdf>}}
 
 {{< hint danger >}}
-WebSocket and TCP/IP cannot be set simultaneously. When using WebSocket, please omit the settings for the TCP/IP server/client from .mdf.
+WebSocket and TCP/IP cannot be configured at the same time. When using WebSocket, remove TCP/IP server/client settings from the .mdf.
 {{< /hint >}}
 
 ## Example 1: Receiving Messages from MMDAgent-EX
 
-Below is a sample of the server side. This program starts as a WebSocket server at port 9001, and then prints the messages received from MMDAgent-EX connecting locally. Please `pip install` `asyncio` and `websockets` beforehand.
+The following is a server-side sample. This program starts a WebSocket server on port 9001 and prints messages received from an MMDAgent-EX that connects locally. Install `asyncio` and `websockets` via pip beforehand.
 
 ```python
 import asyncio
@@ -57,7 +55,7 @@ if __name__ == '__main__':
     asyncio.run(main())
 ```
 
-After starting the above, launch MMDAgent-EX with the .mdf set as follows.
+After starting the above, start MMDAgent-EX with a .mdf containing the following settings.
 
 {{<mdf>}}
 Plugin_Remote_Websocket_Host=localhost
@@ -65,19 +63,19 @@ Plugin_Remote_Websocket_Port=9001
 Plugin_Remote_Websocket_Directory=/chat
 {{</mdf>}}
 
-After launch, once the communication is established, the messages received from MMDAgent-EX will be displayed on the program side sequentially.
+After startup and once the connection is established, messages received from MMDAgent-EX will be displayed in the program as they arrive.
 
-## Example 2: Simultaneously Sending and Receiving Messages
+## Example 2: Sending and Receiving Messages Simultaneously
 
-Let's extend the above program to enable parallel transmission as well. The following program:
+Let's extend the above program to perform sending in parallel as well. The program below:
 
-- Prints messages received from MMDAgent-EX
-- Sends a `TEST_MESSAGE` to MMDAgent-EX every 2 seconds
+- prints messages received from MMDAgent-EX
+- sends a message `TEST_MESSAGE` to MMDAgent-EX every 2 seconds
 
-This example performs both of these operations. Using asynchronous I/O, it generates separate asynchronous tasks for receiving and sending with `asyncio.create_task()`.
+This example performs both actions. It uses asynchronous I/O and creates separate async tasks for receiving and sending with `asyncio.create_task()`.
 
 {{< hint warning >}}
-Attention: Please remember to always append a newline ("`\n`") at the end of the transmission message. MMDAgent-EX processes messages using a newline as a delimiter.
+Warning: Note that each sent message must end with a newline ("`\n`"). MMDAgent-EX treats a newline as the message delimiter.
 {{< /hint >}}
 
 ```python
@@ -106,7 +104,7 @@ async def handle_client(websocket, path):
     consumer_task = asyncio.create_task(consumer_handler(websocket))
     # create task to write to the socket
     producer_task = asyncio.create_task(producer_handler(websocket))
-    # wait until at least one task has been terminated
+    # wait at least one task has been terminated
     done, pending = await asyncio.wait(
         [consumer_task, producer_task],
         return_when=asyncio.FIRST_COMPLETED,
@@ -124,8 +122,8 @@ if __name__ == '__main__':
     asyncio.run(main())
 ```
 
-After starting this server, start MMDAgent-EX, press the `d` key, and make sure that the test message (`TEST_MESSAGE`) from the server arrives every 2 seconds.
+After starting this server and launching MMDAgent-EX, press the `d` key and verify that the test message (`TEST_MESSAGE`) from the server arrives every 2 seconds as shown below.
 
 ![websocket test](/images/websocket_snap.png)
 
-The settings and programs explained here are also included in the `example_websocket` folder in the Examples, so you can try them out.
+The same settings and programs are included in the Example's `example_websocket` folder for testing.

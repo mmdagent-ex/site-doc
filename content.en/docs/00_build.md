@@ -1,13 +1,12 @@
 ---
-title: Installation and Build
+title: Getting and Building
 slug: build
 ---
+# Getting and Building
 
-# Installation and Build
+MMDAgent-EX runs on Windows, macOS, and Linux. It also works on WSL2 on Windows.
 
-MMDAgent-EX runs on Windows, macOS, and Linux. It also works on WSL2 under Windows.
-
-The following environments have been tested for build and execution:
+We have verified building and running on the following environments:
 
 - **Windows**: Windows 11 with Visual Studio 2022 (win32 / x64)
 - **macOS**: M2 MacBook Air / macOS Ventura / Sonoma / Sequoia, Intel Mac / macOS Sonoma
@@ -16,30 +15,27 @@ The following environments have been tested for build and execution:
 
 ## Windows
 
-Download from the Release page of the MMDAgent-EX repository.  Get `MMDAgent-EX-x64-vx.x.zip` from the latest release (or Win32 if you prefer) and extract all to a folder.
+Download MMDAgent-EX from the repository Releases page. Download `MMDAgent-EX-x64-vx.x.zip` from the latest release Assets (use the `win32` build if you need 32-bit), and extract all files into a folder.
 
 - [Releases - MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX/releases/latest)
 
 {{< hint info >}}
 
-On Windows, attempting to run `.exe` or `.dll` files inside a ZIP archive downloaded from the Internet may result in them being "blocked" by Windows security features.  
-This is part of antivirus protection and is not an error.
+On Windows, security features may block running .exe or .dll files extracted from ZIPs downloaded from the internet. This is part of antivirus/security measures and is not an error.
 
-### If you cannot run the program
+### If the executable is blocked
 
-Right-click the downloaded ZIP file, select "Properties," and look for a message near the bottom such as:  
-*"This file came from another computer and might be blocked to help protect this computer."*  
-There will be a [Unblock] checkbox (or "Allow" button). Check it, click OK, and then extract the ZIP file.
+Right-click the downloaded zip file, open "Properties", and near the bottom you may see a warning that says "This file came from the Internet and might be blocked to help protect this computer." A checkbox (or an "Unblock" button) will be shown — check it and click OK. Then extract the ZIP.
 
 {{< /hint >}}
 
-Make sure the unpacked files look like this:
+Confirm the extracted files look like the following:
 
     (top)/
     ├── MMDAgent-EX.exe
     ├── MMDAgent-EX.mdf
     ├── AppData/
-    ├── DLLs64/  (or Dlls/ on win32)
+    ├── DLLs64/  (or DLLs on win32)
     └── Plugins/
         ├── Plugin_AnyScript.dll
         ├── Plugin_Audio.dll
@@ -55,36 +51,35 @@ Make sure the unpacked files look like this:
         ├── Plugin_Variables.dll
         └── Plugin_VIManager.dll
 
-Then Test if it works. Double-click the `MMDAgent-EX.exe` and see a window opens.  If you see some window, it means it works well, so close the window and go on.
+Run a quick start test. Double-click `MMDAgent-EX.exe` and check whether a window appears. If any window opens, the application is running correctly. Close the window and continue to the next section.
 
-If it would not start, just seeing nothing, you may need to install the [Visual C++ 2022 Redistributable Package](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170).  
-Download and run `vc_regist.x64.exe`, then try again.
+If nothing appears, you may need to install the Visual C++ 2022 Redistributable. Download `vc_regist.x64.exe` from the distribution site and run it, then try again: [Visual C++ 2022 Redistributable](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170) ([distribution site](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170))
 
 {{< hint info >}}
 
-For the 32-bit version (win32), install the "X86" package (`vc_regist_x86.exe`).
+The 32-bit build (win32) requires the "X86" package (`vc_regist_x86.ext`).
 
 {{< /hint >}}
 
-If it works, you’re done. Continue to the next steps.
+If it runs successfully, you're done — proceed to the next section.
 
-To build from source code, read the following.
+If you want to build from source yourself, read the sections below.
 
-# Build Instructions
+## Build instructions
 
-## Getting the Code
+## Getting the source
 
-Clone the repository from [GitHub](https://github.com/mmdagent-ex/MMDAgent-EX):
+Get the repository from [GitHub](https://github.com/mmdagent-ex/MMDAgent-EX).
 
 ```shell
 git clone https://github.com/mmdagent-ex/MMDAgent-EX.git
 ```
 
-## Build Steps
+## Build instructions
 
 ### macOS
 
-Install the following packages with `brew install`:
+Install the following packages in advance with brew:
 
 - cmake
 - poco
@@ -101,7 +96,7 @@ Install the following packages with `brew install`:
 - libomp
 - librdkafka
 
-Build with CMake. The executable and plugins will be generated under the Release/ directory.
+Build with CMake. The executable and plugins will be output under the Release/ directory.
 
 ```shell
 cd MMDAgent-EX
@@ -109,7 +104,7 @@ cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
 
-**Error Case 1: Errors related to libomp**
+#### Error case 1: Errors related to libomp
 
 Run the following and retry:
 
@@ -117,9 +112,9 @@ Run the following and retry:
 brew link --force libomp
 ```
 
-**Error Case 2: Errors related to `Utf8Proc::Utf8Proc`**
+#### Error case 2: Errors related to Utf8Proc::Utf8Proc
 
-If the Poco library version is 1.14 or newer, MMDAgent-EX will not work.  MMDAgent-EX includes Poco 1.12.4 source archive, which should be used. If this error occurs, follow these steps (lines beginning with # are comments for clarity and should not be entered):
+MMDAgent-EX does not work with Poco library versions 1.4+ (Poco 14+). The repository includes an older Poco 1.12.4 source archive; use that to build. If you get the error, follow the steps below. (Do not type the comment lines that start with # — they are explanatory only.)
 
 ```shell
 # Uninstall Poco installed via Homebrew
@@ -142,12 +137,11 @@ cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
 
-If your brew package prefix is non-standard, define the environment variable `HOMEBREW_PREFIX`.
-MMDAgent-EX uses this variable if defined, otherwise it uses the result of `brew --prefix`.
+If your brew packages are installed in a nonstandard location, set the HOMEBREW_PREFIX environment variable. MMDAgent-EX will use HOMEBREW_PREFIX if defined; otherwise it will query `brew --prefix` to locate brew packages.
 
 ### Linux (Ubuntu, WSL2)
 
-A list of required packages is in the file `requirements-linux.txt`. Install all of them via apt. For example:
+A list of required package names is provided in the `requirements-linux.txt` file. Install all those packages with apt. You can do this in one go with:
 
 ```shell
 cd MMDAgent-EX
@@ -155,58 +149,51 @@ sudo apt update
 sudo apt install `cat requirements-linux.txt`
 ```
 
-Then build with CMake:
+Build with CMake:
 
 ```shell
 cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
 
-The executable and plugins will be generated under the `Release/` directory.
+The executable and plugins will be generated under the Release/ directory.
 
 ### Windows
 
 You can build with Visual Studio 2022.
 
-When installing Visual Studio 2022, check "Desktop development with C++" and install MSVC v143 and the Windows 11 SDK (confirmed with 10.0.22000.0).
+When installing Visual Studio 2022, select the "Desktop development with C++" workload and make sure MSVC v143 and the Windows 11 SDK (confirmed with 10.0.22000.0) are installed.
 
-Since version 2.1 (2025.10.1), required DLLs and prebuilt binaries are no longer included in the repository.
-To build on Windows, download `MMDAgent-EX-deps_win.zip` from the latest release.
+Since version 2.1 (2025.10.1), the DLLs and prebuilt binaries required to build on Windows are no longer included in the repository. To build on Windows, download `MMDAgent-EX-deps_win.zip` included with the latest release. It is available in the Assets section of the latest release.
 
-Download location:
+Where to get it:
 
-- [Releases - MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX/releases/latest)
-- Download `MMDAgent-EX-deps_win.zip` in the `Assets`.
+- [Releases - MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX/releases/latest) ← get `MMDAgent-EX-deps_win.zip` from the Assets there
 
-After download, unpack the .zip file, and copy the contents into the top directory of the repository.
+After downloading, extract it into the repository (overlay the files), then follow the build steps below.
 
-Then follow the build steps:
-
-1. Open MMDAgent_vs2022.sln in Visual Studio 2022
-2. In Solution Explorer, right-click main and set it as the startup project
-3. Select the platform: x64 or Win32
-4. Set build configuration to Release
+1. Open `MMDAgent_vs2022.sln` in Visual Studio 2022
+2. In Solution Explorer, right-click `main` and set it as the Startup Project
+3. Choose platform: select `x64` or `Win32`
+4. Set the build configuration to `Release`
 5. Run "Build Solution"
 
-If the program exits immediately and does not run, install [the Visual C++ 2022 Redistributable Package](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170).  Download and run `vc_regist.x64.exe`, then try again.
+If the application immediately exits when you try to run it, you may need to install the Visual C++ 2022 Redistributable. Download and run `vc_regist.x64.exe` from the Visual C++ Redistributable page, then try again.
 
 {{< hint info >}}
 
-For the 32-bit version (win32), install the "X86" package (`vc_regist_x86.exe`).
+The 32-bit build (win32) requires the "X86" package (`vc_regist_x86.ext`).
 
 {{< /hint >}}
 
-## Generated Files
+## Files produced by the build
 
-All necessary runtime files are generated under the `Release` folder.
-
+All files required to run are produced under the Release folder.
 {{< hint info >}}
-The following is an example for Windows.
-On macOS and Linux, there is no .exe extension, and .dll files become .so.
+The example below is for Windows. On macOS and Linux there is no .exe extension and .dll files become .so.
 {{< /hint >}}
 
-`AppData` contains required runtime data files.
-`DLLs` and `DLLs64 `are Windows-only external DLLs required for certain features.
+`AppData` contains various runtime data files. `DLLs` and `DLLs64` are Windows-only folders containing external DLLs required for certain features.
 
     Release/
     ├── MMDAgent-EX.exe
@@ -231,5 +218,4 @@ On macOS and Linux, there is no .exe extension, and .dll files become .so.
 
 That completes the build.
 
-Only the files under the Release folder are required to run the program.  To run in another location, simply copy the entire Release folder.
-
+Only the files under the Release folder are required to run. To run on another machine or location, copy the entire Release folder.

@@ -1,18 +1,18 @@
 ---
-title: License and Guidelines
+title: Licenses and Guidelines
 slug: license-and-guideline
 ---
-# License and Guidelines
+# Licenses and Guidelines
 
-This document explains the licensing and usage guidelines for MMDAgent-EX and its CG avatars.
+This page summarizes the licenses and usage guidelines for the published MMDAgent-EX and CG avatars.
 
-## License
+## Licenses
 
 ### MMDAgent-EX
 
-MMDAgent-EX is distributed under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+The MMDAgent-EX code is provided under the [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0) ([Japanese translation](https://licenses.opensource.jp/Apache-2.0/Apache-2.0.html)).
 
-MMDAgent-EX depends on various open-source softwares and libraries. Some of them are also included in this repository.  For licensing issues, please consult each license of the software:
+MMDAgent-EX is built using many third-party software libraries. The following is a list of libraries used (not guaranteed to be exhaustive). Please pay attention to each software's license when using them.
 
 - MMDAgent
 - Bullet Physics
@@ -34,46 +34,47 @@ MMDAgent-EX depends on various open-source softwares and libraries. Some of them
 - RabbitMQ
 - cpp-httplib
 
-Also, when using 3D models, motions, sounds, images, and other materials in this tool, please comply with the terms of use set by their authors (rights holders).
+When using 3D models, motions, audio, images, or other assets with this tool, follow the terms of use set by the respective authors/rights holders.
 
-### CG Avatars
+### CG avatars
 
-Our CG avatars on GitHub have their own license and usage guidelines. Here I summarize the overview, but please make sure to check the README included in each repository when using them.
+Each CG avatar published on GitHub defines its own license and usage guidelines. The following provides an overview, but always check the README in each repository before use.
 
 - [CG avatar "Gene" README](https://github.com/mmdagent-ex/gene/blob/main/README.md)
 - [CG avatar "Uka" README](https://github.com/mmdagent-ex/uka/blob/main/README.md)
 
-Generally, the CG avatarsare released under the CC-BY 4.0 License.  For use, please display the credit as defined in each model.  `[[Name]]` should be substituted to the model name.
+In general, the CG avatars on GitHub are released under the [CC-BY 4.0 License](https://creativecommons.org/licenses/by/4.0/deed.ja). Each avatar specifies a required credit line; please display it in some form when using the avatar. Replace the `[[Name]]` part with the model name.
 
-> CG-CA Model `[[Name]]` (c) 2023 by Nagoya Institute of Technology, Moonshot R&D Goal 1 Avatar Symbiotic Society
+> CG-CA Model `[[Name]]` (c) 2023-2025 by Nagoya Institute of Technology, Moonshot R&D Goal 1 Avatar Symbiotic Society
 
-Note that for "Gene", its trademark and design right is held by us. The following uses are permissible without explicit permission. For commercial use, profit-making activities, or other types of usage, please contact the developer directly.
+Note that for some models (e.g., Gene) Nagoya Institute of Technology holds trademark and design rights. The following uses are permitted without authorization. For other commercial activities or uses, please contact the developer individually.
 
-**Examples of permissible use without explicit permission:**
+**Examples of uses allowed without permission:**
 
-- Academic activities (publication in papers, presentations, etc.)
-- Non-commercial use by individuals (posts on social media, displays at events, etc.)
+- Academic activities (paper publication, presentations, etc.)
+- Personal non-commercial use (posting on social media, display at events, etc.)
 
 ## Usage Guidelines
 
-These guidelines outline the ethical, legal and social issues to be observed when using MMDAgent-EX and the CG avatars.
+The following guidelines address ethical, legal, and social issues (Ethical, Legal and Social Issues; ELSI) for using MMDAgent-EX and CG avatars. These guidelines may be updated in response to technological advances, societal changes, or legal requirements.
 
-### Disallowed usage of our software:
+### Prohibited uses
 
-- Illegal activity
-- Child Sexual Abuse Material or any content that exploits or harms children
-- Promotion of hateful, harassing, or violent content
-- Activity that has high risk of physical harm, including:
-  - Weapons development
-  - Military and warfare
-  - Management or operation of critical infrastructure in energy, transportation, and water
-  - Content that promotes, encourages, or depicts acts of self-harm, such as suicide, cutting, and eating disorders
-- Fraudulent or deceptive activity, including:
-  - Scams
-  - Coordinated inauthentic behavior
+- Illegal activities
+- Material depicting sexual abuse of children, or content that exploits or harms children
+- Creation of content that promotes hatred, harassment, or violence
+- Activities that pose a high risk of causing physical harm. This includes:
+  - Manufacturing weapons
+  - Military or conflict-related uses
+  - Management or operation of critical infrastructure such as energy, transportation, or water systems
+  - Content that promotes, encourages, or depicts self-harm (e.g., suicide, self-injury, eating disorders)
+- Fraudulent or deceptive acts. This includes:
+  - Fraud
+  - Organized wrongdoing
   - Plagiarism
-  - Disinformation
-- Actions harmful to the [MikuMikuDance](https://en.wikipedia.org/wiki/MikuMikuDance) related community and its fun society:
-  - Creation and disribution of contents that violates the rights of copyright holders of models, motions, music, etc.
-  - Ignoring guidelines set by the copyright holders.
-  - Unauthorized redistribution, plagiarism, and impersonation of the original creators.
+  - Spreading misinformation
+  - Impersonating real people, organizations, or entities, or making false representations to deceive others
+- Acts that harm the MikuMikuDance (MMD) community or its tangible/intangible assets. This includes:
+  - Actions that infringe the rights of model, motion, music, or other rights holders
+  - Uses that do not follow the guidelines set by rights holders
+  - Improper redistribution, theft, or impersonation of authors

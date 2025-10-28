@@ -1,76 +1,72 @@
-
-
 ---
-title: List of mdf Configuration Items
+title: List of .mdf Configuration Options
 slug: mdf
 ---
+# List of parameters configurable in .mdf
 
-# List of Parameters that can be Set with .mdf
-
-## Mechanism
+## How it works
 
 - MMDAgent-EX launches content by specifying a .mdf file
   - The .mdf file is located in the top directory of the content.
-- The content of the .mdf file is a text file.
-  - It can specify the operational parameters of MMDAgent-EX
-- `MMDAgent-EX.mdf` in the same directory as the MMDAgent-EX executable is for system settings
-  - It is read first at every startup
-  - If the settings of the content's .mdf overlap, the content side is prioritized
-- You can incorporate the value of any environment variable by describing it as `%ENV{name}`.
+- The .mdf file is a text file.
+  - It specifies runtime parameters for MMDAgent-EX.
+- `MMDAgent-EX.mdf` in the same directory as the MMDAgent-EX executable is the system configuration
+  - It is read first on every startup
+  - If settings overlap with the content’s .mdf, the content-side settings take precedence
+- You can import arbitrary environment variable values by writing them like `%ENV{NAME}`.
 
-## Precautions
+## Notes
 
-- In the following list, the values are basically the default values
-- The coordinates of 3D space can be considered as approximately 1.0 ≒ 8cm (MMD scale)
+- In the list below, values are generally the default values.
+- For 3D space coordinates, you can roughly assume 1.0 ≈ 8 cm (MMD scale).
 
-# List of Configuration Items
+# Configuration items
 
 ## Input/Output
 
-Specify where to output log.  When a file path is specified, all logs will bbe saved to the file as text.  When left black (default), no log will be output on Windows, or use stdout on mac/Linux.
+Specify a file path to record all logs to the specified file. Default is empty (on Linux/Mac logs go to stdout; on Windows nothing is output).
 
 {{<mdf>}}
 log_file=
 {{</mdf>}}
 
-Specify whether to utilize stdin/stdout as messaging queue.  When set to `true`, any text from stdin will be treated as a message and sent to internal queue.  Also all messages will be output to stdout.  When `true`, only messages (except logs) will be output to stdout, so use `log_file=` to save log to another file.
+Set whether to exchange messages via standard input/output. Default is `false`. If set to `true`, messages are output to stdout and inputs from stdin are accepted as messages. When this is `true`, logs are no longer written to stdout, so specify a file in `log_file` if you want to keep a log.
 
 {{<mdf>}}
 use_stdinout=false
 {{</mdf>}}
 
+## Plugins
 
-## Plugin
-
-Specify whether to enable or disable plugins.
+Enable or disable plugins.
 
 {{<mdf>}}
 disablePlugin=ALL
 enablePlugin=Audio,VIManager
 {{</mdf>}}
 
-The value on the right side can specify the following strings
+The right-hand value can be the following strings:
 
-- **`ALL`**: Matches all plugins
-- **`NONE`**: Matches nothing
-- **Plugin Name**: Specify the name part `xxxx` of `Plugin_xxxx.dll` or `Plugin_xxxx.so` under the `Plugins` directory. In the above example, only Plugin_Audio.dll (or .so) and Plugin_VIManger.dll (or .so) are enabled. If there are multiple, separate them with commas.
+- **`ALL`** : matches all plugins
+- **`NONE`** : matches none
+- **Plugin name**: Specify the name portion `xxxx` of `Plugin_xxxx.dll` or `Plugin_xxxx.so` under the `Plugins` directory. In the example above, only Plugin_Audio.dll (or .so) and Plugin_VIManager.dll (or .so) are enabled. Use commas to separate multiple names.
 
-Evaluation is done in the order of `enablePlugin` → `disablePlugin`. The order of description in .mdf does not matter.
+Evaluation is done in the order `enablePlugin` → `disablePlugin`. The order of lines in the .mdf file does not matter.
 
-Example 1: To enable only plugins `A`, `B`, `C` and disable the rest:
+Example 1: Enable only plugins `A`, `B`, `C` and disable the rest:
 
 {{<mdf>}}
 enablePlugin=A,B,C
 disablePlugin=ALL
 {{</mdf>}}
 
-Example 2: To disable plugins `D`, `E` and enable the rest:
+Example 2: Disable plugins `D`, `E` and enable the rest:
 
 {{<mdf>}}
 disablePlugin=D,E
 {{</mdf>}}
 
-※ The old version of writing (specifying one plugin to disable at a time) can also be used
+Note: The old format below (specifying disabled plugins one by one) is also supported:
 
 {{<mdf>}}
 exclude_Plugin_Audio=yes
@@ -78,13 +74,13 @@ exclude_Plugin_Audio=yes
 
 ## Network
 
-※ Effective when using Plugin_Remote
+Note: Effective when using Plugin_Remote.
 
-※ The values in this section are not default values, but sample values
+Note: In this section the values are sample values, not defaults.
 
-### When using a WebSocket server
+### Using a WebSocket server
 
-Specify the hostname, port number, and path of the WebSocket connection
+Specify the WebSocket host, port, and path.
 
 {{<mdf>}}
 Plugin_Remote_Websocket_Host=localhost
@@ -94,7 +90,7 @@ Plugin_Remote_Websocket_Directory=/chat
 
 ### TCP/IP Server
 
-When connecting to a server as a TCP/IP client
+As a TCP/IP client connecting to a server:
 
 {{<mdf>}}
 Plugin_Remote_EnableClient=true
@@ -102,24 +98,24 @@ Plugin_Remote_Hostname=localhost
 Plugin_Remote_Port=50001
 {{</mdf>}}
 
-When becoming a TCP/IP server
+As a TCP/IP server:
 
 {{<mdf>}}
 Plugin_Remote_EnableServer=true
 Plugin_Remote_ListenPort=50001
 {{</mdf>}}
 
-### Common Settings
+### Common settings
 
-Specify the number of automatic retries on connection failure (default is 0)
+Specify the number of automatic retry attempts on connection failure (default is 0).
 
 {{<mdf>}}
 Plugin_Remote_RetryCount=60
 {{</mdf>}}
 
-## Voice playing (SPEAK_START) (v1.0.4)
+## Audio playback (SPEAK_START) (v1.0.4)
 
-Switch **SPEAK_START** to use old 16kHz playing scheme for forced sync.  (If not set or set to false, use high-quality playing scheme)
+Use pre-v1.0.4 synchronous guaranteed 16 kHz conversion playback for SPEAK_START. If unspecified or `false`, the higher-quality playback introduced in v1.0.4+ is used.
 
 {{<mdf>}}
 Plugin_Remote_Speak_16k=true
@@ -127,45 +123,43 @@ Plugin_Remote_Speak_16k=true
 
 ## Display
 
-Initial window size (width, height)
+Initial window size (width,height)
 
 {{<mdf>}}
 window_size=600,600
 {{</mdf>}}
 
-Start in full screen (can be switched after starting with the `F` key)
+Start in fullscreen (can be toggled after startup with the `F` key)
 
 {{<mdf>}}
 full_screen=false
 {{</mdf>}}
 
-Show the operating status on the top left at startup (can be switched after starting with the `S` key)
+Show operation status in the top-left on startup (toggle with `S` after startup)
 
 {{<mdf>}}
 show_fps=true
 {{</mdf>}}
 
-(Windows) Enable / disable transparent window.  When set to `true`, window will become transparent.  The transparent part of the window is click-through.  
+(Windows) Enable or disable a transparent window. When `true`, the window is transparent. Clicks on transparent areas pass through to underlying applications.
 
-By default, it performs **color based** transparency.  A special transparent color is temporary painted for campus background, and pixels with the color will be made transparent.  The default transparent color is green (0.0,1.0,0.0), but can be changed by `transparent_color`.
+By default color-based transparency is used. During rendering a special "transparent color" is set as the background canvas color, and pixels that match that color become transparent. The default transparent color is green (0.0,1.0,0.0), which can be changed with `transparent_color`.
 
-When `transparent_pixmap` is set to true, it performs slow-but-better **pixmap based** transparency.  The alpha channel in the rendered picture will be directly used as window tranparent value.  This method results always results in better transparent quality, but it is slow (extremely for large screen) and may degrades smoothness.
+If you set `transparent_pixmap` to `true`, a slower but higher-quality pixmap-based transparency method is used. The alpha channel of the rendered pixmap is used directly as the window transparency. This always produces more natural transparency than the color-based method, but is slower and can significantly reduce frame rates, especially on large screens.
 
-While transparent, the stage background image will not be rendered.
+Note that the stage background image is not drawn while transparency is enabled.
 
 {{<mdf>}}
 transparent_window=false
 {{</mdf>}}
 
-(Windows) Change the transparent color used in the color based transparency.  Default is `0.0,1.0,0.0` (green).
+(Windows) Specify/change the transparent color used for color-based transparency. Default is green (0.0,1.0,0.0).
 
 {{<mdf>}}
 transparent_color=0.0,1.0,0.0
 {{</mdf>}}
 
-(Windows) Use pixmap-based transparent mode instead of color based. 
-
-When set to true, it performs slow-but-better **pixmap based** transparency.  The alpha channel in the rendered picture will be directly used as window tranparent value.  This method results always results in better transparent quality, but it is slow and may degrades smoothness.
+(Windows) Enable pixmap-based transparency instead of color-based. When `transparent_pixmap` is `true`, a slower but more accurate pixmap-based transparency is used. The alpha channel of the rendered pixmap is used directly for window transparency. This produces better visual quality than color-based transparency but is slower and can reduce frame rate on large screens.
 
 {{<mdf>}}
 transparent_pixmap=false
@@ -173,13 +167,13 @@ transparent_pixmap=false
 
 ## 3-D Models
 
-Maximum number of models to display at once. Minimum is 1, maximum is 1024.
+Maximum number of models displayed at once. Minimum 1, maximum 1024.
 
 {{<mdf>}}
 max_num_model=10
 {{</mdf>}}
 
-Toon edge thickness (can be changed after startup with `K`, `Shift+K`)
+Toon edge width (changeable after startup with `K`, `Shift+K`)
 
 ![bold edge](/images/edge1.png)
 ![thin edge](/images/edge2.png)
@@ -188,21 +182,22 @@ Toon edge thickness (can be changed after startup with `K`, `Shift+K`)
 cartoon_edge_width=0.35
 {{</mdf>}}
 
-Disable light-direction-based edge deformation (v1.0.5 and later) and revert to MMD-compliant edge.
+Turn off the feature that adjusts toon edges to the light direction (v1.0.5+), to revert to MMD compatibility.
 
 {{<mdf>}}
 light_edge=false
 {{</mdf>}}
 
-Number of parallel threads to use for skinning. Normally, the default of 1 is no problem, but if rendering becomes slow with a huge model with many vertices, specify `2` or `4`. Can be changed later with a message.
+Number of parallel threads used for skinning. Default 1 is fine in most cases, but for very large models with many vertices you can set `2` or `4`. This can also be changed later via messages.
 
 {{<mdf>}}
 parallel_skinning_numthreads=1
 {{</mdf>}}
 
-## Viewpoint (Camera)
 
-Initial camera parameters. In order from the top, position, amount of rotation (degrees), camera distance, field of view (degrees).
+## Camera
+
+Initial camera parameters. From top: position, rotation (degrees), camera distance, field of view (degrees).
 
 {{<mdf>}}
 camera_transition=0.0,13.0,0.0
@@ -213,13 +208,13 @@ camera_fovy=16.0
 
 ## CG Rendering
 
-Anti-aliasing (MSAA) intensity. The higher the value, the smoother the lines will be displayed, but it will also become heavier. You can turn off this function by setting it to 0. The maximum setting value is 32.
+Antialiasing (MSAA) level. Higher values smooth lines but increase load. Set 0 to disable. Maximum supported value is 32.
 
 {{<mdf>}}
 max_multi_sampling=4
 {{</mdf>}}
 
-The size of the background image and floor image in the 3D space. The parameters (x, y, z) are x=half of the width, y=depth of the floor, z=height of the background.
+Size of the background and floor images in 3D space. Parameters (x,y,z) mean x = half-width, y = floor depth, z = background height.
 
 ![stage image](/images/stage.png)
 
@@ -233,7 +228,7 @@ Canvas color (space background color) (R,G,B)
 campus_color=0.0,0.0,0.2
 {{</mdf>}}
 
-The direction of the light source (x,y,z,w), intensity (0.0-1.0), and color (R,G,B). The direction of arrival and color can also be changed by a message after startup.
+Light direction (x,y,z,w), intensity (0.0–1.0), color (R,G,B). Direction and color can be changed via messages at runtime.
 
 {{<mdf>}}
 light_direction=0.5,1.0,0.5,0.0
@@ -241,9 +236,9 @@ light_intensity=0.6
 light_color=1.0,1.0,1.0
 {{</mdf>}}
 
-Diffusion filter: Enable with `diffusion_postfilter=true`
+Diffusion postfilter: enable with `diffusion_postfilter=true`
 
-*Only available on Windows and Linux, not available on macOS
+Note: Windows and Linux only — not available on macOS
 
 {{<mdf>}}
 diffusion_postfilter=false
@@ -253,19 +248,19 @@ diffusion_postfilter_scale=1.0
 
 ## Shadows
 
-Initial shadow display settings at startup (can be switched with `Shift+S` after startup)
+Initial shadow display setting at startup (toggle with `Shift+S` after startup)
 
 {{<mdf>}}
 use_shadow=true
 {{</mdf>}}
 
-Turn on shadow mapping at startup (can be switched with `X` after startup)
+Enable shadow mapping at startup (toggle with `X` after startup)
 
 {{<mdf>}}
 use_shadow_mapping=false
 {{</mdf>}}
 
-Doppel Shadow effect ON/OFF (default is OFF) and parameters
+Doppel Shadow effect on/off (default OFF) and parameters
 
 ![doppel_shadow](/images/doppel_shadow.png)
 
@@ -284,50 +279,50 @@ doppel_shadow_offset=x,y,z
 shadow_density=0.5
 {{</mdf>}}
 
-## Physics Simulation
+## Physics
 
-Simulation resolution (fps) of physics simulation. You can specify 30, 60, 120. Setting a lower value will lighten the processing, but it will make it easier for rigid bodies to escape.
+Simulation resolution (fps) for physics. Allowed values: 30, 60, 120. Lower values reduce processing load but may cause rigid bodies to pass through each other more easily.
 
 {{<mdf>}}
 bullet_fps=120
 {{</mdf>}}
 
-## External Operations
+## External control
 
-Switch lip sync during external operations from remote voice to microphone input (`yes` when specified)
+Switch lipsync during external control from remote audio to microphone input (specify `yes` to enable)
 
 {{<mdf>}}
 Plugin_Remote_EnableLocalLipsync=no
 {{</mdf>}}
 
-When the above is `yes`, specifying `yes` for the following will pass through the microphone input to voice output
+If the above is `yes`, setting the following to `yes` will pass microphone input through to audio output
 
 {{<mdf>}}
 Plugin_Remote_EnableLocalPassthrough=no
 {{</mdf>}}
 
-Record lip sync voice in specified directory by speech unit. It is possible to specify the maximum recording time in minutes (default: 120 minutes)
+Record lipsync audio per utterance into the specified directory. You can set a recording time limit in minutes (default: 120 minutes)
 
 {{<mdf>}}
 Plugin_Remote_Record_Wave_Dir=directory
 Plugin_Remote_Record_Wave_Limit=120
 {{</mdf>}}
 
-Maximum duration when saving motion with **MOTIONCAPTURE_START** message (unit: minutes)
+Maximum duration (minutes) when saving motion via the MOTIONCAPTURE_START message
 
 {{<mdf>}}
 motion_capture_max_minutes=10
 {{</mdf>}}
 
-## Voice Recognition
+## Speech Recognition
 
-**Plugin_Julius_conf**, **Plugin_Julius_lang**
+Plugin_Julius_conf, Plugin_Julius_lang
 
-The configuration name and language name of the voice recognition engine.
+Names for the speech recognition engine configuration and language.
 
-No default specified. Prepare the model and enable Plugin_Julius by specifying these valid combinations in .mdf.
+There is no default. Prepare models and specify a valid combination in the .mdf to enable Plugin_Julius.
 
-Supported combinations by default model:
+Combinations supported by the default models:
 
 - dnn, ja
 - dnn, en
@@ -338,39 +333,39 @@ Plugin_Julius_conf=dnn
 Plugin_Julius_lang=en
 {{</mdf>}}
 
-**Plugin_Julius_wordspacing**
+Plugin_Julius_wordspacing
 
-Specifies whether to separate words in the output of recognition results.
+Specify whether to separate words in recognition output.
 
-- `no`: Pack without putting anything between words (default for `ja`)
-- `yes`: Insert a space between words (default for languages other than `ja`)
-- `comma`: Insert a comma between words (compatible with old MMDAgent)
+- `no`: Do not insert anything between words (default for `ja`)
+- `yes`: Insert spaces between words (default for languages other than `ja`)
+- `comma`: Insert commas between words (compatible with older MMDAgent)
 
 {{<mdf>}}
 Plugin_Julius_wordspacing=yes
 {{</mdf>}}
 
-**Plugin_Julius_logfile**
+Plugin_Julius_logfile
 
-Output the internal log of the Julius engine to a file.
+Output the Julius engine internal log to a file.
 
 {{<mdf>}}
 Plugin_Julius_logfile=log.txt
 {{</mdf>}}
 
-**show_caption**
+show_caption
 
-Display subtitles. The voice recognition results are displayed on the left side of the screen and the voice synthesis content (the sentence given with **SYNTH_START**) is displayed on the right side.
+Show captions. The left side of the screen displays speech recognition results, and the right side displays synthesized speech content (text provided with **SYNTH_START**).
 
 {{<mdf>}}
 show_caption=true
 {{</mdf>}}
 
-## Other Adjustment Items
+## Other adjustments
 
 ### HTTP Server
 
-Disable the HTTP server function (default: enabled)
+Disable the HTTP server feature (default: enabled)
 
 {{<mdf>}}
 http_server=false
@@ -382,7 +377,7 @@ Change the port number (default: 50000)
 http_server_port=50000
 {{</mdf>}}
 
-### Rendering Related
+### Rendering
 
 Use cartoon rendering
 
@@ -390,19 +385,19 @@ Use cartoon rendering
 use_cartoon_rendering=true
 {{</mdf>}}
 
-Use MMD compatible coloring
+Use MMD-compatible coloring
 
 {{<mdf>}}
 use_mmd_like_cartoon=true
 {{</mdf>}}
 
-Edge color of the selected model (R,G,B,A, values between 0.0 and 1.0)
+Edge color for the selected model (R,G,B,A — values 0.0–1.0)
 
 {{<mdf>}}
 cartoon_edge_selected_color=1.0,0.0,0.0,1.0
 {{</mdf>}}
 
-Whether to place a floor plane at y = 0 during physics simulation
+Whether to insert a floor plane at y = 0 for physics.
 
 {{<mdf>}}
 bullet_floor=true
@@ -414,45 +409,45 @@ Gravity factor
 gravity_factor=10.0
 {{</mdf>}}
 
-Duration (in seconds) to display the internal comments of the model during loading. 0 to not display.
+Duration (seconds) to display the model’s internal comment at load. Set 0 to disable.
 
 {{<mdf>}}
 display_comment_time=0
 {{</mdf>}}
 
-Size of one side of the texture for shadow mapping
+Shadow mapping texture size (per side)
 
 {{<mdf>}}
 shadow_mapping_texture_size=1024
 {{</mdf>}}
 
-Density of the shadow cast on the model during shadow mapping
+Shadow density cast onto models during shadow mapping
 
 {{<mdf>}}
 shadow_mapping_self_density=1.0
 {{</mdf>}}
 
-Density of the shadow cast on the floor during shadow mapping
+Shadow density cast onto the floor during shadow mapping
 
 {{<mdf>}}
 shadow_mapping_floor_density=0.5
 {{</mdf>}}
 
-Shadow mapping rendering order: true for light to dark, false for dark to light
+Shadow mapping rendering order: true for light→dark, false for dark→light
 
 {{<mdf>}}
 shadow_mapping_light_first=true
 {{</mdf>}}
 
-### Display Related
+### Display
 
-Display the button at startup during button definition (can be toggled after startup with `Q` key)
+Show defined buttons on screen at startup (toggle with `Q` after startup)
 
 {{<mdf>}}
 show_button=true
 {{</mdf>}}
 
-Position of the simplified log display (size, position, scale)
+Simple log display settings (size, position, scale)
 
 {{<mdf>}}
 log_size=80,30
@@ -460,21 +455,21 @@ log_position=-17.5,3.0,-20.0
 log_scale=1.0
 {{</mdf>}}
 
-Fine-tuning the motion playback timing (unit: seconds, maximum value 10.0)
+Fine-tune motion playback timing (seconds, max 10.0)
 
 {{<mdf>}}
 motion_adjust_time=0.0
 {{</mdf>}}
 
-Priority of the lip motion created by automatic lip-sync during playback
+Playback priority for lip motion generated by automatic lipsync
 
 {{<mdf>}}
 lipsync_priority=100.0
 {{</mdf>}}
 
-### User Interface Related
+### User interface
 
-Adjustment of sensitivity during key and mouse operations: camera rotation, camera movement, distance, field of view
+Adjust sensitivity for key/mouse operations: camera rotation, camera translation, distance, field of view
 
 {{<mdf>}}
 rotate_step=4.5
@@ -483,28 +478,8 @@ distance_step=4.0
 fovy_step=1.0
 {{</mdf>}}
 
-Step multiplier when changing the thickness of the edge with `K`, `Shift+K` keys
+Step multiplier when changing edge width with the `K` / `Shift+K` keys
 
 {{<mdf>}}
 cartoon_edge_step=1.2
 {{</mdf>}}
-
-{{< hint ms >}}
-### Face tracking parameters [MS]
-
-{{<mdf>}}
-# Coef. of BODY rotation from head rotation
-Plugin_Remote_RotationRateBody=0.5
-# Coef. of NECK rotation from head rotation
-Plugin_Remote_RotationRateNeck=0.5
-# Coef. of HEAD rotation from head rotation
-Plugin_Remote_RotationRateHead=0.6
-# Coef. of CENTER up/down movement from head rotation
-Plugin_Remote_MoveRateUpDown=3.0
-# Coef. of CENTER left/right movement from head rotation
-Plugin_Remote_MoveRateSlide=0.7
-# enable mirrored movement
-Plugin_Remote_EnableMirrorMode=false
-{{</mdf>}}
-
-{{< /hint >}}

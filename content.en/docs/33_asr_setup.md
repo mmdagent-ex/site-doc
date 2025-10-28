@@ -1,28 +1,27 @@
 ---
-title: Set up for Voice Recognition
+title: Speech Recognition Setup
 slug: asr-setup
 ---
+# Speech Recognition Setup
 
-# Setting Up Voice Recognition
-
-MMDAgent-EX comes with [Julius](https://julius.osdn.jp/) as the default voice recognition engine. 
-Julius is a fast and convenient voice recognition engine that runs only on the CPU of your local machine.
+MMDAgent-EX includes [Julius](https://julius.osdn.jp/) as the default speech recognition engine.
+Julius is a lightweight, fast speech recognition engine that runs locally on CPU only.
 
 {{< hint warning >}}
-To use speech recognition, do the set up below for each content.
+Using speech recognition requires the following preparation and configuration. It will not work right after building. Be sure to perform the setup below for each content package.
 {{< /hint >}}
 
-## Download the Model
+## Downloading Models
 
-Voice recognition models for Japanese and English are provided. Please download them separately from the link below. The download size is about 791 MB, and it will consume 1.7GB of disk space after decompressing.
+Speech recognition models are provided for Japanese and English. They are not bundled in the repository, so download them separately from the link below. The download size is about 791 MB, and it uses about 1.7 GB of disk space when unpacked.
 
 {{< button href="https://drive.google.com/file/d/1d82CpinrlDmY9MgjTYa-awCdLOsz16MF/view?usp=sharing" >}}Download Recent: Julius_Models_20231015.zip{{< /button >}}
 
-{{< details "Older Versions" close >}}
+{{< details "List of older versions" close >}}
 - [Julius_Models_20231015.zip](https://drive.google.com/file/d/1d82CpinrlDmY9MgjTYa-awCdLOsz16MF/view?usp=sharing) - 2023.10.15
 {{< /details >}}
 
-After decompressing the file, move the whole fiels under the `Release/AppData/Julius` folder, to look as follows.
+Unpack the archive and place the contents in the Release/AppData/Julius folder. For example:
 
     Release/
     └── AppData/
@@ -37,77 +36,78 @@ After decompressing the file, move the whole fiels under the `Release/AppData/Ju
 
 ## Setup
 
-You should explicitly specify the model and language settings in .mdf file.  To test English speech recognition, open the main.mdf file in the Example with a text editor and add the following two lines at the end.
+You need to specify the models and language used by Julius in the .mdf file. To use English speech recognition, open the main.mdf file in the Example folder with a text editor and add the following two lines at the end:
 
 {{< mdf >}}
 Plugin_Julius_lang=en
 Plugin_Julius_conf=dnn
 {{< / mdf >}}
 
-- The first one is to specify the language name: Specify either `en` (English) or `ja` (Japanese).
-- The second one is to specify the setting name: In `en`, only `dnn` can be specified.  In `ja`, you can specify either `dnn` or `dmm`.
+- The first line specifies the language: choose `ja` (Japanese) or `en` (English).
+- The second line specifies the configuration: for `ja` you can choose `dnn` or `dmm`; for `en` only `dnn` is available.
 
-## Preparing Audio Input Device
+## Preparing an Audio Input Device
 
-The speech recognition module opens the default audio input device. Prepare a voice input device and set it as the default voice input device.
+The speech recognition module opens the system default sound input device to perform recognition. Prepare an audio input device and set it as the default input device.
 
 {{< hint warning >}}
-If there is no voice input device, it will result in an error and will not start.
+If no audio input device is available, an error will occur and the application will not start.
 {{< /hint >}}
 
-## Run Test
+## Test Run
 
-Launch the example content with the .mdf file set up as above.
+Start the Example content with the .mdf file configured as above.
 
-When launch was successfull, you will see a circular meter like the one below appears in the lower left corner of the screen after some time. The varying size of the circle represents the input volume.
+After starting, if a circular meter like the one below appears in the lower-left corner of the screen, the engine has started successfully.
+The circle size represents the input volume.
 
-![audiometer](/images/julius_indicator_1.png)
+![audio meter](/images/julius_indicator_1.png)
 
-Try speaking English into the audio input device. When voice recognition starts, the circular meter will look like this:
+Speak toward the audio input device. When recognition starts, the circular meter will look like this:
 
-![audiometer2](/images/julius_indicator_2.png)
+![audio meter active](/images/julius_indicator_2.png)
 
-The recognition results will be displayed on the screen.
+Recognition results are shown as captions on the screen.
 
 ![result](/images/asr_test_en.png)
 
-## How it works
+## How it Works
 
-When recognition starts, the following message will be issued to message queue.
+The speech recognition module sends its internal activity as messages. When recognition starts, the module outputs the following message:
 
-> You can see the live message by [output log](../log/#several-ways-of-outputting-logs).
+> You can view these messages by [enabling log output](../log/).
 
 {{< message >}}
 RECOG_EVENT_START
 {{< / message >}}
 
-The recognition result will be issued as the following message.
+Recognition results are output as a message when recognition stops, for example:
 
 {{< message >}}
 RECOG_EVENT_STOP|The weather is nice today
 {{< / message >}}
 
-If you want to output the results separated by each word, you can specify it in the .mdf file as follows:
+If you want the result to be separated by words, you can specify the following in the .mdf:
 
 {{< mdf>}}
 Plugin_Julius_wordspacing=yes
 {{< / mdf >}}
 
-- `no`: nothing between words (default for `ja`)
-- `yes`: Insert a space between words (default for languages other than `ja`)
-- `comma`: Insert a comma between words (compatible with old MMDAgent)
+- `no`: Concatenate words without separators (default for `ja`).
+- `yes`: Insert spaces between words (default for non-`ja`).
+- `comma`: Insert commas between words (compatible with older MMDAgent).
 
-You can disable the caption by adding the following line to main.mdf.
+You can turn off caption display. To disable captions, add the following line to main.mdf:
 
 {{<mdf>}}
 show_caption=false
 {{</mdf>}}
 
-## When You Want to Use Another Engine
+## Using Other Engines
 
-Julius is a compact open-source voice recognition engine, but it was made with technology from a generation ago, and its model performance and noise resistance, especially recognition accuracy under noisy conditions, are inferior to the latest voice recognition engines.
+Julius is a compact open-source speech recognition engine, but it was developed with older techniques; model quality and noise robustness -- especially in noisy environments -- can be inferior to modern speech recognition engines.
 
-If you create a system with Python using a cloud voice recognition engine like Google STT or Whisper, you can link it in two ways:
+If you build a system using cloud STT engines like Google STT or local models like Whisper via Python, you can integrate them with MMDAgent-EX in two ways:
 
-- Run as a submodule of MMDAgent-EX with Plugin_AnyScript
-- Link with an external process of MMDAgent-EX using the WebSocket feature.
+- Run them as a submodule of MMDAgent-EX using Plugin_AnyScript
+- Integrate with a separate MMDAgent-EX process via the WebSocket feature

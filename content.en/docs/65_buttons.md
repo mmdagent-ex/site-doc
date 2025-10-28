@@ -1,17 +1,14 @@
-
-
 ---
 title: Buttons
 slug: buttons
 ---
-
 # Buttons
 
-You can define buttons for each piece of content. When the content is being viewed, these buttons will appear on the screen either by long pressing or pressing the `q` key. You can assign various actions to these buttons that are specific to the content.
+You can define buttons for each piece of content. When the content is played, the buttons appear on the screen after a long tap or by pressing the `q` key. You can assign various content-dependent actions to them.
 
 ## How to define a button
 
-To define a button, place a button definition file in the top folder of the content package. The name of the file should be `BUTTON0.txt`, and additional buttons can be defined as `BUTTON1.txt`, and so forth. You can define up to 10 buttons, from `BUTTON0.txt` to `BUTTON9.txt`.
+Place a button definition file in the top folder of the content package. The first file must be named `BUTTON0.txt`; additional buttons use `BUTTON1.txt`, etc. You can define up to 10 buttons, up to `BUTTON9.txt`.
 
 ```text
 BUTTON0.txt
@@ -20,7 +17,7 @@ BUTTON1.txt
 BUTTON9.txt
 ```
 
-Moreover, you can define "sub-buttons" by creating button definition files named `BUTTON0-0.txt`, `BUTTON0-1.txt`, and so on. By default, these sub-buttons will not appear on the screen, but they will show up when their parent button (such as `BUTTON0.txt`) is pressed.
+You can also define "sub-buttons" by adding files like `BUTTON0-0.txt`, `BUTTON0-1.txt` and so on. Sub-buttons are not shown by default; they appear when their parent button (e.g. `BUTTON0.txt`) is pressed.
 
 ```text
 BUTTON0.txt
@@ -34,7 +31,7 @@ BUTTON1-1.txt
 
 ## Button definition file
 
-Here is a simple example of a button definition file. Lines that start with "`#`" are comments.
+Below is a simple example of a button definition file. A line that starts with "`#`" is a comment.
 
 ```text
 #### BUTTON0.txt
@@ -57,7 +54,7 @@ exec=open,http://www.google.com/
 
 ### Button image
 
-The image file that will be displayed as the button. It is recommended to use a transparent PNG.
+Image file to be displayed as the button. A transparent PNG is recommended.
 
 ```text
 image=imgfile.png
@@ -65,19 +62,19 @@ image=imgfile.png
 
 ### Button position
 
-This is the center coordinate of the button.
+Center coordinates of the button.
 
 ```text
 x=1.0
 y=-1.0
 ```
 
-- A positive value represents a distance from the left and bottom edges of the screen.
-- A negative value represents a distance from the right and top edges of the screen.
+- Positive values measure distance from the left and bottom edges of the screen
+- Negative values measure distance from the right and top edges of the screen
 
 ### Button scale
 
-This is the scale factor of the image.
+Scale factor of the image.
 
 ```text
 scale=2.0
@@ -85,13 +82,13 @@ scale=2.0
 
 ### Button text
 
-You can display a text label on top of the button image. The fixed text can be specified by `label`.
+A text label can be overlaid on the button image. Fixed text can be specified with `label`.
 
 ```text
 label=some string
 ```
 
-If you specify a key name of KeyValue preceded by "`@`", the value of the key will be displayed as dynamic text.
+When specifying a KeyValue name by prefixing it with "`@`", the corresponding value will be displayed dynamically.
 
 ```text
 label=@KeyName
@@ -99,7 +96,7 @@ label=@KeyName
 
 ### Button text adjustment
 
-You can adjust the scale and position of the text label with `labelX`, `labelY`, and `labelScale`. The origin of the text is the left-middle edge of the button.
+The scale and position of the text label can be adjusted with `labelX`, `labelY` and `labelScale`. The origin of the text is the left-middle edge of the button.
 
 ```text
 # move text label to upper-right of original and magnify by 1.5
@@ -108,7 +105,7 @@ labelY=0.5
 labelScale=1.5
 ```
 
-The text color can be specified with `labelColor`. The color should be in the format `#RRGGBB` or `#RRGGBBAA`. The default is `#FFFFFFFF`.
+Text color can be specified with `labelColor`. Color should be like `#RRGGBB` or `#RRGGBBAA`. Default is `#FFFFFFFF`.
 
 ```text
 labelColor=#FF0000
@@ -116,7 +113,7 @@ labelColor=#FF0000
 
 ### Button animation direction
 
-You can specify from which edge of the screen the button will appear. Valid values are `left`, `right`, `top`, `bottom`, and `parent`. `Parent` indicates that the button will appear from the same location as the parent button and is only valid for sub-buttons. The default value is `left`.
+Specify from which edge of the screen the button appears. Valid values are `left`, `right`, `top`, `bottom` and `parent`. `parent` means that the button will appear from the parent button's position and is valid only for sub-buttons. Default value is `left`.
 
 ```text
 from=left
@@ -124,19 +121,19 @@ from=left
 
 ### Button actions
 
-You can assign an action to a button with the `exec` option. There are several types of actions available.
+An action for a button is defined using the `exec` option. Several action types are supported.
 
-#### 1. Open URL in external browser
+#### 1. Open URL on external browser
 
-To open a webpage, specify the action as `open` and provide the target URL.
+To open a web page, specify action as `open` and the target URL.
 
 ```text
 exec=open,http://www.google.com/
 ```
 
-#### 2. Play content
+#### 2. Play contents
 
-To start playing content, specify `play` and the target content. The target content can be a URL (web content) or the file path of the .mdf file (local content).
+To start playing content, specify `play` and the target. The target can be a URL (web content) or a file path to a .mdf file (local content).
 
 ```text
 # web contents
@@ -145,9 +142,9 @@ exec=play,http://www.google.com/
 exec=play,xxx/yyy/foo.mdf
 ```
 
-#### 3. Send message
+#### 3. Issue message
 
-By specifying `message` and the message string in `exec`, a message will be sent when the button is pressed.
+Specify `message` and a message string in `exec` to issue the message when the button is pressed.
 
 ```text
 exec=message,MODEL_DELETE|model
@@ -155,15 +152,15 @@ exec=message,MODEL_DELETE|model
 
 #### 4. Set KeyValue
 
-You also have the option to define a button to set a KeyValue. By using `setkeyvalue` along with the key-name pair, the value will be set upon tapping.
+You can also configure a button to set a KeyValue. Use `setkeyvalue` followed by the key-name pair to set on tap.
 
 ```text
 exec=setkeyvalue,KeyName=Value
 ```
 
-### Modify button appearance using KeyValue
+### Change button appearance by KeyValue
 
-The look and behavior of a button can be adjusted on the fly. You can establish a key-value pair as a trigger condition, and the properties to be altered when the key-value condition is met. The example below illustrates this.
+A button's appearance and actions can be changed at run time. You can specify a key-value pair as a trigger condition, and properties to be changed when the condition is met. Below is an example.
 
 ```text
 #### BUTTON0.txt with variants
@@ -177,7 +174,7 @@ exec=...
 # condition (required)
 1-ifKeyName=KeyName
 1-ifKeyValue=Value
-# image should always be specified in a variant
+# image should be always specified at a variant
 1-image=...
 # others are optional
 1-exec=...
@@ -197,4 +194,4 @@ exec=...
 2-image=...
 ```
 
-The prefix "`1-`" can be replaced with "`2-`", "`3-`" and so on to define multiple conditional buttons. A maximum of 9 variants can be defined. When the condition is satisfied, the properties defined with the same prefix will be applied. Properties not defined with the prefix will remain unchanged.
+The prefix "`1-`" can be replaced with "`2-`", "`3-`" and so on to define multiple conditioned variants. Up to 9 variants are supported. When a condition matches, the properties with the same prefix are applied; properties not defined with the prefix are left unchanged.

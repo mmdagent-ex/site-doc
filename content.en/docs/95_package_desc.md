@@ -1,88 +1,84 @@
-
-
 ---
 title: Format of PACKAGE_DESC.txt
 slug: package-desc-format
 ---
-
 # Format of PACKAGE_DESC.txt
 
-## Basics
+## Basic
 
 ```text
-# Specify the mdf file to launch.
-# If not specified, it will search the content folder and launch from the .mdf file 
-# in the deepest folder hierarchy.
+# Specify the MDF file to launch.
+# If not specified, search the content folder and launch from the .mdf
+# file located in the deepest folder hierarchy.
 execMDFFile=some/where/foobar.mdf
 
-# The text name to display in bookmarks and history.
-# If not specified, the file name will be used.
-# If you only write "label=", the text name will not be output.
+# Text to display in bookmarks and history.
+# If not specified, the file name is used.
+# If only "label=" is specified, no text label will be shown.
 #label=string
 
-# The image file to display in bookmarks and history.
-# It will be displayed together with the above label specification 
-# (if label=, it will be image only).
-# It is best to create it with an aspect ratio of 7:1, as it will be extended to 7:1.
+# Image file to display in bookmarks and history.
+# Displayed together with the label above (if label= is empty, only the image will be shown).
+# It is stretched to 7:1, so creating it with a 7:1 aspect ratio is best.
 # If not specified, a file named banner.png will be searched for.
-# If banner.png does not exist, the image will not be used.
+# If banner.png does not exist either, no image is used.
 #image=hoge.png
 
-# Specify the README file you want the content user to read.
-# If specified, it will be displayed in full screen when the content is launched for the first time.
-# It must be a text file (UTF-8).
+# Specify a README file to be shown to the content user.
+# If specified, it is displayed full-screen on the content's first launch.
+# Must be a text file (UTF-8).
 #readme=readme.txt
 
-# Specify whether the user is forced to agree after displaying the README file.
-# If set to true, two buttons, Accept and Decline, will be displayed at the bottom of the README,
-# and you can prevent playback if you press Decline.
-# If you set it to true, you must also specify the above readme.
+# Specify whether to force user agreement after showing the README file.
+# If set to true, two buttons, Accept and Decline, will appear at the bottom of the README,
+# and pressing Decline can prevent playback.
+# If set to true, be sure to also specify the readme above.
 #readmeForceAgreement=true
 ```
 
-## Security-related
+## Security
 
 ```text
-# Disallow browsing in the built-in browser
+# Disable browsing in the built-in browser
 nonBrowse=true
 
 # Disallow launching on desktop OS (Win/Mac/Linux)
 nonDesktop=true
 ```
 
-## Auto-update related
+## Auto-update
 
-Automatically update certain files during content playback. At specified intervals, it asks the server of the content source for updates to the specified files, and if there are updates on the server side, it downloads only those files in the background.
+Automatically update specific files while content is playing. At the specified interval, query the content's source server for updates to the specified files, and if the server reports an update, download only those files in the background.
 
-Normally, the web content is checked for updates and new differences are downloaded at the timing of content startup. In addition to this, by using this option, you can update any file in the background without stopping the content during content startup.
+Normally, web content updates and new diffs are checked and downloaded at content startup. In addition to that, using this option allows specified files to be updated in the background while the content is running, without stopping playback.
 
 ```text
-# Specify the file name to try auto-check for updates and background update.
+# Specify filenames to auto-check and attempt background updates for.
 autoUpdateFiles=xxx.mdf[,xxx.fst,…]
 
-# Specify the interval for automatic checks in seconds
+# Specify the auto-check interval in seconds
 autoUpdatePeriod=20
 ```
 
-## Data Collection
+## Data collection
 
-This setting uploads the logs recorded with the `LOG_START` and `LOG_FINISH` functions to the server. When using, pay close attention to operation so as not to become stealth collection, such as obtaining user consent.
+Settings to upload logs recorded by `LOG_START` and `LOG_FINISH` to a server. When using this, ensure proper operational safeguards (for example, obtain user consent) to avoid covert data collection.
 
 ```text
-# Enable the function to upload logs to the server.
-# Specify the server URL to send.
+# Enable server upload for logs.
+# Specify the destination server URL.
 #logUploadURL=url_string
 
-# Use when specifying the HTTP version string.
-# The default is "HTTP/1.1"
+# Use to specify the HTTP version string.
+# Default is "HTTP/1.1"
 #logUploadHTTPVersion=STRING
 
-# Specify the log identification string
-# Specify when you want to embed the name and version of the content in the log.
+# Specify a log identifier string
+# Use when you want to embed content name or version into logs
 #logIdentifier=string
 ```
 
-## Plugin_Kafka Related
+## Plugin_Kafka
 
 ```text
 # Broker address for Apache Kafka logging.

@@ -1,19 +1,18 @@
 ---
-title: Trying Out Different CG Avatars
+title: Change the CG Avatar
 slug: change-model
 ---
-
 # About CG Avatars
 
 ## Gene
 
-The default CG avatar in Example is called "Gene". This is a CG character model designed for spoken dialogue system, developed at [Lee-Lab, NITech](https://www.slp.nitech.ac.jp/avatar/).  It is provided under the CC-BY license.  For more details and usage conditions, please refer to its [public repository](https://github.com/mmdagent-ex/gene). 
- 
+The avatar shown by default in Example is a CG avatar called "Gene". This is a conversational CG model developed at Nagoya Institute of Technology and provided under a CC-BY license as a CG-CA (CG Cybernetic Agent) developed in the Moonshot Research and Development program "Avatar Symbiotic Society". For terms of use and more details, see the public repository: https://github.com/mmdagent-ex/gene.
+
 <img width="480" alt="example snapshot" src="/images/example_1.png"/>
 
 ## Uka
 
-Another CG avatar called "Uka" is also included in the Example folder.  You can use "Uka" instead of Gene by editing the line below in `main.fst`.
+Example also ships with another CG avatar named "Uka". In example's main.fst, change the part that specifies the model file `Gene.pmd` to the following and restart to confirm the model has changed:
 
 {{<fst>}}
     ...
@@ -27,5 +26,4 @@ Another CG avatar called "Uka" is also included in the Example folder.  You can 
 
 <img alt="example snapshot of uka" src="/images/Uka.png"/>
 
-MMDAgent-EX supports [MikuMikuDance format 3D model](../3d-model/).  Aside from the default avatars, you can use any 
-character on this system.  For more detailed methods, please refer to the [Displaying 3D Models](../3d-model) page.
+MMDAgent-EX supports MikuMikuDance-format 3D models and can load models in that format. For details, see the [Displaying 3D Models page](../3d-model).
