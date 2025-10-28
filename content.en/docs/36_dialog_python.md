@@ -1,25 +1,27 @@
 ---
-title: Testing Voice Interaction (Python)
+title: Try Voice Dialogue (Python)
 slug: dialog-test-python
 ---
-# Work with Python
+# Try Voice Dialogue (Python)
 
-The default [FST based dialogue control](../dialog-test-fst) is a primitive way.  It is a low-level language and not always suitable for describing complex dialogue scenarios.
+The "[Try Voice Dialogue (fst)](../dialog-test-fst)" page explained how to create a simple voice dialogue using a .fst script, but .fst is a primitive language and not suitable for describing complex dialogue scenarios. Advanced dialogue control should be handled by an external program.
 
-MMDAgent-EX has a facility to run any program as [sub module](../submodule) and connect its stdin / stdout with the MMDAgent-EX's message queue.  In this page, we show an example of connecting a python script as MMDAgent-EX submodule to run as a simple dialogue manager:
+This page explains how to create a Python program that
 
-- Receive messages of voice recognition results from standard input
-- Output corresponding response messages to standard output
+- receives speech-recognition result messages from standard input, and
+- writes appropriate response messages to standard output
+
+so you can control the dialogue externally.
 
 {{< hint warning >}}
-This page uses voice recognition and voice synthesis. If you haven't set these up yet, please complete the setup for [voice recognition](../asr-setup) and [voice synthesis](../tts-test) first.
+This page uses speech recognition and speech synthesis. If you haven't done so already, please complete the [Speech Recognition](../asr-setup) and [Speech Synthesis](../tts-test) setup first.
 {{< /hint >}}
 
 ## Preparation
 
-Set up your Python environment. The following assumes version 3.7 and later.
+Prepare a Python runtime environment. The instructions below assume Python 3.7 or later.
 
-If you have already tried "[Testing Voice Interaction (fst)](../dialog-test-fst)", the .fst may have been modified.  To make sure the following example runs correctly, please revert the .fst before edit.  If you are manually reverting it, keep the following section in `main.fst` and delete the rest.
+If you already tried the "[Try Voice Dialogue (fst)](../dialog-test-fst)" example, the dialogue portion in the .fst may duplicate functionality, so remove that part before proceeding. From main.fst, leave only the following section and delete the rest.
 
 {{<fst>}}
 0 LOOP:
@@ -29,13 +31,13 @@ If you have already tried "[Testing Voice Interaction (fst)](../dialog-test-fst)
     <eps> CAMERA|0,15.25,0|4.5,0,0|22.4|27.0
 {{</fst>}}
 
-## Test Connectivity
+## Connection test
 
-First of all, try connection using a dummy program.
+First, let's run a connection test using a dummy program.
 
 ### Create test.py
 
-The following is a tiny Python program that outputs the string "`TEST|aaa`" to standard output every second. Please create this under `example` folder, and save it as `test.py`.
+The following Python program prints the string "TEST|aaa" to standard output every second. Create this under the example folder and save it as test.py.
 
 ```python
 #### example/test.py
@@ -45,7 +47,7 @@ while(1):
     time.sleep(1)
 ```
 
-After saving, please check that it works in the terminal (or command prompt).  Output should look like this (Press `CTRL+C` to stop it):
+Save it and run it once in a terminal (press CTRL+C to stop).
 
 ```shell
 % python example/test.py
@@ -54,58 +56,57 @@ TEST|aaa
 ...
 ```
 
-### Set up to launch test.py as submodule
+### Set the command that starts test.py in the .mdf
 
-Open `example/main.mdf` in a text editor, and add the following line at the end.
+Now configure MMDAgent-EX to start this test.py as a submodule. Submodule startup commands are specified in the .mdf file. Open example/main.mdf in a text editor and add the following line at the end.
 
 {{< mdf>}}
 Plugin_AnyScript_Command=python -u test.py
 {{< / mdf >}}
 
-The command to launch starts from the `=`. Write the same command as when launching from the shell. In Python, use the `-u` option.
+The text to the right of '=' is the startup command. Enter the same command you would use in a shell. For Python, include the -u option.
 
-Once you save the file, launch MMDAgent-EX specifying this .mdf file. After startup, the specified command is automatically launched as a subprocess, the message stream of MMDAgent-EX will be connected for the standard input and output of test.py. After startup, press the `d` key to display the log, and see if `TEST|aaa` is showing every second.
+Save the file and start MMDAgent-EX with that .mdf. After startup, the specified command will be launched automatically as a subprocess and connected to MMDAgent-EX's message stream. After starting, press the `d` key to show the log; if you see `TEST|aaa` printed every second, the connection is successful. Proceed to the next step.
 
 ```shell
 ./Release/MMDAgent-EX.exe ./example/main.mdf
 ```
 
-If it doesn't work, try the following solutions.
+If it doesn't work, try the following checks.
 
-{{< details "Checkpoints if it's not working" close >}}
+{{< details "Troubleshooting checklist" close >}}
+### Executable
 
-### Executable Path
+The startup command (e.g. `python -u test.py`) is interpreted similarly to a normal terminal command.
 
-In the launch command (in this case `python -u test.py`), the command is interpreted almost the same as in a regular command prompt (terminal).
+- If the command is specified as a full path starting with `/`, that exact path is executed.
+- Otherwise, the command is searched for according to the configured execution PATH and then executed.
 
-- If the command is specified with a full path starting with `/`, the file at the specified path is executed.
-- If the above does not apply, the execution command is searched and executed according to the set execution path.
+If the command cannot be found, try specifying the executable with a full path.
 
-If you cannot specify the command correctly, try specifying the executable file with a full path.
+### Current working directory
 
-### Current Directory
+The runtime working directory is the folder containing the .mdf. Be careful when using relative file paths.
 
-The current directory at runtime is the folder where the .mdf file is located. Be careful with programs that provide file paths.
+### Character encoding
 
-### Character Encoding
+Text is exchanged in UTF-8. Ensure your Python script's standard input/output use UTF-8.
 
-Text is exchanged in UTF-8. Please make sure that the standard input/output of the Python script is UTF-8.
+### -u option
 
-### -u Option
+If standard output is buffered, messages may not appear immediately in MMDAgent-EX. Disable stdout buffering if possible. In Python, use the `-u` option to disable buffering.
 
-If standard output buffering is enabled, messages may not be immediately output to MMDAgent-EX even if they are output. Disable standard output buffering as much as possible. In Python, this can be disabled with the `-u` option.
-
-For other issues, if it doesn't work, please refer to the [detailed explanation](../submodule/).
+For other issues, see the detailed explanation: [../submodule/](../submodule/)
 {{< /details >}}
 
-## Dumb Example of a Dialogue Program
+## Example text-based dialogue program
 
-Let's move on to the next example. We will try a Python sample program `example/sample-dialog.py` that responds with "Nice to meet you!" to the input "Hello". This program performs the following actions:
+Next example: try the Python sample program example/sample-dialog.py, which responds to "Hello" with "Nice to meet you!". The program behaves as follows:
 
-- Continuously reads text from the standard input (i.e., the MMDAgent-EX message stream)
-- If there is a recognition result message (`RECOG_EVENT_STOP`), it extracts the recognition result part and passes it to the `generate_response()` function
-- `generate_response()` returns a response to the recognized sentence. In this case, it responds to "Hello" with "Nice to meet you!" and to anything else with "I don't understand."
-- Outputs the obtained response as a speech synthesis message (`SYNTH_START`) to the standard output (i.e., the message stream)
+- Continuously read text from standard input (MMDAgent-EX's message stream)
+- When a recognition result message (`RECOG_EVENT_STOP`) is received, extract the recognized text and pass it to the function `generate_response()`
+- `generate_response()` returns a response for the recognized text. Here it replies "Nice to meet you!" to "Hello", and "I don't understand" to anything else.
+- Output the generated response as a speech-synthesis message (`SYNTH_START`) to standard output (the message stream)
 
 ```python
 #### example/sample-dialog.py
@@ -118,7 +119,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 
 # Return a response
 def generate_response(str):
-    if str == "Hello.":
+    if str == "Hello":
         return "Nice to meet you!"
     return "I don't understand."
 
@@ -140,18 +141,18 @@ if __name__ == "__main__":
     main()
 ```
 
-Just like the previous test.py, let's set this program as a submodule. Describe it in .mdf as follows (overwrite the previous test command).
+As with test.py, configure this program as a submodule. In the .mdf, write the following (overwrite the previous test command).
 
 {{< mdf>}}
 Plugin_AnyScript_Command=python -u sample-dialog.py
 {{< / mdf >}}
 
-After setting, start MMDAgent-EX and try saying "Hello".
+After configuring, start MMDAgent-EX and try saying "Hello".
 
 ```shell
 ./Release/MMDAgent-EX.exe ./example/main.mdf
 ```
 
-## Extension
+## Extending
 
-Since all output texts are sent to MMDAgent-EX as messages, you can send various controls from the script, such as playing a motion by sending a `MOTION_ADD` message.
+All output text is sent to MMDAgent-EX as messages, so your script can also send control messages -- for example, sending a `MOTION_ADD` message will play a motion.

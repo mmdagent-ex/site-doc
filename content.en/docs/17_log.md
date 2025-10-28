@@ -1,61 +1,60 @@
 ---
-title: Logs
+title: Log
 slug: log
 ---
+# Log
 
-# Logs
+The system's runtime state, streaming messages, warnings, and other events are all output to the log in real time. Viewing the log lets you inspect in detail what is happening inside MMDAgent-EX.
 
-The status of the system in operation, flowing messages, warnings, etc., are all output in real time to the logs. By viewing the logs, you can see in detail what is happening inside MMDAgent-EX.
-
-## Several ways of outputting logs
+## Log output methods
 
 Logs can be output in the following four ways:
 
-- output to terminal
-- save to file
-- show on screen
-- render in 3D scene
+- Output to the terminal
+- Output to a file
+- On-screen output
+- Output inside the 3D scene
 
-## Output to terminal
+## Output to the terminal
 
-On macOS and Linux, logs are output to the standard output.
+On macOS and Linux, logs are written to standard output.
 
-On Windows, you can open a log terminal in a separate window by pressing the `Shift+d` key.
+On Windows, press `Shift+d` to open a separate log terminal window.
 
-## Save to file
+## Output to a file
 
-You can save logs to a file. Please specify the output file with `log_file=` in the .mdf file.
+Logs can be saved to a file. In an .mdf file, specify the output file with `log_file=`.
 
 {{< mdf>}}
 log_file=log.txt
 {{< / mdf >}}
 
-## Show on screen
+## On-screen detailed output
 
-You can display detailed logs on the screen by pressing the `Shift+f` key. You can erase it by pressing `Shift+f` again.
+Press `Shift+f` to display a detailed log on-screen. Press `Shift+f` again to hide it.
 
 ![Log 2](/images/log2.png)
 
 - **System Log**: System log (same as above)
-  - Timeline of FST transition information
+  - Time-ordered FST transition information
   - Network status
   - Other system logs
 - **Message Log**: Message log (same as above)
-  - Sent: Message was issued
-  - Captured: Received and processed the message
-- **FST Status**: Status display for each dialogue script
-  - For each FST, displays transition history, current status, messages waiting
-  - Displays for each FST when using sub-FST function
+  - Sent: A message was issued
+  - Captured: A message was received and processed
+- **FST Status**: State display for each interaction script
+  - For each FST, shows transition history, current state, and waiting messages
+  - When sub-FSTs are used, each FST is displayed separately
 
-## Render in 3D scene
+## 3D scene output
 
-You can display simple logs within the 3D scene by pressing the `d` key. You can erase it by pressing the `d` key again.
+Press `d` to display the log in the 3D scene. Press `d` again to hide it.
 
-![Log 1](/images/log1.png):
+![Log 1](/images/log1.png)
 
 - **Message Log**: Message log
-  - Sent: Message was issued
-  - Captured: Received and processed the message
+  - Sent: A message was issued
+  - Captured: A message was received and processed
 - **System Log**: System log
   - FST transition information
   - Network status

@@ -1,73 +1,73 @@
 ---
-title: Key and Mouse Operation
+title: Controls
 slug: keybind-basic
 ---
-# Key and Mouse Operations
+# Controls
 
-MMDAgent-EX can be operated using keys and mouse. Try various actions such as displaying logs, changing the view, and full screen.
+MMDAgent-EX supports basic operations with keyboard and mouse. Try features such as log display, camera movement, and fullscreen.
 
-## Basic Operations
+## Basic controls
 
 |Function|Key|Description|
 |:--|:--|:--|
-|**Exit App** |`ESC`|Close the window and exit the app|
-|**Reload** |`Shift+r` |Restart the content|
-|**Full Screen** | `f` |Toggle full screen|
-|**Show/Hide Status Indicator** | `s` | Toggle the [Status Indicator](../screen/#1-status) at the top left of the screen|
-|**View/Hide 3D Log**| `d` | Toggle the [log in 3D scene](../log/#render-in-3d-scene)|
-|**View/Hide on-screen log**| `Shift+f` |Toggle the [on-screen log](../log/#show-on-screen)|
-|**View Log Terminal**| `Shift+d` | Start log terminal (Windows)|
-|**Scroll Log**|`PageUP`, `PageDown` |Scroll through the log|
+|**Exit application** |`ESC`|Close the window and exit the application|
+|**Reload** |`Shift+r` |Restart content|
+|**Fullscreen** | `f` |Toggle fullscreen (press again to return)|
+|**Status display** | `s` | Toggle the [Status display](../screen/) at the top-left|
+|**Simple log**| `d` | Toggle the [Simple log](../log/#3d-scene-output)|
+|**Detailed log**| `Shift+f` |Toggle the [Detailed log](../log/#on-screen-detailed-output)|
+|**Log terminal**| `Shift+d` | Show log terminal (Windows only)|
+|**Log scroll**|`PageUP`, `PageDown` |Scroll the log display|
 
-## Camera
+## Camera controls
 
-Use the `Arrow keys` to change the camera direction, and hold `Shift` for movement.
+`Arrow keys` change the camera direction; hold `Shift` to move.
 
-Use `+` key to zoom in and `-` key to zoom out.
+Press `+` to zoom in and `-` to zoom out.
 
-Camera movement by mouse is disabled by default.  Press `c` key to start moving camera with mouse.  Rotate by dragging around the center of the window, move by sliding from a double tap, and zoom in and out with a two-finger pinch. Lock it again with the `c` key.
+The mouse is locked by default -- press `c` to unlock. Drag near the window center to rotate, double-tap then drag to pan, and use a two-finger pinch to zoom. Press `c` again to re-lock.
 
-After changed camera, press `Shift + c` to reset camera to the its original position.
+After changing camera settings, press `Shift + c` to reset to the default used before movement started.
 
-※ The changes above will be ignored while playing camera motion.
+Note: Cannot be changed while a camera motion is running.
 
 ## Menu
 
-Press `/` or the tab bar `menu` to bring up the menu.
+Press `/` or the tab bar `menu` to open the menu.
 
-Turn the pages with the left and right keys or left and right flicks. If there are many items, scroll with vertical flicks.
+Flip pages with the left/right keys or a horizontal flick. If there are many items, scroll with a vertical flick.
 
-Select an item by using the up and down keys and pressing Enter, or by tapping.
+Select items with the up/down keys and press Enter, or tap to select.
 
 ## History
 
-Press `Shift + h` or the tab bar's `history` to display the history of the most recently played content.
+Press `Shift + h` or the tab bar `history` to open the recent playback history.
 
-Selecting this will play the content.
+Select an item to play that content.
 
-## External App Collaboration
+## External app integration
 
-Press `e` to open the running dialogue script file in a text editor.
+Press `e` to open the currently running interaction script file in a text editor.
 
-Press `Shift + e` to open the content's folder in the explorer.
+Press `Shift + e` to open the content's folder in Explorer.
 
-※ These function works only on Windows.
+Note: Windows only.
 
 ## Drag & Drop
 
-By dragging and dropping model files (.pmd) or motion files (.vmd) onto the window, you can play them.
+You can play model files (.pmd) and motion files (.vmd) by dragging and dropping them onto the window.
 
-※ This feature only works on Windows.
+Note: This feature works on Windows only.
 
 
-|What File | Where | While Pressing | Result | Note |
+|File|Where|Modifier keys|Result|Notes|
 |:--|:--|:--|:--|:--|
-|.pmd|On the model|-|Replace existing model with specified file||
-|.pmd|Anywhere|Ctrl|Display a new model||
-|.vmd|On the model|-|Play motion| Loop playback ("base", FULL, LOOP)|
-|.vmd|Anywhere|Ctrl|Play on all models| Apply to all models as above|
-|.vmd|On the model|Shift|Add motion|Play overlaid motions once (PART, ONCE)|
-|.vmd|Anywhere|Ctrl+Shift|Add and play on all models| Apply to all models as above|
-|Image file|Anywhere|-|Replace background image|png, jpg, bmp, tga|
-|Image file|Anywhere|Ctrl|Replace floor image|png, jpg, bmp, tga|
-|.xpmd|Anywhere|-|Replace stage||
+|.pmd|On a model|-|Replace the existing model with the specified file||
+|.pmd|Anywhere|Ctrl|Load as a new model||
+|.vmd|On a model|-|Play motion|Loop playback ("base", FULL, LOOP)|
+|.vmd|Anywhere|Ctrl|Play on all models|Apply the above to all models|
+|.vmd|On a model|Shift|Add motion|Overlay the motion and play once (PART, ONCE)|
+|.vmd|Anywhere|Ctrl+Shift|Add and play on all models|Apply the above to all models|
+|image file|Anywhere|-|Replace background image|png, jpg, bmp, tga|
+|image file|Anywhere|Ctrl|Replace floor image|png, jpg, bmp, tga|
+|.xpmd|Anywhere|-|Replace the stage||

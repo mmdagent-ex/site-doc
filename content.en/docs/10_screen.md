@@ -1,50 +1,47 @@
 ---
-title: Screen
+title: Screen overview
 slug: screen
 ---
-# Screen
+# Screen overview
 
-Here is a sample screen during content playback:
+Sample screen during content playback:
 
-![Sample Screen](/images/screen.png)
+![Sample screen](/images/screen.png)
 
-### (1) Status
+### (1) Display state
 
-This part indicates the current status. You can toggle it by `s` key.
+Current display state. Toggle showing ON/OFF by the `s` key.
 
-- `60.0fps` Display speed (fps)
-- `4x MSAA` Anti-aliasing (MSAA) intensity
-- `[AL number]` AutoLuminous intensity (part luminance)
-- `S` Shadow display method
-  - `S`: projection shadow
-  - `SM`: shadow map rendeing (high graphical cost)
-  - `none`: no shadow
-- `[DF number|number]` Diffusion Effect intensity and range
+- `60.0fps` display frame rate (fps)
+- `4x MSAA` anti-aliasing (MSAA) level
+- `[AL<number>]` AutoLuminous (per-part emission) intensity
+- `S` shadow display mode: S = projected shadow, SM = shadow map (heavier), none = no shadow
+- `[DF<number|number>]` Diffusion Effect intensity and range
 
-### (2) Error Messages
+### (2) Error messages
 
-If a system error occurs, the details of the error will be displayed here.
+If a system error occurs, the error details appear here.
 
-### (3) Network Status
+### (3) Connection status
 
-Some icons may indicate current connection status when WebSocket communication is enabled.
+Icons indicate the connection state during WebSocket communication.
 
-- ![Net Icon](/images/icon1.png): Now communicating with WebSocket server
-- ![Screen Icon](/images/icon2.png): Transmitting screen capture to the server (not yet implemented)
-- ![Video Icon](/images/icon3.png): Transmitting audio and webcam video to the server (not yet implemented)
+- ![Net Icon](/images/icon1.png): Connection to the WebSocket server
+- ![Screen Icon](/images/icon2.png): Transmitting screen capture to the server (not implemented)
+- ![Video Icon](/images/icon3.png): Transmitting audio and webcam video to the server (not implemented)
 
-### (4) Network Communication Messages
+### (4) Connection messages
 
-Messages are displayed when the connection status is changed when connected with WebSocket server.
+When using WebSocket server connection feature, related messages are shown when the connection state with the WebSocket server changes.
 
-### (5) Help Guide
+### (5) Help & guide
 
-Help guide text may appear at this area according to the status.
+Contextual help and guides are shown based on current actions.
 
-### (6) Tab Bar
+### (6) Tab bar
 
-- **home**: Opens the home content
-- **readme**: Views the README attached to the content currently playing
-- **bookmark**: Opens bookmarks
-- **history**: Opens history
-- **menu**: Opens the menu
+- **home**: Open the home content
+- **readme**: View the README attached to the playing content
+- **bookmark**: Open bookmarks
+- **history**: Open history
+- **menu**: Open the menu

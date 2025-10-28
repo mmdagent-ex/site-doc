@@ -1,16 +1,16 @@
 ---
-title: Running Example
+title: Running the Example
 slug: run
 ---
-# Running Example
+# Running the Example
 
-MMDAgent-EX is a software that plays "content".  In this section we explains what the "content" is in MMDAgent-EX, and explain the procedure to launch the example content.
+MMDAgent-EX launches by specifying a content package. Below is an overview of content in MMDAgent-EX and the steps to run the Example content.
 
-## About the Content
+## About Content
 
-MMDAgent-EX plays back the content. Content refers to a collection of files (assets) that comprise an interactive system, such as 3D models, motions, FST scripts, and audio-visual materials.
+MMDAgent-EX plays content. Content refers to a collection of files (assets) that make up the dialogue system, such as 3D models, motions, FST scripts, audio, and images.
 
-The general structure of the content is as follows. In the top directory, there should be always an .mdf file, which serves as both the launch file and the configuration file. Additionally, files such as .fst, .dic, .jconf, .ojt are placed with the same prefix as .mdf. Also, `BUTTON*.txt`, `PACKAGE_DESC.txt` can be placed in the top directory. All other files (models, motions, images etc.) can be placed anywhere under the folder.
+A typical content structure looks like this. The top directory always contains exactly one .mdf file, which serves as the startup/configuration file. Depending on the modules used, files like .fst, .dic, .jconf, and .ojt are placed with the same prefix as the .mdf. Also put BUTTON*.txt and PACKAGE_DESC.txt in the top directory. Other files (models, motions, images, etc.) can be placed anywhere under subdirectories.
 
     topdir/
         |- foobar.mdf         Startup / Configuration
@@ -30,7 +30,7 @@ The general structure of the content is as follows. In the top directory, there 
 
 ## Obtaining the Example Content
 
-The [example content](https://github.com/mmdagent-ex/example) is a repository that includes a minimal script, sample images and motions, the model "mei" for Open JTalk, and the CG models ["Gene"](https://github.com/mmdagent-ex/gene) and ["Uka"](https://github.com/mmdagent-ex/uka).  Get the example content to learn about MMDAgent-EX on this site.
+The [sample content](https://github.com/mmdagent-ex/example) repository contains minimal scripts, sample images and motions, the Open JTalk voice model "mei", and the CG models "Gene" and "Uka". This site's explanations use this sample content, so please obtain it.
 
     example/
         |- main.mdf         Startup / Configuration
@@ -51,7 +51,7 @@ The [example content](https://github.com/mmdagent-ex/example) is a repository th
         |    |- ...
         |- stage/
         |    |- ...
-        |- demo/            Demonsration
+        |- demo/            Demonstration
         |    |- Gene_en
         |    |- Gene_jp
         |    |- Uka_en
@@ -59,7 +59,7 @@ The [example content](https://github.com/mmdagent-ex/example) is a repository th
         |- example_motion/     Example files for motion blending
         +- example_websocket/  Example files for websocket connection
 
-Clone the sample content. Do not forget to use `--recursive` option ad clone, as it loads the CG-CA models as submodules.
+Clone the sample content. The CG-CA repositories are cloned inside using submodules, so include --recursive.
 
 ```shell
 cd MMDAgent-EX
@@ -68,39 +68,34 @@ git clone --recursive https://github.com/mmdagent-ex/example
 
 ## Launching Content
 
-To launch content, specify the .mdf file at the top of the content folder as a command line argument for MMDAgent-EX.
+Start MMDAgent-EX with the .mdf file at the top of the content folder as a command-line argument.
 
-macOS / Linux terminal:
+Terminal (macOS / Linux):
 
 ```shell
 ./Release/MMDAgent-EX ./example/main.mdf
 ```
 
-Windows Command shell:
+Windows Command Prompt:
 
 ```text
 .\Release\MMDAgent-EX.exe .\example\main.mdf
 ```
 
-If you see a screen like the one below, the launch was successful.
+If you see a screen like the following, startup succeeded.
 
 <img width="480" alt="example snapshot" src="/images/example_1.png"/>
 
 {{< hint info >}}
-If you set this example as "home content", the content will be start up just by starting the executable.
+If you set this Example as Home, from next time the Example can be started using only the executable binary.
 
-To set the content being executed as home:
+To set the running content as Home:
 
-- Press the `/` key on the MMDAgent-EX screen → the menu opens
-- Move to the right menu with →
-- Select "Set current as Home" with the up and down keys and press enter
-
+- Press `/` in the MMDAgent-EX window -> menu opens
+- Press right arrow to move to the right menu
+- Use the Up/Down keys to select "Set current as Home" and press Enter
 {{< /hint >}}
 
-### If it fails in WSL
+### If it fails on WSL
 
-If the screen doesn't appear and the launch fails in WSL, your version of WSL may be outdated. Please use the latest WSL2, which supports GUI apps. For details, [please refer to this site to update your WSL version](https://learn.microsoft.com/windows/wsl/tutorials/gui-apps).
-
-## Run demo
-
-Example 
+If the window does not appear and startup fails under WSL, your WSL version may be old. Use the latest WSL2 that supports GUI apps. For details, refer to this site to update WSL to the latest version: https://learn.microsoft.com/windows/wsl/tutorials/gui-apps

@@ -1,148 +1,146 @@
-
-
 ---
 title: Displaying Images and Text
 slug: image-and-text
 ---
 {{< hint info >}}
-The functionalities of **TEXTAREA_ADD**, and **TEXTAREA_SET** are provided by the Plugin_TextArea. Make sure this plugin is enabled when you use it.
+**TEXTAREA_ADD**, **TEXTAREA_SET** functions are provided by the Plugin_TextArea. Make sure this plugin is enabled when using them.
 {{< /hint >}}
 
 # Displaying Images and Text
 
-By using text and images alongside audio, you can create complex and effective interactions. MMDAgent-EX offers multiple ways to display text and images on the screen, which can be combined with dialogue scripts to create multimodal dialogues.
+Using text and images together with audio allows you to create richer and more effective interactions. MMDAgent-EX provides multiple ways to display images and text on screen, and by combining these with dialogue scripts you can build multimodal interactions.
 
-- Displaying sentences or images within a scene
-- Displaying subtitles on the screen
-- Presenting user with choices through prompt presentation
-- Letting user read README files through text file browsing
+- Display text and images within a scene
+- Show on-screen captions
+- Present prompts with choices for the user to select
+- Provide a text-file viewer to let the user read README files
 
-Below, we introduce how to use each of these features.
+Below are instructions for each feature.
 
-## Displaying Images and Text in 3D Space (TEXTAREA)
+## Displaying images and text in 3D space (TEXTAREA)
 
-You can display arbitrary text or images in a 3D space. The procedure is divided into the following two steps:
+You can display arbitrary text or images in the 3D scene. The procedure is divided into two steps:
 
-1. Define the area where it should be displayed (the display area) (**TEXTAREA_ADD**)
-2. Specify what to display (**TEXTAREA_SET**)
+1. Define the display area (the area to show content) (**TEXTAREA_ADD**)
+2. Specify the content to display (**TEXTAREA_SET**)
 
-### Display Area Definition
+### Defining a display area
 
-The display area is defined using the **TEXTAREA_ADD** message. The display area is a "board" in the scene space, and you specify properties such as its width, height, position, color, and text.
+Use the **TEXTAREA_ADD** message to define a display area. The display area is a "panel" in scene space; you can set its width, height, position, color, font settings, and other properties.
 
-- First argument: Alias name (new)
-- Second argument: Width and height
-- Third argument: Text size, margin, line spacing. Each is based on 1.0.
-- Fourth argument: Background color r,g,b,a; a = 0 means no background
-- Fifth argument: Text color r,g,b,a
-- Sixth argument: Center coordinate position
+- 1st arg: alias name (new)
+- 2nd arg: width and height
+- 3rd arg: font size, margin, line spacing. Each default is 1.0.
+- 4th arg: background color r,g,b,a — a = 0 means no background
+- 5th arg: text color r,g,b,a
+- 6th arg: center coordinate position
 
 {{<message>}}
 TEXTAREA_ADD|(textarea alias)|(width,height)|(size,margin,exlinespace)|r,g,b,a|r,g,b,a|x,y,z
 {{</message>}}
 
-When displaying text, if you set `width` or `height` to undefined (0), there will be no constraints in that direction, and the size of the board will stretch or shrink automatically to fit the text to be specified later. If you specify a number other than 0, that direction will be fixed to the specified value, and if the text overflows, it will automatically reduce to fit within the defined dimension.
+When displaying text, if you set either `width` or `height` to unspecified (0), that direction is unconstrained and the panel will automatically resize to fit the text specified later. If you set a non-zero value, that direction is fixed to the specified size; if the text would overflow, the font will automatically scale down to fit.
 
-For images, if you set either `width` or `height` to undefined (0), the undefined dimension will be adjusted automatically to match the aspect ratio of the image. Please specify a size for either `width` or `height`.
+For images, if you set either `width` or `height` to unspecified (0), the unspecified dimension will be adjusted automatically to preserve the image aspect ratio. You must specify a non-zero value for either `width` or `height`.
 
-While this is the default usage, you can also specify the rotation of the board, model mount, bone mount, etc. For more details, please visit the [message list](http://localhost:1313/ja/docs/messages/#%e3%83%86%e3%82%ad%e3%82%b9%e3%83%88%e7%94%bb%e5%83%8f%e3%82%ab%e3%83%a1%e3%83%a9%e6%98%a0%e5%83%8f%e3%82%92%e8%a1%a8%e7%a4%ba) page.
+The above is the basic usage, but you can also specify panel rotation, model mount, bone mount, and more. For details, see the [Message list](../messages/) page.
 
-The **TEXTAREA_EVENT_ADD** is issued when the addition is completed.
+When the addition is complete, **TEXTAREA_EVENT_ADD** is dispatched.
 
 {{<message>}}
 TEXTAREA_EVENT_ADD|alias
 {{</message>}}
 
-### Specifying Display Content
+### Specifying content to display
 
-You can display a string or an image in the display area using the **TEXTAREA_SET** command. If there is already something displayed in the area, it will be replaced with the new specified item.
+Use **TEXTAREA_SET** on a display area to show a string or an image. If the area already has content, it will be replaced by the newly specified content.
 
-**To display a string**, specify the string. The string can include spaces if it is enclosed in "", and you can create a new line with "\n".
+When displaying a string, specify the string. Wrap it in "" to include spaces; use "\n" for line breaks.
 
 {{<message>}}
 TEXTAREA_SET|(textarea alias)|"You can specify a sentence like this.\nHello"
 {{</message>}}
 
-**To display an image**, specify the path to the image file. You can use png, jpg formats. Animated pngs can also be used.
+When displaying an image, specify the image file path. Supported image formats are png and jpg. Animated PNG is also supported.
 
 {{<message>}}
 TEXTAREA_SET|(textarea alias)|somewhere/image.png
 {{</message>}}
 
-When the specified display starts, the **TEXTAREA_EVENT_SET** is issued.
+When the specified display starts, **TEXTAREA_EVENT_SET** is dispatched.
 
 {{<message>}}
 TEXTAREA_EVENT_SET|alias
 {{</message>}}
 
-### Deleting Display Area
+### Deleting a display area
 
-The area is deleted and the display is cleared with **TEXTAREA_DELETE**. Upon completion of deletion, **TEXTAREA_EVENT_DELETE** is issued.
+Use **TEXTAREA_DELETE** to remove an area and clear its display. When deletion is complete, **TEXTAREA_EVENT_DELETE** is dispatched.
 
 {{<message>}}
 TEXTAREA_DELETE|(textarea alias)
 TEXTAREA_EVENT_DELETE|alias
 {{</message>}}
 
-## Displaying Text Captions
+## Text caption display
 
-As shown in the image below, text can be displayed as captions. The differences from the above TextArea:
+You can display text as captions on-screen as shown in the image below. Differences from the TextArea above:
 
-- Displayed on-screen, not in 3D space (displayed at a fixed position regardless of viewpoint)
+- Shown on-screen (fixed position relative to the view, not in 3D space)
 - Automatically disappears after a specified time
-- Able to specify any font (ttf)
-- Up to two kinds of text outlines can be specified
+- You can specify a custom font (ttf)
+- Up to two text outlines (edges) can be specified
 
-v1.0.2 and later has the following changes:
+Since v1.0.2, the following changes apply:
 
-- Now support .lrc file playing (v1.0.2)
-- Pre-defined style is available `_default` (v1.0.2)
-- **CAPTION_SETSTYLE** made simpler, now can omit forth arguments and later.
+- Support for timeline display via .lrc files (v1.0.2)
+- Default style `_default` (v1.0.2)
+- Arguments from the 4th onward of **CAPTION_SETSTYLE** are now optional (v1.0.2)
 
 ![caption](/images/caption.png)
 
-Use **CAPTION_START** to give a text string to display as caption, or specify .lrc file to play time-course captions.  The second argument specifies the caption style, in which you can use `_default` to use the default style.  When you want to use other styles, you can set your own style by **CAPTION_SETSTYLE** and specify the user-defined style in **CAPTION_START**.
+Start a caption by specifying text or an .lrc file with **CAPTION_START**. You can use the default style by specifying `_default` as the second argument, or define a custom style using **CAPTION_SETSTYLE** and then reference that style name in **CAPTION_START**.
 
-### Defining Caption Style
+### Defining caption styles
 
-Define a user style with **CAPTION_SETSTYLE**.
+Define styles with **CAPTION_SETSTYLE**. If you do not define a style, `_default` will be used. The first three arguments (alias, font path, color) are required; arguments from the fourth onward are optional for more detailed style settings.
 
-- Argument 1: Alias name of the style (new)
-- Argument 2: Font file path. Use system font with "default".
-- Argument 3: Text color r,g,b,a
-- Argument 4: (optional) Color and size of the first outline r,g,b,a,thickness. If no outline is needed, set a or thickness to 0.
-- Argument 5: (optional) Color and size of the second outline. The specification is the same as above.
-- Argument 6: (optional) Frame background color r,g,b,a. If not needed, set a to 0.
+- 1st arg: style alias name (new)
+- 2nd arg: font file path. Use "default" to use the system font.
+- 3rd arg: text color r,g,b,a
+- 4th arg: (optional) first outline color and thickness r,g,b,a,thickness. If no outline is needed, set a or thickness to 0.
+- 5th arg: (optional) second outline color and thickness, same format as above.
+- 6th arg: (optional) background box color r,g,b,a. Set a to 0 if not required.
 
 {{<message>}}
 CAPTION_SETSTYLE|style_alias|fontpath|r,g,b,a|edge1|edge2|basecolor
 {{</message>}}
 
-After the definition is completed, a **CAPTION_EVENT_SETSTYLE** message is issued.
+After defining a style, **CAPTION_EVENT_SETSTYLE** is dispatched.
 
 {{<message>}}
 CAPTION_EVENT_SETSTYLE|style_alias
 {{</message>}}
 
-### Starting Caption Display
+### Starting caption display
 
-Start a new caption display with **CAPTION_START**.
+Use **CAPTION_START** to begin displaying a caption. Specify either text directly or an lrc file.
 
-- Argument 1: Alias name (new)
-- Argument 2: Alias name of the predefined style to use
-- Argument 3: Text of the display content, or .lrc file name. On text, if it contains spaces, enclose it in "". You can also use "\n" for line breaks.
-- Argument 4: Text size
-- Argument 5: Specify the left-right position of the display with one of the strings CENTER, LEFT, RIGHT
-- Argument 6: The up-down position of the display. A relative value with the bottom of the screen being 0.0 and the top being 1.0
-- Argument 7: Display duration in number of frames (30=1 second)
+- 1st arg: alias name (new)
+- 2nd arg: alias of a defined style to use
+- 3rd arg: text to display or an lrc file. Wrap text with "" if it contains spaces. Use "\n" for line breaks.
+- 4th arg: font size
+- 5th arg: horizontal alignment — specify one of CENTER, LEFT, RIGHT
+- 6th arg: vertical position as a relative value where bottom = 0.0 and top = 1.0
+- 7th arg: display duration in frames (30 = 1 second)
 
-If a text display with the specified alias name already exists, that display is erased and overwritten with the new specification.
+If a caption with the specified alias already exists, it will be removed and replaced by the new one.
 
 {{<message>}}
 CAPTION_START|alias|style_alias|text|size|align|height|duration
 {{</message>}}
 
-Usage example:
+Example:
 
 {{<fst>}}
 
@@ -162,21 +160,21 @@ Usage example:
     CAPTION_EVENT_SETSTYLE|terop CAPTION_START|test|terop|Test|3.0|CENTER|0.5|300
 {{</fst>}}
 
-When the display starts, a **CAPTION_EVENT_START** message is output.
+When a caption display starts, **CAPTION_EVENT_START** is dispatched.
 
 {{<message>}}
 CAPTION_EVENT_START|alias
 {{</message>}}
 
-### Caption Display End
+### Stopping caption display
 
-The text being displayed will disappear after a specified time, but you can also immediately remove it by issuing a **CAPTION_STOP** message.
+A caption will disappear after the specified duration, but you can also remove it immediately by sending **CAPTION_STOP**.
 
 {{<message>}}
 CAPTION_STOP|alias
 {{</message>}}
 
-When the display ends, a **CAPTION_EVENT_STOP** message is output.
+When a caption stops, **CAPTION_EVENT_STOP** is dispatched.
 
 {{<message>}}
 CAPTION_EVENT_STOP|alias

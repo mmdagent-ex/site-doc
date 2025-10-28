@@ -1,52 +1,49 @@
-
-
 ---
-title: List of Messages
+title: Message List
 slug: messages
 ---
-
-# List of Messages
+# Message List
 
 ## Overview
 
-The internal modules of MMDAgent are connected in a Spoke and Hub manner
+MMDAgent's internal modules are connected in a spoke-and-hub manner.
 
-- Messages output from a module are broadcast to all modules
-- All messages are delivered to all modules
-- Each module can respond to any message and output any message
+- Messages output by one module are broadcast to all modules.
+- All messages are delivered to all modules.
+- Each module may react to any message and may output any message.
 
-The following is a list of messages handled by the MMDAgent main body and plugin modules.
+Below is a list of messages used by the MMDAgent core and plugin modules.
 
-All character codes should be in UTF-8.
+All text encoding is UTF-8.
 
 ## Legend
 
-- "()" explains the parameters
-- "x,y,z" represents coordinates. As MMDAgent is OpenGL-based, it uses a right-hand coordinate system. The default is 0,0,0.
+- "()" explains parameters.
+- "x,y,z" are coordinates. MMDAgent uses OpenGL so a right-handed coordinate system. Default is 0,0,0.
 
   ![right handed coordinate system](/images/right-handed.png)
 
-- "rx,ry,rz" are amounts of rotation (unit: degree). The default is 0,0,0.
-- "r,g,b" or "r,g,b,a" specifies colors. The values range from 0.0 to 1.0.
-- "(A or B ...)" signifies a choice. The default is the first element in the list.
+- "rx,ry,rz" are rotation values (degrees). Default is 0,0,0.
+- "r,g,b" or "r,g,b,a" specify colors. Values range 0.0–1.0.
+- "(A or B ...)" indicates a choice. Default is the first element of the list.
 
 ---
 
 # 3D Models
 
-## Adding & Deleting Models
+## Adding / Removing Models
 
 **MODEL_ADD**
 
-Adds a 3D model to the scene. If no parent model is specified, it will be displayed in world coordinates. If a parent model is specified, it can be mounted to that model's bone. Upon completion, it issues a **MODEL_EVENT_ADD**.
+Add a 3D model to the scene. If no parent model is specified the model is shown in world coordinates. If a parent model is specified the model can be mounted on that model's bone. On completion **MODEL_EVENT_ADD** is issued.
 
-- Argument 1: Model alias (new)
-- Argument 2: Model file name .pmd
-- Argument 3 (optional): Initial coordinates, default 0,0,0
-- Argument 4 (optional): Initial rotation, default 0,0,0
-- Argument 5 (optional): Whether to use toon rendering, default ON
-- Argument 6 (optional): Parent model's model alias
-- Argument 7 (optional): Name of the bone to mount on the parent model
+- 1st arg: model alias (new)
+- 2nd arg: model filename .pmd
+- 3rd arg (optional): initial position, default 0,0,0
+- 4th arg (optional): initial rotation, default 0,0,0
+- 5th arg (optional): toon rendering ON/OFF, default ON
+- 6th arg (optional): parent model alias
+- 7th arg (optional): parent model bone name
 
 {{<message>}}
 MODEL_ADD|(model alias)|(model file name)
@@ -60,7 +57,7 @@ MODEL_EVENT_ADD|(model alias)
 
 **MODEL_CHANGE, MODEL_CHANGE_ASYNC**
 
-Replaces the currently displayed model. MODEL_CHANGE blocks the process until the model load is finished. MODEL_CHANGE_ASYNC is the asynchronous version, which loads on a separate thread without blocking the main thread. Upon completion of the model swap, it issues a **MODEL_EVENT_CHANGE**.
+Replace a displayed model. MODEL_CHANGE blocks until model loading finishes. MODEL_CHANGE_ASYNC is the asynchronous version: loading happens in a separate thread without blocking the main thread. When the model swap finishes **MODEL_EVENT_CHANGE** is issued.
 
 {{<message>}}
 MODEL_CHANGE|(model alias)|(model file name)
@@ -70,7 +67,7 @@ MODEL_EVENT_CHANGE|(model alias)
 
 **MODEL_DELETE**
 
-Deletes the currently displayed model. Upon deletion completion, it issues a **MODEL_EVENT_DELETE**.
+Delete a displayed model. On completion **MODEL_EVENT_DELETE** is issued.
 
 {{<message>}}
 MODEL_DELETE|(model alias)
@@ -79,7 +76,7 @@ MODEL_EVENT_DELETE|(model alias)
 
 **MODEL_EVENT_SELECT**
 
-Issued when a model is selected by double-clicking.
+Issued when a model is selected by double-click.
 
 {{<message>}}
 MODEL_EVENT_SELECT|(model alias)
@@ -87,30 +84,28 @@ MODEL_EVENT_SELECT|(model alias)
 
 ## Motion Playback
 
-A sequence of predefined actions is referred to as a motion. Multiple motions can be played simultaneously on a single model.
+A predefined sequence of movement is called a motion. Multiple motions can play simultaneously on a single model.
 
 **MOTION_ADD**
 
-This adds a motion to the model and starts playback. Each motion is assigned an alias. Upon completion, **MOTION_EVENT_ADD** is generated.
+Add and start playing a motion on a model. Give each motion an alias. On completion **MOTION_EVENT_ADD** is issued. If the model does not exist the system logs a warning and does nothing. If a motion with the specified alias is already playing, it is overwritten by the new motion.
 
-If the specified model does not exist, the system will output a Warning and does nothing.  If a motion of the name is already running, overwrite it.
+- 1st arg: target model alias
+- 2nd arg: motion alias (new)
+- 3rd arg: motion filename .vmd
+- 4th arg (optional): FULL (full) or PART (partial), default FULL
+- 5th arg (optional): ONCE or LOOP, default ONCE
+- 6th arg (optional): smoothing ON/OFF, default ON
+- 7th arg (optional): force model reposition OFF/ON at start, default OFF
+- 8th arg (optional): motion stacking priority, default 0
 
-- Argument 1: Model alias
-- Argument 2: Motion alias (new)
-- Argument 3: Motion file name .vmd
-- Argument 4 (optional): Specifies whether it is normal playback (FULL) or partial playback (PART), default is FULL.
-- Argument 5 (optional): Specifies whether it is a single play (ONCE) or loop playback (LOOP), default is ONCE.
-- Argument 6 (optional): Smoothing ON / OFF, default is ON
-- Argument 7 (optional): Force model coordinates to change at startup OFF / ON, default is OFF
-- Argument 8 (optional): Priority when overlapping motions, default is 0
+Note: If PART (partial) is specified, bones that have no explicit motion (i.e., only have frame 0 keyframes) are excluded from control.
 
-※ If partial playback (PART) is specified, bones that are not actually specified to move in the motion (=only the first frame (frame 0) exists) are excluded from control.
+Note: When smoothing is ON the motion will be smoothed at start and end. Specify OFF to disable this.
 
-※ Smoothing is applied at the beginning and end when smoothing is ON, making the motion start and end smoothly. Specify OFF if you want to cut it.
+Note: If the 7th arg (reposition) is ON, at the start of playback the model's "center" bone coordinates will be forcibly converted to the model's root coordinates. Usually OFF is fine.
 
-※ If you set the forced change of model coordinates in the 7th argument to ON, the coordinate position of the "center" bone of the model is forcibly converted to the root coordinates of the model at the start of playback. Normally, OFF is fine.
-
-```markdown
+{{<message>}}
 MOTION_ADD|(model alias)|(motion alias)|(motion file name)
 MOTION_ADD|(model alias)|(motion alias)|(motion file name)|(FULL or PART)
 MOTION_ADD|(model alias)|(motion alias)|(motion file name)|(FULL or PART)|(ONCE or LOOP)
@@ -118,68 +113,68 @@ MOTION_ADD|(model alias)|(motion alias)|(motion file name)|(FULL or PART)|(ONCE 
 MOTION_ADD|(model alias)|(motion alias)|(motion file name)|(FULL or PART)|(ONCE or LOOP)|(ON or OFF for smooth)|(OFF or ON for reposition)
 MOTION_ADD|(model alias)|(motion alias)|(motion file name)|(FULL or PART)|(ONCE or LOOP)|(ON or OFF for smooth)|(OFF or ON for reposition)|priority
 MOTION_EVENT_ADD|(model alias)|(motion alias)
-```
+{{</message>}}
 
 **MOTION_CHANGE**
 
-Replaces the motion being played with another motion. Upon replacement completion, **MOTION_EVENT_CHANGE** is generated.
+Replace a currently playing motion with another. On completion **MOTION_EVENT_CHANGE** is issued.
 
-```markdown
+{{<message>}}
 MOTION_CHANGE|(model alias)|(motion alias)|(motion file name)
-MOTION_EVENT_CHANGE|(model alias)|(motion alias)
-```
+MOTION_EVENT_CHANGE|(model alias)|(model alias)
+{{</message>}}
 
 **MOTION_RESET**
 
-Restarts the playback of the motion from the initial frame.
+Restart a playing motion from its first frame.
 
-```markdown
+{{<message>}}
 MOTION_RESET|(model alias)|(motion alias)
-```
+{{</message>}}
 
 **MOTION_DELETE**
 
-Interrupts and deletes the motion playback. Upon completion, **MOTION_EVENT_DELETE** is generated.
+Stop and delete a motion. On completion **MOTION_EVENT_DELETE** is issued.
 
-```markdown
-MOTION_DELETE|(model alias)|(motion alias)
+{{<message>}}
+MOTION_DELETE|(model alias)|(model alias)
 MOTION_EVENT_DELETE|(model alias)|(motion alias)
-```
+{{</message>}}
 
 **MOTION_ACCELERATE**
 
-Gradually changes the playback speed of the motion towards a specified frame. Upon change completion, **MOTION_EVENT_ACCELERATE** is generated.
+Gradually change a motion's playback speed toward a target frame. On completion **MOTION_EVENT_ACCELERATE** is issued.
 
-- speed: The target playback speed. Relative speed with the standard being 1.0. Stops at 0.0.
-- duration: The time it takes to change speed towards the target (in seconds)
-- target: The frame on the motion that is the target (in seconds)
+- speed: target playback speed, relative to normal 1.0. 0.0 stops playback.
+- duration: time in seconds to reach the target speed
+- target: target frame on the motion (seconds)
 
-```markdown
+{{<message>}}
 MOTION_ACCELERATE|(model alias)|(motion alias)|(speed)|(duration)|(target)
 MOTION_EVENT_ACCELERATE|(model alias)|(motion alias)
-```
+{{</message>}}
 
-## Motion Layering Adjustment
+## Motion Blending Configuration
 
-Setting for layering multiple motions. When layering, the motions are calculated in order from lowest to highest priority, and values are set for the bones and morphs targeted by each motion. You can set the behavior at this time. The default is "overwrite (replace)", but this can be changed to addition (add) or none (ignore). While you can specify this on a per-motion basis, it's also possible to set it more granularly on a per-bone basis.
+Settings for blending multiple motions. When blending, motions are computed in order from low to high priority and applied to bones and morphs; these settings control how they apply. Default is replace, but you can set add or none. Settings can be applied per motion and further refined per bone.
 
 **MOTION_CONFIGURE**
 
-Sets the behavior during layering for existing motions.
+Configure blend behavior for an existing motion.
 
-- Argument 1: Model alias
-- Argument 2: Motion alias
-- Argument 3: Setting label (see below)
-- Argument 4 onward: Parameters (dependent on the setting label)
+- 1st arg: model alias
+- 2nd arg: motion alias
+- 3rd arg: configuration label (see below)
+- 4th+ args: parameters (depend on label)
 
-The possible setting labels are as follows. Let's call the current value rs and the value specified by this motion rd. If you set the rate, you can also set the blend rate at the same time.
+Available labels. Let rs be the current value and rd be the value specified by this motion. You can also set a blend rate to scale rd.
 
-- **MODE_REPLACE**: Overwrite (rd)
-- **MODE_ADD**: Addition (rs + rd)
-- **MODE_MUL**: Morphs are multiplied (rs * rd), bones are overwritten
-- **BLEND_RATE**: Only sets the blend rate (rd' = rd * blend rate)
+- **MODE_REPLACE**: replace (rd)
+- **MODE_ADD**: add (rs + rd)
+- **MODE_MUL**: morphs are multiplied (rs * rd), bones are replaced
+- **BLEND_RATE**: set blend rate only (rd' = rd * rate)
 
-```markdown
+{{<message>}}
 MOTION_CONFIGURE|(model)|(motion)|MODE_REPLACE
 MOTION_CONFIGURE|(model)|(motion)|MODE_REPLACE|(rate)
 MOTION_CONFIGURE|(model)|(motion)|MODE_ADD
@@ -187,19 +182,19 @@ MOTION_CONFIGURE|(model)|(motion)|MODE_ADD|(rate)
 MOTION_CONFIGURE|(model)|(motion)|MODE_MUL
 MOTION_CONFIGURE|(model)|(motion)|MODE_MUL|(rate)
 MOTION_CONFIGURE|(model)|(motion)|BLEND_RATE|(rate)
-```
+{{</message>}}
 
-To specify individually for each bone:
+To set behavior per bone:
 
-- **MODE_BONE_REPLACE**: Set specified bone to overwrite
-- **MODE_BONE_ADD**: Set specified bone to add
-- **MODE_BONE_NONE**: Set specified bone to no effect (skip)
-- **MODE_FACE_REPLACE**: Set specified morph to overwrite
-- **MODE_FACE_ADD**: Set specified morph to add
-- **MODE_FACE_MUL**: Set specified morph to multiply
-- **MODE_FACE_NONE**: Set specified morph to no effect (skip)
+- **MODE_BONE_REPLACE**: set specified bones to replace
+- **MODE_BONE_ADD**: set specified bones to add
+- **MODE_BONE_NONE**: skip specified bones
+- **MODE_FACE_REPLACE**: set specified morphs to replace
+- **MODE_FACE_ADD**: set specified morphs to add
+- **MODE_FACE_MUL**: set specified morphs to multiply
+- **MODE_FACE_NONE**: skip specified morphs
 
-```markdown
+{{<message>}}
 MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_BONE_REPLACE|bonename[,bonename,..]
 MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_BONE_ADD|bonename[,bonename,..]
 MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_BONE_NONE|bonename[,bonename,..]
@@ -207,51 +202,51 @@ MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_FACE_REPLACE|morphname[,morph
 MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_FACE_ADD|morphname[,morphname,..]
 MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_FACE_MUL|morphname[,morphname,..]
 MOTION_CONFIGURE|(model alias)|(motion alias)|MODE_FACE_NONE|bonename[,bonename,..]
-```
+{{</message>}}
 
-Upon completing the settings, issue **MOTION_EVENT_CONFIGURE**.
+On completion **MOTION_EVENT_CONFIGURE** is issued.
 
-```markdown
+{{<message>}}
 MOTION_EVENT_CONFIGURE|(model alias)|(motion alias)
-```
+{{</message>}}
 
-## Individual Bone & Morph Control
+## Per-Bone / Per-Morph Control
 
-Methods for controlling a model's bones and morphs externally, aside from motion.
+Ways to externally control a model's bones and morphs outside of motions.
 
 **MODEL_BINDBONE**
 
-Set values to the bone. There are two methods to specify: fixed values and binding to KeyValue values. If the bone is under motion control, the motion side will take precedence. After execution, it will issue **MODEL_EVENT_BINDBONE**. The values are applied immediately.
+Set values for a bone. Two methods: fixed values or binding to a KeyValue. If the bone is controlled by a motion, the motion takes precedence. On completion **MODEL_EVENT_BINDBONE** is issued. Values apply immediately.
 
-- **Fixed Values**: Specify the amount of movement and rotation numerically.
+- Fixed values: specify translation and rotation numerically.
 
 {{<message>}}
 MODEL_BINDBONE|(model alias)|(bone name)|x,y,z|rx,ry,rz
 {{</message>}}
 
-- **KeyValue Value Binding**: After the setting, it will start to respond in real-time to the key values of the specified KeyValue.
+- KeyValue binding: after setting, the bone will follow the specified KeyValue key in real time.
 
 {{<message>}}
 MODEL_BINDBONE|(key name)|(min)|(max)|(model alias)|(bone name)|x1,y1,z1|rx1,ry1,rz1|x2,y2,z2|rx2,ry2,rz2
 {{</message>}}
 
-The parameter values of the specified part will be determined as follows, between the two given parameters, according to the changes in the KeyValue values.
+The target parameters are determined between the two specified parameter sets according to the KeyValue value change.
 
 ![BindBone](/images/bindbone.png)
 
 **MODEL_BINDFACE**
 
-Set the values of the morph. Similar to the bone, there are two methods to specify: fixed values and binding to KeyValue values. If the morph is under motion control, the motion side will take precedence. It will issue **MODEL_EVENT_BINDFACE** at the end.
+Set morph values. Like bones, you can use fixed values or KeyValue binding. If the morph is influenced by a motion, the motion takes precedence. On completion **MODEL_EVENT_BINDFACE** is issued.
 
-- **Fixed Values**: Specify the amount of change numerically. The values are immediately applied. When `transition_duration` is specified, it will change slowly over the specified time.
+- Fixed value: specify a numeric value. Value applies immediately. If `transition_duration` is specified the value will change gradually over that time.
 
 {{<message>}}
-MODEL_BINDFACE|(model alias)|(morph name)|(value)
-MODEL_BINDFACE|(model alias)|(morph name)|(value)|(transition_duration)
+MODEL_BINDFACE|(model alias)|(morph name)|(value)`
+MODEL_BINDFACE|(model alias)|(morph name)|(value)|(transition_duration)`
 {{</message>}}
 
 
-- **KeyValue Value Binding**: After the setting, it will start to respond in real-time to the key values of the specified KeyValue. After the setting execution, it will issue **MODEL_EVENT_BINDBONE**.
+- KeyValue binding: after setting, the morph will follow the specified KeyValue key in real time. After setting **MODEL_EVENT_BINDBONE** is issued.
 
 {{<message>}}
 MODEL_BINDFACE|(key name)|(min)|(max)|(model alias)|(morph name)|rate1|rate2
@@ -259,7 +254,7 @@ MODEL_BINDFACE|(key name)|(min)|(max)|(model alias)|(morph name)|rate1|rate2
 
 **MODEL_UNBINDBONE**
 
-Unbind the specified bone. It will issue **MODEL_EVENT_UNBINDBONE** at the end.
+Unbind the specified bone. On completion **MODEL_EVENT_UNBINDBONE** is issued.
 
 {{<message>}}
 MODEL_UNBINDBONE|(model alias)|(bone name)
@@ -268,22 +263,22 @@ MODEL_EVENT_UNBINDBONE|(model alias)|(bone name)
 
 **MODEL_UNBINDFACE**
 
-Unbind the specified morph. It will issue **MODEL_EVENT_UNBINDFACE** at the end.
+Unbind the specified morph. On completion **MODEL_EVENT_UNBINDFACE** is issued.
 
 {{<message>}}
 MODEL_UNBINDFACE|(model alias)|(morph name)
 MODEL_EVENT_UNBINDFACE|(model alias)|(morph name)
 {{</message>}}
 
-## Moving the Model's Display Position
+## Moving Model Display Position
 
-In the following, `GLOBAL` refers to the world coordinate system, and `LOCAL` refers to the model coordinate system when specifying coordinates.
+In the coordinates below `GLOBAL` means world coordinates and `LOCAL` means model-relative coordinates.
 
 **MOVE_START, MOVE_STOP**
 
-Smoothly move the model to the specified coordinates. The movement can be interrupted with MOVE_STOP. At the start of the movement, a **MOVE_EVENT_START** is issued, and at the end or when interrupted, a **MOVE_EVENT_STOP** is issued.
+Smoothly move a model to a specified position. Movement can be interrupted with MOVE_STOP. On start **MOVE_EVENT_START** is issued; on completion or interruption **MOVE_EVENT_STOP** is issued.
 
-If a move speed is specified, the model will move at a constant speed (distance/second) to the specified coordinates.
+If move speed is specified the model moves to the target at that speed (distance/sec).
 
 {{<message>}}
 MOVE_START|(model alias)|x,y,z
@@ -296,9 +291,9 @@ MOVE_EVENT_STOP|(model alias)
 
 **TURN_START, TURN_STOP**
 
-Rotates the model so that the specified coordinates are at the front. The rotation can be interrupted with TURN_STOP. A **TURN_EVENT_START** is issued at the start of the rotation, and a **TURN_EVENT_STOP** is issued when it ends or is interrupted.
+Rotate a model so the specified position becomes its front. TURN_STOP can interrupt rotation. On start **TURN_EVENT_START** is issued; on completion or interruption **TURN_EVENT_STOP** is issued.
 
-If a rotation speed is specified, the model will rotate at a constant speed (degrees/second).
+If rotation speed is specified the model rotates at that speed (degrees/sec).
 
 {{<message>}}
 TURN_START|(model alias)|x,y,z
@@ -311,9 +306,9 @@ TURN_EVENT_STOP|(model alias)
 
 **ROTATE_START, ROTATE_STOP**
 
-Rotates the model by the specified rotation amount. The rotation can be interrupted with ROTATE_STOP. A **ROTATE_EVENT_START** is issued at the start of the rotation, and a **ROTATE_EVENT_STOP** is issued when it ends or is interrupted.
+Rotate a model by the specified rotation amount. ROTATE_STOP can interrupt rotation. On start **ROTATE_EVENT_START** is issued; on completion or interruption **ROTATE_EVENT_STOP** is issued.
 
-If a rotation speed is specified, the model will rotate at a constant speed (degrees/second).
+If rotation speed is specified the model rotates at that speed (degrees/sec).
 
 {{<message>}}
 ROTATE_START|(model alias)|rx,ry,rz
@@ -324,14 +319,14 @@ ROTATE_EVENT_START|(model alias)
 ROTATE_EVENT_STOP|(model alias)
 {{</message>}}
 
-## Executing Texture Animation
+## Texture Animation
 
 **TEXTURE_SETANIMATIONRATE**
 
-Change the animation speed of Animation PNG (APNG) textures individually.
+Change the animation speed for an APNG texture per texture.
 
-- `textureFileName` should match the texture specification string within the model.
-- `rate` is standard at 1.0, half at 0.5, double at 2.0, and stopped at 0.0.
+- `textureFileName` should match the texture identifier used in the model.
+- `rate` is 1.0 for normal speed, 0.5 half speed, 2.0 double speed. 0.0 stops.
 
 {{<message>}}
 TEXTURE_SETANIMATIONRATE|model alias|textureFileName|rate
@@ -341,9 +336,9 @@ TEXTURE_SETANIMATIONRATE|model alias|textureFileName|rate
 
 **CONFIG_PARALLELSKINNING_THREADS**
 
-Change the number of threads used for parallel skinning. You can specify a number from 1 to 4, with the default being the value set in the .mdf file.
+Change the number of threads used for parallel skinning. Valid range is 1–4. Default is the value set in .mdf.
 
-※ Changing the number of parallel threads while the system is running may cause instability. If it doesn't work well, it is recommended to specify the number of threads at startup with `parallel_skinning_numthreads=2` in the .mdf file.
+Note: Changing the number of parallel threads while running may destabilize the system. If it behaves poorly, specify `parallel_skinning_numthreads=2` in the .mdf at startup instead.
 
 {{<message>}}
 CONFIG_PARALLELSKINNING_THREADS|2
@@ -353,57 +348,57 @@ CONFIG_PARALLELSKINNING_THREADS|2
 
 **MOTIONCAPTURE_START, MOTIONCAPTURE_STOP**
 
-Capture and record the model's movements as a motion file (.vmd).
+Capture model motion to a motion file (.vmd).
 
 {{<message>}}
 MOTIONCAPTURE_START|model alias|filename.vmd
 MOTIONCAPTURE_STOP|model alias
 {{</message>}}
 
-# Screen Layout
+# Screen Composition
 
-## Viewpoint (Camera)
+## Camera (Viewpoint)
 
 **CAMERA**
 
-Change the viewpoint. There are three ways to specify it.
+Change the camera viewpoint. There are three specification methods.
 
-**Specify by Numbers**: Specify parameters with `x,y,z|rx,ry,rz|(distance)|(fovy)`. These values can be set based on the values that appear at the bottom left when the simple log is displayed using the `D` key. The transition time period specifies how the viewpoint changes to the specified point. The default (-1) smoothly transitions the viewpoint, 0 jumps immediately, and a value greater than 0 transitions to the specified coordinates over that number of seconds.
+Numeric specification: set parameters with `x,y,z|rx,ry,rz|(distance)|(fovy)`. These values match those shown at the bottom-left when you press D for a simple log. Transition time period specifies how the viewpoint changes to the target. Default (-1) smoothly transitions, 0 jumps immediately, a positive value moves at a constant rate over that many seconds.
 
 {{<message>}}
 CAMERA|x,y,z|rx,ry,rz|(distance)|(fovy)
 CAMERA|x,y,z|rx,ry,rz|(distance)|(fovy)|(transition time period)
 {{</message>}}
 
-**Mount to Model**: Make the camera follow the model's movements in real time. If no bone name is specified, it will follow the "center" bone.
+Mount to a model: make the camera follow a model's movement in real time. If no bone is specified the camera follows the "center" bone.
 
 {{<message>}}
 CAMERA|x,y,z|rx,ry,rz|(distance)|(fovy)|(transition time period)|(model alias)
 CAMERA|x,y,z|rx,ry,rz|(distance)|(fovy)|(transition time period)|(model alias)|(bone name)
 {{</message>}}
 
-**Specify with Motion**: Start the camera's movements by specifying a predefined camera motion file (.vmd).
+Specify via motion: start camera motion defined by a camera motion file (.vmd)
 
 {{<message>}}
 CAMERA|(camera motion file name)
 {{</message>}}
 
-## Background & Floor
+## Background / Stage
 
 **STAGE**
 
-Specify and change the images for the background and floor, or the 3D model for the stage. The display size of the background and floor is specified by `stage_size` in .mdf. The images will be stretched to fit the specified size.
+Specify or change the background, floor images, or a 3D stage model. Background/floor display size is set by `stage_size` in the .mdf. Images are stretched to fit the specified size.
 
 {{<message>}}
 STAGE|(floor image file),(back image file)
 STAGE|(stage file .xpmd or .pmd)
 {{</message>}}
 
-## Foreground image overlay (Frame)
+## Image Overlays (Foreground / Frame)
 
 **WINDOWFRAME**
 
-Overlay a frame image (.png) on top of the screen. The image will be stretched to fit the screen's aspect ratio.
+Overlay a frame image (.png) on top of the screen. The image is stretched to match the screen aspect ratio. Single-image method.
 
 ![frame](/images/frame.png)
 
@@ -411,7 +406,7 @@ Overlay a frame image (.png) on top of the screen. The image will be stretched t
 WINDOWFRAME|filename.png
 {{</message>}}
 
-Deleting the frame that was specified by **WINDOWFRAME** above:
+To remove the image specified by WINDOWFRAME issue it with NONE.
 
 {{<message>}}
 WINDOWFRAME|NONE
@@ -419,7 +414,7 @@ WINDOWFRAME|NONE
 
 **WINDOWFRAME_ADD**
 
-Add a frame image (.png).  Specify an alias name.  When success, **WINDOWFRAME_EVENT_ADD** will be issued.  Use the same existing name to swap the current image to the new one.
+Add a new frame image. Give an alias name as the argument. On success **WINDOWFRAME_EVENT_ADD** is emitted. If you call WINDOWFRAME_ADD again with the same name the image is replaced.
 
 {{<message>}}
 WINDOWFRAME_ADD|frame1|filename.png
@@ -428,7 +423,7 @@ WINDOWFRAME_EVENT_ADD|frame1
 
 **WINDOWFRAME_DELETE**
 
-Delete the specified frame image.  When success, **WINDOWFRAME_EVENT_DELETE** will be issued.
+Delete the frame image with the specified alias. On success **WINDOWFRAME_EVENT_DELETE** is emitted.
 
 {{<message>}}
 WINDOWFRAME_DELETE|frame1
@@ -437,18 +432,17 @@ WINDOWFRAME_EVENT_DELETE|frame1
 
 **WINDOWFRAME_DELETEALL**
 
-Totally delete all frame images.
+Delete all currently displayed frame images.
 
 {{<message>}}
 WINDOWFRAME_DELETEALL
 {{</message>}}
 
-
 ## Transparent Window (Win)
 
 **TRANSPARENT_START**
 
-(Windows only) Make app window transparent.  The transparent color can be specified.  If the color is not specified, the default value will be used.  (default value is the color specified by `transparent_color=` in .mdf, or `0.0,1.0,0.0`)
+(Windows only) Make the main window transparent. If no color is specified the default is used (the default comes from .mdf's `transparent_color=`; if unspecified the default is green `0.0,1.0,0.0`).
 
 {{<message>}}
 TRANSPARENT_START
@@ -457,104 +451,104 @@ TRANSPARENT_START|r,g,b
 
 **TRANSPARENT_STOP**
 
-(Windows only) Reset transparency and revert to normal window.
+(Windows only) Revert a transparent window to opaque.
 
 {{<message>}}
 TRANSPARENT_STOP
 {{</message>}}
 
-## Light Source
+## Lighting
 
 **LIGHTCOLOR**
 
-Change the direction and color of the light source.
+Change light direction and color.
 
 {{<message>}}
 LIGHTDIRECTION|x,y,z
 LIGHTCOLOR|r,g,b
 {{</message>}}
 
-# Displaying Text & Images
+# Displaying Text and Images
 
-## Displaying Text, Images, and Camera Footage
+## Display Text, Images, or Live Camera Feed
 
-It is possible to display any text, images, or live camera footage within a 3D space.
+Display arbitrary text, images, or live camera feed in 3D space.
 
-The steps involve defining a display area with **TEXTAREA_ADD**, and then specifying the content to display in that area with **TEXTAREA_SET**. By repeatedly using **TEXTAREA_SET**, you can change the content in the same location.
+Procedure: first define a display area with **TEXTAREA_ADD**, then specify content with **TEXTAREA_SET**. Calling **TEXTAREA_SET** repeatedly lets you change the content in the same area.
 
 **TEXTAREA_ADD**
 
-This command adds a new area. You can specify its size, color, coordinates, and orientation. The coordinates designate the center of the area. You can also 'place' it on a parent model.
+Add a new area. Specify size, colors, coordinates, and orientation. Coordinates are the area's center. You may parent the area to a model.
 
-When the addition is complete, **TEXTAREA_EVENT_ADD** is triggered.
+On completion **TEXTAREA_EVENT_ADD** is issued.
 
-- Argument 1: Alias name (new)
-- Argument 2: Width and height
-  - Positive values: Fixed size (If the content overflows, it will be reduced to fit)
-  - 0: Variable size: Automatically adjusted according to the content. For images, the aspect ratio is maintained.
-- Argument 3: Text size, margin, line spacing. The base value for each is 1.0.
-- Argument 4: Background color r,g,b,a. With a = 0, there is no background.
-- Argument 5: Text color r,g,b,a
-- Argument 6: Center coordinates
-- Argument 7 (optional): Orientation (amount of rotation)
-- Argument 8 (optional): Parent model's alias
-- Argument 9 (optional): Name of the bone to mount on the parent model (If omitted, 'center' is used)
+- 1st arg: alias name (new)
+- 2nd arg: width and height
+  - Positive: fixed size (content is scaled down to fit if overflow)
+  - 0: flexible size: auto-adjusts to content. For images aspect ratio is preserved.
+- 3rd arg: text size, margin, line spacing. Each 1.0 is the default.
+- 4th arg: background color r,g,b,a (a = 0 means no background)
+- 5th arg: text color r,g,b,a
+- 6th arg: center coordinates
+- 7th arg (optional): orientation (rotation)
+- 8th arg (optional): parent model alias
+- 9th arg (optional): parent bone name (defaults to "center" if omitted)
 
-```markdown
+{{<message>}}
 TEXTAREA_ADD|(textarea alias)|(width,height)|(size,margin,exlinespace)|r,g,b,a|r,g,b,a|x,y,z
 TEXTAREA_ADD|(textarea alias)|(width,height)|(size,margin,exlinespace)|r,g,b,a|r,g,b,a|x,y,z|rx,ry,rz
 TEXTAREA_ADD|(textarea alias)|(width,height)|(size,margin,exlinespace)|r,g,b,a|r,g,b,a|x,y,z|rx,ry,rz|(parent model alias)
 TEXTAREA_ADD|(textarea alias)|(width,height)|(size,margin,exlinespace)|r,g,b,a|r,g,b,a|x,y,z|rx,ry,rz|(parent model alias)|(parent bone name)
 TEXTAREA_EVENT_ADD|alias
-```
+{{</message>}}
 
 **TEXTAREA_SET**
 
-This command displays text or an image in the area. **TEXTAREA_EVENT_SET** is issued at the start of the display. If something is already displayed, it will be replaced.
+Display text or an image in the area. On start **TEXTAREA_EVENT_SET** is issued. If something is already displayed it is replaced.
 
-The content to display is specified in the second argument:
+For the 2nd arg:
 
-- If you **write a string**, that string will be displayed. If the string includes spaces, enclose it in "". You can also break lines with "\n".
-- If you **write the path of an image file**, that image will be displayed.
+- If you provide a string it is displayed. If it contains spaces enclose it in "". Use "\n" for line breaks.
+- If you provide an image file path the image is displayed.
 
-```markdown
+{{<message>}}
 TEXTAREA_SET|(textarea alias)|(string or image path)
 TEXTAREA_EVENT_SET|alias
-```
+{{</message>}}
 
 **TEXTAREA_DELETE**
 
-This command deletes the area and removes the display. When the deletion is complete, **TEXTAREA_EVENT_DELETE** is issued.
+Delete the area and remove the display. On completion **TEXTAREA_EVENT_DELETE** is issued.
 
-```markdown
+{{<message>}}
 TEXTAREA_DELETE|(textarea alias)
 TEXTAREA_EVENT_DELETE|alias
-```
+{{</message>}}
 
-## Text Caption
+## Text Captions
 
-Display text caption. Differences from the above TextArea:
+Display text captions. Differences from TextArea:
 
-- On-screen display, not in 3D space (displayed at a fixed position regardless of viewpoint)
-- Any font can be specified
-- Up to two types of text outlining can be specified
-- Can be set to automatically disappear after a specified time
-- (v1.0.2) support lyric file (.lrc) play
+- On-screen display (not in 3D space), fixed to the screen
+- You can specify custom fonts
+- Up to two outline (edge) styles can be specified
+- Can auto-disappear after a specified duration
+- (v1.0.2) .lrc files can be used to play a sequence of captions
 
 ![caption](/images/caption.png)
 
 **CAPTION_SETSTYLE**
 
-Defines the style. After defining, issue **CAPTION_EVENT_SETSTYLE**.
+Define a style. After defining **CAPTION_EVENT_SETSTYLE** is issued.
 
-- First argument: New alias name for the style
-- Second argument: The path to the font file. The system font can be used by specifying "default"
-- Third argument: Text color r,g,b,a
-- Fourth argument (optional): Color and size of the first outline r,g,b,a,thickness. If no outline is needed, set a or thickness to 0
-- Fifth argument (optional): Color and size of the second outline, specified in the same way
-- Sixth argument (optional): Frame background color r,g,b,a. If not needed, set a to 0
+- 1st arg: style alias (new)
+- 2nd arg: font file path; "default" uses system font
+- 3rd arg: text color r,g,b,a
+- 4th arg (optional): first edge color and thickness r,g,b,a,thickness. To disable, set a or thickness to 0.
+- 5th arg (optional): second edge color and thickness (same format)
+- 6th arg (optional): base/background color r,g,b,a — set a to 0 if not needed
 
-(v1.0.2) The fourth and subsequent arguments can be omitted altogether. If omitted, MMDAgent-EX will apply default style for the edges.
+(v1.0.2) Args after the 4th can be collectively omitted. If omitted default edge styles are applied.
 
 {{<message>}}
 CAPTION_SETSTYLE|style_alias|fontpath|r,g,b,a
@@ -564,36 +558,36 @@ CAPTION_EVENT_SETSTYLE|style_alias
 
 **CAPTION_START**
 
-Starts text display with a style. If already displayed, swap its text. It will disappear when **CAPTION_STOP** is issued or after the time specified with `duration`.
+Start showing text with the specified style. If already present only the text is updated. The caption disappears on CAPTION_STOP or after the `duration` specified.
 
-(v1.0.2) Specify "file.lrc" instead of text to start playing .lrc file as captions.
+(v1.0.2) Instead of text you may specify a .lrc file path to play captions according to the .lrc file.
 
-- First argument: New alias name
-- Second argument: Style name.  Either one defined in **CAPTION_SETSTYLE**, or "_default" (v1.0.2)
-- Third argument: The text to display. If it includes a space, surround it with "". You can also use "\n" to break lines. (v1.0.2) or LRC file path (file.lrc)
-- Fourth argument: Text size
-- Fifth argument: Left/right position of the display. Specify either CENTER, LEFT, RIGHT
-- Sixth argument: Up/down position of the display. Use relative values where the bottom of the screen is 0.0 and the top is 1.0
-- Seventh argument: Display duration in number of frames (30=1 second)
+- 1st arg: alias (new)
+- 2nd arg: style name defined via CAPTION_SETSTYLE, or "_default" (v1.0.2)
+- 3rd arg: display text. If it contains spaces enclose in "". Use "\n" for line breaks. (v1.0.2) Or .lrc file path.
+- 4th arg: text size
+- 5th arg: horizontal alignment: CENTER, LEFT, or RIGHT
+- 6th arg: vertical position as a relative value where bottom=0.0 and top=1.0
+- 7th arg: display duration in frames (30 = 1 second)
 
 {{<message>}}
-CAPTION_START|alias|style_alias|text|size|align|height|duration
+CAPTION_START|alias|style|text|size|align|height|duration
 (v1.0.2) CAPTION_START|alias|style|file.lrc|size|align|height|duration
 CAPTION_EVENT_START|alias
 CAPTION_EVENT_STOP|alias
 {{</message>}}
 
-Example of use:
+Example:
 
 {{<message>}}
 10 10:
     KEY|1 CAPTION_SETSTYLE|terop|rounded-mplus-1c-heavy.ttf|1,0.5,0,1|1,1,1,1,4|0,0,0,0.6,6|0,0,0,0
-    CAPTION_EVENT_SETSTYLE|terop CAPTION_START|test|terop|てすと|3.0|CENTER|0.5|300
+    CAPTION_EVENT_SETSTYLE|terop CAPTION_START|test|terop|test|3.0|CENTER|0.5|300
 {{</message>}}
 
 **CAPTION_STOP**
 
-Force delete the displayed text. On success, issues **CAPTION_EVENT_STOP**.
+Forcefully remove a displayed caption. On success **CAPTION_EVENT_STOP** is issued.
 
 {{<message>}}
 CAPTION_STOP|alias
@@ -604,23 +598,23 @@ CAPTION_EVENT_STOP|alias
 
 **NOTIFY_SHOW**
 
-Displays a system message on the screen. Disappears after 2.0 seconds.
+Show a system message on the screen. It disappears after 2.0 seconds.
 
 {{<message>}}
  NOTIFY_SHOW|(text)
 {{</message>}}
 
-It's also possible to change the duration.
+You can change the display duration.
 
 {{<message>}}
  NOTIFY_SHOW|(text)|(seconds)
 {{</message>}}
 
-## Prompting a Text Prompt and Obtaining User's Response
+## Show a Text Prompt and Get User Response
 
 **PROMPT_SHOW**
 
-Displays a message dialog and lets the user make a selection. If the specified text contains blank spaces, enclose it with "". The maximum number of options is 15.
+Display a message dialog for user selection. If the text contains spaces enclose it in "". Maximum choices: 15.
 
 {{<message>}}
 PROMPT_SHOW|(main text)|(item text 0)|(item text 1)|...
@@ -634,30 +628,30 @@ PROMPT_SHOW|"main text"|item1|item2|item3
 
 ![prompt](/images/prompt.png)
 
-When the user selects any of the items, **PROMPT_EVENT_SELECTED** is issued together with the number of the selected item (0～) and this dialog disappears. If the selection is cancelled (clicking outside the dialog or ESC key), -1 is returned.
+When the user selects an item **PROMPT_EVENT_SELECTED** is emitted with the selected index (0–). If the user cancels (click outside the dialog or press ESC) -1 is returned.
 
 {{<message>}}
 PROMPT_EVENT_SELECTED|(selected number or -1 for cancel)
 {{</message>}}
 
-## Displaying Documents in Full Screen to Gather User Reactions
+## Show Document Fullscreen and Get User Response
 
 **INFOTEXT_FILE**
 
-This displays the contents of a text file in full screen. When the display starts, **INFORTEXT_EVENT_SHOW** is issued.
+Display the contents of a text file fullscreen. On start **INFOTEXT_EVENT_SHOW** is issued.
 
-- Argument 1: Path of the text file
-- Argument 2: Title label
-- Argument 3: Selection button labels, separated by commas. Example: "Yes,No,Cancel"
-- Argument 4 (optional): Text scale (default: 1.0)
-- Argument 5 (optional): Background color in hexadecimal "RRGGBBAA". Example: white=FFFFFFFF
-- Argument 6 (optional): Text color, same as above.
+- 1st arg: text file path
+- 2nd arg: title label
+- 3rd arg: button labels, comma-separated e.g. "Yes,No,Cancel"
+- 4th arg (optional): text scale (default 1.0)
+- 5th arg (optional): background color as hex "RRGGBBAA", e.g. white = FFFFFFFF
+- 6th arg (optional): text color same format
 
-The displayed document can be scrolled by dragging (swiping).
+The displayed document can be scrolled by dragging (swipe).
 
-The labels specified in the third argument are displayed at the bottom. When a user makes a selection, the display ends, and **INFOTEXT_EVENT_CLOSE** is issued along with the index of the selected button.
+Buttons specified by the 3rd arg appear at the bottom. When the user selects a button the display closes and **INFOTEXT_EVENT_CLOSE** is issued with the index of the pressed button.
 
-Example: Display README.txt
+Example: show README.txt
 
 {{<message>}}
 INFOTEXT_FILE|README.md|"This is readme"|OK,Cancel
@@ -670,31 +664,31 @@ INFOTEXT_FILE|(filepath)|(titleLabel)|(buttonLabels)
 INFOTEXT_FILE|(filepath)|(titleLabel)|(buttonLabels)|(scale)
 INFOTEXT_FILE|(filepath)|(titleLabel)|(buttonLabels)|(scale)|(BACKGROUNDCOLOR)|(TEXTCOLOR)
 INFOTEXT_EVENT_SHOW
-INFOTEXT_EVENT_CLOSE|(selectedButtonLabel)
+INFOTEXT_EVENT_CLOSE|(selecteDButtonLabel)
 {{</message>}}
 
 
 **INFOTEXT_STRING**
 
-This directly specifies a string and displays it on the screen in full screen.
+Display a string fullscreen.
 
-- Argument 1: Text content (string)
-- Argument 2: Title label
-- Argument 3: Selection button labels. Example: "Yes,No,Cancel"
-- Argument 4 (optional): Text scale (default: 1.0)
-- Argument 5 (optional): Background color in hexadecimal "RRGGBBAA". Example: white=FFFFFFFF
-- Argument 6 (optional): Text color, same as above.
+- 1st arg: text content (string)
+- 2nd arg: title label
+- 3rd arg: button labels, e.g. "Yes,No,Cancel"
+- 4th arg (optional): text scale (default 1.0)
+- 5th arg (optional): background color hex "RRGGBBAA"
+- 6th arg (optional): text color
 
-The selection button labels appear as buttons at the bottom of the screen, and multiple can be specified by separating them with commas. The display ends when one is pressed.
+Button labels appear at the bottom. When a button is pressed the display closes.
 
-When the display is complete, **INFORTEXT_EVENT_SHOW** is issued, and when a button is selected and the display ends, **INFORTEXT_EVENT_CLOSE** is issued along with the index of the selected button.
+On show **INFORTEXT_EVENT_SHOW** is issued; on close **INFORTEXT_EVENT_CLOSE** is issued with the index of the selected button.
 
 {{<message>}}
 INFOTEXT_STRING|textbody|(titleLabel)|(buttonLabels)
 INFOTEXT_STRING|textbody|(titleLabel)|(buttonLabels)|(scale)
 INFOTEXT_STRING|textbody|(titleLabel)|(buttonLabels)|(scale)|(BACKGROUNDCOLOR)|(TEXTCOLOR)
 INFOTEXT_EVENT_SHOW
-INFOTEXT_EVENT_CLOSE|(selectedButtonLabel)
+INFOTEXT_EVENT_CLOSE|(selecteDButtonLabel)
 {{</message>}}
 
 # Audio
@@ -703,7 +697,7 @@ INFOTEXT_EVENT_CLOSE|(selectedButtonLabel)
 
 **SOUND_START**
 
-This initiates the playback of a sound file. mp3 and wav formats are supported. When playback starts, **SOUND_EVENT_START** is issued, and when it ends, **SOUND_EVENT_STOP** is issued.
+Start playback of a sound file. mp3 and wav are supported. On start **SOUND_EVENT_START** is emitted, and on stop **SOUND_EVENT_STOP** is emitted.
 
 {{<message>}}
 SOUND_START|(sound alias)|(sound file name)
@@ -713,18 +707,18 @@ SOUND_EVENT_STOP|(sound alias)
 
 **SOUND_STOP**
 
-This forcibly interrupts the sound that is currently playing. At the time of interruption, **SOUND_EVENT_STOP** is issued.
+Force-stop a playing sound. On stop **SOUND_EVENT_STOP** is emitted.
 
 {{<message>}}
 SOUND_STOP|(sound alias)
 SOUND_EVENT_STOP|(sound alias)
 {{</message>}}
 
-## Voice Playback with Lip Sync
+## Speech Playback with LIPSYNC
 
 **SPEAK_START**
 
-This makes the specified model speak the audio file. Lip sync is performed simultaneously with playback. When playback starts, **SPEAK_EVENT_START** is issued, and when it ends, **SPEAK_EVENT_STOP** is issued. .shapemap configuration is required.
+Make a specified model speak using an audio file. LIPSYNC is performed in sync with playback. On start **SPEAK_EVENT_START** is emitted and on end **SPEAK_EVENT_STOP** is emitted. A .shapemap configuration is required.
 
 {{<message>}}
 SPEAK_START|(model alias)|(audio file)
@@ -732,26 +726,24 @@ SPEAK_EVENT_START|(model alias)
 SPEAK_EVENT_STOP|(model alias)
 {{</message>}}
 
-
 **SPEAK_STOP**
 
-Stops the playing speech formaly started by **SPEAK_START** immediately.  **SPEAK_EVENT_STOP** will be issued whenever it has been processed successfully (i.e. stopped the playing audio or no audio was played at that time) 
+Stop audio started by SPEAK_START. When audio stops (or is already stopped) **SPEAK_EVENT_STOP** is emitted.
 
 {{<message>}}
 SPEAK_STOP|(model alias)
 SPEAK_EVENT_STOP|(model alias)
 {{</message>}}
 
+## Speech Recognition
 
-## Voice Recognition
-
-The content of the message changes depending on the module or plugin used.
+Message contents vary depending on the module or plugin used.
 
 ### Common
 
 **RECOG_EVENT_START**
 
-This message is issued at the start of voice input.
+Emitted when speech input starts.
 
 {{<message>}}
 RECOG_EVENT_START
@@ -759,17 +751,17 @@ RECOG_EVENT_START
 
 **RECOG_EVENT_STOP**
 
-This message is issued when voice recognition results are obtained.
+Emitted when a speech recognition result is obtained.
 
 {{<message>}}
-RECOG_EVENT_STOP|String of recognition results
+RECOG_EVENT_STOP|(recognized result string)
 {{</message>}}
 
 ### Plugin_Julius
 
 **RECOG_EVENT_OVERFLOW**
 
-Emitted when the level of the input sound is too large and causes an overflow.
+Emitted when input audio level is too high and overflows.
 
 {{<message>}}
 RECOG_EVENT_OVERFLOW
@@ -777,7 +769,7 @@ RECOG_EVENT_OVERFLOW
 
 **RECOG_EVENT_MODIFY**
 
-Emitted when the processing of the RECOG_MODIFY message is complete.
+Emitted when a RECOG_MODIFY message has been processed.
 
 {{<message>}}
 RECOG_EVENT_MODIFY|GAIN
@@ -788,7 +780,7 @@ RECOG_EVENT_MODIFY|CHANGE_CONF|(jconf_file_prefix)
 
 **RECOG_EVENT_AWAY**
 
-Emitted when speech recognition is paused (ON) or resumed (OFF) due to menu operations or external control.
+Emitted when speech recognition is temporarily suspended (ON) or resumed (OFF) due to menu actions or external control.
 
 {{<message>}}
 RECOG_EVENT_AWAY|ON
@@ -797,7 +789,7 @@ RECOG_EVENT_AWAY|OFF
 
 **RECOG_EVENT_GMM**
 
-Output of the identification result tag when using Julius's environmental sound identification function.
+Output tag from Julius environmental sound classification.
 
 {{<message>}}
 RECOG_EVENT_GMM|noise
@@ -805,12 +797,12 @@ RECOG_EVENT_GMM|noise
 
 **RECOG_MODIFY**
 
-Engine configuration change command. Dynamically changes the running engine.
+Engine configuration change commands. Dynamically modify a running engine.
 
-- `GAIN`: Amplitude scaling factor of input sound (default 1.0)
-- `USERDICT_SET`: Loads user dictionary (if already loaded, replaces)
-- `USERDICT_UNSET`: Deletes user dictionary
-- `CHANGE_CONF`: Restarts the engine with the specified jconf configuration file
+- GAIN: input amplitude scaling factor (default 1.0)
+- USERDICT_SET: load a user dictionary (replace if already loaded)
+- USERDICT_UNSET: remove the user dictionary
+- CHANGE_CONF: restart engine with specified jconf files
 
 {{<message>}}
 RECOG_EVENT_MODIFY|GAIN|(scale)
@@ -821,7 +813,7 @@ RECOG_EVENT_MODIFY|CHANGE_CONF|(jconf_file_prefix)
 
 **RECOG_RECORD_START**
 
-Starts automatic recording of input sound. The cut-out sound fragments are sequentially saved as individual .wav files in the specified directory.
+Start automatic recording of input audio. Extracted audio segments are saved sequentially as individual .wav files in the specified directory.
 
 {{<message>}}
 RECOG_RECORD_START|(directory)
@@ -829,7 +821,7 @@ RECOG_RECORD_START|(directory)
 
 **RECOG_RECORD_STOP**
 
-Stops automatic recording of input sound.
+Stop automatic recording of input audio.
 
 {{<message>}}
 RECOG_RECORD_STOP
@@ -837,13 +829,13 @@ RECOG_RECORD_STOP
 
 ## Speech Synthesis
 
-The content of the message changes depending on the module or plugin used.
+Message contents vary by module/plugin.
 
 ### Common
 
 **SYNTH_START**
 
-Starts speech synthesis. The specified model lip-syncs according to the pronunciation. **SYNTH_EVENT_START** is issued when the synthesized speech begins to output, and **SYNTH_EVENT_STOP** is issued when the output ends.
+Start speech synthesis. The specified model will lipsync to the synthesized output. When output starts **SYNTH_EVENT_START** is emitted; when it finishes **SYNTH_EVENT_STOP** is emitted.
 
 {{<message>}}
 SYNTH_START|(model alias)|(voice alias)|(synthesized text)
@@ -853,7 +845,7 @@ SYNTH_EVENT_STOP|(model alias)
 
 **SYNTH_STOP**
 
-Forcibly interrupts the output of speech synthesis. **SYNTH_EVENT_STOP** is issued when it is interrupted.
+Force-stop ongoing speech synthesis. When stopped **SYNTH_EVENT_STOP** is emitted.
 
 {{<message>}}
 SYNTH_STOP|(model alias)
@@ -871,25 +863,25 @@ LIPSYNC_EVENT_START|(model alias)
 LIPSYNC_EVENT_STOP|(model alias)
 {{</message>}}
 
-# External Operation (Plugin_Remote)
+# External Control (Plugin_Remote)
 
-## Control & Operation
+## Control / Operation
 
 **AVATAR|START, AVATAR|STOP**
 
-Messages that are issued when the start command `__AV_START` or the end command `__AV_END` is received from the external control API to start or end external control of the model.
+Issued when the external control API receives the external-control start command `__AV_START` or end command `__AV_END`.
 
 {{<message>}}
 AVATAR|START
-AVATAR|STOP
+AVATAR|END
 {{</message>}}
 
 **AVATAR_CONTROL**
 
-Temporarily pause or resume controlling the model based on commands from the external control API. After processing, issue **AVATAR_EVENT_CONTROL**.
+Temporarily suspend or resume model control from external API commands. After processing **AVATAR_EVENT_CONTROL** is issued.
 
-- **DISABLE**: Temporarily disable
-- **ENABLE**: Terminate disabling and resume
+- DISABLE: temporarily disable
+- ENABLE: end disable and resume
 
 {{<message>}}
 AVATAR_CONTROL|DISABLE
@@ -900,7 +892,7 @@ AVATAR_EVENT_CONTROL|ENABLED
 
 **REMOTEKEY_CHAR, REMOTEKEY_DOWN, REMOTEKEY_UP**
 
-Messages that send keyboard inputs from the outside.
+Send keyboard input from external sources.
 
 {{<message>}}
 REMOTEKEY_CHAR|(character)
@@ -912,30 +904,30 @@ REMOTEKEY_UP|(key code string)
 
 **AVATAR_LOGSAVE_START, AVATAR_LOGSAVE_STOP**
 
-Record all control commands from the outside to a file. Start with **AVATAR_LOGSAVE_START**, end with **AVATAR_LOGSAVE_STOP**.
+Record all external control commands to a file. Start with AVATAR_LOGSAVE_START and stop with AVATAR_LOGSAVE_STOP.
 
 {{<message>}}
 AVATAR_LOGSAVE_START|filename
 AVATAR_LOGSAVE_STOP
 {{</message>}}
 
-# Event Notification
+# Event Notifications
 
 ## Current Time
 
 **CURRENT_TIME**
 
-A message indicating the current time. It is issued by the system every 30 seconds.
+Message representing the current time. Issued by the system every 30 seconds.
 
 {{<message>}}
 CURRENT_TIME|hh|mm
 {{</message>}}
 
-## Key Input & Mouse Click
+## Key Input / Mouse Clicks
 
 **DRAGANDDROP**
 
-A message issued when the user drags and drops a file.
+Emitted when the user drags and drops a file.
 
 {{<message>}}
 DRAGANDDROP|(file name)
@@ -943,7 +935,7 @@ DRAGANDDROP|(file name)
 
 **KEY**
 
-A message issued when the user presses a key.
+Emitted when the user presses a key.
 
 {{<message>}}
 KEY|(key name)
@@ -951,7 +943,7 @@ KEY|(key name)
 
 **TAPPED**
 
-A message issued when the user clicks the mouse or taps.
+Emitted when the user clicks or taps.
 
 {{<message>}}
 TAPPED|x|y
@@ -959,7 +951,7 @@ TAPPED|x|y
 
 **SCREEN_EVENT_LONGPRESSED, SCREEN_EVENT_LONGRELEASED**
 
-A message issued when the user long presses the screen. `xxxxx_yyyyy_wwwww_hhhhh` represents the coordinates of the long press. `(x,y)` are the coordinates of the long press on the screen, `(w,h)` are the width and height of the screen, in pixels.
+Emitted when the user long-presses the screen. `xxxxx_yyyyy_wwwww_hhhhh` represents the long-press coordinates. `(x,y)` is the pressed coordinate on the screen, `(w,h)` are the screen width and height in pixels.
 
 {{<message>}}
 SCREEN_EVENT_LONGPRESSED|xxxxx_yyyyy_wwwww_hhhhh
@@ -972,8 +964,7 @@ SCREEN_EVENT_LONGRELEASED|xxxxx_yyyyy_wwwww_hhhhh
 
 **VALUE_SET**
 
-Set a value to a variable. You can also set a random value within a specified range.
-Upon completion, it issues a **VALUE_EVENT_SET**.
+Set a variable value. You can also set a random value within a range. On completion **VALUE_EVENT_SET** is issued.
 
 {{<message>}}
 VALUE_SET|(variable alias)|(value)
@@ -983,7 +974,7 @@ VALUE_EVENT_SET|(variable alias)
 
 **VALUE_GET**
 
-Get the value of a variable and issue **VALUE_EVENT_GET**.
+Request a variable's value; it will be issued in a **VALUE_EVENT_GET** message.
 
 {{<message>}}
 VALUE_GET|(variable alias)
@@ -992,7 +983,7 @@ VALUE_EVENT_GET|(variable alias)|(value)
 
 **VALUE_UNSET**
 
-Delete a variable. Upon completion, it issues a **VALUE_EVENT_UNSET**.
+Delete a variable. On completion **VALUE_EVENT_UNSET** is issued.
 
 {{<message>}}
 VALUE_UNSET|(variable alias)
@@ -1001,7 +992,7 @@ VALUE_EVENT_UNSET|(variable alias)
 
 **VALUE_EVAL**
 
-Evaluate the variable as a number. The result is issued with **VALUE_EVENT_EVAL**.
+Evaluate a variable numerically. Result is issued in **VALUE_EVENT_EVAL**.
 
 {{<message>}}
 VALUE_EVAL|(variable alias)|(EQ or NE or LE or LT or GE or GT for evaluation)|(value)
@@ -1012,14 +1003,14 @@ VALUE_EVENT_EVAL|(variable alias)|(EQ or NE or LE or LT or GE or GT for evaluati
 
 **TIMER_START**
 
-Start a timer variable. The value is in seconds, with a minimum resolution of 0.1 seconds.
+Start a timer variable. Value is in seconds; minimum resolution is 0.1 sec.
 
-- When the timer starts, it issues a **TIMER_EVENT_START**
-- When the specified time has passed, it issues a **TIMER_EVENT_STOP** and the timer variable is deleted.
-- If a timer variable with the same name already exists,
-  - It issues a **TIMER_EVENT_CANCELLED**
-  - Overwrites the value
-  - Issues a **TIMER_EVENT_START**
+- When a timer starts **TIMER_EVENT_START** is issued.
+- When the specified time elapses **TIMER_EVENT_STOP** is issued and the timer variable is deleted.
+- If a timer with the same name already exists:
+  - **TIMER_EVENT_CANCELLED** is issued
+  - The value is overwritten
+  - **TIMER_EVENT_START** is issued
 
 {{<message>}}
 TIMER_START|(count down alias)|(value)
@@ -1032,8 +1023,8 @@ TIMER_EVENT_CANCELLED|(count down alias)
 
 Stop a running timer variable.
 
-- If a timer variable exists, it issues a **TIMER_EVENT_STOP**
-- If a timer variable does not exist, it does nothing (only outputs a warning)
+- If the timer exists **TIMER_EVENT_STOP** is issued.
+- If the timer does not exist nothing happens (only a warning is logged).
 
 {{<message>}}
 TIMER_STOP|(count down alias)
@@ -1044,8 +1035,8 @@ TIMER_EVENT_STOP|(count down alias)
 
 Forcefully interrupt and delete a timer variable.
 
-- If the specified timer variable exists, it deletes it and issues a **TIMER_EVENT_CANCEL**
-- If the specified timer variable does not exist, it still issues a **TIMER_EVENT_CANCEL**
+- If the specified timer exists it is deleted and **TIMER_EVENT_CANCEL** is issued.
+- If it does not exist **TIMER_EVENT_CANCEL** is still issued.
 
 {{<message>}}
 TIMER_CANCEL|(count down alias)
@@ -1056,19 +1047,19 @@ TIMER_EVENT_CANCELLED|(count down alias)
 
 **KEYVALUE_SET**
 
-By issuing this message, you can set KeyValue values.
+Set a KeyValue value by issuing this message.
 
 {{<message>}}
 KEYVALUE_SET|(key name)|(value)
 {{</message>}}
 
-# Collaboration
+# Integration
 
 ## Open Other Content
 
 **OPEN_CONTENT**
 
-End the current content and open the newly specified .mdf.
+Close the current content and open the specified .mdf.
 
 {{<message>}}
 OPEN_CONTENT|relative_mdf_path
@@ -1076,7 +1067,7 @@ OPEN_CONTENT|relative_mdf_path
 
 **FST_LOAD**
 
-Discard the currently running FST and load and start the specified FST.
+Discard the currently running FST and load/start the specified FST.
 
 {{<message>}}
 FST_LOAD|(.fst file path)
@@ -1085,10 +1076,10 @@ FST_LOAD|(.fst file path)|(initial state label)
 
 **SUBFST_START**, **SUBFST_START_IF**
 
-Start a sub-FST process of an FST file.  Use **SUBFST_START_IF** when start only if the file exists.
+Start the specified .fst as a sub-FST. SUBFST_START_IF only runs if the file exists (no error if missing).
 
-- Will issue **SUBFST_EVENT_START** on successful start.
-- Will issue **SUBFST_EVENT_STOP** on termination.
+- When started **SUBFST_EVENT_START** is issued.
+- When stopped **SUBFST_EVENT_STOP** is issued.
 
 {{<message>}}
 SUBFST_START|(alias)|(.fst file path)
@@ -1099,20 +1090,20 @@ SUBFST_EVENT_STOP|(alias)
 
 **SUBFST_STOP**
 
-Force terminate the specified sub-FST.
+Force-stop the specified sub-FST.
 
-- Will issue **SUBFST_EVENT_STOP** on termination.
+- On stop **SUBFST_EVENT_STOP** is issued.
 
 {{<message>}}
 SUBFST_STOP|(alias)
 SUBFST_EVENT_STOP|(alias)
 {{</message>}}
 
-## Forced Home Setting
+## Force-Set Home
 
 **HOME_SET**
 
-Set the current content to home.
+Set the current content as home.
 
 {{<message>}}
 HOME_SET
@@ -1130,7 +1121,7 @@ HOME_CLEAR
 
 **EXECUTE**
 
-Executes the specified file (Windows only)
+Execute the specified file (Windows only).
 
 {{<message>}}
 EXECUTE|(file name)
@@ -1138,7 +1129,7 @@ EXECUTE|(file name)
 
 **KEY_POST**
 
-Sends a key event to the specified application (Windows only)
+Send a key event to the specified application window (Windows only).
 
 {{<message>}}
 KEY_POST|(window class name)|(key name)|(ON or OFF for shift-key)|(ON or OFF for ctrl-key)|(On or OFF for alt-key)
@@ -1148,7 +1139,7 @@ KEY_POST|(window class name)|(key name)|(ON or OFF for shift-key)|(ON or OFF for
 
 **NETWORK_GET**
 
-Downloads a file. Upon completion, it triggers **NETWORK_EVENT_GET**.
+Download a file. On completion **NETWORK_EVENT_GET** is issued.
 
 {{<message>}}
 NETWORK_GET|(net alias)|(URI)|(save file name)
@@ -1161,14 +1152,14 @@ NETWORK_EVENT_GET|(net alias)
 
 **BUTTON_ADD**
 
-Adds a button to the screen. After the display is complete, it issues **BUTTON_EVENT_ADD**.
+Add a button on the screen. After display completes **BUTTON_EVENT_ADD** is issued.
 
-- Argument 1: Alias name (new)
-- Argument 2: Display scale
-- Argument 3: Display position x,y. Positive values are from the left (bottom), negative values are from the right (top)
-- Argument 4: Image file
-- Argument 5: Action ("play", "open", "message", "keyvalueset"...)
-- Argument 6: Processing after pressing (ON=hide display, OFF=keep display)
+- 1st arg: alias name (new)
+- 2nd arg: display scale
+- 3rd arg: display position x,y. Positive = distance from left (bottom); negative = distance from right (top)
+- 4th arg: image file
+- 5th arg: action ("play", "open", "message", "keyvalueset", ...)
+- 6th arg: post-click behavior (ON = auto-close, OFF = keep displayed)
 
 {{<message>}}
 BUTTON_ADD|alias|scale|x,y|image path|action|(ON or OFF for autoclose)
@@ -1177,7 +1168,7 @@ BUTTON_EVENT_ADD|alias
 
 **BUTTON_DELETE**
 
-Deletes a button. After deletion is complete, it issues **BUTTON_EVENT_DELETE**.
+Delete a button. After deletion **BUTTON_EVENT_DELETE** is issued.
 
 {{<message>}}
 BUTTON_DELETE|alias
@@ -1186,17 +1177,17 @@ BUTTON_EVENT_DELETE|alias
 
 **BUTTON_EVENT_EXEC**
 
-Issued when a button is clicked (tapped).
+Emitted when a button is clicked (tapped).
 
 {{<message>}}
 BUTTON_EVENT_EXEC|alias
 {{</message>}}
 
-## Menu Addition
+## Add Menu Pages
 
 **MENU|ADD**
 
-Adds a new page to the menu. Up to 20 pages can be added including the default. After addition is complete, it issues **MENU_EVENT|ADD**.
+Add a new page to the menu. Up to 20 pages including the default. On completion **MENU_EVENT|ADD** is issued.
 
 {{<message>}}
 MENU|ADD|(alias)
@@ -1206,7 +1197,7 @@ MENU_EVENT|ADD|(alias)
 
 **MENU|SETITEM**
 
-Registers an item at a specified location on a specified page of the menu. `id` is the item number starting from 0. Up to 30 items can be registered per page. After registration is complete, it issues **MENU_EVENT|SETITEM**.
+Register an item at a specified position on a menu page. `id` starts at 0. Up to 30 items per page. On completion **MENU_EVENT|SETITEM** is issued.
 
 {{<message>}}
 MENU|SETITEM|(alias)|(id)|(label)|(type)|(arg1)|(arg2)|...
@@ -1215,7 +1206,7 @@ MENU_EVENT|SETITEM|(alias)|(id)
 
 **MENU|DELETEITEM**
 
-Deletes the item content at a specified location on a specified page of the menu. After deletion is complete, it issues **MENU_EVENT|DELETEITEM**.
+Delete the item at the specified position on a menu page. On completion **MENU_EVENT|DELETEITEM** is issued.
 
 {{<message>}}
 MENU|DELETEITEM|(alias)|(id)
@@ -1224,7 +1215,7 @@ MENU_EVENT|DELETEITEM|(alias)|(id)
 
 **MENU|DELETE**
 
-Deletes an entire specified page of the menu. After deletion is complete, it issues **MENU_EVENT|DELETE**.
+Delete the specified menu page entirely. On completion **MENU_EVENT|DELETE** is issued.
 
 {{<message>}}
 MENU|DELETE|(alias)

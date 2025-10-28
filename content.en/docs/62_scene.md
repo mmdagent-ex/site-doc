@@ -1,93 +1,89 @@
-
-
 ---
 title: Background, Floor, and Frame
 slug: scene
 ---
-
 # Background, Floor, and Frame
 
-While the main focus in voice interactions is obviously the CG character itself, we cannot afford to neglect ancillary information such as the background and frame displayed on the screen. Just as people's impressions can change based on the clothes they wear, what is displayed in the background and around the character can influence the overall impression.
+The main subject in a voice interaction is, of course, the CG character itself, but ancillary information such as the background and frame displayed on screen should not be neglected. Just as a person's clothing affects the impression they give, what you display behind or around a character influences the overall impression.
 
-In this section, we will discuss the scene settings in MMDAgent-EX that are related to things other than the CG character.
+This section describes MMDAgent-EX features related to scene settings other than the CG character.
 
-- Color of space
+- Space color
 - Background and floor images
 - 3D stage
 - Screen frame
 
 {{< details "Drag & Drop" close >}}
-**Windows only**: You can also change the image by dragging and dropping an image file from the explorer into the background area.
+**Windows only**: You can also change images by dragging and dropping image files from Explorer onto the background area.
 
-- Background: Drop the image
-- Floor: Drop the image while pressing `CTRL`
+- Background: drop the image
+- Floor: drop the image while holding `CTRL`
 {{< /details >}}
 
-## Color of Space
+## Space color
 
-You can specify the default color of the space (i.e., the color of empty space) in the .mdf file using `campus_color`. `r,g,b` specifies the intensity of R, G, B from 0.0 to 1.0. The default is dark blue (`0,0,0.2`).
+The default color of the space (the color of empty space) can be set in the .mdf using `campus_color`. `r,g,b` specify the R, G, B intensities from 0.0 to 1.0. The default is a deep blue (`0,0,0.2`).
 
 {{<mdf>}}
 campus_color=r,g,b
 {{</mdf>}}
 
-## Background and Floor
+## Background & Floor
 
-You can set and change the images for the floor and background by issuing a **STAGE** message. Specify two images in the order of "floor image, background image". You can use .png, .jpg files.
+You can set or change the floor and background images by issuing the **STAGE** message. Specify two images in the order "floor image,background image". .png and .jpg are supported.
 
 {{<message>}}
 STAGE|(floor image file),(back image file)
 {{</message>}}
 
-The floor and background are displayed as boards in the scene. You can change the size of these boards in the .mdf file as follows:
+In the scene, the floor and background are displayed as planes. You can change the size of these planes in the .mdf as follows.
 
 {{<mdf>}}
 stage_size=x,y,z
 {{</mdf>}}
 
-`x,y,z` specify the length of each part. Note that `x` is half the width.
+`x,y,z` specify the lengths of the respective parts below. Note that `x` represents half the width.
 
 ![stage image](/images/stage.png)
 
-## Stage Model
+## Stage model
 
-You can specify a 3D model for the stage to represent the entire scene with a 3D model. Only .pmd format (including those transformed from .pmx format) can be used. You specify the model file with a **STAGE** message.
+You can represent the entire scene using a 3D model for the stage. Only .pmd format (including ones converted from .pmx) is supported. Specify the model file with the **STAGE** message.
 
 {{<message>}}
 <eps> STAGE|stage/tatami_room/tatami_room.pmd
 {{</message>}}
 
-※ When using a stage model, the floor and background are not drawn.
+Note: when a stage model is used, the floor and background are not drawn.
 
-The following is an example of specifying the samples in the `stage` folder under Example with **STAGE**.
+Below is an example when a sample in the Example `stage` folder is specified with **STAGE**.
 
 ![stage example](/images/stage_example.png)
 
-## Screen Frame
+## Window frame
 
-You can paste any PNG image over the entire front of the screen with the **WINDOWFRAME** message. It supports transparent PNGs, so you can use a transparent image to create a frame-like effect on the screen. Here are some examples of how to use it.
+With the **WINDOWFRAME** message you can overlay any PNG image across the frontmost area of the screen. Transparent PNGs are supported, so you can use a transparent image to place a frame over the screen as shown below. Use **WINDOWFRAME|image filename**. Examples:
 
 ![window frame example 1](/images/windowframe_example.png)
 
 ![window frame example 2](/images/windowframe_example2.png)
 
-When you issue **WINDOWFRAME|other_image.png** while another frame is displaying, it will be swapped to the new one.  You can totally delete the frame by issuing **WINDOWFRAME|NONE"
+You can switch the displayed frame with **WINDOWFRAME|another image filename**, and remove it with **WINDOWFRAME|NONE** to return to the original state.
 
-You can further handle multiple frames by using **WINDOWFRAME_ADD** and **WINDOWFRAME_DELETE**.  Issuing **WINDOWFRAME_ADD|name|foobar.png** will add a new frame to the screen.  You should specify a unique name to use multiple frames.  If you specify a **name** that exists, the image formally specified by the **name** will be swapped to the new one.
+To layer multiple images, use **WINDOWFRAME_ADD**. Add with **WINDOWFRAME_ADD|name|image filename**. Using different names stacks images; specifying a different image file with the same name replaces the currently displayed image.
 
 {{<message>}}
 <eps> WINDOWFRAME_ADD|frame1|images/frame_trad.png
 {{</message>}}
 
-You can delete each frame by issuing **WINDOWFRAME_DELETE|name**.  When issued, frame of the specified name will be deleted.
+To delete a frame, use **WINDOWFRAME_DELETE|name** to remove the frame with the specified name.
 
 {{<message>}}
 <eps> WINDOWFRAME_DELETE|frame1
 {{</message>}}
 
-Also you can delete all the frames at once by issuing **WINDOWFRAME_DELETEALL**.
+Alternatively, use **WINDOWFRAME_DELETEALL** to remove all frames at once.
 
 {{<message>}}
 <eps> WINDOWFRAME_DELETEALL
 {{</message>}}
-

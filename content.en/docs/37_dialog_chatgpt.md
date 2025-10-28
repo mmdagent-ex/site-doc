@@ -1,35 +1,33 @@
 ---
-title: Connecting with ChatGPT
+title: Connect to ChatGPT
 slug: dialog-test-chatgpt
 ---
-# Connect with ChatGPT
+# Connect to ChatGPT
 
 {{< hint warning >}}
-Please complete the setup for [voice recognition](../asr-setup) and [speech synthesis
-](../tts-test) first.
+Please complete the setup for [speech recognition](../asr-setup) and [speech synthesis](../tts-test) first.
 {{< /hint >}}
 
+You can use MMDAgent-EX as the front end for a conversational system. This page shows a simple example of connecting a dialogue module as a submodule to MMDAgent-EX using OpenAI's GPT models, with a sample program you can try.
 
-MMDAgent-EX can be used as a frontend for dialogue systems. Here, we introduce a simple example that connects OpenAI's GPT model.
+## Connecting LLM-based response generation to MMDAgent-EX
 
-## Connecting LLM-Based Dialogue Generation to MMDAgent-EX
-
-The following steps show a simple program that conducts dialogues using OpenAI's chat completion API, and how to start it as a submodule of MMDAgent-EX.
+Below are the steps to create a simple program that uses OpenAI's chat completion API for conversation and run it as a submodule of MMDAgent-EX.
 
 {{< hint warning >}}
-The examples provided here use very simple prompts, so the scope of the conversation is quite limited. This page does not cover how to use and optimize chatGPT. The following sample is only for demonstrating integration with MMDAgent-EX.
+The examples below use very simple prompts, so the conversational behavior is extremely limited. This page does not cover advanced prompt engineering or optimization for chatGPT. Use the following only as sample code for integrating with MMDAgent-EX.
 {{< /hint >}}
 
-The `chatgpt.py` below is a simple Python script for making conversation with the OpenAI chat completion API. Except for the last main() part, it is a standard text chat code. In main(), it is implemented to perform the following actions to operate as a submodule of MMDAgent-EX.
+The `chatgpt.py` below is a simple Python script that converses with the OpenAI chat completion API. Except for the final `main()` section, it is a standard text-chat implementation. In `main()` the input/output is adapted to run as a MMDAgent-EX submodule and performs the following actions:
 
-- It reads MMDAgent-EX messages from standard input.
-- It filters out a message containing speech recognition result.
-- Using the OpenAI API, it generates response to the input.
-- It writes a message to standard output to tell MMDAgent-EX to start speech synthesis.
+- Reads messages from standard input.
+- Extracts the recognized speech text from the input.
+- Obtains a system response from the OpenAI API for that recognized text.
+- Outputs a speech-synthesis-start message to standard output.
 
-This sample program was tested with version 1.3.9 of OpenAI's Python library.
+This sample was tested with OpenAI's Python library version 1.3.9.
 
-To operate, you need an API key from OpenAI. Please replace `YOUR_API_KEY` with your API key.
+You need an OpenAI API key to run it. Replace `YOUR_API_KEY` with your API key.
 
 ```python
 # chatgpt.py
@@ -114,44 +112,40 @@ def main():
             # extract user utternace from message and generate response
             outstr = generate_response(utterance[0])
             # output message to utter the response
-            print(f"SYNTH_START|0|slt_voice_normal|{outstr}")
+            print(f"SYNTH_START|0|mei_voice_normal|{outstr}")
 
 if __name__ == "__main__":
     main()
 
 ```
 
-You can set this up to run as a submodule from MMDAgent-EX using the method explained in [Connecting with Python](../dialog-test-python). For example, if the executable file for Python on Windows is "python.exe", you would write it as follows:
+Configure MMDAgent-EX to start this script as a submodule using the method described in [Connecting with Python](../dialog-test-python). For example, on Windows where the Python executable is "python.exe":
 
 {{< mdf>}}
 Plugin_AnyScript_Command=python.exe -u chatgpt.py
 {{< / mdf >}}
 
-For macOS or Linux, write the same command as you would on the command line. Here is an example:
+On macOS or Linux, write the same command line you would use in the terminal. Example:
 
 {{< mdf>}}
 Plugin_AnyScript_Command=python -u chatgpt.py
 {{< / mdf >}}
 
-Start up MMDAgent-EX and try conversing with ChatGPT.
+Start MMDAgent-EX and try conversing with ChatGPT.
 
-## Extension to Streaming
+## Extending to streaming
 
-In LLM-based dialogue systems, generating response sentences can take from a few seconds to tens of seconds, and this response delay can be problematic. Some LLMs, including OpenAI's chat completion, offer a streaming mode, allowing the reception of generated text as a stream on a token-by-token basis, without accumulating the entire response.
+LLM-based response generation can take several seconds to tens of seconds to produce an answer, which introduces latency. Many LLMs, including OpenAI's chat completion API, offer a streaming mode that streams generated tokens as they are produced. By receiving tokens incrementally, detecting suitable synthesis boundaries, and starting speech synthesis for each segment without waiting for the full response, you can reduce the perceived response latency. This approach is commonly used to lower delay in LLM-driven dialogue.
 
-By using this streaming mode to progressively receive generated text and detect appropriate breaks for voice synthesis, it's possible to reduce the delay before starting the response. This method is widely tried as a way to reduce delays in LLM dialogues.
+Below is a version of the previous program adapted for streaming. The method for detecting chunk boundaries is a trade-off between speed and TTS quality; here we simply split when sentence-ending punctuation appears. Also, synthesized audio playback must be coordinated so segments play in order without overlap, which typically requires thread and queue-based timing control. The outline of operation:
 
-Below is a modified version of the example above that uses streaming mode. There are various approaches about how to efficiently find sentence breaks in a course of streamed sentences, but here we simply use the method of "breaking at punctuation marks".
-
-The synthesized voices should be played in order without overlapping, so threads or queues are required for synthesis timing control. Here's an overview of its operation:
-
-- Connect in streaming mode and sequentially receive response characters from the server in token units.
-- As the received tokens are combined, voice synthesis of the obtained parts begins when "。", "？", or "！" appears, judging that as the end of the sentence.
-- Since continuous sentences come out, you need to control "waiting for the end event of the voice synthesis that was put out first before starting the next sentence".
-- Therefore, stream reception and voice synthesis control need to be parallelized using thread processing. The following makes the reception operate in a separate thread.
+- Connect in streaming mode and receive response text token by token.
+- While accumulating tokens, treat punctuations as sentence boundaries and start synthesis for the segment obtained so far.
+- Because multiple sentences may be produced, wait for the previous synthesis's completion event before starting the next one.
+- Therefore, streaming reception and synthesis control run in parallel threads. The example below runs reception in a separate thread.
 
 ```python
-# chatgpt_stream.py --- streaming version
+# chatgpt_streaming.py
 # tested on openai 1.3.9
 #
 import re
@@ -166,6 +160,7 @@ sys.stdin.reconfigure(encoding="utf-8")
 sys.stdout.reconfigure(encoding="utf-8")
 
 # Replace YOUR_API_KEY with your OpenAI API key
+#api_key = "YOUR_API_KEY"
 api_key = "YOUR_API_KEY"
 
 # ChatGPT model name to use
@@ -224,7 +219,7 @@ def generate_response(str):
         if token:
             # append new token to message holder
             total_answer += token
-            part += token
+            part += token.strip()
             # check if the current part sentence delimiter
             mm = re.match(r'(.*(\.|\!|\?|\:))(.*)', part)
             if mm:
@@ -252,7 +247,7 @@ def generate_response(str):
 
     return
 
-# response generation thread
+# response generaion thread
 def generate_response_run():
     while True:
         item = input_queue.get()
@@ -296,13 +291,11 @@ if __name__ == "__main__":
 
 ```
 
-## Add emotions and actions
+## Adding emotion estimation and actions
 
-Having the CG avatar express emotions and gestures with spoken sentences makes a dialogue system more effective.
+Having the CG avatar express emotions and gestures alongside speech makes the dialogue more effective. As an example, let's have the generated text include an emotion label and trigger avatar actions accordingly.
 
-Here we show some modification to the "chatgpt.py" example to add emotion expression.  We are going to annotate emotion id to the output sentence, and tell the CG avatar to perform corresponding actions.
-
-1. Estimate the emotion of system utterance. There may be various approarches, but a simple one is to write a prompt for ChatGPT to also estimate emotion at generation. Here, we give the following list of emotion types, and tell MMDAgent-EX to assign a number from the list.
+1. Estimate the emotion associated with the generated utterance. There are many ways to infer emotions or actions from text; for a simple experiment, instruct ChatGPT (via the prompt) to include an emotion label together with the generated sentence. Use the following emotion set and have ChatGPT prepend the corresponding number and a space to the sentence (e.g., "1 Hello!"):
 
 ```python
 chatgpt_prompt= '''
@@ -326,7 +319,7 @@ List of emotions:
 '''
 ```
 
-2. Specify the mapping of the assigned emotion labels to the CG avatar's actions. There are sample motions in the `motion` folder of each model, so we'll use those.
+2. Map the assigned emotion labels to avatar motions. Place sample motions under each model's `motion` folder and map the emotion numbers as follows:
 
 ```python
 emotion_list = [
@@ -343,8 +336,8 @@ emotion_list = [
 ]
 ```
 
-3. In the main processing part, if the beginning of ChatGPT's output has a number, we'll generate the corresponding motion simultaneously. Modify the output part of the above example as follows.
- 
+3. In main(), if the ChatGPT output begins with a number, trigger the corresponding motion at the same time as speech. Replace the output section in the earlier example with:
+
 ```python
         # Check if input line begins with "RECOG_EVENT_STOP"
         utterance = re.findall('^RECOG_EVENT_STOP\|(.*)$', instr)
@@ -362,14 +355,12 @@ emotion_list = [
             print(f"SYNTH_START|0|slt_voice_normal|{outstr}")
 ```
 
-## Performing Functions mainly in Python and apply MMDAgent-EX as Frontend
+## Performing ASR and TTS in Python with MMDAgent-EX as the front end
 
-While the above example was explained with "MMDAgent-EX as the main module incorporating the dialogue part," it's also possible to integrate it with the idea of "Python as the main module, with MMDAgent-EX serving as a frontend interface."
+The examples above describe using MMDAgent-EX as the main module with the dialogue part embedded. Alternatively, you can make Python the main module and use MMDAgent-EX as a controlled front-end interface. Typical cases:
 
-Below are typical cases:
+- Perform speech recognition and response generation in Python, then send the resulting text and action commands to MMDAgent-EX to make the CG avatar speak.
+- Perform speech synthesis in Python and pipe the synthesized audio into MMDAgent-EX (see [Injecting synthesized audio](../remote-speech/)) to make the avatar speak.
+- Perform recognition, synthesis, and playback entirely in Python, and send only lip-sync data or motion commands to MMDAgent-EX (see [Remote speech]) to control movement.
 
-- Perform speech recognition and response generation in script, and send the output text and motion commands via a message to MMDAgent-EX to make the CG avatar speak.
-- Perform till speech synthesis in Python, and make the MMDAgent-EX CG avatar speak by [streaming synthesized voice data](../remote-speech/).
-- Handle all spoken dialogue modules (including synthezied audio playing) within Python script, while sending [lip-sync information](../remote-speech) and any action commands to MMDAgent-EX for multi-modal dialogue.
-
-Please feel free to use this approach as suits your application or purpose.
+Use whichever approach suits your application.

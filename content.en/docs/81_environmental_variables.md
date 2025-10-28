@@ -1,30 +1,27 @@
-
-
 ---
 title: Environment Variables
 slug: envval
 ---
-
 # Environment Variables
 
-This is a guide on how to reference environment variables in MMDAgent-EX files, as well as the environment variables that affect the operation of MMDAgent-EX.
+How to reference environment variables in MMDAgent-EX files, and environment variables that affect MMDAgent-EX behavior.
 
-## Referencing Environment Variables in .mdf Files
+## Referencing environment variables in .mdf files
 
-Environment variables can be referenced with `%ENV{name}`. If the specified name of the environment variable is not defined, it will be blank.
+You can reference environment variables with `%ENV{name}`. If the specified environment variable is not defined, it will be replaced with an empty string.
 
-## Playback Command play for `AUDIO_START`
+## Playback command "play" for `AUDIO_START`
 
-In Ubuntu and macOS, the "play" command from sox is used for sound file playback with the `AUDIO_START` message. Playback is initiated from within MMDAgent-EX using the `-q` option as follows:
+On Ubuntu and macOS, MMDAgent-EX uses the sox command "play" to play sound files for `AUDIO_START` messages. Playback is launched from within MMDAgent-EX with the `-q` option as follows:
 
 ```shell
 play -q file.mp3
 ```
 
-First, the `play` command is searched for in the PATH. If there is an error because `play` is not found in the path, it searches in the order of `/opt/homebrew/bin/play`, `/usr/local/bin/play`, `/usr/bin/play`, and the first one found is used.
+The `play` command is first searched for on the PATH. If not found on the PATH (or if it fails for other reasons), MMDAgent-EX will look for `/opt/homebrew/bin/play`, `/usr/local/bin/play`, and `/usr/bin/play` in that order and use the first one found.
 
-If you want to specify a different sound playback command, specify it with the `MMDAGENT_AUDIO_PLAY_COMMAND` environment variable.
+If you want to specify a sound playback command other than `play`, set the environment variable `MMDAGENT_AUDIO_PLAY_COMMAND`.
 
-### Content Folder
+### Content folder
 
-The content folder is a workspace that stores downloaded content and history information. By default, it is "MMDAgent-Contents" directly under the desktop. However, you can specify a different location using the `MMDAgentContentDir` environment variable.
+The content folder is a workspace for downloaded content and history data. By default it is "MMDAgent-Contents" on the desktop, but you can change its location with the `MMDAgentContentDir` environment variable.

@@ -1,22 +1,22 @@
 ---
-title: Try Speech Synthesis
+title: Testing Speech Synthesis
 slug: tts-test
 ---
-# Try Speech Synthesis
+# Testing Speech Synthesis
 
-MMDAgent-EX by default has two speech synthesis engines, [Open JTalk](https://open-jtalk.sp.nitech.ac.jp/) for Japanese and [FLite+HTS_Engine](http://flite-hts-engine.sp.nitech.ac.jp/) for English.  They are HMM-based light-weight, small latency engines.
+MMDAgent-EX includes Japanese [Open JTalk](https://open-jtalk.sp.nitech.ac.jp/) and English [FLite+HTS_Engine](http://flite-hts-engine.sp.nitech.ac.jp/) as default speech synthesis engines. These are lightweight, fast, and have low latency.
 
 {{< hint info >}}
-You may prefer another modern synthesis engines.  If so, try running it [outside and connect via socket](../remote-control/) or [run as sub-module](../submodule/), and [feed the synthesized speech data to MMDAgent-EX](../remote-speech/).
+You can also integrate other engines into MMDAgent-EX. Options include running a synthesis engine as a separate process and [connecting via socket](../remote-control/), or embedding it as a [subprocess module](../submodule/). See also [feeding synthesized audio from an external process](../remote-speech/) for integration patterns.
 {{< /hint >}}
 
-The example content has sample voice models for both engines.  This page explains the procedure to test the text-speech function.
+The Example content includes voice models for both engines. Below are the steps to actually try speech synthesis using them.
 
-## Before start
+## Preparation
 
-MMDAgent-EX plays synthesized speech from the default audio output device.  Please set the sound device you want to play the speech as the default output device.
+Synthesis audio is played through the default audio output device. Before starting, set the sound device you want to use as the system default output device.
 
-## Run test
+## Test
 
 The dialogue script of the Example content is pre-configured to perform speech synthesis.  After the content is launched,
 
@@ -44,18 +44,18 @@ LOOP LOOP:
 
 {{< /details >}}
 
-## Messages to Start Speech Synthesis
+## Messages
 
-The various modules of MMDAgent-EX, including the synthesis modules, communicate through [messages](../messages). Below, some messages for speech synthesis is briefly described.
+MMDAgent-EX modules communicate via [messages](../messages). Below we explain this using speech synthesis as an example.
 
-> You can see the live message by [output log](../log/#several-ways-of-outputting-logs).
+> You can actually view the messages by [outputting logs](../log/).
 
-### SYNTH_START
+### SYNTH_START message
 
-The speech synthesis module executes speech synthesis when a **SYNTH_START** message was issued by other modules.  To tell module to start synthesizing speech, issue the following **SYNTH_START** message.
+The speech synthesis module monitors MMDAgent-EX's message queue. When it detects a **SYNTH_START** message, it performs speech synthesis. You can trigger synthesis from an .fst file by issuing the following **SYNTH_START** message:
 
 {{<message>}}
-SYNTH_START|(model alias)|(voice name)|"utterance text."
+SYNTH_START|model alias|voice name|text
 {{</message>}}
 
 The `(voice name)` specifies the voice name defined in the voice definition file. The `.ojt` file (defs for Japanese Open JTalk) and `.fph` file (defs for English FLite+HTS_Engine) with the same prefix of the content .mdf file will be loaded. In the example content, the following names are defined:
@@ -80,31 +80,32 @@ The `(voice name)` specifies the voice name defined in the voice definition file
     mei_voice_high
     mei_voice_low
 
-Please enter the synthesizing text in UTF-8.
+Provide text in UTF-8.
 
-### SYNTH_EVENT_START, SYNTH_EVENT_STOP
+### SYNTH_EVENT_START, SYNTH_EVENT_STOP messages
 
-The voice synthesis module outputs messages in response to internal state changes. It outputs **SYNTH_EVENT_START** when voice output begins, and **SYNTH_EVENT_STOP** when the output ends. By monitoring these events, you can trigger actions at the start of the voice and wait for the voice output to finish.
+The speech synthesis module emits messages for internal state changes such as start and end of processing. Specifically, it emits **SYNTH_EVENT_START** when audio output begins and **SYNTH_EVENT_STOP** when output finishes. By monitoring these you can trigger actions at voice start or wait until speech output is finished.
 
 {{<message>}}
-SYNTH_EVENT_START|(model alias)
-SYNTH_EVENT_STOP|(model alias)
+SYNTH_EVENT_START|model alias
+SYNTH_EVENT_STOP|model alias
 {{</message>}}
 
-## Try with Any Text via Web interface
+## Try it
 
-While running MMDAgent-EX, open the following page on the same machine. [A textbox connected to MMDAgent-EX will be displayed](../message-test).
+[Use the browser interface](../message-test) to experiment with **SYNTH_START** messages.
+With MMDAgent-EX running on the same machine, open the following page to connect to MMDAgent-EX and display a text box:
 
-- <a href="http://localhost:50000" target="_blank">http://localhost:50000</a> (← Click to open in a new window)
+- <a href="http://localhost:50000" target="_blank">http://localhost:50000</a> (opens in a new window)
 
-Paste the following message into the textbox and press the Send button. Verify that a synthesized voice is produced.
+Paste the message below into the text box and press Send to confirm a cheerful voice is produced.
 
 {{<message>}}
 SYNTH_START|0|slt_voice_happy|"Nice to meet you!"
 {{</message>}}
 
-### Related Files
+### Related files
 
-The Open JTalk module is located in the `Plugins` subdirectory of the directory containing the executable file, and is named `Plugin_Open_JTalk.dll` (or .so).  The Flite+HTS_Engine is `Plugin_Flite_plus_hts_engine.dll` (or .so).
+The Open JTalk module is provided as `Plugin_Open_JTalk.dll` (or `.so`) under the `Plugins` directory in the executable folder. FLite+HTS_Engine is `Plugin_Flite_plus_hts_engine.dll` (or `.so`).
 
-The voice models and its voice name configuration files should be prepared on the content side. In the example, voice models are in the `voice/mei` and `voice/slt` directory, and the configuration file is `main.ojt` and `main.fph`. The configuration file defines the "voice names" specified in the messages.
+Voice models and configuration files are provided by the content. In the Example, voice models are in `voice/mei` and `voice/slt`, and configuration files are `main.ojt` and `main.fph`. Each configuration file defines the "voice name" used in messages.

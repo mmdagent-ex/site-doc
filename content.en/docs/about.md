@@ -2,32 +2,33 @@
 title: About MMDAgent-EX
 slug: about
 ---
-# About MMDAgent-EX
+# What is MMDAgent-EX
 
-MMDAgent-EX is an open-source platform for voice dialogue systems and avatar communication. It is a standalone system that combines the display and control of CG characters with speech and language processing, allowing you to create various voice dialogue systems. By adding various modules, you can build diverse multimodal dialogue systems. Additionally, it supports features such as lip-synced speech playback and motion playback/control from external software, making it possible to operate as a human-agent frontend for a dialogue system.
+MMDAgent-EX is a research and development platform for CG avatar based voice interaction, multimodal dialogue, and avatar communication.  It combines CG character rendering and control with speech and language processing to provide a standalone system for building custom voice dialogue systems. By adding various modules, you can build diverse multimodal dialogue systems that integrate cameras, networks, and other inputs. It also supports sending motion commands and audio data over the network from external sources, enabling lip-synced audio playback and motion playback/control, so it can serve as a frontend for many existing dialogue systems.
 
-[MMDAgent](https://www.mmdagent.jp/) was developed at Nagoya Institute of Technology since 2011 as an open-source toolkit for research and development in voice interaction.  Besides the its original version, it has been internally developed continuously for research purposes: support various formats, network capabilities, UI improvements, external control functions, and more.  Since December 2020, its research and development have been progressing in the ["Avatar Symbiosis Society" JST moonshot program](https://avatar-ss.org/en/index.html), as the platform for CG avatar communication. Here, we release some of the research and development results as open source.
+[MMDAgent](https://www.mmdagent.jp/) was originally developed at Nagoya Institute of Technology in 2011 as an open-source toolkit for research and development in voice interaction. Since then, the project has grown with extensions for additional formats, network support, improved UIs, and external control features. Since December 2020, research and development has continued under the [Moonshot-type R&D Program "Avatar Symbiotic Society"](https://avatar-ss.org/) to advance CG avatar communication—conversing via CG characters. This site publishes part of those research outcomes as open source.
 
 ## Features
 
-MMDAgent-EX has its own OpenGL-based rendering engine compatible with [MMD (MikuMikuDance)](https://en.wikipedia.org/wiki/MikuMikuDance), and can create interactive characters using 3D models and motion data in MMD format. It also includes speech recognition and synthesis engines developed at Nagoya Institute of Technology, such as [Julius](https://github.com/julius-speech/julius) and [Open JTalk](https://open-jtalk.sp.nitech.ac.jp), as well as an embedded FST-based state-transition primitive dialogue scripting feature, allowing you to build voice dialogue systems independently. Aside from the internal engines, it can be easily connected to other scripts like Python, so you can add another modules such as cloud-based speech recognition, speech synthesis engines, or large language models like ChatGPT with this system. Furthermore, it supports external control via socket connections, making it suitable for use as the input/output frontend for existing dialogue systems.
+MMDAgent-EX includes a custom OpenGL-based renderer compatible with [MMD (MikuMikuDance)](https://sites.google.com/view/vpvp/), allowing dialogue characters to be built using MMD-format 3D models and motions. It bundles speech recognition and synthesis engines developed at Nagoya Institute of Technology such as [Julius](https://github.com/julius-speech/julius) and [Open JTalk](https://open-jtalk.sp.nitech.ac.jp/), and it has a primitive FST-based state-transition dialogue scripting feature, enabling a complete voice dialogue system out of the box. It also supports connecting to scripting languages like Python, so you can add cloud speech recognition/synthesis engines or LLMs such as ChatGPT as modules. Socket-based external control is supported as well, allowing it to act as an I/O frontend for existing dialogue response generation systems.
 
-- All-in-one platform for creating voice interaction systems on Windows, macOS and Linux
-- Light-weight fine-grained CG avatar rendering engine, fully compatible with MMD (MikuMikuDance) format
-- Low-latency ASR / TTS modules, running blazingly fast on CPU.
-- Can add any modules and processes easily, such as cloud engines, LLMs, etc.
-- Fully documented on this site.
-- Runs on Windows, macOS and Linux.
+- All-in-one platform for voice interaction and voice dialogue systems (Windows, macOS, Linux)
+- Lightweight, high-efficiency built-in CG avatar rendering engine: full support for MMD (MikuMikuDance) file formats
+- Built-in low-latency speech recognition (Julius) and speech synthesis (Open JTalk) that run fast on CPU only; components are freely replaceable
+- Easy development and extensibility: straightforward integration with cloud engines, LLMs, and arbitrary applications or scripts
+- Comprehensive consolidated documentation (this site)
 
-## What differs from the original MMDAgent?
+## Differences between MMDAgent and MMDAgent-EX
 
-See [this page](../changes-since-original-mmdagent/).
+See the differences from the original MMDAgent [here](../changes-since-original-mmdagent/).
 
-## How do I represent or pronounce it?
+## Name / Pronunciation
 
-The notation can be either **MMDAgent-EX** or **MMD-Agent EX**. The "MMD" part has a double meaning, representing both "Multi-Modal Dialogue" and "MikuMikuDance". We call it “Em-Em-Dee-Agent E-X”.
+Both "MMDAgent-EX" and "MMD-Agent EX" are acceptable. The "MMD" part is a double meaning: "Multi-Modal Dialogue" and "MikuMikuDance." We refer to the project as "MMDAgent EX."
 
-## Citation
+## Citations
+
+Please use the following.
 
 **APA**
 
@@ -46,7 +47,6 @@ The notation can be either **MMDAgent-EX** or **MMD-Agent EX**. The "MMD" part h
         version = {1.0.0},
         year = {2023}
     }
-
 
 ## Acknowledgments
 

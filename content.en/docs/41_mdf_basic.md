@@ -1,23 +1,20 @@
-
-
 ---
 title: Parameter Settings
 slug: mdf-basic
 ---
-
 # Parameter Settings
 
-You can specify various settings in the .mdf file.
+You can specify various settings in a .mdf file.
 
-The .mdf file serves as the starting point for content playback. The settings described in the .mdf file of the content are read when the content is executed.
+.mdf files act as the entry point for content playback. Settings written in a content's .mdf file are read when that content is executed.
 
-Additionally, the system configuration file `MMDAgent-EX.mdf`, located in the same folder as the MMDAgent-EX executable file, is loaded as the default setting at startup. If there are overlapping specifications, the content side takes precedence, overriding the default values if the settings are described in the .mdf file of the content.
+Also, the system settings file `MMDAgent-EX.mdf` located in the same folder as the MMDAgent-EX executable is loaded at startup as the default configuration. If the same setting is specified in both places, the content's setting takes precedence, so adding settings to a content's .mdf will override the defaults.
 
-In the file, you can refer to environment elements in the form of `%ENV{environment variable name}`. At the time of content startup, this part is replaced with the value of the corresponding environment variable and interpreted.
+Note that within files you can reference environment elements in the form `%ENV{environment variable name}`. When the content starts, that part is replaced with the value of the environment variable and interpreted.
 
 ## Sample
 
-Here is a sample of an .mdf file. There are a wide range of values that can be set. For more details, please refer to the [mdf Parameter List](../mdf).
+Here is a sample .mdf file. Many values can be configured. For details, see [List of mdf parameters](../mdf).
 
 {{< mdf>}}
 
