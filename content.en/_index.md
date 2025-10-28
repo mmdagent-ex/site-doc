@@ -4,9 +4,9 @@ type: docs
 ---
 # MMDAgent-EX
 
-[Japanese | [English](/../) ]
+[[日本語](ja)  | English ]
 
-MMDAgent-EX is a research and development platform for voice interaction, multimodal dialogue, and avatar communication using CG avatars. It has been published as open source since December 2023 together with [CG Avatar Gene / Uka](https://www.slp.nitech.ac.jp/avatar/). If you're new, please read "[What is MMDAgent-EX](docs/about/)".
+MMDAgent-EX is a research and development platform for voice interaction, multimodal dialogue, and avatar communication using CG avatars. It has been published as open source since December 2023 together with [CG Avatar Gene / Uka](https://www.slp.nitech.ac.jp/en/avatar/). If you're new, please read "[What is MMDAgent-EX](docs/about/)".
 
 This site contains all the latest documentation for MMDAgent-EX: tutorials, how to create content playable on MMDAgent-EX, how to extend and develop integrations with other services and programs, and complete lists of available specifications and commands. If you're new, start with the tutorials.
 
@@ -17,8 +17,8 @@ The latest code, models, issues, and discussions are published on the GitHub sit
 GitHub repositories:
 
 - [MMDAgent-EX](https://github.com/mmdagent-ex/MMDAgent-EX) on GitHub
-- [CG Avatar Gene / Gene](https://github.com/mmdagent-ex/gene) on GitHub
-- [CG Avatar Uka / Uka](https://github.com/mmdagent-ex/uka) on GitHub
+- [CG Avatar Gene](https://github.com/mmdagent-ex/gene) on GitHub
+- [CG Avatar Uka](https://github.com/mmdagent-ex/uka) on GitHub
 - [Example (used on this site)](https://github.com/mmdagent-ex/example) on GitHub
 
 ## Contact
