@@ -479,6 +479,24 @@ Forcely clear all existing overlay images.
 WINDOWOVERLAY_DELETEALL
 {{</message>}}
 
+**WINDOWOVERLAY_HIDE**
+
+Hide (make invisible) the existing overlay image. Issue **WINDOWOVERLAY_EVENT_HIDE** when succeeded.
+
+{{<message>}}
+WINDOWOVERLAY_HIDE|alias1
+WINDOWOVERLAY_EVENT_HIDE|alias1
+{{</message>}}
+
+**WINDOWOVERLAY_SHOW**
+
+Show again (make visible) the overlay image previously hidden by **WINDOWOVERLAY_HIDE**.  Issue **WINDOWOVERLAY_EVENT_SHOW** when succeeded.
+
+{{<message>}}
+WINDOWOVERLAY_SHOW|alias1
+WINDOWOVERLAY_EVENT_SHOW|alias1
+{{</message>}}
+
 ## Transparent Window (Win)
 
 **TRANSPARENT_START**
