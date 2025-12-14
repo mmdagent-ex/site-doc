@@ -438,6 +438,47 @@ Delete all currently displayed frame images.
 WINDOWFRAME_DELETEALL
 {{</message>}}
 
+**WINDOWOVERLAY_ADD**
+
+Add image as on-screen overlay.  The aspect ratio of the image will be always kept regardless of the window ratio.  the args are:
+
+- alias name
+- image file path
+- relative width [0..1]: maximum width relative to window, 0 = full width
+- relative height [0..1]: maximum height relative to window, 0 = full height
+- anchor: specify one of the following literal
+  - `CENTER`
+  - `TOP_LEFT`
+  - `TOP_RIGHT`
+  - `BOTTOM_LEFT`
+  - `BOTTOM_RIGHT`
+- Padding [0..1] space from the anchor (ignored on `CENTER`)
+
+On success, **WINDOWOVERLAY_EVENT_ADD** will be issued.  Issuing this command
+for an existing alias will replace the image.
+
+{{<message>}}
+WINDOWOVERLAY_ADD|alias1|filename.png|0|0|CENTER|0
+WINDOWOVERLAY_EVENT_ADD|alias1
+{{</message>}}
+
+**WINDOWOVERLAY_DELETE**
+
+Delete the specified overlay image.  **WINDOWOVERLAY_EVENT_DELETE** will be issued on success.
+
+{{<message>}}
+WINDOWOVERLAY_DELETE|alias1
+WINDOWOVERLAY_EVENT_DELETE|alias1
+{{</message>}}
+
+**WINDOWOVERLAY_DELETEALL**
+
+Forcely clear all existing overlay images.
+
+{{<message>}}
+WINDOWOVERLAY_DELETEALL
+{{</message>}}
+
 ## Transparent Window (Win)
 
 **TRANSPARENT_START**

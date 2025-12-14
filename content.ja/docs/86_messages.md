@@ -441,6 +441,46 @@ WINDOWFRAME_EVENT_DELETE|frame1
 WINDOWFRAME_DELETEALL
 {{</message>}}
 
+**WINDOWOVERLAY_ADD**
+
+画像をスクリーン上にオーバレイ表示する。アスペクト比は常に保持される。引数は順に以下のとおり。
+
+- エイリアス名
+- 画像ファイルのパス
+- 幅上限 [0..1]（ウィンドウの幅を1.0としたときの値、0でウィンドウ全体幅）
+- 高さ上限 [0..1]（ウィンドウの高さを1.0としたときの値、0でウィンドウ全体高さ）
+- アンカー位置：以下のいずれかを指定
+  - `CENTER`
+  - `TOP_LEFT`
+  - `TOP_RIGHT`
+  - `BOTTOM_LEFT`
+  - `BOTTOM_RIGHT`
+- Padding [0..1] アンカーからの距離（CENTER では無視）
+
+成功時に **WINDOWOVERLAY_EVENT_ADD** が出力される。同じ名前でさらに **WINDOWOVERLAY_ADD** を実行した場合は画像が入れ替えられる。
+
+{{<message>}}
+WINDOWOVERLAY_ADD|alias1|filename.png|0|0|CENTER|0
+WINDOWOVERLAY_EVENT_ADD|alias1
+{{</message>}}
+
+**WINDOWOVERLAY_DELETE**
+
+オーバーレイ画像を削除する。成功時に **WINDOWOVERLAY_EVENT_DELETE** が出力される。
+
+{{<message>}}
+WINDOWOVERLAY_DELETE|alias1
+WINDOWOVERLAY_EVENT_DELETE|alias1
+{{</message>}}
+
+**WINDOWOVERLAY_DELETEALL**
+
+全ての表示中のオーバーレイ画像を一括削除する
+
+{{<message>}}
+WINDOWOVERLAY_DELETEALL
+{{</message>}}
+
 ## 透過画面 (Win)
 
 **TRANSPARENT_START**
