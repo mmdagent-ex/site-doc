@@ -6,7 +6,7 @@ slug: build
 
 MMDAgent-EX の動作環境は macOS, Linux, Windows です。Windows上での WSL2 もサポートしています。以下の環境でビルド動作を確認しています。本ページの手順でビルドを実行して実行環境を構築してください。
 
-- **Windows**: Windows 11 with Visual Studio 2022
+- **Windows**: Windows 11 with Visual Studio 2022 (win32 / x64)
 - **macOS**: M2 Macbook Air / macOS Ventura / Sonoma / Sequoia, Intel Mac / macOS Sonoma
 - **Linux**: Ubuntu-22.04, Ubuntu-20.04
 - **Linux on WSL**: Ubuntu-22.04, 24.04 on WSL2 on Windows
@@ -160,11 +160,16 @@ Visual Studio 2022 でビルドする。インストールの際には「C++に�
 
 1. `MMDAgent_vs2022.sln` を Visual Studio 2022 で開く
 2. ソリューションエクスプローラで `main` を右クリックしてスタートアッププロジェクトに設定
-3. ビルド設定を `Release` に設定
-4. 「ソリューションのビルド」を実行
+3. プラットフォームを選択： `Win32` または `x64`  (安定性の面では `Win32` がおすすめ)
+4. ビルド設定を `Release` に設定
+5. 「ソリューションのビルド」を実行
 
 {{< hint info >}}
-※ビルドがうまくいかない場合、リリースごとに公開されている実行バイナリを使うこともできます。[GitHubのリリースページ](https://github.com/mmdagent-ex/MMDAgent-EX/releases)から最新の win32 用の zip ファイルをダウンロードし、中身を `Release` フォルダ以下にコピーしてください。
+ビルド済み実行バイナリを使うこともできます。[GitHubのリリースページ](https://github.com/mmdagent-ex/MMDAgent-EX/releases)から最新の zip ファイルをダウンロードし、中身を `Release` フォルダ以下にコピーしてください。
+{{< /hint >}}
+
+{{< hint info >}}
+起動後すぐに終了してしまい動かない場合は、[Visual C++ 2022の再配布可能パッケージ](https://learn.microsoft.com/ja-jp/cpp/windows/latest-supported-vc-redist?view=msvc-170)をインストールしてください。2025年8月以前の MMDAgent-EX は 32bit (x86) ビルドなので、X86 のほうをインストールしてください。最新のMMDAgent-EXで x64 ビルドされたものについては X64 版を入れます。分からない場合は X86 と X64 の両方をインストールするとよいでしょう。
 {{< /hint >}}
 
 ## ビルドファイル
@@ -174,13 +179,14 @@ Visual Studio 2022 でビルドする。インストールの際には「C++に�
 以下はWindowsの例。macOSとLinuxでは .exe 拡張子は無く .dll は .so になる。
 {{< /hint >}}
 
-`AppData` 以下には実行時に必要な各種データファイルがあり、`DLLs` には動作に必要な外部 DLL が同梱されている（Windowsのみ）。
+`AppData` 以下には実行時に必要な各種データファイルがあり、`DLLs` には動作に必要な外部 DLL が同梱されている（Windowsのみ）。なお 64bit 版は `DLLs` ではなく `DLLs64` を読み込みます。
 
     Release/
     ├── MMDAgent-EX.exe
     ├── MMDAgent-EX.mdf
     ├── AppData/
     ├── DLLs/
+    ├── DLLs64/
     └── Plugins/
         ├── Plugin_AnyScript.dll
         ├── Plugin_Audio.dll
