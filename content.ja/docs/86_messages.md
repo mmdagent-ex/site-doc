@@ -481,6 +481,24 @@ WINDOWOVERLAY_EVENT_DELETE|alias1
 WINDOWOVERLAY_DELETEALL
 {{</message>}}
 
+**WINDOWOVERLAY_HIDE**
+
+表示中のオーバレイを一時的に非表示にする。成功時に **WINDOWOVERLAY_EVENT_HIDE** が出力される。
+
+{{<message>}}
+WINDOWOVERLAY_HIDE|alias1
+WINDOWOVERLAY_EVENT_HIDE|alias1
+{{</message>}}
+
+**WINDOWOVERLAY_SHOW**
+
+一時的に非表示にしたオーバレイを再度表示させる。成功時に **WINDOWOVERLAY_EVENT_SHOW** が出力される。
+
+{{<message>}}
+WINDOWOVERLAY_SHOW|alias1
+WINDOWOVERLAY_EVENT_SHOW|alias1
+{{</message>}}
+
 ## 透過画面 (Win)
 
 **TRANSPARENT_START**
